@@ -340,7 +340,7 @@ Lets explore these managers now.
 
 ### Game
 
-You get this manager with the `Game()` access method.
+This manager is responsible for general game / application management. You get this manager with the `Game()` access method.
 
 Usage example:
 
@@ -354,7 +354,7 @@ if (Input().Down("exit")) {
 }
 ```
 
-This manager is responsible for general game / application management. It contains the following API:
+`Game` manager contains the following API:
 
 #### void Exit()
 
@@ -363,23 +363,23 @@ Exit the game. This will not stop app immediately, it will finish only after com
 #### void ChangeScene(scene)
 
 Change the currently active scene.
-This is the method you use to change scenes.
+To make sure transition is safe, it will only do the switching itself after the current frame ends.
 
 #### void LoadConfig(path)
 
-Load game configuration from an .ini file. 
-Note: this API uses the engine's `ConfigAsset` asset. If you replace its internal implementation, the format of the config file may change as well.
+Loads game configuration from an .ini file. 
+Note: this API uses the engine's `ConfigAsset`. If you replace its internal implementation, the format of the game config file may change as well.
 
 Game config file contains sections about graphics, sound, input, ect. 
 
-To see an example of a config file, check out `TestAssets/config.ini` file, partially copied here:
+To see an example of a config file, check out `TestAssets/config.ini`, which is partially presented here:
 
 ```ini
 ; BonEngine default configuration
 
 ; graphics related config
 [gfx]                        
-title = BonEngine Application      ; window title
+title = BonEngine Application   ; window title
 resolution_x = 800              ; window width (0 for desktop width)
 resolution_y = 600              ; window height (0 for desktop height)
 window_mode = 0                 ; 0 = windowed, 1 = borderless, 2 = fullscreen
@@ -409,12 +409,12 @@ Get total seconds passed since the engine started running.
 
 #### int FpsCount()
 
-Get current FPS count. Note: this is not extremely accurate, for example if your game runs at 60 fps, you might see it flicker between 59-60 fps.
+Get current FPS count. Note: this is not extremely accurate, for example if your game runs at 60 fps, you might sometimes see it flicker between 59 and 60 fps.
 
 
 ### Assets
 
-You get this manager with the `Assets()` access method.
+This manager is responsible for loading, creating and saving game assets. You get this manager with the `Assets()` access method.
 
 All loading methods in this manager have a `useCache` param. If set to true (default), once asset it loaded it will also be added to cache, so next time you load it will be quick. This also means that the asset will not free itself automatically, unless you explicitly clear cache.
 
@@ -429,7 +429,7 @@ bon::ConfigAsset conf = Assets().LoadConfig("my_config.ini");
 const char* strFromConf = conf->GetStr("some_section", "config_key", "default if not found");
 ```
 
-This manager is responsible for loading, creating and saving game assets. It contains the following API:
+`Assets` manager contains the following API:
 
 #### ImageAsset LoadImage(path, filter, useCache)
 
@@ -476,7 +476,7 @@ Clear all assets from cache. This doesn't necessarily delete or free the assets;
 
 ### Gfx
 
-You get this manager with the `Gfx()` access method.
+This manager is responsible for everything related to graphics and rendering. You get this manager with the `Gfx()` access method.
 
 Usage example:
 
@@ -490,7 +490,7 @@ bon::FontAsset font = Assets().LoadFont("../TestAssets/gfx/OpenSans-Regular.ttf"
 Gfx().DrawText(font, "Hello World!", bon::PointF(100, 200));
 ```
 
-This manager is responsible for everything related to graphics and rendering. It contains the following API:
+`Gfx` manager contains the following API:
 
 #### void DrawImage(image, position, size, blend)
 
@@ -558,7 +558,7 @@ Get window size.
 
 ### Sfx
 
-You get this manager with the `Sfx()` access method.
+This manager is responsible for everything related to sound and music. You get this manager with the `Sfx()` access method.
 
 Usage example:
 
@@ -572,7 +572,7 @@ bon::SoundAsset forestSound = Assets().LoadSound("../TestAssets/sfx/Forest_Ambie
 Sfx().PlaySound(forestSound, 100)
 ```
 
-This manager is responsible for everything related to sound and music. It contains the following API:
+`Sfx` manager contains the following API:
 
 #### void SetAudioProperties(frequency, format, stereo, audio_chunk_size)
 
@@ -623,7 +623,7 @@ Set master volume for sound effects and music.
 
 ### Log
 
-You get this manager with the `Log()` access method.
+This manager is responsible for logging. You get this manager with the `Log()` access method.
 
 Usage example:
 
@@ -635,7 +635,7 @@ Log().Write(bon::LogLevel::Info, "Hello %s!", "World");
 BON_ILOG("Hello %s!", "World");
 ```
 
-This manager is responsible for logging. It contains the following API:
+`Log` manager contains the following API:
 
 #### void Write(level, fmt, ...)
 
@@ -684,7 +684,7 @@ And debug logs are currently disabled, the function `GetNumberOfSprites()` won't
 
 ### Input
 
-You get this manager with the `Input()` access method.
+This manager is responsible for user input. You get this manager with the `Input()` access method.
 
 Input manager works on 3 systems: keyboard, mouse, and game actions.
 
@@ -707,7 +707,7 @@ if (Input().Down("fire")) {
 auto mousePos = Input().CursorPosition();
 ```
 
-This manager is responsible for user input. It contains the following API:
+`Input` manager contains the following API:
 
 #### bool Down(actionId)
 
