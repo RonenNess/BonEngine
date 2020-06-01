@@ -124,19 +124,19 @@ Create a new CPP project, either `Empty Project` or `Console App`. Do not create
 
 ## 2. Download Files
 
-First lets download the dev distribution. Download file `Build/BonEngine-X.Y.zip` from this repo, where X.Y is the version of your choice (latest is recommended).
+Download the dev distribution. Download file `Build/BonEngine-X.Y.zip` from this repo, where X.Y is the version of your choice (latest is recommended).
 
 Extract the zip into your solution or project folder.
 
 ## 3. Add Include Folder
 
-Open project properties and go to `VC++ Directories` --> `Include Directories`. Add the folder containing the folder you extracted (`BonEngine-1.0`). This way you can do
+Open project properties and go to `VC++ Directories` --> `Include Directories`. Add the folder containing the folder you extracted (`BonEngine-1.0`). This way you can use:
 
 ```cpp
 #include <BonEngine-1.0/include/BonEngine.h>
 ```
 
-Which is how we'll include `BonEngine` main stuff.
+To include `BonEngine` main stuff.
 
 Make sure you do this for all platforms and all configurations.
 
@@ -146,7 +146,7 @@ Make sure you do this for all platforms and all configurations.
 
 Open project properties and go to `Linker` --> `Input` --> `Additional Dependencies`. Add dependency to `BonEngine.lib`.
 
-Make sure you do this for all platforms and all configurations (we seperate platform x64 / x86 next step).
+Make sure you do this for all platforms and all configurations (we separate between x64 / x86 platforms in next step).
 
 ![Install-2](TestAssets/ForReadme/install-2.png)
 
