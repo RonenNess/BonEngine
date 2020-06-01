@@ -2,7 +2,7 @@
  * \file   RectangleF.h
  * \brief  Define basic RectangleF structs.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

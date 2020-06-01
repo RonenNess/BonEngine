@@ -2,7 +2,7 @@
  * \file   Sprite.h
  * \brief  Define a basic sprite struct to hold rendering properties.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

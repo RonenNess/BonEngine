@@ -1,9 +1,9 @@
 /*****************************************************************//**
  * \file   BonEngine.h
  * \brief  Main header file to include when using BonEngine. 
- *			This file is all you need.
+ *			This file is all you need to include.
  * 
- * \author Ronen Ness
+ * \author Ronen Ness Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

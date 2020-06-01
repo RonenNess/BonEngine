@@ -2,7 +2,7 @@
  * \file   ISfx.h
  * \brief  Define the API for the Sfx manager class.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

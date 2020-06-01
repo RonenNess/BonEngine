@@ -1,8 +1,8 @@
 /*****************************************************************//**
- * \file   Asset.h
+ * \file   IAsset.h
  * \brief  Asset base class for all game assets (image, sound, ect.)
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

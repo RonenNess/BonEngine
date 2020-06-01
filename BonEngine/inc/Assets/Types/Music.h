@@ -2,7 +2,7 @@
  * \file   Music.h
  * \brief  Define a music track asset.
  *
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

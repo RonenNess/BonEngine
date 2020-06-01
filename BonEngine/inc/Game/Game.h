@@ -2,7 +2,7 @@
  * \file   Game.h
  * \brief  The default game manager implemented by BonEngine.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

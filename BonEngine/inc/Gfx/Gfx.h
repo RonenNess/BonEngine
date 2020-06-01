@@ -2,7 +2,7 @@
  * \file   Gfx.h
  * \brief  The default gfx manager implemented by BonEngine.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

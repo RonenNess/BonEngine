@@ -2,7 +2,7 @@
  * \file   _Point_.h
  * \brief  Define basic _Point_ structs.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   Exceptions.h
+ * \brief  Define exceptions used by BonEngine.
+ *
+ * \author Ronen Ness
+ * \date   May 2020
+ *********************************************************************/
 #pragma once
 #include <exception>
 #include "../dllimport.h"

@@ -2,7 +2,7 @@
  * \file   _Rectangle_.h
  * \brief  Define basic _Rectangle_ structs.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

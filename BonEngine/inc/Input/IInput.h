@@ -2,7 +2,7 @@
  * \file   IInput.h
  * \brief  Define the API for the Input manager class.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

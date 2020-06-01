@@ -1,9 +1,9 @@
 /*****************************************************************//**
  * \file   Scene.h
- * \brief  Implement the scene API - the main class the user implements
- *			his logic in.
+ * \brief  Define the scene API - the main class to implement 
+ *			game logic in
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

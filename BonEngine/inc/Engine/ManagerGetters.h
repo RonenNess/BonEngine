@@ -3,7 +3,7 @@
  * \brief  Provide access to all engine managers. 
  *			Used by the scene base class.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

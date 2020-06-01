@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   IManager.h
+ * \brief  Interface for a BonEngine subsystem / manager.
+ *
+ * \author Ronen Ness Ness
+ * \date   May 2020
+ *********************************************************************/
 #pragma once
 #include "dllimport.h"
 

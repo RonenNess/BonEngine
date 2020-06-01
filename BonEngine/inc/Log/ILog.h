@@ -2,7 +2,7 @@
  * \file   ILog.h
  * \brief  Interface for the log manager class.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

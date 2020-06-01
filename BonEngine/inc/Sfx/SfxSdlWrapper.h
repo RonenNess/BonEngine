@@ -1,8 +1,8 @@
 /*****************************************************************//**
  * \file   SfxSdlWrapper.h
- * \brief  Define the sfx implementor class.
+ * \brief  SDL wrapper for the SFX manager.
  *
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

@@ -2,7 +2,7 @@
  * \file   Engine.h
  * \brief  Define the main class that manage the game main loop.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

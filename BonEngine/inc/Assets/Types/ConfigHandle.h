@@ -1,8 +1,8 @@
 /*****************************************************************//**
- * \file   Config.h
- * \brief  Define a config file asset.
+ * \file   ConfigHandle.h
+ * \brief  Define a config file handle.
  *
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

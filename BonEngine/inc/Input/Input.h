@@ -2,7 +2,7 @@
  * \file   Input.h
  * \brief  The default input manager implemented by BonEngine.
  *
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

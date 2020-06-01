@@ -2,7 +2,7 @@
  * \file   Defs.h
  * \brief  Assets related defs.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

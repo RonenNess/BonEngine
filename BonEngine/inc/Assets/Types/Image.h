@@ -2,7 +2,7 @@
  * \file   Image.h
  * \brief  Define an image asset. Used for rendering.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

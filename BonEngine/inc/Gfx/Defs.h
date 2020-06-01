@@ -2,7 +2,7 @@
  * \file   Defs.h
  * \brief  Misc defs and enum related to GFX.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

@@ -1,8 +1,8 @@
 /*****************************************************************//**
  * \file   GfxSdlWrapper.h
- * \brief  Define the gfx implementor class.
+ * \brief  A wrapper around SDL for gfx manager.
  *
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once

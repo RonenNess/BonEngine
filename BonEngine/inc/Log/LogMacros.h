@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   LogMacros.h
+ * \brief  Macros to write different log levels in an efficient way.
+ *
+ * \author Ronen Ness
+ * \date   May 2020
+ *********************************************************************/
 #pragma once
 
 /**

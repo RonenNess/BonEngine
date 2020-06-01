@@ -2,7 +2,7 @@
  * \file   RectangleI.h
  * \brief  Define basic RectangleI structs.
  * 
- * \author Ronen
+ * \author Ronen Ness
  * \date   May 2020
  *********************************************************************/
 #pragma once
