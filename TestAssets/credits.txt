@@ -1,0 +1,17 @@
+Assets for demo projects taken from:
+
+https://opengameart.org/content/2d-lost-garden-tileset-transition-to-jetrels-wood-tileset
+https://opengameart.org/content/character-and-npc-animations
+https://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria
+https://opengameart.org/content/rpg-sound-pack
+https://opengameart.org/content/old-city-theme
+https://opengameart.org/content/heartbeat-sounds
+https://opengameart.org/content/dark-ambiences
+https://opengameart.org/content/a-blocky-dungeon
+https://opengameart.org/content/63-digital-sound-effects-lasers-phasers-space-etc
+https://opengameart.org/content/castle-platformer
+https://opengameart.org/content/tower-defence-basic-towers
+https://opengameart.org/content/ui-pieces
+https://opengameart.org/content/48x48-face-template
+
+If I forgot to credit anyone please let me know :)

@@ -1,0 +1,946 @@
+# BonEngine
+
+`BonEngine` is a game engine designed to be simple and straightforward, with as little setup as possible. 
+Your game can be designed as OOP or procedural, everything goes.
+
+## Table of Contents
+
+1. [Example](#example)
+2. [About](#about)
+3. [Setup](#setup)
+4. [Scene](#scene)
+5. [Assets](#assets-1)
+6. [Managers](#managers)
+7. [Sprites](#sprites)
+8. [Config](#config)
+9. [License](#license)
+
+## Example
+
+Before diving into details, lets take a look at a basic example. 
+Inside the `BonTest/` folder in this repo you can find plenty of basic examples to learn from, but lets lay down one here as well.
+
+The code below will draw a sprite, a custom cusor, and some text:
+
+```cpp
+#include <BonEngine.h>
+
+/**
+ * Basic bon example.
+ */
+class HelloWorldScene : public bon::engine::Scene
+{
+private:
+	bon::FontAsset _font;
+	bon::ImageAsset _cursorImage;
+	bon::ImageAsset _spriteImage;
+
+public:
+
+	// called when scene load, before main loop starts.
+	virtual void _Load() override
+	{
+		// init game configuration from ini file (optional, there are also defaults or you can set everything from code).
+		Game().LoadConfig("TestAssets/config.ini");
+	
+		// load assets
+		_cursorImage = Assets().LoadImage("TestAssets/gfx/cursor.png");
+		_spriteImage = Assets().LoadImage("TestAssets/gfx/gnu.png");
+		_font = Assets().LoadFont("TestAssets/gfx/OpenSans-Regular.ttf");
+	}
+
+	// per-frame updates
+	virtual void _Update(double deltaTime) override
+	{
+		// when player click the key assigned to action 'exit', will exit game
+		if (Input().Down("exit")) { Game().Exit(); }
+	}
+
+	// drawing - called every frame to draw game
+	virtual void _Draw() override
+	{
+		// clear screen
+		Gfx().ClearScreen();
+
+		// draw text
+		Gfx().DrawText(_font, "Hello World!", bon::PointF(100, 100));
+
+		// draw test sprite
+		Gfx().DrawImage(_spriteImage, bon::PointF(120, 100), &bon::PointI(256, 256));
+
+		// draw cursor
+		Gfx().DrawImage(_cursorImage, Input().CursorPosition(), &bon::PointI(64, 64));
+	}
+};
+
+// init game
+void main()
+{
+	auto scene = HelloWorldScene();
+	bon::Start(scene);	
+}
+```
+
+And result would look like this:
+
+![Demo Image](TestAssets/ForReadme/demo1.png)
+
+So what can we learn from this demo? 
+
+1. Game logic is implemented by `Scenes` (a scene = level or game screen).
+2. The engine's API is divided into subsystems (called managers). 
+3. Above we meet the `Assets()`, `Input()`, `Gfx()` and `Game()` managers.
+
+Now lets continue and delve into `BonEngine`.
+
+
+## About
+
+So what is `BonEngine` exactly? `BonEngine` is a 2d game engine that covers graphics, sounds, input and miscs, and aims to provide a simple, straightforward framework for people who want to make games with code.
+
+Since `BonEngine` is built around SDL you can look at it as the comfy SDL layer between you and the low-level SDL APIs that comes with memory management. `BonEngine` does all the "boring stuff" you'd want to do when picking up SDL for a fresh project, so you're left with just the game implementation  :)
+
+Note that while the default implementation is based on SDL, every part of `BonEngine` is replaceable and you can inject your own implementation for things. In addition `BonEngine` is not just a wrapper, and as we'll see shortly goes beyond that and implement some nice utilities every game dev would enjoy having.
+
+### Principles
+
+`BonEngine` APIs stick to the following principles as much as possible:
+
+1. *Near-Zero Setup*: with the exception of loading assets, there's barely anything to create or init to make your game run.
+2. *No Bloat*: the APIs of the managers are kept to necessary minimum. Advanced low level APIs are still available, but hidden.
+3. *Flexible*: you can replace any subsystem with your own, or create and register new ones.
+4. *Readability*: the APIs are designed to be as clear as possible. You should be able to guess everything without the docs.
+5. *Procedural API*: BonEngine is OOP and made with classes, but its API is mostly stateless methods you can call directly or utilize in an OOP design.
+
+In addition, and it's not much of a principal but something to remember, if a class or method starts with an _underscore, it means its internal and you should probably not call it unless you know what you're doing. These were left exposed to give more control, but normally you should ignore them.
+
+# Setup 
+
+This section explains how to setup `BonEngine` for `Visual Studio` (in this example 2019).
+
+## 1. Create New Project
+
+Create a new CPP project, either `Empty Project` or `Console App`. Do not create a windows application or dll.
+
+## 2. Download Files
+
+First lets download the dev distribution. Download file `Build/BonEngine-X.Y.zip` from this repo, where X.Y is the version of your choice (latest is recommended).
+
+Extract the zip into your solution or project folder.
+
+## 3. Add Include Folder
+
+Open project properties and go to `VC++ Directories` --> `Include Directories`. Add the folder containing the folder you extracted (`BonEngine-1.0`). This way you can do
+
+```cpp
+#include <BonEngine-1.0/include/BonEngine.h>
+```
+
+Which is how we'll include `BonEngine` main stuff.
+
+Make sure you do this for all platforms and all configurations.
+
+![Install-1](TestAssets/ForReadme/install-1.png)
+
+## 4. Add BonEngine.lib
+
+Open project properties and go to `Linker` --> `Input` --> `Additional Dependencies`. Add dependency to `BonEngine.lib`.
+
+Make sure you do this for all platforms and all configurations (we seperate platform x64 / x86 next step).
+
+![Install-2](TestAssets/ForReadme/install-2.png)
+
+## 5. Add Library Directories
+
+Open project properties and go to `VC++ Directories` --> `Library Directories`. Add folder `BonEngine-1.0\lib\x64` for x64 platform, and `BonEngine-1.0\lib\x86` for x86. This trick will make the linker load the correct lib when compiling.
+
+![Install-2](TestAssets/ForReadme/install-3.png)
+
+## 6. Copy Dlls
+
+So far we set everything we need to build the project. However, if we try to run it you'll see it can't find the runtime dlls. Easiest way to solve this is to add post-build command to copy them. 
+
+Open project properties and go to `Post-Build Event` --> `Command line` and type the following for x64 platform:
+
+`copy "$(SolutionDir)BonEngine-1.0\lib\x64\*.dll" "$(TargetDir)"`
+
+And the following for x86:
+
+`copy "$(SolutionDir)BonEngine-1.0\lib\x64\*.dll" "$(TargetDir)"`
+
+**Note**: if you put `BonEngine-1.0` folder inside the project dir and not the solution dir, replace `$(SolutionDir)` with `$(ProjectDir)`.
+
+Try to build to test if post command works.
+
+![Install-2](TestAssets/ForReadme/install-4.png)
+
+## 7. Write Some Code
+
+Now its finally time to write some code. Lets start with a minimal setup example:
+
+```cpp
+#include <BonEngine-1.0/include/BonEngine.h>
+
+/**
+ * An empty BonEngine scene.
+ * You can start override _Start, _Update, _FixedUpdate, _Draw, _Load and _Unload to add game logic.
+ */
+class MyScene : public bon::engine::Scene
+{
+
+};
+
+
+// main - create and init scene
+int main()
+{
+	MyScene scene;
+	bon::Start(scene);
+}
+```
+
+That's it! The code above will create an empty, black screen. Now its time to implement some game logic, which we'll learn how to do next..
+
+
+# Engine Details
+
+In this section we'll delve into the engine and how to use it.
+
+## Scene
+
+Lets talk about the scene, the main object to implement your game's logic. A scene is an object that represent a game screen, a level, or a layer in your game.
+You use them to implement your game main loop and drawing loop. You can also stack together scenes to create layers of responsibility, for example one scene for the game itself, and another for HUD.
+
+A scene must publicly inherit from `bon::engine::Scene`, and may implement the following methods, which are triggered by the engine itself (you don't need to call them):
+
+#### void _Load()
+
+Called the moment the scene is set as the active scene. When its the first scene you initialize the game with, some managers may not be fully initialized yet. 
+This is also an advantage, as it gives you an opportunity to setup things before the default initialization happens, or register your own custom managers.
+
+The `_Load` method is a good place to load assets (as name implies) and to set configuration, if its the first scene loaded.
+
+#### void _Unload()
+
+Called when the scene becomes inactive, ie replaced by another scene. 
+Typically you don't need to do anything special here, as assets are released automatically. 
+However, this method is a good opportunity to cleanup custom resources you may have used outside the engine (for example if you opened some files).
+
+#### void _Start()
+
+Similar to `_Load`, but this method is guaranteed to be called only after everything was initialized. 
+When you switch a scene after the game has already started, first the new scene's `_Load` will be called, then immediately after `_Start` will be triggered.
+
+#### void _Update(deltaTime)
+
+Called every frame to do game-related updates. This is your game's main loop.
+`deltaTime` is the time passed, in seconds, since the last `_Update()` was called.
+
+Use this method for animations, input, collision checks, and most of your game logic.
+
+Typically we'll have a rate of 60 updates per second.
+
+#### void _FixedUpdate(deltaTime)
+
+Fixed updates are called with a constant interval (meaning in this case `deltaTime` will always have the same value). 
+Note that it doesn't actually call this method with real-life constant intervals (for example you can't count real-life seconds accurately with this) but instead it calculates how many Fixed Update calls should be invoked every second, and more importantly - how many `FixedUpdates` we need to call for every regular `Update`, to ensure that over time it behaves like they run with fixed interval.
+
+This means that there can be multiple `Fixed Updates` in a row without a single `Update` call, and similarly, there can be multiple `Updates` in a row.
+
+`Fixed Updates` are useful for things like physics calculations.
+
+#### void _Draw()
+
+Called every time an `_Update` is called, right after, to draw the scene.
+Typically we'll have a rate of 60 draws per second.
+
+
+### Additional Scene API
+
+While implementing the scene's methods listed above, you can use the following scene methods:
+
+#### bool IsFirstScene()
+
+Get if this scene is the first scene loaded into the engine. Can be used for special initialization code.
+
+
+#### Game()
+
+Get the `game` manager. Described later in details.
+
+#### Assets()
+
+Get the `assets` manager. Described later in details.
+
+#### Gfx()
+
+Get the `gfx` manager. Described later in details.
+
+#### Sfx()
+
+Get the `sfx` manager. Described later in details.
+
+#### Input()
+
+Get the `input` manager. Described later in details.
+
+#### Log()
+
+Get the `log` manager. Described later in details.
+
+#### IManager* GetManager(id)
+
+Get a custom or built-in manager by name.
+This method is not so fast so its best to cache it after getting the manager.
+
+
+## Assets
+
+An asset is a game resource you load from a file (or create your own in some cases) to use in your game. Assets are held by shared_ptr, meaning they'll get deleted automatically when you stop using them, unless put in cache.
+
+The basic assets `BonEngine` uses are:
+
+1. **ImageAsset**: An image you load to draw on screen. You can also create empty images and draw on them.
+2. **FontAsset**: A font, used to draw text.
+3. **SoundAsset**: A sound track, for sound effects.
+4. **MusicAsset**: A long music track, used to play background music.
+5. **ConfigAsset**: A set of configurations you can load from a standard ini file.
+
+All assets are created with the assets manager, as described later.
+
+
+## Initialize Engine
+
+As seen in the example at the start of this doc, initializing the engine is quite simple. 
+Once you define your game scene, you just need to call `Start()` with it:
+
+```cpp
+#include <BonEngine.h>
+
+class MyScene : public bon::engine::Scene
+{
+    // scene implementation here
+}
+
+auto scene = MyScene();
+bon::Start(scene);	
+```
+
+This will invoke the scene's `_Load` and `_Start` methods, and start the main loop which will invoke the `Updates` and `Draw` calls.
+
+
+## Managers
+
+As mentioned before, most of the engine's API שרק divided into a set of built-in subsystems, called Managers. 
+
+For every Manager type we have an interface + a default built-in implementation (usually built around SDL). If you want to replace one of the managers with your own, you can override it before calling engine `Start`.
+
+Lets explore these managers now. 
+
+
+### Game
+
+You get this manager with the `Game()` access method.
+
+Usage example:
+
+```cpp
+// load configuration file
+Game().LoadConfig("../TestAssets/config.ini");
+
+// if 'exit' action is pressed, exit application
+if (Input().Down("exit")) { 
+    Game().Exit(); 
+}
+```
+
+This manager is responsible for general game / application management. It contains the following API:
+
+#### void Exit()
+
+Exit the game. This will not stop app immediately, it will finish only after completing current update, fixed update, and draw calls.
+
+#### void ChangeScene(scene)
+
+Change the currently active scene.
+This is the method you use to change scenes.
+
+#### void LoadConfig(path)
+
+Load game configuration from an .ini file. 
+Note: this API uses the engine's `ConfigAsset` asset. If you replace its internal implementation, the format of the config file may change as well.
+
+Game config file contains sections about graphics, sound, input, ect. 
+
+To see an example of a config file, check out `TestAssets/config.ini` file, partially copied here:
+
+```ini
+; BonEngine default configuration
+
+; graphics related config
+[gfx]                        
+title = BonEngine Application      ; window title
+resolution_x = 800              ; window width (0 for desktop width)
+resolution_y = 600              ; window height (0 for desktop height)
+window_mode = 0                 ; 0 = windowed, 1 = borderless, 2 = fullscreen
+cursor = false                  ; show cursor?
+
+; sounds related config
+[sfx]
+frequency = 22050               ; sound frequency
+format = 3                      ; audio format: 0 = U8, 1 = S8, 2 = U16LSB, 3 = S16LSB, 4 = U16MSB, 5 = S16MSB.
+stereo = true                   ; do we support stereo sound (false for mono).
+audio_chunk_size = 4096         ; smaller value = more responsive sound at the price of CPU. 2048 and 4096 are good values.
+
+
+; input - assign keys to game actions
+[controls]
+KeyLeft=left                    ; left key will be bound to "left" action
+KeyA=left                       ; 'A' key will also be bound to "left" action
+KeyRight=right                  ; right key will be bound to "right" action
+KeyD=right                      ; 'D' key will also be bound to "right" action
+
+; ... there are more key binds below but its omitted to keep this example short
+```
+
+#### double ElapsedTime()
+
+Get total seconds passed since the engine started running.
+
+#### int FpsCount()
+
+Get current FPS count. Note: this is not extremely accurate, for example if your game runs at 60 fps, you might see it flicker between 59-60 fps.
+
+
+### Assets
+
+You get this manager with the `Assets()` access method.
+
+All loading methods in this manager have a `useCache` param. If set to true (default), once asset it loaded it will also be added to cache, so next time you load it will be quick. This also means that the asset will not free itself automatically, unless you explicitly clear cache.
+
+Usage example:
+
+```cpp
+// loads an image asset with nearest filter, and add to cache:
+bon::ImageAsset image = Assets().LoadImage("../TestAssets/gfx/gnu.png", bon::ImageFilterMode::Nearest, true);
+
+// loads config file and get string config from it
+bon::ConfigAsset conf = Assets().LoadConfig("my_config.ini");
+const char* strFromConf = conf->GetStr("some_section", "config_key", "default if not found");
+```
+
+This manager is responsible for loading, creating and saving game assets. It contains the following API:
+
+#### ImageAsset LoadImage(path, filter, useCache)
+
+Loads an image asset from file.
+
+`Filter` is how to handle image when scaling it (default is nearest neighbor, which will result in crisp appearance).
+
+#### ImageAsset CreateEmptyImage(size, filter)
+
+Creates an empty image asset with a given size. You can later render on this image, and use it as texture for other drawing calls.
+
+#### SoundAsset LoadSound(path, useCache)
+
+Loads a sound file from path.
+
+#### MusicAsset LoadMusic(path, useCache)
+
+Loads a music file from path. Music is any sound format file, the only difference between music and sound effects is that music plays in the background on its own designated channel, and is more suitable for long tracks.
+
+#### FontAsset LoadFont(path, fontSize, useCache)
+
+Loads a font, used to draw text. 
+
+`fontSize` is the native size we load the font with. This will affect how text drawn with this font looks like when you scale it. 
+
+For example, if `fontSize` is really small, and you try to render large text, result will appear blurry. However, if you pick unnecessarily large `fontSize` just to have better quality, remember it also cost resources. So you need to find a balance based on your requirements and systems you aim to run on.
+
+#### ConfigAsset LoadConfig(path, useCache)
+
+Load a config file. You can use these files for whatever you like, by default `BonEngine` uses standard .ini files to store config.
+
+#### ConfigAsset CreateEmptyConfig()
+
+Creates an empty config file. You can set values into it and save it later.
+
+#### bool SaveConfig(config, path)
+
+Save a config asset to file.
+
+#### void ClearCache()
+
+Clear all assets from cache. This doesn't necessarily delete or free the assets; as long as someone continue to hold the assets externally, they will be kept alive.
+
+
+### Gfx
+
+You get this manager with the `Gfx()` access method.
+
+Usage example:
+
+```cpp
+// loads an image asset and draw it on screen at position 100, 100
+bon::ImageAsset image = Assets().LoadImage("../TestAssets/gfx/gnu.png");
+Gfx().DrawImage(image, bon::PointI(100, 100));
+
+// loads a font and draw text on screen at position 100,200
+bon::FontAsset font = Assets().LoadFont("../TestAssets/gfx/OpenSans-Regular.ttf");
+Gfx().DrawText(font, "Hello World!", bon::PointF(100, 200));
+```
+
+This manager is responsible for everything related to graphics and rendering. It contains the following API:
+
+#### void DrawImage(image, position, size, blend)
+
+Draw an image on screen.
+
+* `size` - Destination size, or null to use image's full size.
+* `blend` - Drawing blend mode (opaque, alpha, additive, mod, or multiply).
+
+#### void DrawImage(image, position, size, blend, sourceRect, origin, rotation, color)
+
+Like the shorter `DrawImage` method, but with more arguments:
+
+* `sourceRect` - Region from image to draw.
+* `origin` - Drawing origin (will be the point of `position` + anchor for rotation).
+* `rotation` - Rotate image (in degrees).
+* `color` - Drawing tint color (works as multiply - for example red color will zero blue and green channels).
+
+#### void DrawSprite(sprite, offset)
+
+Draw a sprite. Sprites are structs that holds all the drawing parameters of the `Draw` methods. It's just a sugarcoat to make it easier to hold drawing arguments. This object is described later.
+
+`offset` is additional offset to add to position. This makes it easier to implement camera behavior.
+
+#### void DrawText(font, text, position, color, fontSize, maxWidth, blend, origin, rotation)
+
+Draw text on screen.
+
+Note that drawing text generates temporary textures behind the scenes, so its not recommended to draw too much changing text too often. For example, if you have a really long text and you want to add a text type effect, where letters appear one by one, note it will be very wasteful.
+
+#### void DrawLine(from, to, color, blend)
+
+Draw a lint between two points.
+
+#### void DrawPixel(position, color, blend)
+
+Draw a single pixel.
+
+#### void DrawRectangle(rect, color, filled, blend)
+
+Draws a filled or outline rectangle.
+
+#### void ClearScreen(color, clearRect)
+
+Clears the screen, or if `clearRect` is provided, just a region of it.
+
+#### void SetWindowProperties(title, width, height, windowMode, showCursor)
+
+Recreate the window with new properties.
+if `width` or `height` are set to 0, it will take full size.
+
+#### void SetTitle(title)
+
+Change the window's title.
+
+#### void SetRenderTarget(image)
+
+Start drawing to target image instead of directly on screen (render to texture). Set to nullptr to clear render target and draw back on screen.
+
+This is an extremely useful functionality you can use for post-effects.
+
+#### PointI WindowSize()
+
+Get window size.
+
+
+### Sfx
+
+You get this manager with the `Sfx()` access method.
+
+Usage example:
+
+```cpp
+// loads a music track and plays it in endless loop
+bon::MusicAsset music = Assets().LoadMusic("../TestAssets/sfx/old city theme.ogg");
+Sfx().PlayMusic(music);
+
+// loads a sound effect and plays it once at volume 100
+bon::SoundAsset forestSound = Assets().LoadSound("../TestAssets/sfx/Forest_Ambience.mp3");
+Sfx().PlaySound(forestSound, 100)
+```
+
+This manager is responsible for everything related to sound and music. It contains the following API:
+
+#### void SetAudioProperties(frequency, format, stereo, audio_chunk_size)
+
+Set general audio properties. This reinitialize the sound device.
+
+#### void PlayMusic(music, volume, loops)
+
+Play a music track.
+
+#### void PauseMusic(paused)
+
+Pause / resume music track.
+
+#### void SetMusicVolume(volume)
+
+Set music volume.
+
+#### void StopMusic()
+
+Stop current music track.
+
+#### SoundChannelId PlaySound(sound, volume, loops, pitch)
+
+Plays a sound effect.
+
+Returns a `channel id`, which is an identifier you can use later to control this sound effect. If failed to play sound (usually because we ran out of mix channels), will return `InvalidSoundChannel`.
+
+#### SoundChannelId PlaySound(sound, volume, loops, pitch, panLeft, panRight, distance)
+
+Plays a sound effect with extra panning and distance params.
+
+#### void SetChannelDistance(channel, distance) 
+
+Set volume based on distance from listener for a playing sound effect. `channel` is the channel id as returned by `PlaySound()`.
+
+#### void SetChannelPanning(channel, panLeft, panRight) 
+
+Set sound panning (volume on left / right sides). `channel` is the channel id as returned by `PlaySound()`.
+
+#### void StopChannel(channel) 
+
+Stop playing a sound effect. `channel` is the channel id as returned by `PlaySound()`.
+
+#### void SetMasterVolume(soundEffectsVolume, musicVolume)
+
+Set master volume for sound effects and music.
+
+
+### Log
+
+You get this manager with the `Log()` access method.
+
+Usage example:
+
+```cpp
+// using manager getter: write "Hello World!" in 'info' level
+Log().Write(bon::LogLevel::Info, "Hello %s!", "World");
+
+// using macros (recommended): write "Hello World!" in 'info' level
+BON_ILOG("Hello %s!", "World");
+```
+
+This manager is responsible for logging. It contains the following API:
+
+#### void Write(level, fmt, ...)
+
+Write a log message. 
+
+* `level` - Log level (severity).
+* `fmt` - Message text, with optional arguments (%d, %f, %s...).
+* `...` - Arguments for the message format.
+
+Valid log levels are: Debug, Info, Warn, Error, Critical.
+
+#### void SetLevel(level)
+
+Set which log levels to write to log. Levels lower than this level, will be ignored.
+For example, log level is set to Info, all Debug messages will be omitted.
+
+#### LogLevel GetLevel()
+
+Get current log level.
+
+#### bool IsValid(level)
+
+Checks if a given log level should be written to log.
+
+#### BON_XLOG Macros
+
+Log manager comes with a special set of macros to write log in different levels:
+
+- BON_DLOG = Debug.
+- BON_ILOG = Info.
+- BON_WLOG = Warn.
+- BON_ELOG = Error.
+- BON_CLOG = Critical.
+
+Using the log macros is not just for shorter syntax; its also more efficient. 
+If the log level is currently disabled (for example if log level is Warn, and you use BON_DLOG()), it will not even evaluate the params for the message format. 
+
+So for example if you call this:
+
+```cpp
+BON_DLOG("number of sprites: %d.", GetNumberOfSprites());
+```
+
+And debug logs are currently disabled, the function `GetNumberOfSprites()` won't even get called.
+
+
+### Input
+
+You get this manager with the `Input()` access method.
+
+Input manager works on 3 systems: keyboard, mouse, and game actions.
+
+`Keyboard` and `Mouse` are pretty self explanatory. `Game Actions`is the mapping between keyboard keys and mouse input to specific in-game actions. For example, you can set that pressing either `arrow up`, `W` or `Home` buttons will trigger an action called `"move up"`. Normally you'll want to work with `Game Actions`, to allow players to rebind keys without changing your code.
+
+To set `Game Action` binds you can either use code-based API, add `[controls]` section to your game config file, or do nothing and let `BonEngine` set a default "one size fits all" mapping.
+
+Usage example:
+
+```cpp
+// check if 'space' was released now
+if (Input().ReleasedNow(bon::KeyCodes::KeySpace)) { 
+}
+
+// check if "fire" game action is currently down
+if (Input().Down("fire")) { 
+}
+
+// get mouse position
+auto mousePos = Input().CursorPosition();
+```
+
+This manager is responsible for user input. It contains the following API:
+
+#### bool Down(actionId)
+
+Get if a given `action id` is currently pressed down.
+
+#### bool ReleasedNow(actionId)
+
+Get if a given `action id` was released in this very update frame. Will work on both `Update` and `Fixed Update`, and should only be true for a single `Update` and `Fixed Update` frame.
+
+#### bool PressedNow(actionId)
+
+Get if a given `action id` was pressed down in this very update frame. Will work on both `Update` and `Fixed Update`, and should only be true for a single `Update` and `Fixed Update` frame.
+
+#### bool Down(key)
+
+Get if a given keyboard / mouse key is currently pressed down.
+
+#### bool ReleasedNow(key)
+
+Get if a given keyboard / mouse key was released in this very update frame. 
+
+#### bool PressedNow(key)
+
+Get if a given keyboard / mouse key was pressed down in this very update frame. 
+
+#### PointI ScrollDelta()
+
+Get mouse wheel / scroll delta in current frame. Usually you'll only have value in Y axis.
+
+#### PointI CursorPosition()
+
+Get mouse current position.
+
+#### PointI CursorDelta()
+
+Get mouse position change since last frame.
+
+#### void SetKeyBind(key, actionId)
+
+Bind a key to an action id.
+
+
+## Sprites
+
+As mentioned before, `Sprite` is a struct that hold rendering params for the `Gfx()` manager. It provides an easier way to create drawable objects.
+
+A `Sprite` contains the following properties: Image, Position, Size, Blend, SourceRect, Origin, Rotation and Color.
+
+`SpriteSheet` Is a more sophisticated object. The `SpriteSheet` is an object that defines a single texture with multiple sprites in it, with or without animations. You can load spritesheets from a config file (see `TestAssets/gfx/player_spritesheet.ini` for an example) or create it from code (less recommended). 
+
+Lets start with a basic spritesheet Example:
+
+```cpp
+// members - player, sheet, and animation progress
+bon::Sprite player;
+bon::gfx::SpriteSheet playerSheet;
+double playerAnimationProgress = 0.0;
+
+// inside load:
+playerSheet.LoadFromConfig(Assets().LoadConfig("../TestAssets/gfx/player_spritesheet.ini"));
+player.Image = Assets().LoadImage("../TestAssets/gfx/player.png");
+
+// inside update:
+// this will play 'walk' animation using `playerAnimationProgress` to keep track on progress.
+// it will advance animation by `deltaTime`, will not retrieve current step or if finished (nullptr, nullptr) and will not set size (0.0f).
+playerSheet.Animate(player, "walk", playerAnimationProgress, deltaTime, nullptr, nullptr, 0.0f);
+```
+
+Spritesheet contains the following API:
+
+#### void LoadFromConfig(config)
+
+Load spritesheet from a config asset. 
+
+Lets take a look at a config example for spritesheet.
+
+*Texture:*
+
+![Player Sprite](TestAssets/ForReadme/player.png)
+
+
+*Config:*
+```ini
+; general spritesheet settings
+[general]
+sprites_count = 8,1                     ; how many sprites we can find in file, on X and Y axis.
+animations = stand,walk                 ; animations that appear in this file
+
+; bookmarks are indexes in spritesheet we mark with names, so we can later set sprites to them
+[bookmarks]
+stand = 1,0                             ; we mark index 1,0 (ie. second sprite) as "stand".
+
+; standing animation (spritesheet will look for it because we have 'stand' under its animations list)
+[anim_stand]
+repeats = true                          ; this animation will repeat itself 
+steps_count = 1                         ; animation only have 1 steps in it
+step_0_duration = 1                     ; step 0 will play for 1 seconds (but since its the only step, it doesn't matter)
+step_0_source = 1,0                     ; step 0 starts at index 1,0
+
+; walking animation (spritesheet will look for it because we have 'walk' under its animations list)
+[anim_walk]
+repeats = true
+steps_count = 4
+step_0_duration = 0.25
+step_0_source = 0,0
+step_1_duration = 0.25
+step_1_source = 1,0
+step_2_duration = 0.25
+step_2_source = 2,0
+step_3_duration = 0.25
+step_3_source = 3,0
+
+; note: the sprite texture got some more animations in it but they are not defined here to keep this example short.
+```
+
+#### void SetSprite(sprite, indexInSheet, sizeFactor)
+
+Set sprite's source rectangle to be a sprite based on index in spritesheet. If `sizeFactor` is not 0, will also set sprite's size based on source rectangle.
+
+#### void SetSprite(sprite, bookmarkId, sizeFactor)
+
+Just like `SetSprite()` with index, but with bookmark id instead. A bookmark in spritesheet allows you to mark a specific index in sheet with a name.
+
+For example, in a character sheet, you may mark the sprite located at index 1x4 with the name "death_anim_start". Later you can use this bookmark to set sprite to it.
+
+#### void Animate(sprite, animationId, progress, deltaTime, currStep*, didFinish*, sizeFactor)
+
+Animate a sprite based on animation defined in the spritesheet. You need to call this method every `Update` frame you want to animate the sprite, with the same `progress` pointer.
+
+* `animationId` - The unique name of the animation to play.
+* `progress` - Animation current progress, which needs to be kept between calls. When changing animation, you need to zero it.
+* `deltaTime` - This frame's delta time / how much to advance animation. You can play with this param to change animation speed.
+* `currStep` - Optional pointer that will hold current animation step (use it if you need to know, send nullptr if not).
+* `didFinish` - Optional pointer that will be set to true when animation ends (use it if you need to know, send nullptr if not).
+* `sizeFactor` - If not 0, will also set sprite size based on source rectangle (same as with SetSprite() param).
+
+#### SpriteAnimation GetAnimation(animationId);
+
+Get animation instance by id.
+
+#### void AddAnimation(animation)
+
+Register an animation to this spritesheet.
+
+#### void AddBookmark(bookmarkId, spriteIndex)
+
+Set a bookmark (translation between unique string and sprite index) in this spritesheet.
+
+#### PointI GetBookmark(bookmarkId)
+
+Get bookmark value from spritesheet.
+
+
+## Config
+
+As mentioned before, `BonEngine` have config files which are used to load engine's general settings (like graphics, sound quality and key binds). Config files are also used for sprite sheets, and can be loaded as assets for whatever purpose you might need and saved back to disk.
+
+The default format for config files is [INI files](https://en.wikipedia.org/wiki/INI_file).
+
+INI files have sections, defined like this:
+
+`[section name]`
+
+And key-values pairs, defined as:
+
+`key = value`
+
+For example:
+
+```ini
+[section1]
+str_val = bar
+int_val = 1
+float_val = 2.3
+bool_val = true
+; this is a comment
+
+[section2]
+hello = world
+```
+
+Once a config file is loaded (or created as empty), you can use the following getters:
+
+* GetStr(section, key, defaultVal)
+* GetBool(section, key, defaultVal)
+* GetInt(section, key, defaultVal)
+* GetFloat(section, key, defaultVal)
+
+Set values with:
+
+* SetValue(section, key, value)
+
+Or remove value with:
+
+* RemoveKey(section, key)
+
+In addition, you can get section names or key names in section:
+
+* Sections()
+* Keys(section)
+
+### Create Empty And Save
+
+As mentioned before, we can create an empty config file via the assets manager:
+
+```cpp
+bon::ConfigAsset config = Assets().CreateEmptyConfig();
+```
+
+And save config to file:
+
+```cpp
+Assets().SaveConfig(config, filePath);
+```
+
+You can use config files to save anything you like, but remember they are textual files and easy to access / edit by users.
+
+
+# Miscs
+
+## License
+
+This lib is distributed with the MIT license, so you can do pretty much anything with it :)
+
+## Changelog
+
+# 1.0
+
+First stable release.
+
+## In Memory Of Bonnie
+
+`BonEngine` is named after my deceased dog, Bonnie.
+Sleep tight, sweet prince!
+
+![Bonnie](TestAssets/ForReadme/bonnie.jpg)

@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Gfx">
+      <UniqueIdentifier>{269679d4-ffdf-48dd-8637-fcfb4a5c86fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sfx">
+      <UniqueIdentifier>{50df7afe-a703-43c9-95b8-efb1a39a9020}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{d8787935-b82a-4a22-84ff-c1c55ed8ac4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gfx">
+      <UniqueIdentifier>{ea22a4f9-6878-4f4a-9f30-e283fe7331d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{cd7cffb4-38fe-4d0e-b0a3-fed410a45693}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sfx">
+      <UniqueIdentifier>{ccf63710-33fe-42ff-ac91-934a7daa5a22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Assets">
+      <UniqueIdentifier>{a365b6e9-05c4-45ce-a4ea-1289c9381e07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Assets">
+      <UniqueIdentifier>{ca370038-68b0-44fb-97e5-d08d351d5687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Framework">
+      <UniqueIdentifier>{bc892e8b-375a-4bf6-8cc6-086d20927954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{10d1e022-9a3f-46b8-b89f-9240cf28b867}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Framework">
+      <UniqueIdentifier>{568e9afe-48dd-4240-89e3-f7e87337176a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{8b7349c3-2437-450e-a5d7-8f03e2e79841}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{681277e3-e992-4887-a56a-3069be1816d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{54dbc861-ead0-42ff-b4f0-f7d47910d0a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Assets\Types">
+      <UniqueIdentifier>{d5f1fd56-f377-4955-a1e6-6bd2122af013}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Log">
+      <UniqueIdentifier>{72bc0a3c-8e50-4360-a550-bc832f8db093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Log">
+      <UniqueIdentifier>{fce2c161-e206-46d9-a141-0ab7f2fffe6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty Source">
+      <UniqueIdentifier>{6a70ea51-ec7e-4e05-8ffa-3bc563223eb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty Source\SDL_FontCache">
+      <UniqueIdentifier>{95fcb169-666f-49de-9516-409c86fdbcb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty Source\custom_mix_pitch">
+      <UniqueIdentifier>{7b84c13f-e5a1-45cd-bf95-fcb15dbecd81}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\Gfx\IGfx.h">
+      <Filter>Header Files\Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\dllimport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Gfx\Defs.h">
+      <Filter>Header Files\Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Framework\Color.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\BonEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Engine\Engine.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Framework\Exceptions.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\IManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Sfx\ISfx.h">
+      <Filter>Header Files\Sfx</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Sfx\Sfx.h">
+      <Filter>Header Files\Sfx</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Gfx\Gfx.h">
+      <Filter>Header Files\Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Assets\Assets.h">
+      <Filter>Header Files\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Assets\Defs.h">
+      <Filter>Header Files\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Assets\Types\Image.h">
+      <Filter>Header Files\Assets\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Sfx\Defs.h">
+      <Filter>Header Files\Sfx</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Input\Defs.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Game\Game.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Assets\IAssets.h">
+      <Filter>Header Files\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Assets\Types\IAsset.h">
+      <Filter>Header Files\Assets\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Input\Input.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Input\IInput.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Game\IGame.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Log\ILog.h">
+      <Filter>Header Files\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Log\Log.h">
+      <Filter>Header Files\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Engine\ManagerGetters.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Assets\Types\Music.h">
+      <Filter>Header Files\Assets\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Gfx\Sprite.h">
+      <Filter>Header Files\Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Assets\Types\Sound.h">
+      <Filter>Header Files\Assets\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Engine\Scene.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Assets\Types\Config.h">
+      <Filter>Header Files\Assets\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Assets\Types\Font.h">
+      <Filter>Header Files\Assets\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Framework\__Point.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Framework\__Rectangle.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Framework\Point.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Framework\Rectangle.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Framework\PointF.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Framework\PointI.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Framework\RectangleF.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Framework\RectangleI.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty_from_src\SDL_FontCache\SDL_FontCache.h">
+      <Filter>3rdparty Source\SDL_FontCache</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty_from_src\custom_mix_pitch\custom_mix_pitch.h">
+      <Filter>3rdparty Source\custom_mix_pitch</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty_from_src\custom_mix_pitch\custom_mix_pitch_callback.h">
+      <Filter>3rdparty Source\custom_mix_pitch</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Assets\Types\ConfigHandle.h">
+      <Filter>Header Files\Assets\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Assets\Types\FontHandle.h">
+      <Filter>Header Files\Assets\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Assets\Types\ImageHandle.h">
+      <Filter>Header Files\Assets\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Assets\Types\MusicHandle.h">
+      <Filter>Header Files\Assets\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Assets\Types\SoundHandle.h">
+      <Filter>Header Files\Assets\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Gfx\SpriteSheet.h">
+      <Filter>Header Files\Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Log\LogMacros.h">
+      <Filter>Header Files\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Gfx\GfxSdlWrapper.h">
+      <Filter>Header Files\Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Sfx\SfxSdlWrapper.h">
+      <Filter>Header Files\Sfx</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Engine\Engine.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BonEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sfx\Sfx.cpp">
+      <Filter>Source Files\Sfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assets\Assets.cpp">
+      <Filter>Source Files\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Game.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gfx\Gfx.cpp">
+      <Filter>Source Files\Gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\Input.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Log\Log.cpp">
+      <Filter>Source Files\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\ManagerGetters.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\Defs.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Framework\Point.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty_from_src\SDL_FontCache\SDL_FontCache.c">
+      <Filter>3rdparty Source\SDL_FontCache</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty_from_src\custom_mix_pitch\custom_mix_pitch.cpp">
+      <Filter>3rdparty Source\custom_mix_pitch</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gfx\SpriteSheet.cpp">
+      <Filter>Source Files\Gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gfx\GfxSdlWrapper.cpp">
+      <Filter>Source Files\Gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sfx\SfxSdlWrapper.cpp">
+      <Filter>Source Files\Sfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Scene.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
