@@ -1,6 +1,6 @@
 /*****************************************************************//**
- * \file   Music.h
- * \brief  Define a music track asset.
+ * \file   Sound.h
+ * \brief  Define a sound track asset.
  *
  * \author Ronen Ness
  * \date   May 2020

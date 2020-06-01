@@ -331,7 +331,7 @@ This will invoke the scene's `_Load` and `_Start` methods, and start the main lo
 
 ## Managers
 
-As mentioned before, most of the engine's API שרק divided into a set of built-in subsystems, called Managers. 
+Most of the engine's API are divided into a set of built-in subsystems, called Managers. 
 
 For every Manager type we have an interface + a default built-in implementation (usually built around SDL). If you want to replace one of the managers with your own, you can override it before calling engine `Start`.
 

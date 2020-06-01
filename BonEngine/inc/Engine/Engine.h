@@ -57,6 +57,9 @@ namespace bon
 
 			// engine is completely stopped and destroyed
 			Destroyed,
+		
+			// engine is currently switching scenes (not set on first scene set).
+			SwitchScene,
 		};
 
 		/**
@@ -87,6 +90,7 @@ namespace bon
 			// currently active scene
 			Scene* _activeScene = nullptr;
 			Scene* _previousScene = nullptr;
+			Scene* _nextScene = nullptr;
 
 			// mark if engine is being destroyed
 			bool _destroyed = false;
@@ -125,6 +129,7 @@ namespace bon
 
 			/**
 			 * Set the currently active scene.
+			 * Note: will actually change the scene after current frame ends.
 			 * 
 			 * \param scene Active scene to set.
 			 */
@@ -300,6 +305,11 @@ namespace bon
 					throw framework::InvalidState("Cannot perform this action before engine had started!");
 				}
 			}
+
+			/**
+			 * Do the actual scene switch, from _activeScene to _nextScene.
+			 */
+			void DoSceneSwitch();
 
 			/**
 			 * Start the engine's main loop.

@@ -155,7 +155,7 @@ namespace bon
 			// special case - if prev step is bigger than max, it means 3 things:
 			//	1. we're not in repeat mode (otherwise we would have reset back to 0 by now).
 			//	2. we already finished animation.
-			if (prevStep >= _steps.size()) {
+			if (prevStep >= (int)_steps.size()) {
 				prevStep = (int)_steps.size() - 1;
 				if (currStep) {
 					*currStep = prevStep;
@@ -180,7 +180,7 @@ namespace bon
 			if (prevStep != newStep)
 			{
 				// did finish animation?
-				if (newStep >= _steps.size()) {
+				if (newStep >= (int)_steps.size()) {
 
 					// set new step to either start of animation, or last step
 					newStep = Repeats ? 0 : (int)_steps.size() - 1;

@@ -166,6 +166,12 @@ namespace bon
 			// main loop
 			while (_isRunning)
 			{
+				// if we have a scene to switch to, do the switching
+				if (_nextScene) {
+					_state = EngineStates::SwitchScene;
+					DoSceneSwitch();
+				}
+
 				// update state to in-between
 				_state = EngineStates::MainLoopInBetweens;
 
@@ -279,6 +285,29 @@ namespace bon
 		void Engine::SetScene(Scene& scene)
 		{
 			// log and sanity check
+			_logManager->Write(log::LogLevel::Debug, "Set next scene to switch to..");
+			if (_destroyed) {
+				throw InvalidState("Cannot set scene after engine was destroyed!");
+			}
+
+			// set next scene
+			_nextScene = &scene;
+
+			// if there's no current scene, switch now
+			if (_activeScene == nullptr) {
+				DoSceneSwitch();
+			}
+		}
+
+		// do the actual scene switch
+		void Engine::DoSceneSwitch()
+		{
+			// no scene to switch to? stop.
+			if (_nextScene == nullptr) {
+				return;
+			}
+
+			// log and sanity check
 			_logManager->Write(log::LogLevel::Debug, "Change scene..");
 			if (_destroyed) {
 				throw InvalidState("Cannot set scene after engine was destroyed!");
@@ -291,8 +320,9 @@ namespace bon
 
 			// set new scene
 			_previousScene = _activeScene;
-			_activeScene = &scene;
+			_activeScene = _nextScene;
 			_activeScene->_Load();
+			_nextScene = nullptr;
 
 			// if already started main loop, trigger _Start() now
 			if (_mainLoopStarted) {
