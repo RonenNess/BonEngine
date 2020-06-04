@@ -79,8 +79,6 @@ namespace bon
 			{
 			}
 
-		protected:
-
 			/**
 			 * Get if current scene is the first loaded scene.
 			 *

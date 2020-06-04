@@ -69,3 +69,57 @@ void BON_Start(bon::engine::Scene* scene)
 {
 	bon::Start(*scene);
 }
+
+// get if its the first scene loaded
+bool BON_IsFirstScene(bon::engine::Scene* scene)
+{
+	return scene->IsFirstScene();
+}
+
+// get Game manager.
+bon::IGame* BON_Game()
+{
+	return &bon::_GetEngine().Game();
+}
+
+// get Assets manager.
+bon::IAssets* BON_Assets()
+{
+	return &bon::_GetEngine().Assets();
+}
+
+// get Gfx manager.
+bon::IGfx* BON_Gfx()
+{
+	return &bon::_GetEngine().Gfx();
+}
+
+// get Sfx manager.
+bon::ISfx* BON_Sfx()
+{
+	return &bon::_GetEngine().Sfx();
+}
+
+// get Input manager.
+bon::IInput* BON_Input()
+{
+	return &bon::_GetEngine().Input();
+}
+
+// get Log manager.
+bon::ILog* BON_Log()
+{
+	return &bon::_GetEngine().Log();
+}
+
+// get Diagnostics manager.
+bon::IDiagnostics* BON_Diagnostics()
+{
+	return &bon::_GetEngine().Diagnostics();
+}
+
+// get manager by name.
+bon::IManager* BON_GetManager(const char* id)
+{
+	return bon::_GetEngine().GetManagerById(id);
+}

@@ -16,12 +16,12 @@ extern "C" {
 	/**
 	 * Define callback without arguments.
 	 */
-	BON_DLLEXPORT typedef void (*BON_CallbackNoArgs)();
+	BON_DLLEXPORT typedef void (__stdcall* BON_CallbackNoArgs)();
 
 	/**
 	 * Define callback with double argument.
 	 */
-	BON_DLLEXPORT typedef void (*BON_CallbackDoubleArg)(double);
+	BON_DLLEXPORT typedef void (__stdcall* BON_CallbackDoubleArg)(double);
 	
 	/**
 	 * Create and return a special scene composed of callbacks.
@@ -40,6 +40,50 @@ extern "C" {
 	 */
 	BON_DLLEXPORT void BON_Start(bon::engine::Scene* scene);
 
+	/**
+	 * Get if its the first scene loaded.
+	 */
+	BON_DLLEXPORT bool BON_IsFirstScene(bon::engine::Scene* scene);
+
+	/**
+	 * Get Game manager.
+	 */
+	BON_DLLEXPORT bon::IGame* BON_Game();
+
+	/**
+	 * Get Assets manager.
+	 */
+	BON_DLLEXPORT bon::IAssets* BON_Assets();
+
+	/**
+	 * Get Gfx manager.
+	 */
+	BON_DLLEXPORT bon::IGfx* BON_Gfx();
+
+	/**
+	 * Get Sfx manager.
+	 */
+	BON_DLLEXPORT bon::ISfx* BON_Sfx();
+
+	/**
+	 * Get Input manager.
+	 */
+	BON_DLLEXPORT bon::IInput* BON_Input();
+
+	/**
+	 * Get Log manager.
+	 */
+	BON_DLLEXPORT bon::ILog* BON_Log();
+
+	/**
+	 * Get Diagnostics manager.
+	 */
+	BON_DLLEXPORT bon::IDiagnostics* BON_Diagnostics();
+
+	/**
+	 * Get manager by name.
+	 */
+	BON_DLLEXPORT bon::IManager* BON_GetManager(const char* id);
 
 #ifdef __cplusplus
 }
