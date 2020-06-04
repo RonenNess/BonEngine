@@ -16,7 +16,7 @@ namespace bon
 		/**
 		 * Built in counters we keep track on in diagnostics manager.
 		 */
-		enum class DLLEXPORT  DiagnosticsCounters
+		enum class BON_DLLEXPORT  DiagnosticsCounters
 		{
 			/**
 			 * Draw calls during this frame.
@@ -49,7 +49,7 @@ namespace bon
 		 * Interface for the diagnostics manager.
 		 * Used for FPS count and other debug methods.
 		 */
-		class DLLEXPORT IDiagnostics : public IManager
+		class BON_DLLEXPORT IDiagnostics : public IManager
 		{
 		public:
 

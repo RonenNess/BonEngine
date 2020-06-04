@@ -990,6 +990,10 @@ First stable release.
 - Added more built-in colors and points.
 - Improved performance.
 - Some validations and protections against access violation due to faulty usage.
+- Removed warnings from third party files.
+- Renamed DLLEXPORT to BON_DLLEXPORT, to reduce chance of collision with other libs.
+- Added C API to allow binding with other languages [in progress].
+
 
 ## In Memory Of Bonnie
 

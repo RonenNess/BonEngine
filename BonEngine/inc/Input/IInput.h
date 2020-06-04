@@ -20,7 +20,7 @@ namespace bon
 		 * Interface for the input manager.
 		 * This manager responsible to get input from user.
 		 */
-		class DLLEXPORT IInput : public IManager
+		class BON_DLLEXPORT IInput : public IManager
 		{
 		public:
 

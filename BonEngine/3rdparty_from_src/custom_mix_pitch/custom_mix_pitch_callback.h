@@ -5,6 +5,8 @@
  *      Author: Carlos Faruolo
  */
 
+#pragma warning(push, 0)   
+
 // Mix_EffectFunc_t callback that redirects to handler method (handler passed via userData)
 // Processing function to be able to change chunk speed/pitch.
 // AudioFormatType depends on the current audio format (queryable via Mix_QuerySpec)
@@ -109,3 +111,6 @@ void Custom_Mix_PlaybackSpeedEffectFuncCallback(int mixChannel, void* stream, in
 		Mix_HaltChannel(mixChannel);
 	}
 }
+
+
+#pragma warning(pop)

@@ -20,7 +20,7 @@ namespace bon
 		 * Define the interface for a configuration internal handle.
 		 * To create new config asset types, you must implement this API.
 		 */
-		class DLLEXPORT _ConfigHandle
+		class BON_DLLEXPORT _ConfigHandle
 		{
 		public:
 			/**

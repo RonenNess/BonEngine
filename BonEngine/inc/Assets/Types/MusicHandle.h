@@ -18,7 +18,7 @@ namespace bon
 		 * Define the interface for a music internal handle.
 		 * To create new music asset types, you must implement this API.
 		 */
-		class DLLEXPORT _MusicHandle
+		class BON_DLLEXPORT _MusicHandle
 		{
 		public:
 			/**

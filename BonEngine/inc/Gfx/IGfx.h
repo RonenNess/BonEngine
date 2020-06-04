@@ -27,7 +27,7 @@ namespace bon
 		 * Interface for the GFX rendering manager.
 		 * This manager responsible to do all the rendering / graphic jobs.
 		 */
-		class DLLEXPORT IGfx : public IManager
+		class BON_DLLEXPORT IGfx : public IManager
 		{
 		public:
 

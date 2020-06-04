@@ -16,7 +16,7 @@ namespace bon
 		/**
 		 * Possible key states.
 		 */
-		enum class DLLEXPORT KeyStates
+		enum class BON_DLLEXPORT KeyStates
 		{
 			// key is up.
 			Released,
@@ -34,7 +34,7 @@ namespace bon
 		/**
 		 * All supported keyboard and mouse key codes.
 		 */
-		enum class DLLEXPORT KeyCodes
+		enum class BON_DLLEXPORT KeyCodes
 		{
 				KeyUnknown,
 				KeyReturn,

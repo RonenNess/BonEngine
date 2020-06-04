@@ -27,7 +27,7 @@ namespace bon
 		/**
 		 * The gfx implementor class.
 		 */
-		class DLLEXPORT GfxSdlWrapper
+		class BON_DLLEXPORT GfxSdlWrapper
 		{
 		private:
 			// the window we'll be rendering to

@@ -15,7 +15,7 @@ namespace bon
 		/**
 		 * Window modes.
 		 */
-		enum class DLLEXPORT WindowModes
+		enum class BON_DLLEXPORT WindowModes
 		{
 			Windowed,
 			WindowedBorderless,
@@ -25,7 +25,7 @@ namespace bon
 		/**
 		 * Blending modes.
 		 */
-		enum class DLLEXPORT BlendModes
+		enum class BON_DLLEXPORT BlendModes
 		{
 			// render without any transparency or opacity.
 			Opaque = 0,

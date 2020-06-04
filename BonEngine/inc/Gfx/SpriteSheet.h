@@ -28,7 +28,7 @@ namespace bon
 		/**
 		 * A single sprite animation step.
 		 */
-		struct DLLEXPORT SpriteAnimationStep
+		struct BON_DLLEXPORT SpriteAnimationStep
 		{
 		public:
 			// For how long, in seconds, to display this step.
@@ -41,7 +41,7 @@ namespace bon
 		/**
 		 * SpriteSheet animation.
 		 */
-		class DLLEXPORT SpriteAnimation
+		class BON_DLLEXPORT SpriteAnimation
 		{
 		private:
 			// animation identifier
@@ -119,7 +119,7 @@ namespace bon
 		 * A sprite sheet with animations.
 		 * You can load sprite sheets from config files.
 		 */
-		class DLLEXPORT SpriteSheet
+		class BON_DLLEXPORT SpriteSheet
 		{
 		private:
 			// spritesheet animations

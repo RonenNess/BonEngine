@@ -21,7 +21,7 @@ namespace bon
 		 * _Point_ class.
 		 * Note: generated via python script to avoid template related / dllexport issues.
 		 */
-		struct DLLEXPORT _Point_
+		struct BON_DLLEXPORT _Point_
 		{
 		public:
 			/**

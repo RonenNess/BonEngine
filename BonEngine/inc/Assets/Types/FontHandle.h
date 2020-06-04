@@ -19,7 +19,7 @@ namespace bon
 		 * Define the interface for a font internal handle.
 		 * To create new font asset types, you must implement this API.
 		 */
-		class DLLEXPORT _FontHandle
+		class BON_DLLEXPORT _FontHandle
 		{
 		public:
 			/**

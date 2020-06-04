@@ -17,7 +17,7 @@ namespace bon
 		/**
 		 * Default gfx manager.
 		 */
-		class DLLEXPORT Gfx : public IGfx
+		class BON_DLLEXPORT Gfx : public IGfx
 		{
 		public:
 

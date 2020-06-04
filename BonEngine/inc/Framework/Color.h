@@ -16,7 +16,7 @@ namespace bon
 		/**
 		 * Color class.
 		 */
-		struct DLLEXPORT Color
+		struct BON_DLLEXPORT Color
 		{
 			/**
 			 * Color red component.

@@ -20,7 +20,7 @@ namespace bon
 		 * Define the interface for an image internal handle.
 		 * To create new image asset types, you must implement this API.
 		 */
-		class DLLEXPORT _ImageHandle
+		class BON_DLLEXPORT _ImageHandle
 		{
 		public:
 			/**
@@ -53,7 +53,7 @@ namespace bon
 		/**
 		 * Image filtering modes.
 		 */
-		enum class DLLEXPORT ImageFilterMode
+		enum class BON_DLLEXPORT ImageFilterMode
 		{
 			Nearest = 0,
 			Linear = 1,

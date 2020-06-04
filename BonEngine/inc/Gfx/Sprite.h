@@ -24,7 +24,7 @@ namespace bon
 		/**
 		 * A structure to hold all the properties of a rendered sprite.
 		 */
-		struct DLLEXPORT Sprite
+		struct BON_DLLEXPORT Sprite
 		{
 		public:
 			// Image to draw.

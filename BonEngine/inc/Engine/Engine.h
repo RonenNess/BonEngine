@@ -27,7 +27,7 @@ namespace bon
 		/**
 		 * Different states the engine can be in.
 		 */
-		enum class DLLEXPORT EngineStates
+		enum class BON_DLLEXPORT EngineStates
 		{
 			// Engine was not initialized yet.
 			BeforeInitialize,
@@ -67,7 +67,7 @@ namespace bon
 		 * The main class that runs the BonEngine engine.
 		 * This is the class that gets instanciated and fire up the game main loop.
 		 */
-		class DLLEXPORT Engine
+		class BON_DLLEXPORT Engine
 		{
 		private:
 			// is the engine currently running?

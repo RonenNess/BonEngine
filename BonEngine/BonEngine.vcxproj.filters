@@ -79,6 +79,12 @@
     <Filter Include="Source Files\Diagnostics">
       <UniqueIdentifier>{c925bfbe-56ae-4a3b-bc58-6efb4a228e2b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\_CAPI">
+      <UniqueIdentifier>{e78424ca-e434-4098-8393-80b43ad47008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\_CAPI">
+      <UniqueIdentifier>{d65dc1b3-8206-4235-b712-4a27cb5a2889}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Gfx\IGfx.h">
@@ -240,6 +246,9 @@
     <ClInclude Include="inc\Diagnostics\Diagnostics.h">
       <Filter>Header Files\Diagnostics</Filter>
     </ClInclude>
+    <ClInclude Include="inc\_CAPI\CAPI.h">
+      <Filter>Header Files\_CAPI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Engine.cpp">
@@ -298,6 +307,9 @@
     </ClCompile>
     <ClCompile Include="src\Diagnostics\Diagnostics.cpp">
       <Filter>Source Files\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\_CAPI\CAPI.cpp">
+      <Filter>Source Files\_CAPI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

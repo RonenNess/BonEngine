@@ -29,7 +29,7 @@ namespace bon
 	/**
 	 * Base class for any BonEngine manager class.
 	 */
-	class DLLEXPORT IManager
+	class BON_DLLEXPORT IManager
 	{
 		// to allow engine to access our internals
 		friend class engine::Engine;

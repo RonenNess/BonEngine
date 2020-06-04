@@ -48,7 +48,7 @@ namespace bon
 		 * Provide getter access to all engine managers.
 		 * Used by the scene class.
 		 */
-		class DLLEXPORT ManagerGetters
+		class BON_DLLEXPORT ManagerGetters
 		{
 		protected:
 

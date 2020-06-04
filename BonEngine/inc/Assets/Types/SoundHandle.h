@@ -18,7 +18,7 @@ namespace bon
 		 * Define the interface for a sound internal handle.
 		 * To create new sound asset types, you must implement this API.
 		 */
-		class DLLEXPORT _SoundHandle
+		class BON_DLLEXPORT _SoundHandle
 		{
 		public:
 			/**

@@ -26,7 +26,7 @@ namespace bon
 		/**
 		 * The sfx implementor class.
 		 */
-		class DLLEXPORT SfxSdlWrapper
+		class BON_DLLEXPORT SfxSdlWrapper
 		{
 		private:
 

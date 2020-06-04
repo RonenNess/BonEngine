@@ -28,7 +28,7 @@ namespace bon
 		 * This manager responsible for general game control methods, like changing scene, exit game, ect.
 		 * Note: unlike the other managers, this manager actually wraps Engine and is positioned above it, despite being accessed from it.
 		 */
-		class DLLEXPORT IGame : public IManager
+		class BON_DLLEXPORT IGame : public IManager
 		{
 		public:
 

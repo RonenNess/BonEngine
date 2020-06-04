@@ -20,7 +20,7 @@ namespace bon
 		 * Interface for the SFX sound & music manager.
 		 * This manager responsible to playing sounds.
 		 */
-		class DLLEXPORT ISfx : public IManager
+		class BON_DLLEXPORT ISfx : public IManager
 		{
 		public:
 

@@ -16,7 +16,7 @@ namespace bon
 		 * Represent the handle of a playing sound channel.
 		 * Used this to stop sounds that are currently playing.
 		 */
-		typedef DLLEXPORT int SoundChannelId;
+		typedef BON_DLLEXPORT int SoundChannelId;
 
 		/**
 		 * Define channel id to affect all channels.
@@ -31,7 +31,7 @@ namespace bon
 		/**
 		 * Format types for audio initialization.
 		 */
-		enum class DLLEXPORT AudioFormats
+		enum class BON_DLLEXPORT AudioFormats
 		{
 			U8, S8, U16LSB, S16LSB, U16MSB, S16MSB
 		};

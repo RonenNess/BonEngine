@@ -37,17 +37,17 @@ namespace bon
 		typedef void (*AssetDisposer) (IAsset* asset, void* context);
 
 		// pointer to an asset types
-		typedef DLLEXPORT std::shared_ptr<IAsset>	AssetPtr;
-		typedef DLLEXPORT std::shared_ptr<_Image>	ImageAsset;
-		typedef DLLEXPORT std::shared_ptr<_Music>	MusicAsset;
-		typedef DLLEXPORT std::shared_ptr<_Sound>	SoundAsset;
-		typedef DLLEXPORT std::shared_ptr<_Config>	ConfigAsset;
-		typedef DLLEXPORT std::shared_ptr<_Font>	FontAsset;
+		typedef BON_DLLEXPORT std::shared_ptr<IAsset>	AssetPtr;
+		typedef BON_DLLEXPORT std::shared_ptr<_Image>	ImageAsset;
+		typedef BON_DLLEXPORT std::shared_ptr<_Music>	MusicAsset;
+		typedef BON_DLLEXPORT std::shared_ptr<_Sound>	SoundAsset;
+		typedef BON_DLLEXPORT std::shared_ptr<_Config>	ConfigAsset;
+		typedef BON_DLLEXPORT std::shared_ptr<_Font>	FontAsset;
 
 		/**
 		 * Struct used to hold initializer, disposer and context.
 		 */
-		struct DLLEXPORT AssetHandlers
+		struct BON_DLLEXPORT AssetHandlers
 		{
 			AssetInitializer InitializerFunc = nullptr;
 			AssetDisposer DisposerFunc = nullptr;
@@ -57,7 +57,7 @@ namespace bon
 		/**
 		 * All asset types.
 		 */
-		enum class DLLEXPORT AssetTypes
+		enum class BON_DLLEXPORT AssetTypes
 		{
 			Image,
 			Sound,

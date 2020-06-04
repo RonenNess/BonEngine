@@ -25,7 +25,7 @@ namespace bon
 		 * Interface for the Assets manager.
 		 * This manager responsible to load and hold assets cache.
 		 */
-		class DLLEXPORT IAssets : public IManager
+		class BON_DLLEXPORT IAssets : public IManager
 		{
 		public:
 

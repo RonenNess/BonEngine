@@ -33,13 +33,13 @@ namespace bon
 	 * Get engine instance.
 	 * Use this only if you want to tweak with the engine itself, normally you don't need it.
 	 */
-	DLLEXPORT engine::Engine& _GetEngine();
+	BON_DLLEXPORT engine::Engine& _GetEngine();
 
 	/**
 	 * Start running BonEngine with a given scene.
 	 * Yes, you have to call this method if you want to start.
 	 */
-	DLLEXPORT void Start(engine::Scene& startingScene);
+	BON_DLLEXPORT void Start(engine::Scene& startingScene);
 
 	// credits and version
 	extern const char* __author__;

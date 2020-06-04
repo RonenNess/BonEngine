@@ -19,7 +19,7 @@ namespace bon
 		 * Scene API - this is the main class the user have to implement.
 		 * It contains all the main functions to run BonEngine for a specific level or game mode.
 		 */
-		class DLLEXPORT Scene : public ManagerGetters
+		class BON_DLLEXPORT Scene : public ManagerGetters
 		{
 		public:
 

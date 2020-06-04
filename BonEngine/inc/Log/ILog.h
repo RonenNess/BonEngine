@@ -17,7 +17,7 @@ namespace bon
 		/**
 		 * Log levels.
 		 */
-		enum class DLLEXPORT LogLevel
+		enum class BON_DLLEXPORT LogLevel
 		{
 			None = -1,
 			Debug = 0,
@@ -31,7 +31,7 @@ namespace bon
 		 * Interface for the log manager.
 		 * Used basically for console prints and logging.
 		 */
-		class DLLEXPORT ILog : public IManager
+		class BON_DLLEXPORT ILog : public IManager
 		{
 		public:
 			/**
