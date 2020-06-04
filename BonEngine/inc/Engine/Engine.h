@@ -13,6 +13,7 @@
 #include "../Game/IGame.h"
 #include "../Input/IInput.h"
 #include "../Log/ILog.h"
+#include "../Diagnostics/IDiagnostics.h"
 #include "../Framework/Exceptions.h"
 #include <vector>
 #pragma warning ( push )
@@ -79,6 +80,7 @@ namespace bon
 			game::IGame* _gameManager = nullptr;
 			input::IInput* _inputManager = nullptr;
 			log::ILog* _logManager = nullptr;
+			diagnostics::IDiagnostics* _diagnosticsManager = nullptr;
 
 			// list of all manager instances
 			std::vector<IManager*> _managers;
@@ -139,9 +141,9 @@ namespace bon
 			 * Set the currently active assets manager.
 			 * Note: the pointer you set must not be deleted until the end of the program, unless you replace it manually.
 			 * 
-			 * \param assets New assets manager.
+			 * \param manager New assets manager.
 			 */
-			inline void SetAssetsManager(assets::IAssets* assets) { AssertIfRunning(); _assetsManager = assets; }
+			inline void SetAssetsManager(assets::IAssets* manager) { AssertIfRunning(); _assetsManager = manager; }
 
 			/**
 			 * Get assets manager instance.
@@ -154,9 +156,9 @@ namespace bon
 			 * Set the currently active gfx manager.
 			 * Note: the pointer you set must not be deleted until the end of the program, unless you replace it manually.
 			 *
-			 * \param gfx New gfx manager.
+			 * \param manager New gfx manager.
 			 */
-			inline void SetGfxManager(gfx::IGfx* gfx) { AssertIfRunning(); _gfxManager = gfx; }
+			inline void SetGfxManager(gfx::IGfx* manager) { AssertIfRunning(); _gfxManager = manager; }
 
 			/**
 			 * Get gfx manager instance.
@@ -169,9 +171,9 @@ namespace bon
 			 * Set the currently active sfx manager.
 			 * Note: the pointer you set must not be deleted until the end of the program, unless you replace it manually.
 			 *
-			 * \param gfx New sfx manager.
+			 * \param manager New sfx manager.
 			 */
-			inline void SetSfxManager(sfx::ISfx* sfx) { AssertIfRunning(); _sfxManager = sfx; }
+			inline void SetSfxManager(sfx::ISfx* manager) { AssertIfRunning(); _sfxManager = manager; }
 
 			/**
 			 * Get sfx manager instance.
@@ -184,9 +186,9 @@ namespace bon
 			 * Set the currently active game manager.
 			 * Note: the pointer you set must not be deleted until the end of the program, unless you replace it manually.
 			 *
-			 * \param game New game manager.
+			 * \param manager New game manager.
 			 */
-			inline void SetGameManager(game::IGame* game) { AssertIfRunning(); _gameManager = game; }
+			inline void SetGameManager(game::IGame* manager) { AssertIfRunning(); _gameManager = manager; }
 
 			/**
 			 * Get game manager instance.
@@ -199,9 +201,9 @@ namespace bon
 			 * Set the currently active input manager.
 			 * Note: the pointer you set must not be deleted until the end of the program, unless you replace it manually.
 			 *
-			 * \param game New input manager.
+			 * \param manager New input manager.
 			 */
-			inline void SetInputManager(input::IInput* input) { AssertIfRunning(); _inputManager = input; }
+			inline void SetInputManager(input::IInput* manager) { AssertIfRunning(); _inputManager = manager; }
 
 			/**
 			 * Get input manager instance.
@@ -214,9 +216,9 @@ namespace bon
 			 * Set the currently active log manager.
 			 * Note: the pointer you set must not be deleted until the end of the program, unless you replace it manually.
 			 *
-			 * \param game New log manager.
+			 * \param manager New log manager.
 			 */
-			inline void SetLogManager(log::ILog* game) { AssertIfRunning(); _logManager = game; }
+			inline void SetLogManager(log::ILog* manager) { AssertIfRunning(); _logManager = manager; }
 
 			/**
 			 * Get log manager instance.
@@ -224,6 +226,21 @@ namespace bon
 			 * \return log manager.
 			 */
 			inline log::ILog& Log() { return *_logManager; }
+
+			/**
+			 * Set the currently active diagnostics manager.
+			 * Note: the pointer you set must not be deleted until the end of the program, unless you replace it manually.
+			 *
+			 * \param manager New diagnostics manager.
+			 */
+			inline void SetDiagnosticsManager(diagnostics::IDiagnostics* manager) { AssertIfRunning(); _diagnosticsManager = manager; }
+
+			/**
+			 * Get diagnostics manager instance.
+			 *
+			 * \return diagnostics manager.
+			 */
+			inline diagnostics::IDiagnostics& Diagnostics() { return *_diagnosticsManager; }
 
 			/**
 			 * Register a custom manager class.

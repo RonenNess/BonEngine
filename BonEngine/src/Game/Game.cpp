@@ -30,13 +30,7 @@ namespace bon
 			// update total elapsed time
 			int prevSecondCount = (int)floor(_elapsedTime);
 			_elapsedTime += deltaTime;
-
-			// count fps
-			_currFpsCount++;
-			if ((int)floor(_elapsedTime) > prevSecondCount) {
-				_lastFpsCount = _currFpsCount;
-				_currFpsCount = 0;
-			}
+			_deltaTime = deltaTime;
 		}
 
 		// called on main loop start
@@ -217,16 +211,13 @@ namespace bon
 		{
 			const char* path = asset->Path();
 			ConfigIniHandle* handle = path != nullptr ? new ConfigIniHandle(path) : new ConfigIniHandle();
-			asset->_untypedHandle = handle;
+			asset->_SetHandle(handle);
 		}
 
 		// images disposer we set in the assets manager during asset disposal
 		void ConfigDisposer(bon::assets::IAsset* asset, void* context)
 		{
-			if (asset->_untypedHandle) {
-				delete asset->_untypedHandle;
-			}
-			asset->_untypedHandle = nullptr;
+			asset->_DestroyHandle<ConfigIniHandle>();
 		}
 	}
 }

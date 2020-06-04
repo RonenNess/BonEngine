@@ -112,3 +112,11 @@ namespace demo14_switch_scenes
 {
 	void main();
 }
+
+/**
+ * Demo 15 - performance test.
+ */
+namespace demo15_performance
+{
+	void main();
+}

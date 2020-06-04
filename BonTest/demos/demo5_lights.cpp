@@ -50,7 +50,7 @@ namespace demo5_lights
 		{
 			// set lightsmap as target and paint it black
 			Gfx().SetRenderTarget(_lightMap);
-			Gfx().ClearScreen(bon::Color::Black());
+			Gfx().ClearScreen(bon::Color::Black);
 
 			// paint light on cursor
 			bon::PointF origin(0.5f, 0.5f);
@@ -61,10 +61,10 @@ namespace demo5_lights
 
 			// draw scene background
 			Gfx().SetRenderTarget(nullptr);
-			Gfx().DrawImage(_backgroundImage, bon::PointF::Zero(), &Gfx().WindowSize(), bon::BlendModes::Opaque);
+			Gfx().DrawImage(_backgroundImage, bon::PointF::Zero, &Gfx().WindowSize(), bon::BlendModes::Opaque);
 
 			// draw lightmap
-			Gfx().DrawImage(_lightMap, bon::PointF::Zero(), &Gfx().WindowSize(), bon::BlendModes::Multiply);
+			Gfx().DrawImage(_lightMap, bon::PointF::Zero, &Gfx().WindowSize(), bon::BlendModes::Multiply);
 
 			// draw demo
 			Gfx().DrawText(_font, "Demo #5: Lights", bon::PointF(100, 100));

@@ -1,5 +1,7 @@
 #include <Gfx/Gfx.h>
 #include <Framework/Point.h>
+#include <BonEngine.h>
+#include <Diagnostics/IDiagnostics.h>
 
 
 namespace bon
@@ -35,19 +37,21 @@ namespace bon
 		}
 
 		// draw image
-		void Gfx::DrawImage(ImageAsset sourceImage, const PointF& position, const PointI* size, BlendModes blend)
+		void Gfx::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI* size, BlendModes blend)
 		{
 			static PointI defaultSize(0, 0);
+			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
 			_Implementor.DrawImage(sourceImage, position, size ? *size : defaultSize, blend);
 		}
 
 		// draw image
-		void Gfx::DrawImage(ImageAsset sourceImage, const PointF& position, const PointI* size, BlendModes blend, const framework::RectangleI* sourceRect, const PointF* origin, float rotation, const Color* color)
+		void Gfx::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI* size, BlendModes blend, const framework::RectangleI* sourceRect, const PointF* origin, float rotation, const Color* color)
 		{
 			static PointI defaultSize(0, 0);
 			static RectangleI defaultRect(0, 0, 0, 0);
 			static PointF defaultOrigin(0, 0);
 			static Color defaultColor(1, 1, 1, 1);
+			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
 			_Implementor.DrawImage(sourceImage, position, size ? *size : defaultSize, blend, sourceRect ? *sourceRect : defaultRect, origin ? *origin : defaultOrigin, rotation, color ? *color : defaultColor);
 		}
 
@@ -64,28 +68,32 @@ namespace bon
 		}
 
 		// draw text
-		void Gfx::DrawText(assets::FontAsset font, const char* text, const framework::PointF& position, const Color* color, int fontSize, int maxWidth, BlendModes blend, const PointF* origin, float rotation)
+		void Gfx::DrawText(const FontAsset& font, const char* text, const framework::PointF& position, const Color* color, int fontSize, int maxWidth, BlendModes blend, const PointF* origin, float rotation)
 		{
 			static Color defaultColor(1, 1, 1, 1);
 			static PointF defaultOrigin(0, 0);
+			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
 			_Implementor.DrawText(font, text, position, color ? *color : defaultColor, fontSize, blend, origin ? *origin : defaultOrigin, rotation, maxWidth);
 		}
 
 		// draw line
 		void Gfx::DrawLine(const framework::PointI& from, const framework::PointI& to, const framework::Color& color, BlendModes blendMode)
 		{
+			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
 			_Implementor.DrawLine(from, to, color, blendMode);
 		}
 		
 		// draw pixel
 		void Gfx::DrawPixel(const framework::PointI& position, const framework::Color& color, BlendModes blendMode)
 		{
+			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
 			_Implementor.DrawPixel(position, color, blendMode);
 		}
 		
 		// draw rectangle
 		void Gfx::DrawRectangle(const framework::RectangleI& rect, const framework::Color& color, bool filled, BlendModes blendMode)
 		{
+			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
 			_Implementor.DrawRectangle(rect, color, filled, blendMode);
 		}
 
@@ -104,14 +112,20 @@ namespace bon
 		}
 
 		// set render target
-		void Gfx::SetRenderTarget(ImageAsset target)
+		void Gfx::SetRenderTarget(const ImageAsset& target)
 		{
+			// current render target. we only store it to make sure asset is not lost by accident while set (its a shared ptr).
+			static ImageAsset _renderTarget;
+
+			// set render target
 			_Implementor.SetRenderTarget(target);
+			_renderTarget = target;
 		}
 
 		// clear the entire screen or part of it
 		void Gfx::ClearScreen(const Color& color, const RectangleI& clearRect)
 		{
+			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
 			_Implementor.ClearScreen(color, clearRect);
 		}
 

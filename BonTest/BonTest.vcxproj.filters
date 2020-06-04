@@ -69,6 +69,9 @@
     <ClCompile Include="demos\demo14_switch_scenes.cpp">
       <Filter>Source Files\Demos</Filter>
     </ClCompile>
+    <ClCompile Include="demos\demo15_performance.cpp">
+      <Filter>Source Files\Demos</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="demos.h">

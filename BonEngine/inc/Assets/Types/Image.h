@@ -33,14 +33,14 @@ namespace bon
 			 * 
 			 * \return Image handle.
 			 */
-			_ImageHandle* Handle() { return (_ImageHandle*)_untypedHandle; }
+			inline _ImageHandle* Handle() { return (_ImageHandle*)_untypedHandle; }
 			
 			/**
 			 * Get image handle.
 			 *
 			 * \return Image handle.
 			 */
-			const _ImageHandle* Handle() const { return (const _ImageHandle*)_untypedHandle; }
+			inline const _ImageHandle* Handle() const { return (const _ImageHandle*)_untypedHandle; }
 			
 			/**
 			 * Create the asset.
@@ -85,7 +85,8 @@ namespace bon
 			 * 
 			 * \return Image width.
 			 */
-			inline int Width() const {
+			inline int Width() const 
+			{
 				return IsValid() ? Handle()->Width() : 0;
 			}
 
@@ -94,7 +95,8 @@ namespace bon
 			 *
 			 * \return Image height.
 			 */
-			inline int Height() const {
+			inline int Height() const 
+			{
 				return IsValid() ? Handle()->Height() : 0;
 			}
 		};

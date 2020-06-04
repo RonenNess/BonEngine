@@ -21,9 +21,8 @@ namespace bon
 			// total game elapsed time
 			double _elapsedTime = 0.0;
 
-			// to count fps
-			int _currFpsCount = 0;
-			int _lastFpsCount = 0;
+			// current delta time
+			double _deltaTime = 0.0;
 
 		protected:
 
@@ -75,12 +74,11 @@ namespace bon
 			virtual double ElapsedTime() const override { return _elapsedTime; }
 
 			/**
-			 * Get FPS count based on last second.
-			 * Note: this may not be completely accurate and should only be used for debug purposes.
+			 * Get current frame delta time, in seconds.
 			 *
-			 * \return Current FPS count.
+			 * \return Delta time.
 			 */
-			virtual int FpsCount() const { return _lastFpsCount; }
+			virtual double DeltaTime() const override { return _deltaTime; }
 		};
 	}
 }

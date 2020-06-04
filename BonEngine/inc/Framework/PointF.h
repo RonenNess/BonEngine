@@ -168,26 +168,19 @@ namespace bon
 			operator PointI() const;
 
 			/**
-			 * Get PointF with 0,0 values.
-			 * 
-			 * \return PointF(0, 0).
+			 * PointF with 0,0 values.
 			 */
-			static const PointF & Zero()
-			{
-				static PointF zero(0, 0);
-				return zero;
-			}
+			static const PointF& Zero;
 
 			/**
-			 * Get PointF with 1,1 values.
-			 * 
-			 * \return PointF(1, 1).
+			 * PointF with 1,1 values.
 			 */
-			static const PointF& One()
-			{
-				static PointF one(1, 1);
-				return one;
-			}
+			static const PointF& One;
+
+			/**
+			 * PointF with 0.5,0.5 values.
+			 */
+			static const PointF& Half;
 
 			/**
 			 * Get distance to another PointF.

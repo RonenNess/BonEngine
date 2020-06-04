@@ -39,7 +39,7 @@ namespace bon
 			 * \param size Image target size. Negative values will flip image.
 			 * \param blend How to blend the image with previous renders.
 			 */
-			virtual void DrawImage(assets::ImageAsset sourceImage, const framework::PointF& position, const framework::PointI* size = nullptr, BlendModes blend = BlendModes::AlphaBlend) = 0;
+			virtual void DrawImage(const assets::ImageAsset& sourceImage, const framework::PointF& position, const framework::PointI* size = nullptr, BlendModes blend = BlendModes::AlphaBlend) = 0;
 
 			/**
 			 * Draw an image on screen.
@@ -53,7 +53,7 @@ namespace bon
 			 * \param rotation Rotate the image.
 			 * \param color Color tint to apply on image.
 			 */
-			virtual void DrawImage(assets::ImageAsset sourceImage, const framework::PointF& position, const framework::PointI* size, BlendModes blend, const framework::RectangleI* sourceRect, const PointF* origin, float rotation, const Color* color) = 0;
+			virtual void DrawImage(const assets::ImageAsset& sourceImage, const framework::PointF& position, const framework::PointI* size, BlendModes blend, const framework::RectangleI* sourceRect, const PointF* origin, float rotation, const Color* color) = 0;
 
 			/**
 			 * Draw a sprite.
@@ -76,7 +76,7 @@ namespace bon
 			 * \param origin Text origin.
 			 * \param rotation Text rotation.
 			 */
-			virtual void DrawText(assets::FontAsset font, const char* text, const framework::PointF& position, const Color* color = nullptr, int fontSize = 0, int maxWidth = 0, BlendModes blend = BlendModes::AlphaBlend, const PointF* origin = nullptr, float rotation = 0.0f) = 0;
+			virtual void DrawText(const assets::FontAsset& font, const char* text, const framework::PointF& position, const Color* color = nullptr, int fontSize = 0, int maxWidth = 0, BlendModes blend = BlendModes::AlphaBlend, const PointF* origin = nullptr, float rotation = 0.0f) = 0;
 
 			/**
 			 * Draws a line.
@@ -139,7 +139,7 @@ namespace bon
 			 * 
 			 * \param target Target to draw on, or nullptr to clear render target and draw back on screen.
 			 */
-			virtual void SetRenderTarget(ImageAsset target) = 0;
+			virtual void SetRenderTarget(const assets::ImageAsset& target) = 0;
 
 			/**
 			 * Get window's size in pixels.

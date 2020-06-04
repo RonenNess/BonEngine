@@ -29,14 +29,14 @@ namespace bon
 			 *
 			 * \return Music handle.
 			 */
-			_MusicHandle* Handle() { return (_MusicHandle*)_untypedHandle; }
+			inline _MusicHandle* Handle() { return (_MusicHandle*)_untypedHandle; }
 
 			/**
 			 * Get music handle.
 			 *
 			 * \return Music handle.
 			 */
-			const _MusicHandle* Handle() const { return (const _MusicHandle*)_untypedHandle; }
+			inline const _MusicHandle* Handle() const { return (const _MusicHandle*)_untypedHandle; }
 
 			/**
 			 * Create the asset.

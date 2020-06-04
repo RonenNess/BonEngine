@@ -1,8 +1,8 @@
 #include <Assets/Assets.h>
 #include <Assets/Types/IAsset.h>
+#include <Diagnostics/IDiagnostics.h>
 #include <functional>
 #include <BonEngine.h>
-
 
 
 namespace bon
@@ -210,6 +210,7 @@ namespace bon
 
 			// update counters
 			_counts[(int)asset->AssetType()]++;
+			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::LoadedAssets, 1);
 		}
 
 		// save config file
@@ -237,9 +238,10 @@ namespace bon
 
 			// update counters
 			_counts[(int)asset->AssetType()]--;
+			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::LoadedAssets, -1);
 
 			// clear handle
-			asset->_untypedHandle = nullptr;
+			asset->_SetHandle(nullptr);
 		}
 	}
 }

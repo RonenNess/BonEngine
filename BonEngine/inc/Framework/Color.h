@@ -6,6 +6,7 @@
  * \date   May 2020
  *********************************************************************/
 #pragma once
+#include <cstdlib>
 #include "../dllimport.h"
 
 namespace bon
@@ -103,27 +104,65 @@ namespace bon
 			inline unsigned char AB() const { return (unsigned char)(A * 255.0); }
 
 			/**
-			 * Return black color.
-			 *
-			 * \return Color(0,0,0,1).
+			 * Black color.
 			 */
-			static const Color& Black()
-			{
-				static Color black(0, 0, 0, 1);
-				return black;
-			}
+			static const Color& Black;
 
 			/**
-			 * Return transparent color.
-			 *
-			 * \return Color(0,0,0,0).
+			 * Transparent color.
 			 */
-			static const Color& Transparent()
-			{
-				static Color transparent(0, 0, 0, 0);
-				return transparent;
-			}
+			static const Color& Transparent;
+			
+			/**
+			 * Half transparent color.
+			 */
+			static const Color& HalfTransparent;
 
+			/**
+			 * Transparent black color.
+			 */
+			static const Color& TransparentBlack;
+
+			/**
+			 * White color.
+			 */
+			static const Color& White;
+
+			/**
+			 * Gray color.
+			 */
+			static const Color& Gray;
+
+			/**
+			 * Red color.
+			 */
+			static const Color& Red;
+
+			/**
+			 * Green color.
+			 */
+			static const Color& Green;
+
+			/**
+			 * Blue color.
+			 */
+			static const Color& Blue;
+
+			/**
+			 * Yellow color.
+			 */
+			static const Color& Yellow;
+
+			/**
+			 * Purple color.
+			 */
+			static const Color& Purple;
+
+			/**
+			 * Teal color.
+			 */
+			static const Color& Teal;
+			
 			/**
 			 * Return a random color
 			 *
@@ -132,17 +171,6 @@ namespace bon
 			static Color Random()
 			{
 				return FromBytes(rand() % 255, rand() % 255, rand() % 255, 255);
-			}
-
-			/**
-			 * Return white color.
-			 *
-			 * \return Color(1,1,1,1).
-			 */
-			static const Color& White()
-			{
-				static Color white(1, 1, 1, 1);
-				return white;
 			}
 
 			/**

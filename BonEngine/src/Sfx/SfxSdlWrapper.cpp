@@ -106,16 +106,13 @@ namespace bon
 			
 			// set handle
 			SDL_MusicHandle* handle = new SDL_MusicHandle(music);
-			asset->_untypedHandle = handle;
+			asset->_SetHandle(handle);
 		}
 
 		// music disposer we set in the assets manager during asset disposal
 		void MusicDisposer(bon::assets::IAsset* asset, void* context)
 		{
-			if (asset->_untypedHandle) {
-				delete asset->_untypedHandle;
-			}
-			asset->_untypedHandle = nullptr;
+			asset->_DestroyHandle<SDL_MusicHandle>();
 		}
 
 		// chunk (sound) handle for SDL
@@ -182,16 +179,13 @@ namespace bon
 
 			// set handle
 			SDLChunkHandle* handle = new SDLChunkHandle(sound);
-			asset->_untypedHandle = handle;
+			asset->_SetHandle(handle);
 		}
 
 		// sound disposer we set in the assets manager during asset disposal
 		void SoundDisposer(bon::assets::IAsset* asset, void* context)
 		{
-			if (asset->_untypedHandle) {
-				delete asset->_untypedHandle;
-			}
-			asset->_untypedHandle = nullptr;
+			asset->_DestroyHandle<SDLChunkHandle>();
 		}
 		
 		// set audio properties

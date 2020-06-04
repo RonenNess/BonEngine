@@ -73,6 +73,12 @@
     <Filter Include="3rdparty Source\custom_mix_pitch">
       <UniqueIdentifier>{7b84c13f-e5a1-45cd-bf95-fcb15dbecd81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Diagnostics">
+      <UniqueIdentifier>{9247c5f5-9a3c-4d05-9f43-22d4c9cd3d1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Diagnostics">
+      <UniqueIdentifier>{c925bfbe-56ae-4a3b-bc58-6efb4a228e2b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Gfx\IGfx.h">
@@ -228,6 +234,12 @@
     <ClInclude Include="inc\Sfx\SfxSdlWrapper.h">
       <Filter>Header Files\Sfx</Filter>
     </ClInclude>
+    <ClInclude Include="inc\Diagnostics\IDiagnostics.h">
+      <Filter>Header Files\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Diagnostics\Diagnostics.h">
+      <Filter>Header Files\Diagnostics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Engine.cpp">
@@ -280,6 +292,12 @@
     </ClCompile>
     <ClCompile Include="src\Engine\Scene.cpp">
       <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Framework\Color.cpp">
+      <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Diagnostics\Diagnostics.cpp">
+      <Filter>Source Files\Diagnostics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

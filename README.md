@@ -370,7 +370,7 @@ To make sure transition is safe, it will only do the switching itself after the 
 Loads game configuration from an .ini file. 
 Note: this API uses the engine's `ConfigAsset`. If you replace its internal implementation, the format of the game config file may change as well.
 
-Game config file contains sections about graphics, sound, input, ect. 
+Game config file contains sections about graphics, sound, input, etc. 
 
 To see an example of a config file, check out `TestAssets/config.ini`, which is partially presented here:
 
@@ -407,9 +407,9 @@ KeyD=right                      ; 'D' key will also be bound to "right" action
 
 Get total seconds passed since the engine started running.
 
-#### int FpsCount()
+#### double DeltaTime()
 
-Get current FPS count. Note: this is not extremely accurate, for example if your game runs at 60 fps, you might sometimes see it flicker between 59 and 60 fps.
+Get current frame's delta time (same as you get in your `Update()` call).
 
 
 ### Assets
@@ -473,6 +473,44 @@ Save a config asset to file.
 
 Clear all assets from cache. This doesn't necessarily delete or free the assets; as long as someone continue to hold the assets externally, they will be kept alive.
 
+
+### Diagnostics
+
+This manager is responsible for performance checks and diagnostics, things like draw count, fps, etc. You get this manager with the `Diagnostics()` access method.
+
+Usage example:
+
+```cpp
+// draw FPS count at the corner of the screen
+int fps = Diagnostics().FpsCount();
+Gfx().DrawText(_font, (std::string("FPS: ") + std::to_string(fps)).c_str(), bon::PointF(0, 0), &bon::Color(1, 1, 1, 1), 18);
+```
+
+`Diagnostics` manager contains the following API:
+
+#### int FpsCount()
+
+Get current FPS count. Note: this is not extremely accurate, for example if your game runs at 60 fps, you might sometimes see it flicker between 59 and 60 fps.
+
+#### long GetCounter(counter)
+
+Get diagnostic counter value.
+Counters we have are:
+
+- DrawCalls = how many draw calls we had in current frame (reset at the begining of every update loop).
+- PlaySoundCalls = how many play sound calls we had in current frame (reset at the begining of every update loop).
+- LoadedAssets = how many loaded / created assets we currently have.
+
+Note that you can also use `IncreaseCounter()` and `ResetCounter()` if you want to do manual tests yourself. In addition there's a set of corresponding functions with _underscore that get int as counter id, allowing you to create and use custom counters.
+
+Usage example:
+
+```cpp
+// get number of draw calls in current frame.
+// note: call this at the end of the drawing functions to make sure it includes everything.
+long drawCalls = Diagnostics().GetCounter(bon::DiagnosticsCounters::DrawCalls);
+```
+ 
 
 ### Gfx
 
@@ -937,6 +975,17 @@ This lib is distributed with the MIT license, so you can do pretty much anything
 # 1.0
 
 First stable release.
+
+# 1.1 [WIP]
+
+- Added diagnostics manager.
+- Added performance test example.
+- Fixed bug in `Input().Down()` for keyboard keys.
+- Added `DeltaTime()` to `Game()` manager.
+- Made built in colors and point values instead of functions, slightly more efficient.
+- Added more built-in colors and points.
+- Improved performance.
+- Some validations and protections against access violation due to faulty usage.
 
 ## In Memory Of Bonnie
 

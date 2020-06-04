@@ -5,6 +5,7 @@
 #include <Gfx/IGfx.h>
 #include <Input/IInput.h>
 #include <Log/ILog.h>
+#include <Diagnostics/IDiagnostics.h>
 #include <BonEngine.h>
 
 namespace bon
@@ -45,6 +46,12 @@ namespace bon
 		log::ILog& ManagerGetters::Log()
 		{
 			return _GetEngine().Log();
+		}
+
+		// get diagnostics manager
+		diagnostics::IDiagnostics& ManagerGetters::Diagnostics()
+		{
+			return _GetEngine().Diagnostics();
 		}
 
 		// get manager by id

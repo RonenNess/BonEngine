@@ -716,7 +716,7 @@ namespace bon
 		bool Input::Down(KeyCodes key) const
 		{
 			auto state = GetState(key);
-			return state == KeyStates::PressedNow;
+			return state == KeyStates::PressedNow || state == KeyStates::Pressed;
 		}
 
 		// get if a key was released this frame

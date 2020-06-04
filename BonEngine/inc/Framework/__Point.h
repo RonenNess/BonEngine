@@ -168,26 +168,19 @@ namespace bon
 			operator other__Point_() const;
 
 			/**
-			 * Get _Point_ with 0,0 values.
-			 * 
-			 * \return _Point_(0, 0).
+			 * _Point_ with 0,0 values.
 			 */
-			static const _Point_ & Zero()
-			{
-				static _Point_ zero(0, 0);
-				return zero;
-			}
+			static const _Point_& Zero;
 
 			/**
-			 * Get _Point_ with 1,1 values.
-			 * 
-			 * \return _Point_(1, 1).
+			 * _Point_ with 1,1 values.
 			 */
-			static const _Point_& One()
-			{
-				static _Point_ one(1, 1);
-				return one;
-			}
+			static const _Point_& One;
+
+			/**
+			 * _Point_ with 0.5,0.5 values.
+			 */
+			static const _Point_& Half;
 
 			/**
 			 * Get distance to another _Point_.

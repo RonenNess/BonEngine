@@ -30,14 +30,14 @@ namespace bon
 			 *
 			 * \return font handle.
 			 */
-			_FontHandle* Handle() { return (_FontHandle*)_untypedHandle; }
+			inline _FontHandle* Handle() { return (_FontHandle*)_untypedHandle; }
 
 			/**
 			 * Get font handle.
 			 *
 			 * \return font handle.
 			 */
-			const _FontHandle* Handle() const { return (const _FontHandle*)_untypedHandle; }
+			inline const _FontHandle* Handle() const { return (const _FontHandle*)_untypedHandle; }
 
 			/**
 			 * Create the asset.

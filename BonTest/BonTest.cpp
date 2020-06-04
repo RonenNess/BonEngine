@@ -21,6 +21,7 @@ int main()
 	std::cout << " 12: Layered scenes\n";
 	std::cout << " 13: Small game demo - a walk in the forest\n";
 	std::cout << " 14: Switching scenes demo\n";
+	std::cout << " 15: Performance test\n";
 	std::cout << "Your choice: ";
 
 	int demoNumber = -1;
@@ -87,6 +88,10 @@ int main()
 
 		case 14:
 			demo14_switch_scenes::main();
+			break;
+
+		case 15:
+			demo15_performance::main();
 			break;
 
 		default:

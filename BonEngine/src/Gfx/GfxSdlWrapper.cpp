@@ -4,6 +4,7 @@
 #include <Assets/Defs.h>
 #include <Framework/Point.h>
 #include <Framework/Rectangle.h>
+#include <Framework/Color.h>
 #include <Gfx/Defs.h>
 #include <BonEngine.h>
 #include <unordered_map>
@@ -80,7 +81,7 @@ namespace bon
 			/**
 			 * Store this texture last set color.
 			 */
-			Color CurrentColor = Color::White();
+			Color CurrentColor = Color::White;
 		};
 
 		// images loader we set in the assets manager during initialize
@@ -139,16 +140,13 @@ namespace bon
 
 			// set handle
 			SDL_ImageHandle* handle = new SDL_ImageHandle(texture, width, height);
-			asset->_untypedHandle = handle;
+			asset->_SetHandle(handle);
 		}
 
 		// images disposer we set in the assets manager during asset disposal
 		void ImagesDisposer(bon::assets::IAsset* asset, void* context)
 		{
-			if (asset->_untypedHandle) {
-				delete asset->_untypedHandle;
-			}
-			asset->_untypedHandle = nullptr;
+			asset->_DestroyHandle<SDL_ImageHandle>();
 		}
 
 		// font handle for SDL
@@ -206,16 +204,13 @@ namespace bon
 
 			// set handle
 			SDL_FontHandle* handle = new SDL_FontHandle(font, fontSize);
-			asset->_untypedHandle = handle;
+			asset->_SetHandle(handle);
 		}
 
 		// font disposer we set in the assets manager during asset disposal
 		void FontsDisposer(bon::assets::IAsset* asset, void* context)
 		{
-			if (asset->_untypedHandle) {
-				delete asset->_untypedHandle;
-			}
-			asset->_untypedHandle = nullptr;
+			asset->_DestroyHandle<SDL_FontHandle>();
 		}
 
 		// set render target
@@ -501,7 +496,7 @@ namespace bon
 		}
 
 		// draw text on screen
-		void GfxSdlWrapper::DrawText(FontAsset fontAsset, const char* text, const PointF& position, const Color& color, int fontSize, BlendModes blend, const PointF& origin, float rotation, int maxWidth)
+		void GfxSdlWrapper::DrawText(const FontAsset& fontAsset, const char* text, const PointF& position, const Color& color, int fontSize, BlendModes blend, const PointF& origin, float rotation, int maxWidth)
 		{
 			// create the text texture (note: texture font is always white, we use color tint while drawing it instead so we won't have to generate texture per color)
 			static SDL_Color white = { 255,255,255,255 };
@@ -587,7 +582,7 @@ namespace bon
 		}
 
 		// draw image on screen
-		void GfxSdlWrapper::DrawImage(ImageAsset sourceImage, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color)
+		void GfxSdlWrapper::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color)
 		{
 			// get image handle
 			SDL_ImageHandle* handle = (SDL_ImageHandle *)sourceImage->Handle();
@@ -658,7 +653,7 @@ namespace bon
 		}
 
 		// draw image on screen
-		void GfxSdlWrapper::DrawImage(ImageAsset sourceImage, const PointF& position, const PointI& size, BlendModes blend)
+		void GfxSdlWrapper::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI& size, BlendModes blend)
 		{
 			// calculate destination rect
 			static SDL_Rect dest;

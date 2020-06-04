@@ -214,7 +214,7 @@ namespace demo11_custom_manager
 			Gfx().DrawText(_font, "This demo illustrates custom managers in BonEngine.\n\
 In this case, we register a collision manager. Use arrows / WASD to move.\n\
 Hit escape to exit.", bon::PointF(100, 200), &bon::Color(1, 1, 0, 1), 20);
-			Gfx().DrawText(_font, (std::string("FPS: ") + std::to_string(Game().FpsCount())).c_str(), bon::PointF(0, 0), &bon::Color(1, 1, 1, 1), 18);
+			Gfx().DrawText(_font, (std::string("FPS: ") + std::to_string(Diagnostics().FpsCount())).c_str(), bon::PointF(0, 0), &bon::Color(1, 1, 1, 1), 18);
 
 			// draw sprites
 			for (auto sprite : _collisionManager->Objects()) {

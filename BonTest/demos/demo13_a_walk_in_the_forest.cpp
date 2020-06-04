@@ -415,7 +415,7 @@ namespace demo13_a_walk_in_the_forest
 		virtual void _Draw() override
 		{
 			// clear screen
-			Gfx().ClearScreen(bon::Color::Black());
+			Gfx().ClearScreen(bon::Color::Black);
 
 			// if game "crashed"
 			if (_timeToFakeCrash <= 0.0)
@@ -605,7 +605,7 @@ namespace demo13_a_walk_in_the_forest
 			}
 
 			// draw fps
-			Gfx().DrawText(_font, (std::string("FPS: ") + std::to_string(_didSeeGhost ? rand() : Game().FpsCount())).c_str(), bon::PointF(0, 0), &bon::Color(1, 1, 1, 1), 18);
+			Gfx().DrawText(_font, (std::string("FPS: ") + std::to_string(_didSeeGhost ? rand() : Diagnostics().FpsCount())).c_str(), bon::PointF(0, 0), &bon::Color(1, 1, 1, 1), 18);
 		}
 	};
 

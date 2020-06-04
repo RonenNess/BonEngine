@@ -36,7 +36,7 @@ namespace demo14_switch_scenes
 			// draw example text and fps
 			Gfx().DrawText(_font, "This is a brand new scene!", bon::PointF(100, 100));
 			Gfx().DrawText(_font, "Hit escape to exit.", bon::PointF(100, 200), &bon::Color(1, 1, 0, 1), 18);
-			Gfx().DrawText(_font, (std::string("FPS: ") + std::to_string(Game().FpsCount())).c_str(), bon::PointF(0, 0), &bon::Color(1, 1, 1, 1), 18);
+			Gfx().DrawText(_font, (std::string("FPS: ") + std::to_string(Diagnostics().FpsCount())).c_str(), bon::PointF(0, 0), &bon::Color(1, 1, 1, 1), 18);
 		}
 	};
 
@@ -89,7 +89,7 @@ namespace demo14_switch_scenes
 			Gfx().DrawText(_font, "This demo shows basic scene switching.\n\
 Press space to switch scene.\n\
 Hit escape to exit.", bon::PointF(100, 200), &bon::Color(1, 1, 0, 1), 18);
-			Gfx().DrawText(_font, (std::string("FPS: ") + std::to_string(Game().FpsCount())).c_str(), bon::PointF(0, 0), &bon::Color(1, 1, 1, 1), 18);
+			Gfx().DrawText(_font, (std::string("FPS: ") + std::to_string(Diagnostics().FpsCount())).c_str(), bon::PointF(0, 0), &bon::Color(1, 1, 1, 1), 18);
 		}
 	};
 

@@ -1,4 +1,6 @@
 #include <Sfx/Sfx.h>
+#include <Diagnostics/IDiagnostics.h>
+#include <BonEngine.h>
 
 namespace bon
 {
@@ -61,6 +63,7 @@ namespace bon
 		// play a sound effect
 		SoundChannelId Sfx::PlaySound(assets::SoundAsset sound, int volume, int loops, float pitch)
 		{
+			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::PlaySoundCalls);
 			volume = (int)((float)volume * _masterVolume);
 			SoundChannelId ret = _Implementor.PlaySound(sound, volume, loops, pitch);
 			return ret != AllChannels ? ret : InvalidSoundChannel;
@@ -69,6 +72,7 @@ namespace bon
 		// play a sound effect
 		SoundChannelId Sfx::PlaySound(assets::SoundAsset sound, int volume, int loops, float pitch, float panLeft, float panRight, float distance)
 		{
+			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::PlaySoundCalls);
 			volume = (int)((float)volume * _masterVolume);
 			SoundChannelId ret = _Implementor.PlaySound(sound, volume, loops, pitch);
 			if (ret >= 0)

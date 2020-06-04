@@ -37,6 +37,10 @@ namespace bon
 	{
 		class IInput;
 	}
+	namespace diagnostics
+	{
+		class IDiagnostics;
+	}
 
 	namespace engine
 	{
@@ -77,6 +81,11 @@ namespace bon
 			 * Get log manager from active engine.
 			 */
 			inline log::ILog& Log();
+
+			/**
+			 * Get diagnostics manager from active engine.
+			 */
+			inline diagnostics::IDiagnostics& Diagnostics();
 
 			/**
 			 * Get manager by id.

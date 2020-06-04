@@ -24,13 +24,34 @@ namespace bon
 			// asset path
 			std::string _path;
 
-		public:
-
+		protected:
 			/**
 			 * The underlying asset handle.
 			 * Different object depending on type and used internally by the managers implementation.
 			 */
-			void* _untypedHandle;
+			void* _untypedHandle = nullptr;
+
+		public:
+
+			/**
+			 * Set ths asset's internal handle.
+			 * 
+			 * \param handle Handle to set.
+			 */
+			virtual void _SetHandle(void* handle) { _untypedHandle = handle; }
+
+			/**
+			 * Destroy the currently set handle.
+			 */
+			template <class T>
+			void _DestroyHandle() 
+			{
+				if (_untypedHandle) { 
+					void* prev = _untypedHandle;
+					_SetHandle(nullptr);
+					delete (T*)(prev);
+				}
+			}
 
 			/**
 			 * Empty constructor.

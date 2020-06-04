@@ -6,6 +6,7 @@
 #include <Game/Game.h>
 #include <Log/Log.h>
 #include <Input/Input.h>
+#include <Diagnostics/Diagnostics.h>
 #include <Engine/Scene.h>
 
 #pragma warning(push, 0)
@@ -34,7 +35,16 @@ namespace bon
 			// init log manager before everyone else
 			_logManager->_Initialize();
 			_logManager->Write(log::LogLevel::Info, "Engine starts.");
-			
+
+			// create default diagnostics manager
+			if (!_diagnosticsManager) {
+				_diagnosticsManager = new diagnostics::Diagnostics();
+				_logManager->Write(log::LogLevel::Debug, "Created default diagnostics manager.");
+			}
+			else {
+				_logManager->Write(log::LogLevel::Debug, "Didn't create default diagnostics manager because user already registered a custom one.");
+			}
+
 			// create default assets manager
 			if (!_assetsManager) {
 				_assetsManager = new assets::Assets();
@@ -87,6 +97,7 @@ namespace bon
 			_managers.push_back(_gameManager);
 			_managers.push_back(_gfxManager);
 			_managers.push_back(_sfxManager);
+			_managers.push_back(_diagnosticsManager);
 			
 			// initialize all managers
 			_logManager->Write(log::LogLevel::Debug, "Initialize managers.");

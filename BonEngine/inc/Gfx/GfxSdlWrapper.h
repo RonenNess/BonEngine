@@ -76,7 +76,7 @@ namespace bon
 			 * \param size Image target size. Negative values will flip image.
 			 * \param blend How to blend the image with previous renders.
 			 */
-			void DrawImage(assets::ImageAsset sourceImage, const framework::PointF& position, const framework::PointI& size = framework::PointI(0, 0), BlendModes blend = BlendModes::AlphaBlend);
+			void DrawImage(const assets::ImageAsset& sourceImage, const framework::PointF& position, const framework::PointI& size = framework::PointI(0, 0), BlendModes blend = BlendModes::AlphaBlend);
 
 			/**
 			 * Draw an image on screen.
@@ -91,7 +91,7 @@ namespace bon
 			 * \param color Optional tint color.
 			 * \param color Color tint to apply on image.
 			 */
-			void DrawImage(assets::ImageAsset sourceImage, const framework::PointF& position, const framework::PointI& size, BlendModes blend, const framework::RectangleI& sourceRect, const framework::PointF& origin, float rotation, framework::Color color);
+			void DrawImage(const assets::ImageAsset& sourceImage, const framework::PointF& position, const framework::PointI& size, BlendModes blend, const framework::RectangleI& sourceRect, const framework::PointF& origin, float rotation, framework::Color color);
 
 			/**
 			 * Draw text on screen.
@@ -106,7 +106,7 @@ namespace bon
 			 * \param rotation Rotation.
 			 * \param maxWidth Max line width.
 			 */
-			void DrawText(assets::FontAsset fontAsset, const char* text, const framework::PointF& position, const framework::Color& color, int fontSize, BlendModes blend, const framework::PointF& origin, float rotation, int maxWidth);
+			void DrawText(const assets::FontAsset& fontAsset, const char* text, const framework::PointF& position, const framework::Color& color, int fontSize, BlendModes blend, const framework::PointF& origin, float rotation, int maxWidth);
 
 			/**
 			 * Set textures filtering mode.

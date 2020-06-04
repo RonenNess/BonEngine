@@ -31,14 +31,14 @@ namespace bon
 			 *
 			 * \return Config handle.
 			 */
-			_ConfigHandle* Handle() { return (_ConfigHandle*)_untypedHandle; }
+			inline _ConfigHandle* Handle() { return (_ConfigHandle*)_untypedHandle; }
 
 			/**
 			 * Get configuration handle.
 			 *
 			 * \return Config handle.
 			 */
-			const _ConfigHandle* Handle() const { return (const _ConfigHandle*)_untypedHandle; }
+			inline const _ConfigHandle* Handle() const { return (const _ConfigHandle*)_untypedHandle; }
 
 			/**
 			 * Create the asset.
