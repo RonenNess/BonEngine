@@ -288,6 +288,10 @@ Get the `input` manager. Described later in details.
 
 Get the `log` manager. Described later in details.
 
+#### Diagnostics()
+
+Get the `diagnostics` manager. Described later in details.
+
 #### IManager* GetManager(id)
 
 Get a custom or built-in manager by name.
