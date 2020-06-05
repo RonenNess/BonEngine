@@ -1,6 +1,7 @@
 /*****************************************************************//**
  * \file   CAPI.h
  * \brief  A C-API of BonEngine, so we can bind it to other languages.
+ *			This is main entry point, and a single header for all.
  *
  * \author Ronen Ness Ness
  * \date   May 2020
@@ -8,32 +9,12 @@
 #pragma once
 #include "../dllimport.h"
 #include "BonEngine.h"
+#include "CAPI_Scene.h"
+#include "CAPI_Engine.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-	/**
-	 * Define callback without arguments.
-	 */
-	BON_DLLEXPORT typedef void (__stdcall* BON_CallbackNoArgs)();
-
-	/**
-	 * Define callback with double argument.
-	 */
-	BON_DLLEXPORT typedef void (__stdcall* BON_CallbackDoubleArg)(double);
-	
-	/**
-	 * Create and return a special scene composed of callbacks.
-	 * This is in order to bind a scene from another language.
-	 * Note: must call BON_DestroyScene() when done.
-	 */
-	BON_DLLEXPORT bon::engine::Scene* BON_CreateScene(BON_CallbackNoArgs onLoad, BON_CallbackNoArgs onUnload, BON_CallbackNoArgs onStart, BON_CallbackNoArgs onDraw, BON_CallbackDoubleArg onUpdate, BON_CallbackDoubleArg onFixedUpdate);
-
-	/**
-	 * Destroys a scene created with 'BON_CreateScene'.
-	 */
-	BON_DLLEXPORT void BON_DestroyScene(bon::engine::Scene* scene);
 
 	/**
 	 * Initialize the engine with a special scene designed to accept callbacks from external sources.
@@ -41,49 +22,9 @@ extern "C" {
 	BON_DLLEXPORT void BON_Start(bon::engine::Scene* scene);
 
 	/**
-	 * Get if its the first scene loaded.
+	 * Get the engine instance.
 	 */
-	BON_DLLEXPORT bool BON_IsFirstScene(bon::engine::Scene* scene);
-
-	/**
-	 * Get Game manager.
-	 */
-	BON_DLLEXPORT bon::IGame* BON_Game();
-
-	/**
-	 * Get Assets manager.
-	 */
-	BON_DLLEXPORT bon::IAssets* BON_Assets();
-
-	/**
-	 * Get Gfx manager.
-	 */
-	BON_DLLEXPORT bon::IGfx* BON_Gfx();
-
-	/**
-	 * Get Sfx manager.
-	 */
-	BON_DLLEXPORT bon::ISfx* BON_Sfx();
-
-	/**
-	 * Get Input manager.
-	 */
-	BON_DLLEXPORT bon::IInput* BON_Input();
-
-	/**
-	 * Get Log manager.
-	 */
-	BON_DLLEXPORT bon::ILog* BON_Log();
-
-	/**
-	 * Get Diagnostics manager.
-	 */
-	BON_DLLEXPORT bon::IDiagnostics* BON_Diagnostics();
-
-	/**
-	 * Get manager by name.
-	 */
-	BON_DLLEXPORT bon::IManager* BON_GetManager(const char* id);
+	BON_DLLEXPORT bon::engine::Engine* BON_GetEngine();
 
 #ifdef __cplusplus
 }

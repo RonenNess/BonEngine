@@ -263,7 +263,6 @@ While implementing the scene's methods listed above, you can use the following s
 
 Get if this scene is the first scene loaded into the engine. Can be used for special initialization code.
 
-
 #### Game()
 
 Get the `game` manager. Described later in details.

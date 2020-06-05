@@ -231,6 +231,8 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClInclude Include="inc\Sfx\ISfx.h" />
     <ClInclude Include="inc\Sfx\Sfx.h" />
     <ClInclude Include="inc\Sfx\SfxSdlWrapper.h" />
+    <ClInclude Include="inc\_CAPI\CAPI_Engine.h" />
+    <ClInclude Include="inc\_CAPI\CAPI_Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3rdparty_from_src\custom_mix_pitch\custom_mix_pitch.cpp">
@@ -258,6 +260,8 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClCompile Include="src\Sfx\Sfx.cpp" />
     <ClCompile Include="src\Sfx\SfxSdlWrapper.cpp" />
     <ClCompile Include="src\_CAPI\CAPI.cpp" />
+    <ClCompile Include="src\_CAPI\CAPI_Engine.cpp" />
+    <ClCompile Include="src\_CAPI\CAPI_Scene.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
