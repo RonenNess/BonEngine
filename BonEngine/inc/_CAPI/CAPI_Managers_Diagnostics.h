@@ -1,7 +1,7 @@
 /*****************************************************************//**
- * \file   CAPI_Managers_Log.h
+ * \file   CAPI_Managers_Diagnostics.h
  * \brief  A C-API of BonEngine, so we can bind it to other languages.
- *			This file is for log manager.
+ *			This file is for diagnostics manager.
  *
  * \author Ronen Ness Ness
  * \date   May 2020
@@ -15,24 +15,19 @@ extern "C" {
 #endif
 
 	/**
-	* Check if log level is valid.
+	* Get counter value.
 	*/
-	BON_DLLEXPORT bool BON_Log_IsValid(bon::LogLevel level);
+	BON_DLLEXPORT long BON_Diagnostics_GetCounter(int id);
 
 	/**
-	* Get log level.
+	* Increase counter value.
 	*/
-	BON_DLLEXPORT bon::LogLevel BON_Log_GetLevel();
+	BON_DLLEXPORT void BON_Diagnostics_IncreaseCounter(int id, int amount);
 
 	/**
-	* Set log level.
+	* Reset counter value.
 	*/
-	BON_DLLEXPORT void BON_Log_SetLevel(bon::LogLevel level);
-	
-	/**
-	* Write log.
-	*/
-	BON_DLLEXPORT void BON_Log_Write(bon::LogLevel level, const char* msg);
+	BON_DLLEXPORT void BON_Diagnostics_ResetCounter(int id);
 
 #ifdef __cplusplus
 }

@@ -232,6 +232,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClInclude Include="inc\Sfx\Sfx.h" />
     <ClInclude Include="inc\Sfx\SfxSdlWrapper.h" />
     <ClInclude Include="inc\_CAPI\CAPI_Engine.h" />
+    <ClInclude Include="inc\_CAPI\CAPI_Managers_Diagnostics.h" />
     <ClInclude Include="inc\_CAPI\CAPI_Managers_Game.h" />
     <ClInclude Include="inc\_CAPI\CAPI_Managers_Log.h" />
     <ClInclude Include="inc\_CAPI\CAPI_Scene.h" />
@@ -263,6 +264,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClCompile Include="src\Sfx\SfxSdlWrapper.cpp" />
     <ClCompile Include="src\_CAPI\CAPI.cpp" />
     <ClCompile Include="src\_CAPI\CAPI_Engine.cpp" />
+    <ClCompile Include="src\_CAPI\CAPI_Managers_Diagnostics.cpp" />
     <ClCompile Include="src\_CAPI\CAPI_Managers_Game.cpp" />
     <ClCompile Include="src\_CAPI\CAPI_Managers_Log.cpp" />
     <ClCompile Include="src\_CAPI\CAPI_Scene.cpp" />
