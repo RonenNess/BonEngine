@@ -22,6 +22,11 @@ extern "C" {
 	BON_DLLEXPORT void BON_Start(bon::engine::Scene* scene);
 
 	/**
+	 * Stop and exit the engine.
+	 */
+	BON_DLLEXPORT void BON_Stop();
+
+	/**
 	 * Get the engine instance.
 	 */
 	BON_DLLEXPORT bon::engine::Engine* BON_GetEngine();

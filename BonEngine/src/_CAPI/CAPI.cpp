@@ -7,3 +7,9 @@ void BON_Start(bon::engine::Scene* scene)
 {
 	bon::Start(*scene);
 }
+
+// stopand exit the engine.
+void BON_Stop()
+{
+	bon::_GetEngine().Stop();
+}

@@ -59,6 +59,36 @@ extern "C" {
 	 */
 	BON_DLLEXPORT bon::engine::EngineStates BON_Engine_CurrentState();
 
+	/**
+	 * Get updates count.
+	 */
+	BON_DLLEXPORT unsigned long long BON_Engine_UpdatesCount();
+
+	/**
+	 * Get fixed updates count.
+	 */
+	BON_DLLEXPORT unsigned long long BON_Engine_FixedUpdatesCount();
+	
+	/**
+	 * Get if engine is destroyed.
+	 */
+	BON_DLLEXPORT bool BON_Engine_Destroyed();
+
+	/**
+	 * Get if engine is running.
+	 */
+	BON_DLLEXPORT bool BON_Engine_Running();
+
+	/**
+	 * Get fixed updates interval.
+	 */
+	BON_DLLEXPORT double BON_Engine_GetFixedUpdatesInterval();
+	
+	/**
+	 * Set fixed updates interval.
+	 */
+	BON_DLLEXPORT void BON_Engine_SetFixedUpdatesInterval(double value);
+
 #ifdef __cplusplus
 }
 #endif

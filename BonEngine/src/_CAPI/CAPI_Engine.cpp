@@ -60,3 +60,39 @@ bon::engine::EngineStates BON_Engine_CurrentState()
 {
 	return bon::_GetEngine().CurrentState();
 }
+
+// get updates count.
+unsigned long long BON_Engine_UpdatesCount()
+{
+	return bon::_GetEngine().UpdatesCount();
+}
+
+// get fixed updates count.
+unsigned long long BON_Engine_FixedUpdatesCount()
+{
+	return bon::_GetEngine().FixedUpdatesCount();
+}
+
+// get if engine is destroyed.
+BON_DLLEXPORT bool BON_Engine_Destroyed()
+{
+	return bon::_GetEngine().Destroyed();
+}
+
+// get if engine is running.
+BON_DLLEXPORT bool BON_Engine_Running()
+{
+	return bon::_GetEngine().Running();
+}
+
+// get fixed updates interval.
+double BON_Engine_GetFixedUpdatesInterval()
+{
+	return bon::_GetEngine().FixedUpdatesInterval;
+}
+
+// set fixed updates interval.
+void BON_Engine_SetFixedUpdatesInterval(double value)
+{
+	bon::_GetEngine().FixedUpdatesInterval = value;
+}
