@@ -969,6 +969,12 @@ You can use config files to save anything you like, but remember they are textua
 
 # Miscs
 
+## Binds
+
+To allow easy binding to other languages, `BonEngine` comes with a C wrapper that exports all the key functionality. The C API is located under the `_CAPI` folder.
+
+You can call all these methods directly, for example in C# using PInvoke.
+
 ## License
 
 This lib is distributed with the MIT license, so you can do pretty much anything with it :)
