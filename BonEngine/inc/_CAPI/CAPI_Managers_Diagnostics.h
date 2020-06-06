@@ -14,10 +14,20 @@
 extern "C" {
 #endif
 
+	// CAPI export of diagnostic counters
+	BON_DLLEXPORT enum BON_DiagnosticCounters
+	{
+		BON_Counters_DrawCalls = bon::DiagnosticsCounters::DrawCalls,
+		BON_Counters_PlaySoundCalls = bon::DiagnosticsCounters::PlaySoundCalls,
+		BON_Counters_LoadedAssets = bon::DiagnosticsCounters::LoadedAssets,
+		BON_Counters__BuiltInCounterCount = bon::DiagnosticsCounters::_BuiltInCounterCount,
+		BON_Counters__MaxCounters = bon::DiagnosticsCounters::_MaxCounters,
+	};
+
 	/**
 	* Get counter value.
 	*/
-	BON_DLLEXPORT long BON_Diagnostics_GetCounter(int id);
+	BON_DLLEXPORT int64_t BON_Diagnostics_GetCounter(int id);
 
 	/**
 	* Increase counter value.

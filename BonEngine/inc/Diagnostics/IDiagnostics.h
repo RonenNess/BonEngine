@@ -21,23 +21,23 @@ namespace bon
 			/**
 			 * Draw calls during this frame.
 			 */
-			 DrawCalls,
+			 DrawCalls = 0,
 
 			 /**
 			  * Play sound calls during this frame.
 			  */
-			  PlaySoundCalls,
+			  PlaySoundCalls = 1,
 
 			  /**
 			   * Currently loaded assets count.
 			   */
-			  LoadedAssets,
+			  LoadedAssets = 2,
 
 			  /**
 			   * Last built-in counter value.
 			   * If you want to add custom counters, start here and go up until 'MaxCounters'
 			   */
-			  _BuiltInCounterCount,
+			  _BuiltInCounterCount = 3,
 
 			  /**
 			   * Max counters value.

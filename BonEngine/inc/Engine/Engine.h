@@ -30,37 +30,37 @@ namespace bon
 		enum class BON_DLLEXPORT EngineStates
 		{
 			// Engine was not initialized yet.
-			BeforeInitialize,
+			BeforeInitialize = 0,
 
 			// engine is initializing now.
-			Initialize,
+			Initialize = 1,
 
 			// engine is doing managers updates.
-			InternalUpdate,
+			InternalUpdate = 2,
 
 			// engine is doing fixed updates.
-			FixedUpdate,
+			FixedUpdate = 3,
 
 			// engine is doing regular updates.
-			Update,
+			Update = 4,
 
 			// engine is drawing.
-			DrawImage,
+			Draw = 5,
 
 			// engine is doing other main-loop code that isn't updates or drawing.
-			MainLoopInBetweens,
+			MainLoopInBetweens = 6,
 
 			// engine is handling events
-			HandleEvents,
+			HandleEvents = 7,
 			
 			// engine is stopping
-			Stopping,
+			Stopping = 8,
 
 			// engine is completely stopped and destroyed
-			Destroyed,
+			Destroyed = 9,
 		
 			// engine is currently switching scenes (not set on first scene set).
-			SwitchScene,
+			SwitchScene = 10,
 		};
 
 		/**

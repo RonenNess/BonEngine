@@ -251,7 +251,7 @@ namespace bon
 				}
 
 				// draw scene
-				_state = EngineStates::DrawImage;
+				_state = EngineStates::Draw;
 				_activeScene->_Draw();
 				_state = EngineStates::MainLoopInBetweens;
 			}

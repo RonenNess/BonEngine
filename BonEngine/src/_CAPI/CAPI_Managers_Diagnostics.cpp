@@ -1,8 +1,9 @@
 #include <_CAPI/CAPI_Managers_Diagnostics.h>
 #include <BonEngine.h>
+#include <cstdio>
 
 //Get counter value.
-long BON_Diagnostics_GetCounter(int id)
+int64_t BON_Diagnostics_GetCounter(int id)
 {
 	return bon::_GetEngine().Diagnostics()._GetCounter(id);
 }

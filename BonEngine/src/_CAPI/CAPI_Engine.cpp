@@ -56,9 +56,9 @@ bon::IManager* BON_Engine_GetManager(const char* id)
 }
 
 // get engine current state
-bon::engine::EngineStates BON_Engine_CurrentState()
+BON_Engine_States BON_Engine_CurrentState()
 {
-	return bon::_GetEngine().CurrentState();
+	return (BON_Engine_States)(bon::_GetEngine().CurrentState());
 }
 
 // get updates count.
