@@ -1,3 +1,7 @@
+"""
+This script wraps all the built dlls, lib, and include files in a zipped distribution folder.
+The output of this script is what users download to use.
+"""
 import os
 import shutil
 
