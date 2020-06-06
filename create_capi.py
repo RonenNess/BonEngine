@@ -48,6 +48,14 @@ def generate_code(prefix, addFirstParam, classCode):
             # remove junk
             line = line.replace("virtual", "").replace(" = 0", "").replace(';', '').strip().replace(' (', '(').replace(' )', ')').replace(' *', '*')
             
+            # remove inlines
+            if '{' in line:
+                line = line.split('{')[0].strip()
+                
+            # remove const modifier
+            if ") const" in line:
+                line = line.replace(") const", ")")
+            
             # find method name
             name = ""
             parts = line.split(' ')

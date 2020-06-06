@@ -48,6 +48,58 @@ extern "C" {
 	 */
 	BON_DLLEXPORT int BON_Image_Height(bon::ImageAsset* image);
 
+	/**
+	* Get string value from config.
+	*/
+	BON_DLLEXPORT const char* BON_Config_GetStr(bon::ConfigAsset* config, const char* section, const char* name, const char* defaultVal);
+
+	/**
+	* Get bool value from config.
+	*/
+	BON_DLLEXPORT bool BON_Config_GetBool(bon::ConfigAsset* config, const char* section, const char* name, bool defaultVal);
+
+	/**
+	* Get integer value from config.
+	*/
+	BON_DLLEXPORT long BON_Config_GetInt(bon::ConfigAsset* config, const char* section, const char* name, int defaultVal);
+
+	/**
+	* Get float value from config.
+	*/
+	BON_DLLEXPORT float BON_Config_GetFloat(bon::ConfigAsset* config, const char* section, const char* name, float defaultVal);
+
+	/**
+	* Get section name by index.
+	*/
+	BON_DLLEXPORT const char* BON_Config_Section(bon::ConfigAsset* config, int index);
+
+	/**
+	 * Get config sections count.
+	 */
+	BON_DLLEXPORT int BON_Config_SectionsCount(bon::ConfigAsset* config);
+
+	/**
+	* Get a key name by index.
+	*/
+	BON_DLLEXPORT const char* BON_Config_Key(bon::ConfigAsset* config, const char* section, int index);
+
+	/**
+	* Get config keys count.
+	*/
+	BON_DLLEXPORT int BON_Config_KeysCount(bon::ConfigAsset* config, const char* section);
+
+	/**
+	* Set a value.
+	*/
+	BON_DLLEXPORT void BON_Config_SetValue(bon::ConfigAsset* config, const char* section, const char* key, const char* value);
+
+	/**
+	* Removes a key.
+	*/
+	BON_DLLEXPORT void BON_Config_RemoveKey(bon::ConfigAsset* config, const char* section, const char* key);
+
+
+
 #ifdef __cplusplus
 }
 #endif
