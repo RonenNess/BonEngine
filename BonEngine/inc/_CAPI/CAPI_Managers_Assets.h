@@ -51,6 +51,11 @@ extern "C" {
 	BON_DLLEXPORT bon::ConfigAsset* BON_Assets_CreateEmptyConfig();
 
 	/**
+	* Release an asset pointer, created by one of the getter methods.
+	*/
+	BON_DLLEXPORT void BON_Assets_FreeAssetPointer(bon::AssetPtr* asset);
+
+	/**
 	* Save configuration file.
 	*/
 	BON_DLLEXPORT bool BON_Assets_SaveConfig(bon::ConfigAsset* config, const char* filename);

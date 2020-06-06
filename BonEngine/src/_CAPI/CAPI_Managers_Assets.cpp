@@ -6,7 +6,7 @@
 */
 bon::ImageAsset* BON_Assets_LoadImage(const char* filename, BON_ImageFilterMode filter, bool useCache)
 {
-	return &bon::_GetEngine().Assets().LoadImage(filename, (bon::ImageFilterMode)filter, useCache);
+	return new bon::ImageAsset(bon::_GetEngine().Assets().LoadImage(filename, (bon::ImageFilterMode)filter, useCache));
 }
 
 /**
@@ -14,7 +14,7 @@ bon::ImageAsset* BON_Assets_LoadImage(const char* filename, BON_ImageFilterMode 
 */
 bon::ImageAsset* BON_Assets_CreateEmptyImage(int x, int y, BON_ImageFilterMode filter)
 {
-	return &bon::_GetEngine().Assets().CreateEmptyImage(bon::PointI(x, y), (bon::ImageFilterMode)filter);
+	return new bon::ImageAsset(bon::_GetEngine().Assets().CreateEmptyImage(bon::PointI(x, y), (bon::ImageFilterMode)filter));
 }
 
 /**
@@ -22,7 +22,7 @@ bon::ImageAsset* BON_Assets_CreateEmptyImage(int x, int y, BON_ImageFilterMode f
 */
 bon::MusicAsset* BON_Assets_LoadMusic(const char* filename, bool useCache)
 {
-	return &bon::_GetEngine().Assets().LoadMusic(filename, useCache);
+	return new bon::MusicAsset(bon::_GetEngine().Assets().LoadMusic(filename, useCache));
 }
 
 /**
@@ -30,7 +30,7 @@ bon::MusicAsset* BON_Assets_LoadMusic(const char* filename, bool useCache)
 */
 bon::SoundAsset* BON_Assets_LoadSound(const char* filename, bool useCache)
 {
-	return &bon::_GetEngine().Assets().LoadSound(filename, useCache);
+	return new bon::SoundAsset(bon::_GetEngine().Assets().LoadSound(filename, useCache));
 }
 
 /**
@@ -38,7 +38,7 @@ bon::SoundAsset* BON_Assets_LoadSound(const char* filename, bool useCache)
 */
 bon::FontAsset* BON_Assets_LoadFont(const char* filename, int fontSize, bool useCache)
 {
-	return &bon::_GetEngine().Assets().LoadFont(filename, fontSize, useCache);
+	return new bon::FontAsset(bon::_GetEngine().Assets().LoadFont(filename, fontSize, useCache));
 }
 
 /**
@@ -46,7 +46,7 @@ bon::FontAsset* BON_Assets_LoadFont(const char* filename, int fontSize, bool use
 */
 bon::ConfigAsset* BON_Assets_LoadConfig(const char* filename, bool useCache)
 {
-	return &bon::_GetEngine().Assets().LoadConfig(filename, useCache);
+	return new bon::ConfigAsset(bon::_GetEngine().Assets().LoadConfig(filename, useCache));
 }
 
 /**
@@ -54,7 +54,7 @@ bon::ConfigAsset* BON_Assets_LoadConfig(const char* filename, bool useCache)
 */
 bon::ConfigAsset* BON_Assets_CreateEmptyConfig()
 {
-	return &bon::_GetEngine().Assets().CreateEmptyConfig();
+	return new bon::ConfigAsset(bon::_GetEngine().Assets().CreateEmptyConfig());
 }
 
 /**
@@ -71,4 +71,12 @@ bool BON_Assets_SaveConfig(bon::ConfigAsset* config, const char* filename)
 void BON_Assets_ClearCache()
 {
 	bon::_GetEngine().Assets().ClearCache();
+}
+
+/**
+* Delete an asset pointer.
+*/
+void BON_Assets_FreeAssetPointer(bon::AssetPtr* asset)
+{
+	delete asset;
 }
