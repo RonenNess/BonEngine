@@ -32,7 +32,6 @@ int BON_Image_Height(bon::ImageAsset* image)
 	return (*image)->Height();
 }
 
-
 /**
 * Get string value from config.
 */
@@ -113,4 +112,22 @@ void BON_Config_SetValue(bon::ConfigAsset* config, const char* section, const ch
 void BON_Config_RemoveKey(bon::ConfigAsset* config, const char* section, const char* key)
 {
 	(*config)->RemoveKey(section, key);
+}
+
+// Get music track length.
+float BON_Music_Length(bon::MusicAsset* music)
+{
+	return (*music)->Length();
+}
+
+// Get sound track length.
+float BON_Sound_Length(bon::SoundAsset* sound)
+{
+	return (*sound)->Length();
+}
+
+// Get if a sound is playing.
+bool BON_Sound_IsPlaying(bon::SoundAsset* sound)
+{
+	return (*sound)->IsPlaying();
 }

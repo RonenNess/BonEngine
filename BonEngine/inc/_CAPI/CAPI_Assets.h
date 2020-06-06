@@ -98,7 +98,20 @@ extern "C" {
 	*/
 	BON_DLLEXPORT void BON_Config_RemoveKey(bon::ConfigAsset* config, const char* section, const char* key);
 
+	/**
+	* Get music track length.
+	*/
+	BON_DLLEXPORT float BON_Music_Length(bon::MusicAsset* music);
 
+	/**
+	* Get sound track length.
+	*/
+	BON_DLLEXPORT float BON_Sound_Length(bon::SoundAsset* sound);
+
+	/**
+	 * Get if a sound is playing..
+	 */
+	BON_DLLEXPORT bool BON_Sound_IsPlaying(bon::SoundAsset* sound);
 
 #ifdef __cplusplus
 }
