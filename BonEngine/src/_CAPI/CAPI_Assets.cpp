@@ -131,3 +131,11 @@ bool BON_Sound_IsPlaying(bon::SoundAsset* sound)
 {
 	return (*sound)->IsPlaying();
 }
+
+/**
+* Get font asset native size.
+*/
+int BON_Font_Size(bon::FontAsset* font)
+{
+	return (*font)->FontSize();
+}

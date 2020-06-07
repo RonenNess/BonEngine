@@ -42,7 +42,7 @@ namespace bon
 			// Source Rect from image.
 			framework::RectangleI SourceRect;
 
-			// Drawing origin (0.0 - 1.0 relative to sprite size.
+			// Drawing origin (0.0 - 1.0 relative to sprite size).
 			framework::PointF Origin;
 
 			// sprite rotation.

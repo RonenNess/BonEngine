@@ -115,6 +115,10 @@ namespace demo15_performance
 			Gfx().DrawText(_font, (std::string("FPS: ") + std::to_string(Diagnostics().FpsCount())).c_str(), bon::PointF(0, 0), &bon::Color::White, 22);
 			Gfx().DrawText(_font, (std::string("Sprites: ") + std::to_string(_sprites.size())).c_str(), bon::PointF(0, 35), &bon::Color::White, 22);
 
+#if _DEBUG
+			Gfx().DrawText(_font, "Warning - Debug Mode [slower]", bon::PointF(10, 530), &bon::Color::Red, 30);
+#endif
+
 			// draw cursor
 			Gfx().DrawImage(_cursorImage, Input().CursorPosition(), &bon::PointI(64, 64));
 

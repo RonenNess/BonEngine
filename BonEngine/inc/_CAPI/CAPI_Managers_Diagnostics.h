@@ -39,6 +39,11 @@ extern "C" {
 	*/
 	BON_DLLEXPORT void BON_Diagnostics_ResetCounter(int id);
 
+	/**
+	* Get FPS count.
+	*/
+	BON_DLLEXPORT void BON_Diagnostics_FpsCounter();
+
 #ifdef __cplusplus
 }
 #endif

@@ -109,9 +109,14 @@ extern "C" {
 	BON_DLLEXPORT float BON_Sound_Length(bon::SoundAsset* sound);
 
 	/**
-	 * Get if a sound is playing..
+	 * Get if a sound is playing.
 	 */
 	BON_DLLEXPORT bool BON_Sound_IsPlaying(bon::SoundAsset* sound);
+
+	/**
+	 * Get font asset native size.
+	 */
+	BON_DLLEXPORT int BON_Font_Size(bon::FontAsset* font);
 
 #ifdef __cplusplus
 }

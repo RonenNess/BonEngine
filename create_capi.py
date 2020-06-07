@@ -24,7 +24,7 @@ def generate_code(prefix, addFirstParam, classCode):
             prevLine = lines[i - 1].strip()
         
         # get comments
-        if prevLine == "/**" and "* " in line:
+        if prevLine == "/**" and line.startswith('*'):
             comment = line
             continue
 
@@ -40,6 +40,10 @@ def generate_code(prefix, addFirstParam, classCode):
             
         # skip privates
         if is_private:
+            continue
+            
+        # skip comments
+        if line.startswith('*'):
             continue
 
         # check if a function we should copy

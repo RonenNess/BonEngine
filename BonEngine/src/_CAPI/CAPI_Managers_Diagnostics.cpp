@@ -18,3 +18,9 @@ void BON_Diagnostics_ResetCounter(int id)
 {
 	bon::_GetEngine().Diagnostics()._ResetCounter(id);
 }
+
+// get fps counter.
+void BON_Diagnostics_FpsCounter()
+{
+	bon::_GetEngine().Diagnostics().FpsCount();
+}

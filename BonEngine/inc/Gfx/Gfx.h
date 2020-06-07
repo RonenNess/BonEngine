@@ -136,7 +136,7 @@ namespace bon
 			virtual void DrawRectangle(const framework::RectangleI& rect, const framework::Color& color, bool filled, BlendModes blendMode = BlendModes::AlphaBlend) override;
 
 			/**
-			 * Clear the entire screen.
+			 * Clear the entire or part of the screen.
 			 *
 			 * \param color Clear color (will paint whole screen with this color).
 			 * \param clearRect Set what part of the screen you want to clear. Leave it 0,0,0,0 for whole screen.
