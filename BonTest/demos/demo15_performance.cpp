@@ -42,7 +42,7 @@ namespace demo15_performance
 			_font = Assets().LoadFont("../TestAssets/gfx/OpenSans-Regular.ttf", 36);
 
 			// create start of 1000 sprites
-			for (int i = 0; i < 1000; ++i) {
+			for (int i = 0; i < 50000; ++i) {
 				CreateSprite();
 			}
 		}
@@ -119,11 +119,11 @@ namespace demo15_performance
 			Gfx().DrawText(_font, "Warning - Debug Mode [slower]", bon::PointF(10, 530), &bon::Color::Red, 30);
 #endif
 
-			// draw cursor
-			Gfx().DrawImage(_cursorImage, Input().CursorPosition(), &bon::PointI(64, 64));
-
 			// show draw calls count (doing it last to include everything)
 			Gfx().DrawText(_font, (std::string("Draw Calls: ") + std::to_string(Diagnostics().GetCounter(bon::DiagnosticsCounters::DrawCalls))).c_str(), bon::PointF(0, 70), &bon::Color::White, 22);
+
+			// draw cursor
+			Gfx().DrawImage(_cursorImage, Input().CursorPosition(), &bon::PointI(64, 64));
 		}
 	};
 

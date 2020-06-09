@@ -67,9 +67,6 @@
     <Filter Include="3rdparty Source">
       <UniqueIdentifier>{6a70ea51-ec7e-4e05-8ffa-3bc563223eb6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3rdparty Source\SDL_FontCache">
-      <UniqueIdentifier>{95fcb169-666f-49de-9516-409c86fdbcb7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3rdparty Source\custom_mix_pitch">
       <UniqueIdentifier>{7b84c13f-e5a1-45cd-bf95-fcb15dbecd81}</UniqueIdentifier>
     </Filter>
@@ -204,9 +201,6 @@
     <ClInclude Include="inc\Framework\RectangleI.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="3rdparty_from_src\SDL_FontCache\SDL_FontCache.h">
-      <Filter>3rdparty Source\SDL_FontCache</Filter>
-    </ClInclude>
     <ClInclude Include="3rdparty_from_src\custom_mix_pitch\custom_mix_pitch.h">
       <Filter>3rdparty Source\custom_mix_pitch</Filter>
     </ClInclude>
@@ -279,6 +273,9 @@
     <ClInclude Include="inc\_CAPI\CAPI_Managers_Input.h">
       <Filter>Header Files\_CAPI</Filter>
     </ClInclude>
+    <ClInclude Include="inc\Gfx\FontsCache.h">
+      <Filter>Header Files\Gfx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Engine.cpp">
@@ -313,9 +310,6 @@
     </ClCompile>
     <ClCompile Include="src\Framework\Point.cpp">
       <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="3rdparty_from_src\SDL_FontCache\SDL_FontCache.c">
-      <Filter>3rdparty Source\SDL_FontCache</Filter>
     </ClCompile>
     <ClCompile Include="3rdparty_from_src\custom_mix_pitch\custom_mix_pitch.cpp">
       <Filter>3rdparty Source\custom_mix_pitch</Filter>
@@ -370,6 +364,9 @@
     </ClCompile>
     <ClCompile Include="src\_CAPI\CAPI_Managers_Input.cpp">
       <Filter>Source Files\_CAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gfx\FontsCache.cpp">
+      <Filter>Source Files\Gfx</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

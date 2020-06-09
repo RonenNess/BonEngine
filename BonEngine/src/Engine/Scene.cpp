@@ -8,7 +8,7 @@ namespace bon
 		// is it the first scene to run?
 		bool Scene::IsFirstScene() const
 		{
-			return _GetEngine().PreviousScene() == nullptr;
+			return _GetEngine().ActiveScene() == this && _GetEngine().SwitchedScenesCount() == 1;
 		}
 	}
 }

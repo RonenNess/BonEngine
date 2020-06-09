@@ -15,7 +15,7 @@
 #include <SDL2_ttf-2.0.15/include/SDL_ttf.h>
 #pragma warning(pop)
 
-#include <../3rdparty_from_src/SDL_FontCache/SDL_FontCache.h>
+#include <Gfx/FontsCache.h>
 
 using namespace bon::framework;
 using namespace bon::assets;
@@ -160,7 +160,7 @@ namespace bon
 			/**
 			 * Create SDL image surface.
 			 */
-			SDL_FontHandle(FC_Font* font, int size)
+			SDL_FontHandle(TTF_Font* font, int size)
 			{
 				Font = font;
 				_fontSize = size;
@@ -172,7 +172,7 @@ namespace bon
 			virtual ~SDL_FontHandle()
 			{
 				if (Font) {
-					FC_FreeFont((FC_Font*)Font);
+					TTF_CloseFont((TTF_Font*)Font);
 				}
 			}
 
@@ -192,8 +192,7 @@ namespace bon
 
 			// load font
 			int fontSize = extraData ? *((int*)extraData) : 32;
-			FC_Font* font = FC_CreateFont();
-			FC_LoadFont(font, ((GfxSdlWrapper*)context)->GetRenderer(), path, fontSize, FC_MakeColor(255, 255, 255, 255), TTF_STYLE_NORMAL);
+			TTF_Font* font = TTF_OpenFont(path, fontSize);
 
 			// make sure succeed
 			if (font == nullptr)
@@ -227,6 +226,9 @@ namespace bon
 				SDL_SetRenderTarget(_renderer, NULL);
 			}
 		}
+
+		// cache for drawing texts
+		FontsTextureCache fontsTextureCache;
 
 		// initialize graphics
 		void GfxSdlWrapper::Initialize()
@@ -463,6 +465,9 @@ namespace bon
 		{
 			// render screen
 			SDL_RenderPresent(_renderer);
+
+			// update cache
+			fontsTextureCache.Update();
 		}
 
 		// show / hide cursor
@@ -498,16 +503,35 @@ namespace bon
 		// draw text on screen
 		void GfxSdlWrapper::DrawText(const FontAsset& fontAsset, const char* text, const PointF& position, const Color& color, int fontSize, BlendModes blend, const PointF& origin, float rotation, int maxWidth)
 		{
-			// create the text texture (note: texture font is always white, we use color tint while drawing it instead so we won't have to generate texture per color)
-			static SDL_Color white = { 255,255,255,255 };
-			TTF_Font* font = (TTF_Font*)(fontAsset->Handle()->Font);
+			// wrap text as string
+			std::string asString(text);
 
-			// calculate font scale
-			float scale = fontSize > 0 ? ((float)fontSize / (float)fontAsset->FontSize()) : 1;
+			// first try to fetch texture from cache
+			SDL_FontHandle* fontHandle = (SDL_FontHandle*)fontAsset->Handle();
+			TTF_Font* font = (TTF_Font*)(fontHandle->Font);
+			CachedTexture& fromCache = fontsTextureCache.GetFromCache(font, asString);
+			
+			// not found in cache? generate it!
+			if (!fromCache.Texture) {
+				static SDL_Color white = { 255,255,255,255 };
+				SDL_Surface* tempSurface = nullptr;
+				if (maxWidth == 0) { maxWidth = 0xFFF; }
+				tempSurface = TTF_RenderText_Blended_Wrapped(font, text, white, maxWidth);
+				if (tempSurface) {
+					SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer, tempSurface);
+					int width = tempSurface->w; int height = tempSurface->h;
+					fromCache = fontsTextureCache.AddToCache(font, asString, texture, width, height);
+					SDL_FreeSurface(tempSurface);
+				}
+			}
+
+			// calculate size factor
+			float sizeFactor = fontSize ? ((float)fontSize / (float)fontAsset->FontSize()) : 1.0f;
 
 			// draw text
-			SDL_Color sdlcolor = { color.RB(), color.GB(), color.BB(), color.AB() };
-			FC_DrawEx((FC_Font*)(fontAsset->Handle()->Font), _renderer, position.X, position.Y, scale, sdlcolor, text);
+			PointI size((int)(fromCache.Width * sizeFactor), (int)(fromCache.Height * sizeFactor));
+			static RectangleI srcRect;
+			DrawTexture(fromCache.Texture, position, size, blend, srcRect, origin, rotation, color);
 		}
 
 		// set gamma

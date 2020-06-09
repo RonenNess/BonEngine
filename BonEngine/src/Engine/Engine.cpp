@@ -318,6 +318,9 @@ namespace bon
 				return;
 			}
 
+			// increase scenes switch counter
+			_scenesSwitchCount++;
+
 			// log and sanity check
 			_logManager->Write(log::LogLevel::Debug, "Change scene..");
 			if (_destroyed) {

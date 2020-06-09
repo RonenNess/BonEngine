@@ -998,7 +998,7 @@ First stable release.
 - Removed warnings from third party files.
 - Renamed DLLEXPORT to BON_DLLEXPORT, to reduce chance of collision with other libs.
 - Added C API to allow binding with other languages [in progress].
-
+- Rewrote the cached text textures mechanism to be more efficient, less code, and now text support max width, rotation and other effects.
 
 ## In Memory Of Bonnie
 

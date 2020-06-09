@@ -86,6 +86,9 @@ namespace bon
 			std::vector<IManager*> _managers;
 			std::vector<IManager*> _customManagers;
 
+			// how many times the active scene got switched
+			unsigned int _scenesSwitchCount = 0;
+
 			// engine state
 			EngineStates _state = EngineStates::BeforeInitialize;
 
@@ -302,6 +305,20 @@ namespace bon
 			 * \return Previous scene, or nullptr if called from first scene loaded.
 			 */
 			inline Scene* PreviousScene() const { return _previousScene; }
+			
+			/**
+			 * Get the currently active scene.
+			 *
+			 * \return Active scene, or nullptr if not set yet.
+			 */
+			inline Scene* ActiveScene() const { return _activeScene; }
+
+			/**
+			 * Get how many times we switched scenes.
+			 * 
+			 * \return How many times we switched scenes.
+			 */
+			inline unsigned int SwitchedScenesCount() const { return _scenesSwitchCount; }
 
 		private:
 
