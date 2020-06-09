@@ -241,19 +241,23 @@ namespace bon
 					}
 					_state = EngineStates::MainLoopInBetweens;
 
-					// do per-frame update
-					_state = EngineStates::Update;
-					_activeScene->_Update(deltaTime);
-					_state = EngineStates::MainLoopInBetweens;
+					// do per-frame update, unless need to switch scene
+					if (!_nextScene) {
+						_state = EngineStates::Update;
+						_activeScene->_Update(deltaTime);
+						_state = EngineStates::MainLoopInBetweens;
+					}
 
 					// increase updates count
 					_updatesCount++;
 				}
 
-				// draw scene
-				_state = EngineStates::Draw;
-				_activeScene->_Draw();
-				_state = EngineStates::MainLoopInBetweens;
+				// draw scene, unless need to switch scene
+				if (!_nextScene) {
+					_state = EngineStates::Draw;
+					_activeScene->_Draw();
+					_state = EngineStates::MainLoopInBetweens;
+				}
 			}
 
 			// when done, call cleanup
