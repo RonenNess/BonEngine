@@ -615,11 +615,11 @@ namespace bon
 				rect.y = viewport->Y;
 				rect.w = viewport->Width;
 				rect.h = viewport->Height;
-				SDL_RenderGetViewport(_renderer, &rect);
+				SDL_RenderSetViewport(_renderer, &rect);
 			}
 			else
 			{
-				SDL_RenderGetViewport(_renderer, nullptr);
+				SDL_RenderSetViewport(_renderer, nullptr);
 			}
 		}
 
