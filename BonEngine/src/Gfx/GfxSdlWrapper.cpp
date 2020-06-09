@@ -605,6 +605,24 @@ namespace bon
 			}
 		}
 
+		// set rendering viewport
+		void GfxSdlWrapper::SetViewport(const framework::RectangleI* viewport)
+		{
+			if (viewport)
+			{
+				SDL_Rect rect;
+				rect.x = viewport->X;
+				rect.y = viewport->Y;
+				rect.w = viewport->Width;
+				rect.h = viewport->Height;
+				SDL_RenderGetViewport(_renderer, &rect);
+			}
+			else
+			{
+				SDL_RenderGetViewport(_renderer, nullptr);
+			}
+		}
+
 		// draw image on screen
 		void GfxSdlWrapper::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color)
 		{

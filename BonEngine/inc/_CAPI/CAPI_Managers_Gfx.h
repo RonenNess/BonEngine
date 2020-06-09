@@ -93,6 +93,11 @@ extern "C" {
 	*/
 	BON_DLLEXPORT void BON_Gfx_ClearScreen(float r, float g, float b, float a, int x, int y, int w, int h);
 
+	/**
+	* Set viewport to draw on, or 0,0,0,0 to clear viewport.
+	*/
+	BON_DLLEXPORT void BON_Gfx_SetViewport(int x, int y, int w, int h);
+
 #ifdef __cplusplus
 }
 #endif

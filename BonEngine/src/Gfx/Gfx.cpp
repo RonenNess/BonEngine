@@ -67,6 +67,12 @@ namespace bon
 			}
 		}
 
+		// set viewport
+		void Gfx::SetViewport(const framework::RectangleI* viewport)
+		{
+			_Implementor.SetViewport(viewport);
+		}
+
 		// draw text
 		void Gfx::DrawText(const FontAsset& font, const char* text, const framework::PointF& position, const Color* color, int fontSize, int maxWidth, BlendModes blend, const PointF* origin, float rotation)
 		{

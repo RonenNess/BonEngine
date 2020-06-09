@@ -366,7 +366,7 @@ Exit the game. This will not stop app immediately, it will finish only after com
 #### void ChangeScene(scene)
 
 Change the currently active scene.
-To make sure transition is safe, it will only do the switching itself after the current frame ends.
+To make sure transition is safe, the engine will only do the switching after the current frame ends, but will skip future updates and draw calls for the replaced scene so you can start releasing resources.
 
 #### void LoadConfig(path)
 
@@ -595,6 +595,11 @@ This is an extremely useful functionality you can use for post-effects.
 #### PointI WindowSize()
 
 Get window size.
+
+#### SetViewport(rect)
+
+Set a clipping rectangle that you can only draw inside. Any rendering outside the viewport will be clipped.
+To remove viewport, set nullptr instead of a rectangle pointer.
 
 
 ### Sfx
@@ -999,6 +1004,7 @@ First stable release.
 - Renamed DLLEXPORT to BON_DLLEXPORT, to reduce chance of collision with other libs.
 - Added C API to allow binding with other languages [in progress].
 - Rewrote the cached text textures mechanism to be more efficient, less code, and now text support max width, rotation and other effects.
+- Added API to set rendering viewport.
 
 ## In Memory Of Bonnie
 

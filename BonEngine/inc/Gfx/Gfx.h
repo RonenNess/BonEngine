@@ -162,6 +162,13 @@ namespace bon
 			virtual void SetWindowProperties(const char* title, int width, int height, WindowModes windowMode = WindowModes::Windowed, bool showCursor = true) override;
 
 			/**
+			* Set a rendering viewport (will only render inside the given region).
+			*
+			* \param viewport Viewport to set, or nullptr to remove viewport and render on whole screen.
+			*/
+			void SetViewport(const framework::RectangleI* viewport) override;
+
+			/**
 			 * Set the window's title.
 			 *
 			 * \param title New title to set.

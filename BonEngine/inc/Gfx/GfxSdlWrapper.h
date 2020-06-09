@@ -187,6 +187,13 @@ namespace bon
 			void SetRenderTarget(assets::ImageAsset target);
 
 			/**
+			* Set a rendering viewport (will only render inside the given region).
+			*
+			* \param viewport Viewport to set, or nullptr to remove viewport and render on whole screen.
+			*/
+			void SetViewport(const framework::RectangleI* viewport);
+
+			/**
 			 * Dispose renderer, window ect.
 			 */
 			void Dispose();

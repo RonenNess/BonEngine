@@ -97,3 +97,16 @@ void BON_Gfx_ClearScreen(float r, float g, float b, float a, int x, int y, int w
 {
 	bon::_GetEngine().Gfx().ClearScreen(bon::Color(r, g, b, a), bon::RectangleI(x, y, w, h));
 }
+
+/**
+* Set viewport to draw on, or 0, 0, 0, 0 to clear viewport.
+*/
+void BON_Gfx_SetViewport(int x, int y, int w, int h)
+{
+	if (w == 0 && h == 0) {
+		bon::_GetEngine().Gfx().SetViewport(nullptr);
+	}
+	else {
+		bon::_GetEngine().Gfx().SetViewport(&bon::framework::RectangleI(x, y, w, h));
+	}
+}

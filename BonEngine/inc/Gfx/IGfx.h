@@ -142,6 +142,13 @@ namespace bon
 			virtual void SetRenderTarget(const assets::ImageAsset& target) = 0;
 
 			/**
+			* Set a rendering viewport (will only render inside the given region).
+			*
+			* \param viewport Viewport to set, or nullptr to remove viewport and render on whole screen.
+			*/
+			virtual void SetViewport(const framework::RectangleI* viewport) = 0;
+
+			/**
 			 * Get window's size in pixels.
 			 * 
 			 * \return Window size.
