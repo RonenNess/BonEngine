@@ -134,7 +134,7 @@ namespace bon
 			 * \param _Rectangle_ _Rectangle_ to test.
 			 * \return True if containing the _Rectangle_.
 			 */
-			inline bool Contains(const _Rectangle_ other)
+			inline bool Contains(const _Rectangle_& other)
 			{
 				return other.Left() >= Left() && other.Right() <= Right() && other.Top() >= Top() && other.Bottom() <= Bottom();
 			}
@@ -145,7 +145,7 @@ namespace bon
 			 * \param _Rectangle_ _Rectangle_ to test.
 			 * \return True if intersects with or containing the _Rectangle_.
 			 */
-			inline bool Overlaps(const _Rectangle_ other)
+			inline bool Overlaps(const _Rectangle_& other)
 			{
 				// if one _Rectangle_ is on left side of other 
 				if (Left() > other.Right() || other.Left() > Right())

@@ -134,7 +134,7 @@ namespace bon
 			 * \param RectangleF RectangleF to test.
 			 * \return True if containing the RectangleF.
 			 */
-			inline bool Contains(const RectangleF other)
+			inline bool Contains(const RectangleF& other)
 			{
 				return other.Left() >= Left() && other.Right() <= Right() && other.Top() >= Top() && other.Bottom() <= Bottom();
 			}
@@ -145,7 +145,7 @@ namespace bon
 			 * \param RectangleF RectangleF to test.
 			 * \return True if intersects with or containing the RectangleF.
 			 */
-			inline bool Overlaps(const RectangleF other)
+			inline bool Overlaps(const RectangleF& other)
 			{
 				// if one RectangleF is on left side of other 
 				if (Left() > other.Right() || other.Left() > Right())

@@ -130,8 +130,14 @@ namespace bon
 		// register a custom manager class
 		void Engine::RegisterCustomManager(IManager* manager)
 		{
-			AssertIfRunning();
-			_customManagers.push_back(manager);
+			if (_isRunning) {
+				_logManager->Write(log::LogLevel::Debug, "Register custom manager post-init: '%s'.", manager->_GetId());
+				manager->_Start();
+				_managers.push_back(manager);
+			}
+			else {
+				_customManagers.push_back(manager);
+			}
 		}
 
 		// get manager instance by id
