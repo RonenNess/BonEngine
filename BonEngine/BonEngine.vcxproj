@@ -232,6 +232,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClInclude Include="inc\Sfx\Sfx.h" />
     <ClInclude Include="inc\Sfx\SfxSdlWrapper.h" />
     <ClInclude Include="inc\_CAPI\CAPI_Assets.h" />
+    <ClInclude Include="inc\_CAPI\CAPI_Defs.h" />
     <ClInclude Include="inc\_CAPI\CAPI_Engine.h" />
     <ClInclude Include="inc\_CAPI\CAPI_Managers_Diagnostics.h" />
     <ClInclude Include="inc\_CAPI\CAPI_Managers_Game.h" />

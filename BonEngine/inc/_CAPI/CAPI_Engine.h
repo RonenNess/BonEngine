@@ -7,12 +7,27 @@
  * \date   May 2020
  *********************************************************************/
 #pragma once
-#include "../dllimport.h"
-#include <BonEngine.h>
+#include "CAPI_Defs.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+	/**
+	 * Create a manager from callbacks.
+	 * This is to allow external languages create custom managers.
+	 */
+	BON_DLLEXPORT bon::IManager* BON_Manager_Create(BON_CallbackNoArgs initialize, BON_CallbackNoArgs start, BON_CallbackNoArgs dispose, BON_CallbackDoubleArg update, const char* id);
+	
+	/**
+	 * Register a custom manager.
+	 */
+	BON_DLLEXPORT void BON_Manager_Register(bon::IManager* manager);
+
+	/**
+	 * Destroy a custom manager.
+	 */
+	BON_DLLEXPORT void BON_Manager_Destroy(bon::IManager* manager);
 
 	/**
 	 * Get Game manager.
@@ -53,22 +68,6 @@ extern "C" {
 	 * Get manager by name.
 	 */
 	BON_DLLEXPORT bon::IManager* BON_Engine_GetManager(const char* id);
-
-	// CAPI export of engine states.
-	BON_DLLEXPORT enum BON_Engine_States
-	{
-		BON_State_BeforeInitialize = bon::engine::EngineStates::BeforeInitialize,
-		BON_State_Initialize = bon::engine::EngineStates::Initialize,
-		BON_State_InternalUpdate = bon::engine::EngineStates::InternalUpdate,
-		BON_State_FixedUpdate = bon::engine::EngineStates::FixedUpdate,
-		BON_State_Update = bon::engine::EngineStates::Update,
-		BON_State_Draw = bon::engine::EngineStates::Draw,
-		BON_State_MainLoopInBetweens = bon::engine::EngineStates::MainLoopInBetweens,
-		BON_State_HandleEvents = bon::engine::EngineStates::HandleEvents,
-		BON_State_Stopping = bon::engine::EngineStates::Stopping,
-		BON_State_Destroyed = bon::engine::EngineStates::Destroyed,
-		BON_State_SwitchScene = bon::engine::EngineStates::SwitchScene
-	};
 
 	/**
 	 * Get engine current state.

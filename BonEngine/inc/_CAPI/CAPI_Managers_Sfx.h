@@ -7,23 +7,11 @@
  * \date   May 2020
  *********************************************************************/
 #pragma once
-#include "../dllimport.h"
-#include <BonEngine.h>
+#include "CAPI_Defs.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-	// CAPI export of diagnostic counters
-	BON_DLLEXPORT enum BON_AudioFormats
-	{
-		BON_AudioFormats_S16LSB = bon::AudioFormats::S16LSB,
-		BON_AudioFormats_S16MSB = bon::AudioFormats::S16MSB,
-		BON_AudioFormats_S8 = bon::AudioFormats::S8,
-		BON_AudioFormats_U16LSB = bon::AudioFormats::U16LSB,
-		BON_AudioFormats_U16MSB = bon::AudioFormats::U16MSB,
-		BON_AudioFormats_U8 = bon::AudioFormats::U8,
-	};
 
 	/**
 	* Set audio device properties.

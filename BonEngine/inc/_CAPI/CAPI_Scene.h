@@ -7,22 +7,11 @@
  * \date   May 2020
  *********************************************************************/
 #pragma once
-#include "../dllimport.h"
-#include "BonEngine.h"
+#include "CAPI_Defs.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-	/**
-	 * Define callback without arguments.
-	 */
-	BON_DLLEXPORT typedef void(__stdcall* BON_CallbackNoArgs)();
-
-	/**
-	 * Define callback with double argument.
-	 */
-	BON_DLLEXPORT typedef void(__stdcall* BON_CallbackDoubleArg)(double);
 
 	/**
 	 * Create and return a special scene composed of callbacks.

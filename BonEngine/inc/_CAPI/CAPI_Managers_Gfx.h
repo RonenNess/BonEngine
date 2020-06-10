@@ -7,31 +7,11 @@
  * \date   May 2020
  *********************************************************************/
 #pragma once
-#include "../dllimport.h"
-#include <BonEngine.h>
+#include "CAPI_Defs.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-	// CAPI export of diagnostic counters
-	BON_DLLEXPORT enum BON_BlendModes
-	{
-		BON_BlendModes_Additive = bon::BlendModes::Additive,
-		BON_BlendModes_AlphaBlend = bon::BlendModes::AlphaBlend,
-		BON_BlendModes_Mod = bon::BlendModes::Mod,
-		BON_BlendModes_Multiply = bon::BlendModes::Multiply,
-		BON_BlendModes_Opaque = bon::BlendModes::Opaque,
-		BON_BlendModes__Count = bon::BlendModes::_Count,
-	};
-
-	// CAPI export of diagnostic counters
-	BON_DLLEXPORT enum BON_WindowModes
-	{
-		BON_WindowModes_Fullscreen = bon::WindowModes::Fullscreen,
-		BON_WindowModes_Windowed = bon::WindowModes::Windowed,
-		BON_WindowModes_WindowedBorderless = bon::WindowModes::WindowedBorderless,
-	};
 
 	/**
 	* Draw an image on screen.

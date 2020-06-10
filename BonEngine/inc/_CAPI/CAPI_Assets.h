@@ -7,8 +7,7 @@
  * \date   May 2020
  *********************************************************************/
 #pragma once
-#include "../dllimport.h"
-#include <BonEngine.h>
+#include "CAPI_Defs.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -23,15 +22,6 @@ extern "C" {
 	 * Get asset's path.
 	 */
 	BON_DLLEXPORT const char* BON_Asset_Path(bon::AssetPtr* asset);
-
-	// CAPI export of image filters
-	BON_DLLEXPORT enum BON_ImageFilterMode
-	{
-		BON_Filter_Nearest = bon::ImageFilterMode::Nearest,
-		BON_Filter_Linear = bon::ImageFilterMode::Linear,
-		BON_Filter_Anisotropic = bon::ImageFilterMode::Anisotropic,
-		BON_Filter__Count = bon::ImageFilterMode::_Count,
-	};
 
 	/**
 	 * Get image filtering mode.

@@ -3,6 +3,7 @@
 
 /**
  * Special scene to accept callbacks.
+ * We use this as a trick to allow external languages (binds) to create custom scene using callbacks.
  */
 class _CallbacksScene : public bon::engine::Scene
 {

@@ -1,5 +1,95 @@
 #include <_CAPI/CAPI_Engine.h>
+#include <_CAPI/CAPI_Scene.h>
 #include <BonEngine.h>
+#include <string>
+
+
+/**
+ * Special manager that accept callbacks.
+ * We use this as a trick to allow external languages (binds) to create custom managers using callbacks.
+ */
+class _CallbacksManager : public bon::IManager
+{
+public:
+	BON_CallbackNoArgs __Initialize;
+	BON_CallbackNoArgs __Start;
+	BON_CallbackNoArgs __Dispose;
+	BON_CallbackDoubleArg __Update;
+	std::string _id;
+
+protected:
+	/**
+	 * Initialize manager when engine starts.
+	 */
+	virtual void _Initialize() override 
+	{
+		__Initialize();
+	}
+
+	/**
+	 * Called when main loop starts.
+	 */
+	virtual void _Start() override
+	{
+		__Start();
+	}
+
+	/**
+	 * Clear / free this manager's resources.
+	 */
+	virtual void _Dispose() override
+	{
+		__Dispose();
+	}
+
+	/**
+	 * Called every frame.
+	 */
+	virtual void _Update(double deltaTime) override
+	{
+		__Update(deltaTime);
+	}
+
+	/**
+	 * Handles an event from OS.
+	 */
+	virtual void _HandleEvent(SDL_Event& event) override
+	{
+		// NOT SUPPORTED FOR BINDS
+	}
+
+	/**
+	 * Get manager identifier.
+	 */
+	virtual const char* _GetId() const override
+	{
+		return _id.c_str();
+	}
+};
+
+// create and return a manager with callbacks
+bon::IManager* BON_Manager_Create(BON_CallbackNoArgs initialize, BON_CallbackNoArgs start, BON_CallbackNoArgs dispose, BON_CallbackDoubleArg update, const char* id)
+{
+	_CallbacksManager* ret = new _CallbacksManager();
+	ret->__Initialize = initialize;
+	ret->__Start = start;
+	ret->__Dispose = dispose;
+	ret->__Update = update;
+	ret->_id = id;
+	return ret;
+}
+
+// register a custom manager.
+void BON_Manager_Register(bon::IManager* manager)
+{
+	bon::_GetEngine().RegisterCustomManager(manager);
+}
+
+// destroy a manager
+void BON_Manager_Destroy(bon::IManager* manager)
+{
+	delete manager;
+}
 
 // get engine instance
 bon::engine::Engine* BON_GetEngine()

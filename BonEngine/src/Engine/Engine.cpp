@@ -234,6 +234,11 @@ namespace bon
 							// do fixed update
 							_activeScene->_FixedUpdate(FixedUpdatesInterval);
 
+							// if need to switch scene skip here
+							if (_nextScene) {
+								break;
+							}
+
 							// update time until next fixed update and increase fixed updates count
 							timeForNextFixedUpdate -= FixedUpdatesInterval;
 							_fixedUpdatesCount++;
@@ -241,23 +246,29 @@ namespace bon
 					}
 					_state = EngineStates::MainLoopInBetweens;
 
-					// do per-frame update, unless need to switch scene
-					if (!_nextScene) {
-						_state = EngineStates::Update;
-						_activeScene->_Update(deltaTime);
-						_state = EngineStates::MainLoopInBetweens;
+					// if need to switch scene skip here
+					if (_nextScene) {
+						continue;
 					}
+
+					// do per-frame update, unless need to switch scene
+					_state = EngineStates::Update;
+					_activeScene->_Update(deltaTime);
+					_state = EngineStates::MainLoopInBetweens;
 
 					// increase updates count
 					_updatesCount++;
+
+					// if need to switch scene skip here
+					if (_nextScene) {
+						continue;
+					}
 				}
 
-				// draw scene, unless need to switch scene
-				if (!_nextScene) {
-					_state = EngineStates::Draw;
-					_activeScene->_Draw();
-					_state = EngineStates::MainLoopInBetweens;
-				}
+				// draw scene
+				_state = EngineStates::Draw;
+				_activeScene->_Draw();
+				_state = EngineStates::MainLoopInBetweens;
 			}
 
 			// when done, call cleanup
