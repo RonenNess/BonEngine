@@ -54,6 +54,11 @@ namespace demo10_shapes
 			// draw rect fill
 			Gfx().DrawRectangle(bon::RectangleI(400, 400, 100, 100), bon::Color(0, 1, 0, 1), true);
 
+			// draw circle outline
+			Gfx().DrawCircle(bon::PointI(600, 300), 25, bon::Color(1, 1, 0, 1), false);
+			Gfx().DrawCircle(bon::PointI(675, 300), 25, bon::Color(1, 0, 1, 1), true);
+			Gfx().DrawCircle(bon::PointI(750, 300), 25, bon::Color(1, 0, 1, 0.5f), true);
+
 
 			// draw line
 			double elapsed = Game().ElapsedTime() * 3;

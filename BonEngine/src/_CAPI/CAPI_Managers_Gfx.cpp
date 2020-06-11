@@ -91,6 +91,14 @@ void BON_Gfx_DrawRectangle(int x, int y, int w, int h, float r, float g, float b
 }
 
 /**
+* Draws a circle.
+*/
+void BON_Gfx_DrawCircle(int x, int y, int radius, float r, float g, float b, float a, bool filled, BON_BlendModes blend)
+{
+	bon::_GetEngine().Gfx().DrawCircle(bon::PointI(x, y), radius, bon::Color(r, g, b, a), filled, (bon::BlendModes)blend);
+}
+
+/**
 * Clear part or whole screen.
 */
 void BON_Gfx_ClearScreen(float r, float g, float b, float a, int x, int y, int w, int h)

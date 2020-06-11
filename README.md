@@ -1005,6 +1005,8 @@ First stable release.
 - Added C API to allow binding with other languages [in progress].
 - Rewrote the cached text textures mechanism to be more efficient, less code, and now text support max width, rotation and other effects.
 - Added API to set rendering viewport.
+- Added API to draw circles.
+
 
 ## In Memory Of Bonnie
 

@@ -69,6 +69,11 @@ extern "C" {
 	BON_DLLEXPORT void BON_Gfx_DrawRectangle(int x, int y, int w, int h, float r, float g, float b, float a, bool filled, BON_BlendModes blend);
 
 	/**
+	* Draws a circle.
+	*/
+	BON_DLLEXPORT void BON_Gfx_DrawCircle(int x, int y, int radius, float r, float g, float b, float a, bool filled, BON_BlendModes blend);
+
+	/**
 	* Clear part or whole screen.
 	*/
 	BON_DLLEXPORT void BON_Gfx_ClearScreen(float r, float g, float b, float a, int x, int y, int w, int h);

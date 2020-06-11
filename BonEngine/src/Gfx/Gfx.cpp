@@ -103,6 +103,18 @@ namespace bon
 			_Implementor.DrawRectangle(rect, color, filled, blendMode);
 		}
 
+		// draws a circle.
+		void Gfx::DrawCircle(const framework::PointI& center, int radius, const framework::Color& color, bool filled, BlendModes blendMode)
+		{
+			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
+			if (filled) {
+				_Implementor.DrawCircleFill(center, radius, color, blendMode);
+			}
+			else {
+				_Implementor.DrawCircleLines(center, radius, color, blendMode);
+			}
+		}
+
 		// get window size
 		const PointI& Gfx::WindowSize() const
 		{

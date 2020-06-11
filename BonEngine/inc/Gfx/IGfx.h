@@ -106,6 +106,17 @@ namespace bon
 			 * \param blendMode Drawing shape blending mode.
 			 */
 			virtual void DrawRectangle(const framework::RectangleI& rect, const framework::Color& color, bool filled, BlendModes blendMode = BlendModes::AlphaBlend) = 0;
+			
+			/**
+			 * Draws a circle.
+			 *
+			 * \param center Circle center.
+			 * \param radius Circle radius.
+			 * \param color Circle color.
+			 * \param filled If true, will draw filled circle. If false, will draw only outline.
+			 * \param blendMode Drawing shape blending mode.
+			 */
+			virtual void DrawCircle(const framework::PointI& center, int radius, const framework::Color& color, bool filled, BlendModes blendMode = BlendModes::AlphaBlend) = 0;
 
 			/**
 			 * Clear the entire or part of the screen.

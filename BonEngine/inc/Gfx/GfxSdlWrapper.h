@@ -162,6 +162,26 @@ namespace bon
 			 * \param blendMode Blending mode.
 			 */
 			void DrawRectangle(const framework::RectangleI& rect, const framework::Color& color, bool filled, BlendModes blendMode);
+			
+			/**
+			 * Draws a circle line.
+			 * 
+			 * \param center Circle center.
+			 * \param radius Circle radius.
+			 * \param color Circle color.
+			 * \param blend Drawing blend mode.
+			 */
+			void DrawCircleLines(const framework::PointI& center, int radius, const framework::Color& color, BlendModes blend);
+
+			/**
+			 * Draws a filled circle.
+			 *
+			 * \param center Circle center.
+			 * \param radius Circle radius.
+			 * \param color Circle color.
+			 * \param blend Drawing blend mode.
+			 */
+			void DrawCircleFill(const framework::PointI& center, int radius, const framework::Color& color, BlendModes blend);
 
 			/**
 			 * Show / hide cursor.

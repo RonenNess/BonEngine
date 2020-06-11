@@ -349,6 +349,89 @@ namespace bon
 			}
 		}
 
+		// draw circle outlines
+		void GfxSdlWrapper::DrawCircleLines(const PointI& center, int radius, const Color& color, BlendModes blend)
+		{
+			// if the first pixel in the screen is represented by (0,0) (which is in sdl)
+			// remember that the beginning of the circle is not in the middle of the pixel
+			// but to the left-top from it:
+
+			// set color and blend mode
+			SetShapesRenderColorAndBlend(_renderer, color, blend);
+
+			double error = (double)-radius;
+			double x = (double)radius - 0.5;
+			double y = (double)0.5;
+			double cx = center.X - 0.5;
+			double cy = center.Y - 0.5;
+
+			while (x >= y)
+			{
+				SDL_RenderDrawPoint(_renderer, (int)(cx + x), (int)(cy + y));
+				SDL_RenderDrawPoint(_renderer, (int)(cx + y), (int)(cy + x));
+
+				if (x != 0)
+				{
+					SDL_RenderDrawPoint(_renderer, (int)(cx - x), (int)(cy + y));
+					SDL_RenderDrawPoint(_renderer, (int)(cx + y), (int)(cy - x));
+				}
+
+				if (y != 0)
+				{
+					SDL_RenderDrawPoint(_renderer, (int)(cx + x), (int)(cy - y));
+					SDL_RenderDrawPoint(_renderer, (int)(cx - y), (int)(cy + x));
+				}
+
+				if (x != 0 && y != 0)
+				{
+					SDL_RenderDrawPoint(_renderer, (int)(cx - x), (int)(cy - y));
+					SDL_RenderDrawPoint(_renderer, (int)(cx - y), (int)(cy - x));
+				}
+
+				error += y;
+				++y;
+				error += y;
+
+				if (error >= 0)
+				{
+					--x;
+					error -= x;
+					error -= x;
+				}
+			}
+		}
+
+		// draw filled circle
+		void GfxSdlWrapper::DrawCircleFill(const PointI& center, int radius, const Color& color, BlendModes blend)
+		{
+			// Note that there is more to altering the bitrate of this 
+			// method than just changing this value.  See how pixels are
+			// altered at the following web page for tips:
+			//   http://www.libsdl.org/intro.en/usingvideo.html
+			static const int BPP = 4;
+
+			// set color and blend mode
+			SetShapesRenderColorAndBlend(_renderer, color, blend);
+
+			//double ra = (double)radius;
+
+			for (double dy = 1; dy < radius; dy += 1.0)
+			{
+				// This loop is unrolled a bit, only iterating through half of the
+				// height of the circle.  The result is used to draw a scan line and
+				// its mirror image below it.
+
+				// The following formula has been simplified from our original.  We
+				// are using half of the width of the circle because we are provided
+				// with a center and we need left/right coordinates.
+
+				double dx = floor(sqrt((2.0 * radius * dy) - (dy * dy)));
+				int x = center.X - dx;
+				SDL_RenderDrawLine(_renderer, center.X - dx, center.Y + dy - radius, center.X + dx - 1, center.Y + dy - radius);
+				SDL_RenderDrawLine(_renderer, center.X - dx, center.Y - dy + radius - 1, center.X + dx - 1, center.Y - dy + radius - 1);
+			}
+		}
+
 		// clear screen or parts of it
 		void GfxSdlWrapper::ClearScreen(const Color& color, const RectangleI& clearRect)
 		{
