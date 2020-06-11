@@ -78,7 +78,7 @@ const char* BON_Config_Section(bon::ConfigAsset* config, int index)
  */
 int BON_Config_SectionsCount(bon::ConfigAsset* config)
 {
-	return (*config)->Sections().size();
+	return (int)((*config)->Sections().size());
 }
 
 /**
@@ -95,7 +95,7 @@ const char* BON_Config_Key(bon::ConfigAsset* config, const char* section, int in
  */
 int BON_Config_KeysCount(bon::ConfigAsset* config, const char* section)
 {
-	return (*config)->Keys(section).size();
+	return (int)((*config)->Keys(section).size());
 }
 
 /**

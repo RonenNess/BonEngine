@@ -990,7 +990,7 @@ This lib is distributed with the MIT license, so you can do pretty much anything
 
 First stable release.
 
-# 1.1 [WIP]
+# 1.1 [11/06/2020]
 
 - Added diagnostics manager.
 - Added performance test example.

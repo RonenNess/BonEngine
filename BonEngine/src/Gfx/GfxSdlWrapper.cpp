@@ -426,9 +426,9 @@ namespace bon
 				// with a center and we need left/right coordinates.
 
 				double dx = floor(sqrt((2.0 * radius * dy) - (dy * dy)));
-				int x = center.X - dx;
-				SDL_RenderDrawLine(_renderer, center.X - dx, center.Y + dy - radius, center.X + dx - 1, center.Y + dy - radius);
-				SDL_RenderDrawLine(_renderer, center.X - dx, center.Y - dy + radius - 1, center.X + dx - 1, center.Y - dy + radius - 1);
+				int x = (int)(center.X - dx);
+				SDL_RenderDrawLine(_renderer, (int)(center.X - dx), (int)(center.Y + dy - radius), (int)(center.X + dx - 1), (int)(center.Y + dy - radius));
+				SDL_RenderDrawLine(_renderer, (int)(center.X - dx), (int)(center.Y - dy + radius - 1), (int)(center.X + dx - 1), (int)(center.Y - dy + radius - 1));
 			}
 		}
 
