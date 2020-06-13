@@ -3,6 +3,10 @@
 `BonEngine` is a game engine designed to be simple and straightforward, with as little setup as possible. 
 Your game can be designed as OOP or procedural, everything goes.
 
+## C# Bind
+
+If you're looking for a C# bind of this engine, you can find it [here](https://github.com/RonenNess/BonEngineSharp).
+
 ## Table of Contents
 
 1. [Example](#example)
@@ -113,6 +117,10 @@ Note that while the default implementation is based on SDL, every part of `BonEn
 5. *Procedural API*: BonEngine is OOP and made with classes, but its API is mostly stateless methods you can call directly or utilize in an OOP design.
 
 In addition, and it's not much of a principal but something to remember, if a class or method starts with an _underscore, it means its internal and you should probably not call it unless you know what you're doing. These were left exposed to give more control, but normally you should ignore them.
+
+### Platforms
+
+`BonEngine` was developed and built on windows desktop; However, since its using SDL and std and nothing windows-specific, it should be relatively easy to build for other SDL-supported platforms.
 
 # Setup 
 
