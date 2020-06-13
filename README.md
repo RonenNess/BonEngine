@@ -1,4 +1,4 @@
-# BonEngine
+![BonEngine](github_icon.png)
 
 `BonEngine` is a game engine designed to be simple and straightforward, with as little setup as possible. 
 Your game can be designed as OOP or procedural, everything goes.
