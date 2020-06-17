@@ -162,6 +162,11 @@ namespace bon
 			 * Teal color.
 			 */
 			static const Color& Teal;
+
+			/**
+			 * Famous blue-ish Cornflower color (commonly used as background color).
+			 */
+			static const Color& Cornflower;
 			
 			/**
 			 * Return a random color

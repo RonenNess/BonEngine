@@ -207,7 +207,7 @@ namespace demo11_custom_manager
 		virtual void _Draw() override
 		{
 			// clear screen
-			Gfx().ClearScreen(bon::Color(0.2f, 0.5f, 1.0f));
+			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw example text and fps
 			Gfx().DrawText(_font, "Demo #11: Custom Managers!", bon::PointF(100, 100));

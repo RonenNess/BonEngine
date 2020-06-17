@@ -272,6 +272,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClCompile Include="src\Sfx\Sfx.cpp" />
     <ClCompile Include="src\Sfx\SfxSdlWrapper.cpp" />
     <ClCompile Include="src\UI\Elements\UIElement.cpp" />
+    <ClCompile Include="src\UI\UI.cpp" />
     <ClCompile Include="src\_CAPI\CAPI.cpp" />
     <ClCompile Include="src\_CAPI\CAPI_Assets.cpp" />
     <ClCompile Include="src\_CAPI\CAPI_Engine.cpp" />

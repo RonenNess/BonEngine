@@ -59,7 +59,7 @@ namespace demo2_draw_to_texture
 			Gfx().SetRenderTarget(_target);
 
 			// clear screen
-			Gfx().ClearScreen(bon::Color(0.2f, 0.5f, 1.0f));
+			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw text
 			Gfx().DrawText(_font, "Demo #2: Drawing To Texture", bon::PointF(100, 100));
@@ -77,7 +77,7 @@ namespace demo2_draw_to_texture
 			bon::PointI drawingSize = windowSize;
 			drawingSize.X += (int)(sin(Game().ElapsedTime() * 2.0) * 60.0);
 			Gfx().SetRenderTarget(nullptr);
-			Gfx().ClearScreen(bon::Color(0.2f, 0.5f, 1.0f));
+			Gfx().ClearScreen(bon::Color::Cornflower);
 			Gfx().DrawImage(_target, bon::PointF(windowSize.X / 2.0f, windowSize.Y / 2.0f), &drawingSize, bon::BlendModes::Opaque, nullptr, &originHalf, sin(_rotation) * 5.0f, nullptr);
 
 			// draw cursor

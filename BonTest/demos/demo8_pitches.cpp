@@ -51,7 +51,7 @@ namespace demo8_pitches
 		virtual void _Draw() override
 		{
 			// clear screen
-			Gfx().ClearScreen(bon::Color(0.2f, 0.5f, 1.0f));
+			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw text
 			Gfx().DrawText(_font, "Demo #8: Sound Effects Pitch", bon::PointF(100, 100));

@@ -78,7 +78,7 @@ namespace demo12_layered_scenes
 		virtual void _Draw() override
 		{
 			// clear screen
-			Gfx().ClearScreen(bon::Color(0.2f, 0.5f, 1.0f));
+			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw example text and fps
 			Gfx().DrawText(_font, "Demo #12: Layered Scene", bon::PointF(100, 100));

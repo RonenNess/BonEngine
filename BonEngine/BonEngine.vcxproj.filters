@@ -91,6 +91,9 @@
     <Filter Include="Source Files\UI">
       <UniqueIdentifier>{bb6b93b2-5f4c-460f-b533-3342e706dd43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UI\Elements">
+      <UniqueIdentifier>{d30e2a10-d1a2-4358-b1a9-ab2971aa2420}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Gfx\IGfx.h">
@@ -297,11 +300,11 @@
     <ClInclude Include="inc\UI\Elements\Defs.h">
       <Filter>Header Files\UI\Elements</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Engine\Defs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="inc\UI\UI.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Engine\Defs.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -395,11 +398,14 @@
     <ClCompile Include="src\Gfx\FontsCache.cpp">
       <Filter>Source Files\Gfx</Filter>
     </ClCompile>
+    <ClCompile Include="src\UI\UI.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
     <ClCompile Include="src\UI\Elements\UIElement.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\UI\Elements</Filter>
     </ClCompile>
     <ClCompile Include="src\Assets\Config.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Assets</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

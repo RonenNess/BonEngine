@@ -49,7 +49,7 @@ namespace demo6_filtering_modes
 		virtual void _Draw() override
 		{
 			// clear screen
-			Gfx().ClearScreen(bon::Color(0.2f, 0.5f, 1.0f));
+			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw text
 			Gfx().DrawText(_font, "Demo #6: Filtering Modes", bon::PointF(100, 100));

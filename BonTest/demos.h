@@ -120,3 +120,11 @@ namespace demo15_performance
 {
 	void main();
 }
+
+/**
+ * Demo 16 - ui test.
+ */
+namespace demo16_ui
+{
+	void main();
+}

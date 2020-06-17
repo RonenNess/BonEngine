@@ -97,7 +97,7 @@ namespace demo15_performance
 		virtual void _Draw() override
 		{
 			// clear screen
-			Gfx().ClearScreen(bon::Color(0.2f, 0.5f, 1.0f));
+			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw sprites
 			double dt = Game().DeltaTime();
@@ -135,5 +135,4 @@ namespace demo15_performance
 		auto scene = PerformanceTestScene();
 		bon::Start(scene);
 	}
-
 }

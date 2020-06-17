@@ -157,6 +157,7 @@
     <ClCompile Include="demos\demo12_layered_scenes.cpp" />
     <ClCompile Include="demos\demo14_switch_scenes.cpp" />
     <ClCompile Include="demos\demo15_performance.cpp" />
+    <ClCompile Include="demos\demo16_ui.cpp" />
     <ClCompile Include="demos\demo1_hello_world.cpp" />
     <ClCompile Include="demos\demo2_draw_to_texture.cpp" />
     <ClCompile Include="demos\demo3_input_and_sound.cpp" />

@@ -31,7 +31,7 @@ namespace demo14_switch_scenes
 		virtual void _Draw() override
 		{
 			// clear screen
-			Gfx().ClearScreen(bon::Color(0.2f, 0.5f, 1.0f));
+			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw example text and fps
 			Gfx().DrawText(_font, "This is a brand new scene!", bon::PointF(100, 100));
@@ -82,7 +82,7 @@ namespace demo14_switch_scenes
 		virtual void _Draw() override
 		{
 			// clear screen
-			Gfx().ClearScreen(bon::Color(0.2f, 0.5f, 1.0f));
+			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw example text and fps
 			Gfx().DrawText(_font, "Demo #14: Switch Scenes", bon::PointF(100, 100));

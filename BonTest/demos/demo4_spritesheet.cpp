@@ -96,7 +96,7 @@ namespace demo4_spritesheet
 		virtual void _Draw() override
 		{
 			// clear screen
-			Gfx().ClearScreen(bon::Color(0.2f, 0.5f, 1.0f));
+			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw example text and fps
 			Gfx().DrawText(_font, "Demo #4: Spritesheet", bon::PointF(100, 100));

@@ -59,7 +59,7 @@ namespace demo7_fake_resolution
 			Gfx().SetRenderTarget(_target);
 
 			// clear screen
-			Gfx().ClearScreen(bon::Color(0.2f, 0.5f, 1.0f));
+			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw test sprite
 			static bon::PointF origin(0.0f, 1.0f);
@@ -67,7 +67,7 @@ namespace demo7_fake_resolution
 
 			// clear render target and present texture on screen
 			Gfx().SetRenderTarget(nullptr);
-			Gfx().ClearScreen(bon::Color(0.2f, 0.5f, 1.0f));
+			Gfx().ClearScreen(bon::Color::Cornflower);
 			auto targetSize = Gfx().WindowSize();
 			float ratio = (float)_target->Height() / (float)_target->Width();
 			targetSize.X = (int)(targetSize.X * ratio);

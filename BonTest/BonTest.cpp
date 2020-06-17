@@ -22,6 +22,7 @@ int main()
 	std::cout << " 13: Small game demo - a walk in the forest\n";
 	std::cout << " 14: Switching scenes demo\n";
 	std::cout << " 15: Performance test\n";
+	std::cout << " 16: UI demo\n";
 	std::cout << "Your choice: ";
 
 	int demoNumber = -1;
@@ -92,6 +93,10 @@ int main()
 
 		case 15:
 			demo15_performance::main();
+			break;
+
+		case 16:
+			demo16_ui::main();
 			break;
 
 		default:

@@ -75,7 +75,7 @@ namespace demo3_input_and_sound
 		virtual void _Draw() override
 		{
 			// clear screen
-			Gfx().ClearScreen(bon::Color(0.2f, 0.5f, 1.0f));
+			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw text
 			Gfx().DrawText(_font, "Demo #3: Input & Sound!", bon::PointF(100, 100));

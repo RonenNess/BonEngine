@@ -51,7 +51,7 @@ namespace demo9_blend_modes
 		virtual void _Draw() override
 		{
 			// clear screen
-			Gfx().ClearScreen(bon::Color(0.2f, 0.5f, 1.0f));
+			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// get window size
 			bon::PointI windowSize = Gfx().WindowSize();
