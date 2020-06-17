@@ -14,8 +14,8 @@
 #include "Engine/Engine.h"
 #include "Engine/Scene.h"
 
-#define _BON_VERSION_STR "1.1"
-#define _BON_VERSION 1.1
+#define _BON_VERSION_STR "1.w"
+#define _BON_VERSION 1.2
 
 namespace bon
 {
@@ -28,6 +28,7 @@ namespace bon
 	using namespace bon::input;
 	using namespace bon::sfx;
 	using namespace bon::diagnostics;
+	using namespace bon::ui;
 
 	/**
 	 * Get engine instance.

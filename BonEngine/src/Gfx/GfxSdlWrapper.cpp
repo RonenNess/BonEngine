@@ -281,7 +281,7 @@ namespace bon
 		}
 
 		// convert bon blend mode to sdl blend
-		SDL_BlendMode EzBlendToSdlBlend(BlendModes blend)
+		SDL_BlendMode BonBlendToSdlBlend(BlendModes blend)
 		{
 			switch (blend)
 			{
@@ -306,7 +306,7 @@ namespace bon
 			// set blend, if changed
 			static BlendModes lastBlend = BlendModes::_Count;
 			if (blendMode != lastBlend) {
-				SDL_SetRenderDrawBlendMode(renderer, EzBlendToSdlBlend(blendMode));
+				SDL_SetRenderDrawBlendMode(renderer, BonBlendToSdlBlend(blendMode));
 				lastBlend = blendMode;
 			}
 
@@ -438,15 +438,15 @@ namespace bon
 			// set drawing color
 			SetShapesRenderColorAndBlend(_renderer, color, BlendModes::Opaque);
 
-			// clear whole screen
+			// clear whole screen using render clear
 			if (clearRect.Empty())
 			{
 				SDL_RenderClear(_renderer);
 			}
-			// clear just a rectangle
+			// clear region using fill rect
 			else
 			{
-				SDL_Rect rect;
+				static SDL_Rect rect;
 				rect.x = clearRect.X;
 				rect.y = clearRect.Y;
 				rect.w = clearRect.Width;
@@ -564,7 +564,7 @@ namespace bon
 		{
 			// set blend mode
 			if (handle->CurrentBlendMode != blend) {
-				SDL_SetTextureBlendMode(texture, EzBlendToSdlBlend(blend));
+				SDL_SetTextureBlendMode(texture, BonBlendToSdlBlend(blend));
 				handle->CurrentBlendMode = blend;
 			}
 
@@ -639,7 +639,7 @@ namespace bon
 		void GfxSdlWrapper::DrawTexture(SDL_Texture* texture, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color)
 		{
 			// set blend mode and color
-			SDL_SetTextureBlendMode(texture, EzBlendToSdlBlend(blend));
+			SDL_SetTextureBlendMode(texture, BonBlendToSdlBlend(blend));
 			SDL_SetTextureColorMod(texture, color.RB(), color.GB(), color.BB());
 			SDL_SetTextureAlphaMod(texture, color.AB());
 

@@ -183,6 +183,19 @@ namespace bon
 			static const PointF& Half;
 
 			/**
+			 * Lerp between two points.
+			 *
+			 * \param a From point.
+			 * \param b To point.
+			 * \param delta Lerp factor.
+			 * \return Lerped point between the two given points.
+			 */
+			static PointF Lerp(const PointF& a, const PointF& b, float delta)
+			{
+				return PointF((a.X * (1 - delta) + b.X * delta), (a.Y * (1 - delta) + b.Y * delta));
+			}
+
+			/**
 			 * Get distance to another PointF.
 			 * 
 			 * \param other PointF to get distance to.

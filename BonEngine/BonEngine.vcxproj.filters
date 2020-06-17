@@ -82,6 +82,15 @@
     <Filter Include="Source Files\_CAPI">
       <UniqueIdentifier>{d65dc1b3-8206-4235-b712-4a27cb5a2889}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{0d80cacd-d5e5-49c5-9229-9fd39dd96add}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI\Elements">
+      <UniqueIdentifier>{e5b62a09-92bb-4b3d-a308-1b7fbc734742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{bb6b93b2-5f4c-460f-b533-3342e706dd43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Gfx\IGfx.h">
@@ -279,6 +288,21 @@
     <ClInclude Include="inc\_CAPI\CAPI_Defs.h">
       <Filter>Header Files\_CAPI</Filter>
     </ClInclude>
+    <ClInclude Include="inc\UI\IUI.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\UI\Elements\UIElement.h">
+      <Filter>Header Files\UI\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\UI\Elements\Defs.h">
+      <Filter>Header Files\UI\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Engine\Defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\UI\UI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Engine.cpp">
@@ -370,6 +394,12 @@
     </ClCompile>
     <ClCompile Include="src\Gfx\FontsCache.cpp">
       <Filter>Source Files\Gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Elements\UIElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assets\Config.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

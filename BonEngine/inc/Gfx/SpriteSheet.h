@@ -230,6 +230,22 @@ namespace bon
 			 * \return Sprite index in spritesheet from bookmark.
 			 */
 			framework::PointI GetBookmark(const char* bookmarkId) const;
+
+			/**
+			 * Get if animation id exists.
+			 * 
+			 * \param animationId Animation id to check.
+			 * \return True if animation exists.
+			 */
+			bool ContainsAnimation(const char* animationId) const;
+
+			/**
+			 * Get if bookmark id exists.
+			 *
+			 * \param bookmarkId Bookmark id to check.
+			 * \return True if bookmark exists.
+			 */
+			bool ContainsBookmark(const char* bookmarkId) const;
 		};
 	}
 }

@@ -9,6 +9,9 @@
 #include "../../dllimport.h"
 #include "IAsset.h"
 #include "../Defs.h"
+#include "../../Framework/PointF.h"
+#include "../../Framework/Color.h"
+#include "../../Framework/RectangleF.h"
 #include <string>
 #include <set>
 #include "ConfigHandle.h"
@@ -101,6 +104,36 @@ namespace bon
 			 * \return Config value as float.
 			 */
 			float GetFloat(const char* section, const char* name, float defaultVal) const { return Handle()->GetFloat(section, name, defaultVal); }
+
+			/**
+			 * Get point value from config (format: "x,y").
+			 * 
+			 * \param section Config section name.
+			 * \param name Config name.
+			 * \param defaultVal Default value to retrieve if not found.
+			 * \return Config value as PointF.
+			 */
+			framework::PointF GetPointF(const char* section, const char* name, const framework::PointF& defaultVal) const;
+
+			/**
+			 * Get rectanlge value from config (format: "x,y,w,h").
+			 *
+			 * \param section Config section name.
+			 * \param name Config name.
+			 * \param defaultVal Default value to retrieve if not found.
+			 * \return Config value as RectangleF.
+			 */
+			framework::RectangleF GetRectangleF(const char* section, const char* name, const framework::RectangleF& defaultVal) const;
+
+			/**
+			 * Get color value from config (format: "r,g,b,a" where values range from 0 to 255).
+			 *
+			 * \param section Config section name.
+			 * \param name Config name.
+			 * \param defaultVal Default value to retrieve if not found.
+			 * \return Config value as Color.
+			 */
+			framework::Color GetColor(const char* section, const char* name, const framework::Color& defaultVal) const;
 
 			/**
 			 * Get set with all section names.

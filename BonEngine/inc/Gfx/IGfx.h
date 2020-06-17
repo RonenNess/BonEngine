@@ -153,6 +153,13 @@ namespace bon
 			virtual void SetRenderTarget(const assets::ImageAsset& target) = 0;
 
 			/**
+			 * Get the currently set render target, or null.
+			 * 
+			 * \return Render target or null.
+			 */
+			virtual const assets::ImageAsset& GetRenderTarget() const = 0;
+
+			/**
 			* Set a rendering viewport (will only render inside the given region).
 			*
 			* \param viewport Viewport to set, or nullptr to remove viewport and render on whole screen.
@@ -165,6 +172,16 @@ namespace bon
 			 * \return Window size.
 			 */
 			virtual const framework::PointI& WindowSize() const = 0;
+
+			/**
+			 * Get the size in pixels we can draw on.
+			 * - If viewport is set, will return viewport size.
+			 * - If target texture is set, will return texture size.
+			 * - If none of the above is set, will return window size.
+			 *
+			 * \return Renderable size.
+			 */
+			virtual framework::PointI RenderableSize() const = 0;
 
 		protected:
 

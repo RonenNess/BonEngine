@@ -54,6 +54,12 @@ namespace bon
 			return _GetEngine().Diagnostics();
 		}
 
+		// get ui manager
+		ui::IUI& ManagerGetters::UI()
+		{
+			return _GetEngine().UI();
+		}
+
 		// get manager by id
 		IManager* ManagerGetters::GetManager(const char* id)
 		{

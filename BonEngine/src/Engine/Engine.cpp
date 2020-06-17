@@ -7,6 +7,7 @@
 #include <Log/Log.h>
 #include <Input/Input.h>
 #include <Diagnostics/Diagnostics.h>
+#include <UI/UI.h>
 #include <Engine/Scene.h>
 
 #pragma warning(push, 0)
@@ -89,7 +90,16 @@ namespace bon
 			else {
 				_logManager->Write(log::LogLevel::Debug, "Didn't create default game manager because user already registered a custom one.");
 			}
-			
+
+			// create default ui manager
+			if (!_uiManager) {
+				_uiManager = new ui::UI();
+				_logManager->Write(log::LogLevel::Debug, "Created default ui manager.");
+			}
+			else {
+				_logManager->Write(log::LogLevel::Debug, "Didn't create default ui manager because user already registered a custom one.");
+			}
+
 			// register all built-in managers
 			_managers.push_back(_logManager);
 			_managers.push_back(_inputManager);
@@ -98,6 +108,7 @@ namespace bon
 			_managers.push_back(_gfxManager);
 			_managers.push_back(_sfxManager);
 			_managers.push_back(_diagnosticsManager);
+			_managers.push_back(_uiManager);
 			
 			// initialize all managers
 			_logManager->Write(log::LogLevel::Debug, "Initialize managers.");

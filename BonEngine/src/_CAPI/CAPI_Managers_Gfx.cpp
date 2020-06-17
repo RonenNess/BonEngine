@@ -83,6 +83,14 @@ void BON_Gfx_SetRenderTarget(const bon::assets::ImageAsset* target)
 }
 
 /**
+ * Get render target.
+ */
+bon::assets::ImageAsset* BON_Gfx_GetRenderTarget()
+{	
+	return (bon::assets::ImageAsset*)(&bon::_GetEngine().Gfx().GetRenderTarget());
+}
+
+/**
 * Draws a rectangle.
 */
 void BON_Gfx_DrawRectangle(int x, int y, int w, int h, float r, float g, float b, float a, bool filled, BON_BlendModes blend)

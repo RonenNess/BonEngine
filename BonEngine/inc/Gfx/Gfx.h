@@ -159,7 +159,17 @@ namespace bon
 			 *
 			 * \return Window size.
 			 */
-			virtual const framework::PointI& WindowSize() const;
+			virtual const framework::PointI& WindowSize() const override;
+
+			/**
+			 * Get the size in pixels we can draw on.
+			 * - If viewport is set, will return viewport size.
+			 * - If target texture is set, will return texture size.
+			 * - If none of the above is set, will return window size.
+			 * 
+			 * \return Renderable size.
+			 */
+			virtual framework::PointI RenderableSize() const override;
 
 			/**
 			 * Set window properties.
@@ -193,6 +203,13 @@ namespace bon
 			 * \param target Target to draw on, or nullptr to clear render target and draw back on screen.
 			 */
 			virtual void SetRenderTarget(const assets::ImageAsset& target) override;
+
+			/**
+			 * Get the currently set render target, or null.
+			 *
+			 * \return Render target or null.
+			 */
+			virtual const assets::ImageAsset& GetRenderTarget() const override;
 		};
 	}
 }

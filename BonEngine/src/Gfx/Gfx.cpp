@@ -2,6 +2,7 @@
 #include <Framework/Point.h>
 #include <BonEngine.h>
 #include <Diagnostics/IDiagnostics.h>
+#include <algorithm>
 
 
 namespace bon
@@ -67,9 +68,13 @@ namespace bon
 			}
 		}
 
+		// currently set viewport
+		framework::RectangleI _viewport = framework::RectangleI::Zero();
+
 		// set viewport
 		void Gfx::SetViewport(const framework::RectangleI* viewport)
 		{
+			_viewport = viewport ? *viewport : RectangleI::Zero();
 			_Implementor.SetViewport(viewport);
 		}
 
@@ -129,15 +134,49 @@ namespace bon
 			_Implementor.SetTitle(title);
 		}
 
+		// currently set render target
+		ImageAsset _renderTarget;
+
 		// set render target
 		void Gfx::SetRenderTarget(const ImageAsset& target)
 		{
-			// current render target. we only store it to make sure asset is not lost by accident while set (its a shared ptr).
-			static ImageAsset _renderTarget;
-
 			// set render target
 			_Implementor.SetRenderTarget(target);
 			_renderTarget = target;
+		}
+
+		// get currently set render target
+		const assets::ImageAsset& Gfx::GetRenderTarget() const
+		{
+			return _renderTarget;
+		}
+
+		// get renderable size
+		framework::PointI Gfx::RenderableSize() const
+		{
+			// return size
+			PointI ret;
+
+			// set from render target
+			if (_renderTarget != nullptr) 
+			{
+				ret.Set(_renderTarget->Width(), _renderTarget->Height());
+			}
+
+			// set from viewport
+			if (!_viewport.Empty())
+			{
+				ret.X = ret.X == 0 ? _viewport.Width : std::min(ret.X, _viewport.Width);
+				ret.Y = ret.Y == 0 ? _viewport.Height : std::min(ret.Y, _viewport.Height);
+			}
+
+			// set from window size
+			PointI windowSize = WindowSize();
+			ret.X = ret.X == 0 ? windowSize.X : std::min(ret.X, windowSize.X);
+			ret.Y = ret.Y == 0 ? windowSize.Y : std::min(ret.Y, windowSize.Y);
+
+			// return renderable size
+			return ret;
 		}
 
 		// clear the entire screen or part of it

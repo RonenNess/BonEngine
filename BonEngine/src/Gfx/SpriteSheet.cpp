@@ -9,22 +9,6 @@ namespace bon
 {
 	namespace gfx
 	{
-		// get a string in format of "x,y", and extract x and y components from it.
-		void SplitPointStr(const std::string& str, int& outX, int& outY)
-		{
-			try
-			{
-				std::string xStr = str.substr(0, str.find(','));
-				outX = std::stoi(xStr);
-				std::string yStr = str.substr(str.find(',') + 1);
-				outY = std::stoi(yStr);
-			}
-			catch (const std::exception&)
-			{
-				throw framework::AssetLoadError("Invalid point format! Must be 'x,y'.");
-			}
-		}
-
 		// split strings by delimiter
 		template <class Container>
 		void SplitString(const std::string& str, Container& cont, char delim = ' ')
@@ -52,8 +36,7 @@ namespace bon
 			_animations.clear();
 
 			// get sprites count in spritesheet
-			std::string spritesCountStr(config->GetStr("general", "sprites_count", "1,1"));
-			SplitPointStr(spritesCountStr, SpritesCount.X, SpritesCount.Y);
+			SpritesCount = config->GetPointF("general", "sprites_count", framework::PointF::One);
 
 			// get animation names
 			std::string animations(config->GetStr("general", "animations", ""));
@@ -75,8 +58,7 @@ namespace bon
 			auto bookmarks = config->Keys("bookmarks");
 			for (auto bookid : bookmarks)
 			{
-				framework::PointI index;
-				SplitPointStr(config->GetStr("bookmarks", bookid.c_str(), "0,0"), index.X, index.Y);
+				framework::PointI index = config->GetPointF("bookmarks", bookid.c_str(), framework::PointF::Zero);
 				AddBookmark(bookid.c_str(), index);
 			}
 		}
@@ -111,14 +93,12 @@ namespace bon
 
 				// load duration and index
 				float duration = config->GetFloat(section.c_str(), (step_prefix + "_duration").c_str(), 0.1f);
-				std::string indexStr(config->GetStr(section.c_str(), (step_prefix + "_source").c_str(), "0,0"));
-				int x, y;
-				SplitPointStr(indexStr, x, y);
+				framework::PointI index = config->GetPointF(section.c_str(), (step_prefix + "_source").c_str(), framework::PointF::Zero);
 
 				// add step
 				SpriteAnimationStep step;
 				step.Duration = duration;
-				step.Index.Set(x, y);
+				step.Index.Set(index.X, index.Y);
 				_steps.push_back(step);
 			}
 		}
@@ -232,6 +212,18 @@ namespace bon
 		framework::PointI SpriteSheet::GetBookmark(const char* bookmarkId) const
 		{
 			return _bookmarks.at(bookmarkId);
+		}
+
+		// get if animation id exists.
+		bool SpriteSheet::ContainsAnimation(const char* animationId) const
+		{
+			return _animations.find(animationId) != _animations.end();
+		}
+
+		// get if bookmark id exists.
+		bool SpriteSheet::ContainsBookmark(const char* bookmarkId) const
+		{
+			return _bookmarks.find(bookmarkId) != _bookmarks.end();
 		}
 	}
 }

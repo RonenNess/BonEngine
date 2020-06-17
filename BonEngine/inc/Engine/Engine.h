@@ -13,8 +13,10 @@
 #include "../Game/IGame.h"
 #include "../Input/IInput.h"
 #include "../Log/ILog.h"
+#include "../UI/IUI.h"
 #include "../Diagnostics/IDiagnostics.h"
 #include "../Framework/Exceptions.h"
+#include "Defs.h"
 #include <vector>
 #pragma warning ( push )
 #pragma warning ( disable: 4251 ) // "..needs to have dll-interface to be used by clients..." it's ok in this case because its private.
@@ -24,45 +26,6 @@ namespace bon
 {
 	namespace engine
 	{
-		/**
-		 * Different states the engine can be in.
-		 */
-		enum class BON_DLLEXPORT EngineStates
-		{
-			// Engine was not initialized yet.
-			BeforeInitialize = 0,
-
-			// engine is initializing now.
-			Initialize = 1,
-
-			// engine is doing managers updates.
-			InternalUpdate = 2,
-
-			// engine is doing fixed updates.
-			FixedUpdate = 3,
-
-			// engine is doing regular updates.
-			Update = 4,
-
-			// engine is drawing.
-			Draw = 5,
-
-			// engine is doing other main-loop code that isn't updates or drawing.
-			MainLoopInBetweens = 6,
-
-			// engine is handling events
-			HandleEvents = 7,
-			
-			// engine is stopping
-			Stopping = 8,
-
-			// engine is completely stopped and destroyed
-			Destroyed = 9,
-		
-			// engine is currently switching scenes (not set on first scene set).
-			SwitchScene = 10,
-		};
-
 		/**
 		 * The main class that runs the BonEngine engine.
 		 * This is the class that gets instanciated and fire up the game main loop.
@@ -81,6 +44,7 @@ namespace bon
 			input::IInput* _inputManager = nullptr;
 			log::ILog* _logManager = nullptr;
 			diagnostics::IDiagnostics* _diagnosticsManager = nullptr;
+			ui::IUI* _uiManager = nullptr;
 
 			// list of all manager instances
 			std::vector<IManager*> _managers;
@@ -244,6 +208,21 @@ namespace bon
 			 * \return diagnostics manager.
 			 */
 			inline diagnostics::IDiagnostics& Diagnostics() { return *_diagnosticsManager; }
+
+			/**
+			 * Set the currently active ui manager.
+			 * Note: the pointer you set must not be deleted until the end of the program, unless you replace it manually.
+			 *
+			 * \param manager New UI manager.
+			 */
+			inline void SetUIManager(ui::IUI* manager) { AssertIfRunning(); _uiManager = manager; }
+
+			/**
+			 * Get UI manager instance.
+			 *
+			 * \return UI manager.
+			 */
+			inline ui::IUI& UI() { return *_uiManager; }
 
 			/**
 			 * Register a custom manager class.

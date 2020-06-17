@@ -600,9 +600,21 @@ Start drawing to target image instead of directly on screen (render to texture).
 
 This is an extremely useful functionality you can use for post-effects.
 
+#### ImageAsset GetRenderTarget()
+
+Retrieve currently set render target, or null if not set.
+
 #### PointI WindowSize()
 
 Get window size.
+
+#### PointI RenderableSize()
+
+Get the size of the area we can currently draw on.
+
+- If viewport is set, will return viewport size.
+- If render target is set, will return target size, unless there's a smaller viewport.
+- If there's no render target nor viewport, will return window size.
 
 #### SetViewport(rect)
 
@@ -949,6 +961,9 @@ Once a config file is loaded (or created as empty), you can use the following ge
 * GetBool(section, key, defaultVal)
 * GetInt(section, key, defaultVal)
 * GetFloat(section, key, defaultVal)
+* GetPointF(section, key, defaultVal)
+* GetRectangleF(section, key, defaultVal)
+* GetColor(section, key, defaultVal)
 
 Set values with:
 
@@ -1015,6 +1030,13 @@ First stable release.
 - Added API to set rendering viewport.
 - Added API to draw circles.
 
+# 1.2 [WIP]
+
+- Extended `SpriteSheet` API (contains animation, contains bookmark).
+- Added `Lerp` function to points.
+- Extended Gfx API to get current target size and retrieve render target.
+- Added UI manager and some basic UI elements.
+- Added GetPoint(), GetColor() and GetRect() to config assets.
 
 ## In Memory Of Bonnie
 

@@ -41,6 +41,10 @@ namespace bon
 	{
 		class IDiagnostics;
 	}
+	namespace ui
+	{
+		class IUI;
+	}
 
 	namespace engine
 	{
@@ -86,6 +90,11 @@ namespace bon
 			 * Get diagnostics manager from active engine.
 			 */
 			inline diagnostics::IDiagnostics& Diagnostics();
+
+			/**
+			 * Get ui manager from active engine.
+			 */
+			inline ui::IUI& UI();
 
 			/**
 			 * Get manager by id.
