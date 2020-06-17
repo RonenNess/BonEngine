@@ -49,5 +49,33 @@ namespace bon
 				DrawCursor();
 			}
 		}
+
+		// create and return a new element.
+		UIElementPtr UI::Create(UIElementTypes type, ConfigAsset stylesheet, UIElementPtr parent)
+		{
+			// create element
+			UIElementPtr ret;
+			switch (type)
+			{
+			case UIElementTypes::Container:
+				ret = std::make_shared<UIElement>();
+				break;
+			}
+
+			// load stylesheet
+			if (stylesheet != nullptr)
+			{
+				ret->LoadStyleFrom(stylesheet);
+			}
+
+			// add to parent
+			if (parent != nullptr)
+			{
+				parent->AddChild(ret);
+			}
+
+			// return new element
+			return ret;
+		}
 	}
 }

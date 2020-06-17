@@ -1,6 +1,6 @@
 /*****************************************************************//**
  * \file   Defs.h
- * \brief  Misc defs.
+ * \brief  Misc engine-related defs.
  *
  * \author Ronen Ness
  * \date   June 2020

@@ -53,6 +53,16 @@ namespace bon
 			 * \param drawCursor Set to true to draw cursor (will just call DrawCursor() internally).
 			 */
 			virtual void Draw(UIElementPtr root, bool drawCursor) override;
+			
+			/**
+			 * Create and return a new element.
+			 *
+			 * \param type Element type.
+			 * \param stylesheet Optional config asset to load styles from.
+			 * \param parent Optional parent to attach element to.
+			 * \return New element pointer.
+			 */
+			virtual UIElementPtr Create(UIElementTypes type, ConfigAsset stylesheet = nullptr, UIElementPtr parent = nullptr) override;
 
 		private:
 			/**

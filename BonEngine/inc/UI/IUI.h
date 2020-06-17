@@ -9,10 +9,12 @@
 #include "../dllimport.h"
 #include "../IManager.h"
 #include "../Assets/Types/Image.h"
+#include "../Assets/Types/Config.h"
 #include "../Framework/Point.h"
 #include "../Framework/Color.h"
 #include "../Framework/Rectangle.h"
 #include "../Gfx/Sprite.h"
+#include "Defs.h"
 #include "Elements/Defs.h"
 
 namespace bon
@@ -57,6 +59,16 @@ namespace bon
 			 * \param drawCursor Set to true to draw cursor (will just call DrawCursor() internally).
 			 */
 			virtual void Draw(UIElementPtr root, bool drawCursor) = 0;
+
+			/**
+			 * Create and return a new element.
+			 * 
+			 * \param type Element type.
+			 * \param stylesheet Optional config asset to load styles from.
+			 * \param parent Optional parent to attach element to.
+			 * \return New element pointer.
+			 */
+			virtual UIElementPtr Create(UIElementTypes type, ConfigAsset stylesheet = nullptr, UIElementPtr parent = nullptr) = 0;
 
 		protected:
 

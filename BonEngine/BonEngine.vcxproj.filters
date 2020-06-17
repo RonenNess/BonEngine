@@ -304,6 +304,9 @@
       <Filter>Header Files\UI</Filter>
     </ClInclude>
     <ClInclude Include="inc\Engine\Defs.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\UI\Defs.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>

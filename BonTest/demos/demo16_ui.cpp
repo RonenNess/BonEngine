@@ -13,6 +13,9 @@ namespace demo16_ui
 		// default font
 		bon::FontAsset _font;
 
+		// ui root
+		bon::UIElementPtr _uiRoot;
+
 	public:
 
 		// on scene load
@@ -29,11 +32,16 @@ namespace demo16_ui
 			UI().SetCursor(cursor, bon::PointI(64, 64), bon::PointI::Zero);
 		}
 
-		// drawing
+		// drawing ui
 		virtual void _Draw() override
 		{
 			// clear screen
 			Gfx().ClearScreen(bon::Color::Cornflower);
+
+			// draw ui
+			// note: for this demo we separate the ui drawing and cursor drawing calls just to show its possible.
+			// set second param to true to draw cursor at the same call.
+			UI().Draw(_uiRoot, false);
 
 			// draw cursor
 			UI().DrawCursor();

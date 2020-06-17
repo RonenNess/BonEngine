@@ -65,17 +65,12 @@ namespace bon
 			 * \param config Config file to init element from.
 			 *				* config must contain the following section:
 			 *				*	[style]
-			 *				*		- width = Element width value.
-			 *				*		- width_type = Width coordinate types (pixels / parent_percent).
-			 *				*		- height = Element height value.
-			 *				*		- height_type = Height coordinate types (pixels / parent_percent). 
+			 *				*		- width = Element width + unit (p for pixels, % for percent of parent. for example: "100%" or "40p").
+			 *				*		- height = Element height + unit (p for pixels, % for percent of parent. for example: "100%" or "40p").
 			 *				*		- color = Element color, with values ranging from 0 to 255 (r,g,b,a).
-			 *				*		- padding_left = Element padding left.
-			 *				*		- padding_right = Element padding right.
-			 *				*		- padding_top = Element padding top.
-			 *				*		- padding_bottom = Element padding bottom.
+			 *				*		- padding = Element padding (left, top, right, bottom).
 			 */
-			virtual void InitStyle(const assets::ConfigAsset& config);
+			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
 
 			/**
 			 * Element drawing color.

@@ -28,9 +28,19 @@ namespace bon
 		}
 
 		// init style from config
-		void UIElement::InitStyle(const assets::ConfigAsset& config)
+		void UIElement::LoadStyleFrom(const assets::ConfigAsset& config)
 		{
+			// load color
+			Color = config->GetColor("style", "color", Color.White);
 
+			// load padding
+			RectangleF padding = config->GetRectangleF("style", "padding", RectangleF::Zero());
+			_padding.FromRect(padding);
+
+			// load width and height
+			const char* width = config->GetStr("style", "width", "100p");
+			const char* height = config->GetStr("style", "height", "100p");
+			_size.FromStr(width, height);
 		}
 
 		// remove child element.
