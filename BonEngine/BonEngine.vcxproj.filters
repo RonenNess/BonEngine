@@ -306,8 +306,8 @@
     <ClInclude Include="inc\Engine\Defs.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="inc\UI\Defs.h">
-      <Filter>Header Files\UI</Filter>
+    <ClInclude Include="inc\UI\Elements\UIImage.h">
+      <Filter>Header Files\UI\Elements</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -409,6 +409,12 @@
     </ClCompile>
     <ClCompile Include="src\Assets\Config.cpp">
       <Filter>Source Files\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Elements\UIImage.cpp">
+      <Filter>Source Files\UI\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Framework\Rectangle.cpp">
+      <Filter>Source Files\Framework</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

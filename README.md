@@ -1037,6 +1037,7 @@ First stable release.
 - Extended Gfx API to get current target size and retrieve render target.
 - Added UI manager and some basic UI elements.
 - Added GetPoint(), GetColor() and GetRect() to config assets.
+- Changed Rectangle::Zero to be a static const instead of method.
 
 ## In Memory Of Bonnie
 

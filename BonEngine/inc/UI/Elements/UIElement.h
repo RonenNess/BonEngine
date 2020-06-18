@@ -27,7 +27,7 @@ namespace bon
 		/**
 		 * Base UI element class.
 		 */
-		class BON_DLLEXPORT UIElement
+		class BON_DLLEXPORT _UIElement
 		{
 		private:
 			// element position.
@@ -37,16 +37,13 @@ namespace bon
 			UICoords _size;
 
 			// child elements.
-			std::list<UIElementPtr> _children;
+			std::list<UIElement> _children;
 
 			// internal padding
 			UISides _padding;
 
 			// parent ui element.
-			UIElement* _parent = nullptr;
-
-			// element calculated dest rect (based on position and size)
-			framework::RectangleI _destRect;
+			_UIElement* _parent = nullptr;
 
 			// do we need to recalculate dest rect?
 			bool _isDestDirty = true;
@@ -55,9 +52,55 @@ namespace bon
 			unsigned long _destCalcId = 0;
 
 			// last known parent dest id. if changes, we need to update ourselves as well
-			unsigned long _parentLastDestCalcId = (unsigned long)-1;
+			unsigned long _parentLastDestCalcId = (unsigned long)-1; 
+
+		protected:
+			// element state
+			UIElementState _state = UIElementState::Idle;
+			
+			// element previous state
+			UIElementState _prevState = UIElementState::Idle;
+
+			// element calculated dest rect (based on position and size)
+			framework::RectangleI _destRect;
 
 		public:
+
+			/**
+			 * Callback for mouse press.
+			 * Additional param will be UIInputEvent instance. Don't delete it.
+			 */
+			UICallback OnMousePressed;
+
+			/**
+			 * Callback for mouse release.
+			 * Additional param will be UIInputEvent instance. Don't delete it.
+			 */
+			UICallback OnMouseReleased;
+
+			/**
+			 * Callback for mouse enter.
+			 * Additional param will be UIInputEvent instance. Don't delete it.
+			 */
+			UICallback OnMouseEnter;
+
+			/**
+			 * Callback for mouse leave.
+			 * Additional param will be null.
+			 */
+			UICallback OnMouseLeave;
+
+			/**
+			 * Callback for before drawing.
+			 * Additional param will be null.
+			 */
+			UICallback OnDraw;
+
+			/**
+			 * Callback for value change.
+			 * Additional param will be null.
+			 */
+			UICallback OnValueChange;
 
 			/**
 			 * Initialize element style from config file.
@@ -68,14 +111,32 @@ namespace bon
 			 *				*		- width = Element width + unit (p for pixels, % for percent of parent. for example: "100%" or "40p").
 			 *				*		- height = Element height + unit (p for pixels, % for percent of parent. for example: "100%" or "40p").
 			 *				*		- color = Element color, with values ranging from 0 to 255 (r,g,b,a).
+			 *				*		- color_highlight = Element color, while being pointed on / highlighted, with values ranging from 0 to 255 (r,g,b,a).
+			 *				*		- color_pressed = Element color, while being pressed down, with values ranging from 0 to 255 (r,g,b,a).
 			 *				*		- padding = Element padding (left, top, right, bottom).
+			 *				*		- origin = Element origin (x,y).
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
+
+			/**
+			 * Element origin, relative to dest rect size.
+			 */
+			framework::PointF Origin;
 
 			/**
 			 * Element drawing color.
 			 */
 			framework::Color Color;
+
+			/**
+			 * Element drawing color while being hightlighted / point on.
+			 */
+			framework::Color ColorHighlight;
+
+			/**
+			 * Element drawing color while being pressed on / interacted with.
+			 */
+			framework::Color ColorPressed;
 
 			/**
 			 * Mark dest rect as dirty.
@@ -117,21 +178,21 @@ namespace bon
 			 * 
 			 * \return Parent element, or null.
 			 */
-			inline const UIElement* Parent() const { return _parent; }
+			inline const _UIElement* Parent() const { return _parent; }
 
 			/**
 			 * Add child element.
 			 * 
 			 * \param child Element to add.
 			 */
-			void AddChild(UIElementPtr child);
+			void AddChild(UIElement child);
 
 			/**
 			 * Remove child element.
 			 * 
 			 * \param child Element to remove.
 			 */
-			void RemoveChild(UIElementPtr child);
+			void RemoveChild(UIElement child);
 
 			/**
 			 * Remove self from parent.
@@ -150,7 +211,21 @@ namespace bon
 			 */
 			virtual void Update(double deltaTime);
 
+			/**
+			 * Do input updates to interact with element.
+			 * This happens after the regular updates.
+			 *
+			 * \param mousePosition Mouse position to test.
+			 * \param updateState Contains temporary state about UI input updates.
+			 */
+			virtual void DoInputUpdates(const framework::PointI& mousePosition, UIUpdateInputState& updateState);
+
 		protected:
+
+			/**
+			 * Get drawing color based on element state.
+			 */
+			const framework::Color& GetCurrentStateColor() const;
 
 			/**
 			 * Recalculate destination rect.
@@ -173,6 +248,15 @@ namespace bon
 			 * Implement just the drawing of this element
 			 */
 			virtual void DrawSelf();
+
+			/**
+			 * Do input updates to interact with element of this specific element.
+			 * This happens after the regular updates.
+			 *
+			 * \param mousePosition Mouse position to test.
+			 * \param updateState Contains temporary state about UI input updates.
+			 */
+			virtual void DoInputUpdatesSelf(const framework::PointI& mousePosition, UIUpdateInputState& updateState);
 
 			/**
 			 * Implement just the updating of this element

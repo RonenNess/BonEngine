@@ -49,6 +49,16 @@ extern "C" {
 	BON_DLLEXPORT void BON_Gfx_SetTitle(const char* title);
 
 	/**
+	* Get window's size
+	*/
+	BON_DLLEXPORT void BON_Gfx_WindowSize(int* x, int* y);
+
+	/**
+	* Get renderable region size
+	*/
+	BON_DLLEXPORT void BON_Gfx_RenderableSize(int* x, int* y);
+
+	/**
 	* Get window's width in pixels.
 	*/
 	BON_DLLEXPORT int BON_Gfx_WindowSizeX();
@@ -67,8 +77,8 @@ extern "C" {
 	 * Get render target or null.
 	 */
 	BON_DLLEXPORT bon::assets::ImageAsset* BON_Gfx_GetRenderTarget();
-	/**
 
+	/**
 	* Draws a rectangle.
 	*/
 	BON_DLLEXPORT void BON_Gfx_DrawRectangle(int x, int y, int w, int h, float r, float g, float b, float a, bool filled, BON_BlendModes blend);

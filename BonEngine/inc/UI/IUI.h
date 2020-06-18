@@ -14,8 +14,9 @@
 #include "../Framework/Color.h"
 #include "../Framework/Rectangle.h"
 #include "../Gfx/Sprite.h"
-#include "Defs.h"
 #include "Elements/Defs.h"
+#include "Elements/UIElement.h"
+#include "Elements/UIImage.h"
 
 namespace bon
 {
@@ -58,7 +59,14 @@ namespace bon
 			 * \param root Root UI element to draw.
 			 * \param drawCursor Set to true to draw cursor (will just call DrawCursor() internally).
 			 */
-			virtual void Draw(UIElementPtr root, bool drawCursor) = 0;
+			virtual void Draw(UIElement root, bool drawCursor) = 0;
+
+			/**
+			 * Update a UI system and to all interactions.
+			 * 
+			 * \param root Root UI element to update.
+			 */
+			virtual void UpdateUI(UIElement root) = 0;
 
 			/**
 			 * Create and return a new element.
@@ -68,7 +76,17 @@ namespace bon
 			 * \param parent Optional parent to attach element to.
 			 * \return New element pointer.
 			 */
-			virtual UIElementPtr Create(UIElementTypes type, ConfigAsset stylesheet = nullptr, UIElementPtr parent = nullptr) = 0;
+			virtual UIElement Create(UIElementTypes type, ConfigAsset stylesheet = nullptr, UIElement parent = nullptr) = 0;
+			
+			/**
+			 * Create and return a new element.
+			 *
+			 * \param type Element type.
+			 * \param stylesheetPath Optional config asset path to load styles from.
+			 * \param parent Optional parent to attach element to.
+			 * \return New element pointer.
+			 */
+			virtual UIElement Create(UIElementTypes type, const char* stylesheetPath, UIElement parent = nullptr) = 0;
 
 		protected:
 

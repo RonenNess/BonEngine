@@ -59,6 +59,25 @@ void BON_Gfx_SetTitle(const char* title)
 }
 
 /**
+* Get window's size
+*/
+void BON_Gfx_WindowSize(int* x, int* y)
+{
+	*x = bon::_GetEngine().Gfx().WindowSize().X;
+	*y = bon::_GetEngine().Gfx().WindowSize().Y;
+}
+
+/**
+* Get renderable region size
+*/
+void BON_Gfx_RenderableSize(int* x, int* y)
+{
+	bon::PointI ret = bon::_GetEngine().Gfx().RenderableSize();
+	*x = ret.X;
+	*y = ret.Y;
+}
+
+/**
 * Get window's width in pixels.
 */
 int BON_Gfx_WindowSizeX()

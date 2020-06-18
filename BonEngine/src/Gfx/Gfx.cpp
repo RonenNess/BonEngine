@@ -69,12 +69,12 @@ namespace bon
 		}
 
 		// currently set viewport
-		framework::RectangleI _viewport = framework::RectangleI::Zero();
+		framework::RectangleI _viewport = framework::RectangleI::Zero;
 
 		// set viewport
 		void Gfx::SetViewport(const framework::RectangleI* viewport)
 		{
-			_viewport = viewport ? *viewport : RectangleI::Zero();
+			_viewport = viewport ? *viewport : RectangleI::Zero;
 			_Implementor.SetViewport(viewport);
 		}
 

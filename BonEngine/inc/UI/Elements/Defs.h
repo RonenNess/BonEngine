@@ -10,6 +10,7 @@
 #include "../../Framework/Point.h"
 #include "../../Framework/RectangleF.h"
 #include "../../Framework/Exceptions.h"
+#include <functional>
 #include <memory>
 
 namespace bon
@@ -17,10 +18,47 @@ namespace bon
 	namespace ui
 	{
 		// forward declare element base class
-		class UIElement;
+		class _UIElement;
 
 		// pointer to an UI element
-		typedef BON_DLLEXPORT std::shared_ptr<UIElement> UIElementPtr;
+		typedef BON_DLLEXPORT std::shared_ptr<_UIElement> UIElement;
+
+		/**
+		 * Define callback for UI element actions.
+		 * First param is element reference, second param is optional additional data.
+		 */
+		BON_DLLEXPORT typedef std::function<void(_UIElement&, void*)> UICallback;
+
+		/**
+		 * Additional data sent with input-related events.
+		 */
+		struct BON_DLLEXPORT UIInputEvent
+		{
+			bool LeftMouseDown;
+			bool RightMouseDown;
+			UIInputEvent(bool leftDown, bool rightDown) : LeftMouseDown(leftDown), RightMouseDown(rightDown) {}
+		};
+
+		/**
+		 * UI Elements we can create.
+		 */
+		enum class BON_DLLEXPORT UIElementTypes
+		{
+			/**
+			 * Root element - basically a container that takes whole screen without padding.
+			 */
+			Root,
+
+			/**
+			 * An empty container without graphics.
+			 */
+			 Container,
+			
+			 /**
+			 * An image element.
+			 */
+			 Image
+		};
 
 		/**
 		 * Different coordinate modes for UI elements.
@@ -43,6 +81,20 @@ namespace bon
 			int Right = 0;
 			int Top = 0;
 			int Bottom = 0;
+
+			/**
+			 * Empty constructor
+			 */
+			UISides()
+			{
+			}
+
+			/**
+			 * Create sides from values.
+			 */
+			UISides(int left, int right, int top, int bottom) : Left(left), Right(right), Top(top), Bottom(bottom)
+			{
+			}
 
 			/**
 			 * Set from rectangle.
@@ -138,6 +190,36 @@ namespace bon
 				buff[leny - 1] = '\0';
 				Value.Y = std::atoi(buff);
 			}
+		};
+
+		/**
+		 * Store temporary state while updating UI elements input.
+		 */
+		struct BON_DLLEXPORT UIUpdateInputState
+		{
+			// Element we're currently pointing on.
+			_UIElement* ElementPointedOn = nullptr;
+
+			// Set to true to capture the input and prevent other elements from recieving the input update.
+			bool BreakUpdatesLoop = false;
+		};
+
+		/**
+		 * UI Element state.
+		 */
+		enum class BON_DLLEXPORT UIElementState
+		{
+			// There's no interaction with this element.
+			Idle,
+
+			// User points on this element.
+			PointedOn,
+
+			// User clicks or somehow interacts with element.
+			PressedDown,
+			
+			// User right-clicks element.
+			AltPressedDown,
 		};
 	}
 }

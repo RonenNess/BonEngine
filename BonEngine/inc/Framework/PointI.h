@@ -19,7 +19,6 @@ namespace bon
 
 		/**
 		 * PointI class.
-		 * Note: generated via python script to avoid template related / dllexport issues.
 		 */
 		struct BON_DLLEXPORT PointI
 		{

@@ -14,7 +14,7 @@ namespace demo16_ui
 		bon::FontAsset _font;
 
 		// ui root
-		bon::UIElementPtr _uiRoot;
+		bon::UIElement _uiRoot;
 
 	public:
 
@@ -24,12 +24,29 @@ namespace demo16_ui
 			if (IsFirstScene())
 				Game().LoadConfig("../TestAssets/config.ini");
 		}
-
+		
 		// on scene start
 		virtual void _Start() override
 		{
+			// set ui cursor
 			bon::ImageAsset cursor = Assets().LoadImage("../TestAssets/gfx/cursor.png");
 			UI().SetCursor(cursor, bon::PointI(64, 64), bon::PointI::Zero);
+
+			// create UI root
+			_uiRoot = UI().Create(bon::UIElementTypes::Root, nullptr, nullptr);
+			
+			// create test image
+			bon::UIElement image = UI().Create(bon::UIElementTypes::Image, "../TestAssets/ui/apple_image.ini", _uiRoot);
+		}
+
+		// per-frame update
+		virtual void _Update(double deltaTime) override
+		{
+			// exit up
+			if (Input().Down("exit")) { Game().Exit(); }
+
+			// update UI
+			UI().UpdateUI(_uiRoot);
 		}
 
 		// drawing ui

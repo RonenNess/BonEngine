@@ -189,8 +189,8 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClInclude Include="inc\Assets\Types\SoundHandle.h" />
     <ClInclude Include="inc\Engine\Defs.h" />
     <ClInclude Include="inc\Gfx\FontsCache.h" />
-    <ClInclude Include="inc\UI\Defs.h" />
     <ClInclude Include="inc\UI\Elements\Defs.h" />
+    <ClInclude Include="inc\UI\Elements\UIImage.h" />
     <ClInclude Include="inc\UI\IUI.h" />
     <ClInclude Include="inc\UI\Elements\UIElement.h" />
     <ClInclude Include="inc\UI\UI.h" />
@@ -259,6 +259,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClCompile Include="src\Engine\Scene.cpp" />
     <ClCompile Include="src\Framework\Color.cpp" />
     <ClCompile Include="src\Framework\Point.cpp" />
+    <ClCompile Include="src\Framework\Rectangle.cpp" />
     <ClCompile Include="src\Gfx\FontsCache.cpp" />
     <ClCompile Include="src\Gfx\SpriteSheet.cpp" />
     <ClCompile Include="src\Input\Defs.cpp" />
@@ -273,6 +274,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClCompile Include="src\Sfx\Sfx.cpp" />
     <ClCompile Include="src\Sfx\SfxSdlWrapper.cpp" />
     <ClCompile Include="src\UI\Elements\UIElement.cpp" />
+    <ClCompile Include="src\UI\Elements\UIImage.cpp" />
     <ClCompile Include="src\UI\UI.cpp" />
     <ClCompile Include="src\_CAPI\CAPI.cpp" />
     <ClCompile Include="src\_CAPI\CAPI_Assets.cpp" />

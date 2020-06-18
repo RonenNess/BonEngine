@@ -39,7 +39,7 @@ namespace bon
 		}
 
 		// draw a UI system or element.
-		void UI::Draw(UIElementPtr root, bool drawCursor)
+		void UI::Draw(UIElement root, bool drawCursor)
 		{
 			// draw UI
 			root->Draw();
@@ -50,15 +50,45 @@ namespace bon
 			}
 		}
 
+		// update UI system and do input interactions
+		void UI::UpdateUI(UIElement root)
+		{
+			// first call updates
+			root->Update(bon::_GetEngine().Game().DeltaTime());
+
+			// now do input interactions
+			auto mousePosition = GetRelativeCursorPos();
+			UIUpdateInputState updateState;
+			root->DoInputUpdates(mousePosition, updateState);
+		}
+
 		// create and return a new element.
-		UIElementPtr UI::Create(UIElementTypes type, ConfigAsset stylesheet, UIElementPtr parent)
+		UIElement UI::Create(UIElementTypes type, const char* stylesheetPath, UIElement parent)
+		{
+			ConfigAsset conf = nullptr;
+			if (stylesheetPath) { conf = bon::_GetEngine().Assets().LoadConfig(stylesheetPath); }
+			return Create(type, conf, parent);
+		}
+
+		// create and return a new element.
+		UIElement UI::Create(UIElementTypes type, ConfigAsset stylesheet, UIElement parent)
 		{
 			// create element
-			UIElementPtr ret;
+			UIElement ret;
 			switch (type)
 			{
+			case UIElementTypes::Root:
+				ret = std::make_shared<_UIElement>();
+				ret->SetSize(bon::UICoords(100, bon::UICoordsType::PercentOfParent, 100, bon::UICoordsType::PercentOfParent));
+				ret->SetPadding(UISides(0, 0, 0, 0));
+				break;
+
 			case UIElementTypes::Container:
-				ret = std::make_shared<UIElement>();
+				ret = std::make_shared<_UIElement>();
+				break;
+
+			case UIElementTypes::Image:
+				ret = std::make_shared<UIImage>();
 				break;
 			}
 

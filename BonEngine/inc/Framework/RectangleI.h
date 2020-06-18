@@ -15,9 +15,11 @@ namespace bon
 {
 	namespace framework
 	{
+		// forward declare
+		struct RectangleF;
+
 		/**
-		 * _Point_ class.
-		 * Note: generated via python script to avoid template related / dllexport issues.
+		 * RectangleI class.
 		 */
 		struct RectangleI
 		{
@@ -195,11 +197,11 @@ namespace bon
 			 * 
 			 * \return RectangleI(0, 0, 0, 0).
 			 */
-			static const RectangleI & Zero()
-			{
-				static RectangleI zero(0, 0, 0, 0);
-				return zero;
-			}
+			static const RectangleI& Zero;
+
+			// casting between rectangle types
+			operator RectangleF();
+			operator RectangleF() const;
 		};
 	}
 }

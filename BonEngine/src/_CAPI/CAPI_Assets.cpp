@@ -65,6 +65,40 @@ float BON_Config_GetFloat(bon::ConfigAsset* config, const char* section, const c
 }
 
 /**
+* Get PointF value from config.
+*/
+void BON_Config_GetPointF(bon::ConfigAsset* config, const char* section, const char* name, float defaultValX, float defaultValY, float* outX, float* outY)
+{
+	bon::PointF ret = (*config)->GetPointF(section, name, bon::PointF(defaultValX, defaultValY));
+	(*outX) = ret.X;
+	(*outY) = ret.Y;
+}
+
+/**
+* Get RectangleF value from config.
+*/
+void BON_Config_GetRectangleF(bon::ConfigAsset* config, const char* section, const char* name, float defaultValX, float defaultValY, float defaultValW, float defaultValH, float* outX, float* outY, float* outW, float* outH)
+{
+	bon::RectangleF ret = (*config)->GetRectangleF(section, name, bon::RectangleF(defaultValX, defaultValY, defaultValW, defaultValH));
+	(*outX) = ret.X;
+	(*outY) = ret.Y;
+	(*outW) = ret.Width;
+	(*outH) = ret.Height;
+}
+
+/**
+* Get Color value from config.
+*/
+void BON_Config_GetColor(bon::ConfigAsset* config, const char* section, const char* name, float defaultR, float defaultG, float defaultB, float defaultA, float* outR, float* outG, float* outB, float* outA)
+{
+	bon::Color ret = (*config)->GetColor(section, name, bon::Color(defaultR, defaultG, defaultB, defaultA));
+	(*outR) = ret.R;
+	(*outG) = ret.G;
+	(*outB) = ret.B;
+	(*outA) = ret.A;
+}
+
+/**
 * Get section name by index.
 */
 const char* BON_Config_Section(bon::ConfigAsset* config, int index)

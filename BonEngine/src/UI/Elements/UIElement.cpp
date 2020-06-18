@@ -9,7 +9,7 @@ namespace bon
 	namespace ui
 	{
 		// add child element
-		void UIElement::AddChild(UIElementPtr child)
+		void _UIElement::AddChild(UIElement child)
 		{
 			// make sure don't have a parent
 			if (child->_parent != nullptr)
@@ -28,13 +28,18 @@ namespace bon
 		}
 
 		// init style from config
-		void UIElement::LoadStyleFrom(const assets::ConfigAsset& config)
+		void _UIElement::LoadStyleFrom(const assets::ConfigAsset& config)
 		{
-			// load color
-			Color = config->GetColor("style", "color", Color.White);
+			// load colors
+			Color = config->GetColor("style", "color", Color::White);
+			ColorHighlight = config->GetColor("style", "color_highlight", Color);
+			ColorPressed = config->GetColor("style", "color_pressed", Color);
+
+			// load origin
+			Origin = config->GetPointF("style", "origin", bon::PointF::Zero);
 
 			// load padding
-			RectangleF padding = config->GetRectangleF("style", "padding", RectangleF::Zero());
+			RectangleF padding = config->GetRectangleF("style", "padding", RectangleF::Zero);
 			_padding.FromRect(padding);
 
 			// load width and height
@@ -44,7 +49,7 @@ namespace bon
 		}
 
 		// remove child element.
-		void UIElement::RemoveChild(UIElementPtr child)
+		void _UIElement::RemoveChild(UIElement child)
 		{
 			// make sure its our child
 			if (child->_parent != this)
@@ -58,7 +63,7 @@ namespace bon
 		}
 
 		// remove self from parent.
-		void UIElement::Remove()
+		void _UIElement::Remove()
 		{
 			// make sure got a parent
 			if (_parent == nullptr)
@@ -67,13 +72,13 @@ namespace bon
 			}
 
 			// remove self
-			UIElementPtr tempPtrThatDoesntDelete = std::shared_ptr<UIElement>(this, [](UIElement*) {});
+			UIElement tempPtrThatDoesntDelete = std::shared_ptr<_UIElement>(this, [](_UIElement*) {});
 			_parent->RemoveChild(tempPtrThatDoesntDelete);
 			_parent = nullptr;
 		}
 
 		// draw ui element and children.
-		void UIElement::Draw()
+		void _UIElement::Draw()
 		{
 			// draw self
 			DrawSelf();
@@ -86,8 +91,12 @@ namespace bon
 		}
 
 		// update the UI element and children.
-		void UIElement::Update(double deltaTime)
+		void _UIElement::Update(double deltaTime)
 		{
+			// reset states
+			_prevState = _state;
+			_state = UIElementState::Idle;
+
 			// update self
 			UpdateSelf(deltaTime);
 
@@ -98,14 +107,35 @@ namespace bon
 			}
 		}
 
-		// implement just the drawing of this element.
-		void UIElement::DrawSelf()
+		// update ui interactions with input
+		void _UIElement::DoInputUpdates(const framework::PointI& mousePosition, UIUpdateInputState& updateState)
 		{
-			// no drawing for base element
+			// check if needs to break
+			if (updateState.BreakUpdatesLoop) { return; }
+
+			// first update children
+			// note: we iterate in reverse to give priority for elements that hide background elements. for example
+			// if a button is drawn over an image, we want to first allow the button to run.
+			for (auto child = _children.end(); child != _children.begin();)
+			{
+				--child; // <-- must come here and not in the for line
+				(*child)->DoInputUpdates(mousePosition, updateState);
+				if (updateState.BreakUpdatesLoop) { return; }
+			}
+
+			// now update self
+			DoInputUpdatesSelf(mousePosition, updateState);
+		}
+
+		// implement just the drawing of this element.
+		void _UIElement::DrawSelf()
+		{
+			// invoke callback
+			if (OnDraw) OnDraw(*this, nullptr);
 		}
 
 		// implement just the updating of this element
-		void UIElement::UpdateSelf(double deltaTime)
+		void _UIElement::UpdateSelf(double deltaTime)
 		{
 			// check if need to recalculate dest rect
 			if (_isDestDirty || (_parent && _parentLastDestCalcId != _parent->_destCalcId))
@@ -113,9 +143,63 @@ namespace bon
 				CalcDestRect();
 			}
 		}
+		
+		// get drawing color based on element state.
+		const framework::Color& _UIElement::GetCurrentStateColor() const
+		{
+			switch (_state)
+			{
+			case UIElementState::Idle:
+				return Color;
+			case UIElementState::PointedOn:
+				return ColorHighlight;
+			case UIElementState::PressedDown:
+				return ColorPressed;
+			case UIElementState::AltPressedDown:
+				return ColorPressed;
+			default:
+				return Color;
+			}
+		}
+
+		// implement input updates of this element
+		void _UIElement::DoInputUpdatesSelf(const framework::PointI& mousePosition, UIUpdateInputState& updateState)
+		{
+			// check if pointed on
+			bool pointedOn = _destRect.Contains(mousePosition);
+			if (pointedOn)
+			{
+				// update state
+				updateState.ElementPointedOn = this;
+				updateState.BreakUpdatesLoop = true;
+
+				// check if down
+				_state = UIElementState::PointedOn;
+				bool ldown = bon::_GetEngine().Input().Down(KeyCodes::MouseLeft);
+				bool rdown = bon::_GetEngine().Input().Down(KeyCodes::MouseRight);
+				if (ldown) { _state = UIElementState::PressedDown; }
+				else if (rdown) { _state = UIElementState::AltPressedDown; }
+				
+				// invoke events
+				if (OnMouseEnter && _prevState == UIElementState::Idle) {
+					OnMouseEnter(*this, &UIInputEvent(ldown, rdown));
+				}
+				if (_prevState != UIElementState::PressedDown && _prevState != UIElementState::AltPressedDown) {
+					if (OnMousePressed && (ldown || rdown)) { OnMousePressed(*this, &UIInputEvent(ldown, rdown)); }
+				}
+				if (_prevState == UIElementState::PressedDown || _prevState == UIElementState::AltPressedDown) {
+					if (OnMouseReleased && !ldown && !rdown) { OnMouseReleased(*this, &UIInputEvent(ldown, rdown)); }
+				}
+			}
+			// mouse leave event
+			if (OnMouseLeave && _prevState != UIElementState::Idle)
+			{
+				OnMouseLeave(*this, nullptr);
+			}
+		}
 
 		// calculate and return coords based on parent, return absolute value in pixels.
-		PointI UIElement::CalcCoords(const UICoords& coords, const framework::RectangleI& region, bool addRegionPosition)
+		PointI _UIElement::CalcCoords(const UICoords& coords, const framework::RectangleI& region, bool addRegionPosition)
 		{
 			// add position
 			PointI ret;
@@ -154,7 +238,7 @@ namespace bon
 		}
 
 		// recalc dest rect
-		void UIElement::CalcDestRect()
+		void _UIElement::CalcDestRect()
 		{
 			// get parent dest rect / region we can draw on
 			RectangleI parentRect;
@@ -181,6 +265,10 @@ namespace bon
 			auto size = CalcCoords(_size, parentRect, false);
 			_destRect.Width = size.X;
 			_destRect.Height = size.Y;
+
+			// apply origin
+			_destRect.X -= (int)((float)_destRect.Width * Origin.X);
+			_destRect.Y -= (int)((float)_destRect.Height * Origin.Y);
 
 			// no longer dirty + update calc id
 			_isDestDirty = false;

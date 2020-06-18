@@ -59,6 +59,21 @@ extern "C" {
 	BON_DLLEXPORT float BON_Config_GetFloat(bon::ConfigAsset* config, const char* section, const char* name, float defaultVal);
 
 	/**
+	* Get PointF value from config.
+	*/
+	BON_DLLEXPORT void BON_Config_GetPointF(bon::ConfigAsset* config, const char* section, const char* name, float defaultValX, float defaultValY, float* outX, float* outY);
+	
+	/**
+	* Get RectangleF value from config.
+	*/
+	BON_DLLEXPORT void BON_Config_GetRectangleF(bon::ConfigAsset* config, const char* section, const char* name, float defaultValX, float defaultValY, float defaultValW, float defaultValH, float* outX, float* outY, float* outW, float* outH);
+	
+	/**
+	* Get Color value from config.
+	*/
+	BON_DLLEXPORT void BON_Config_GetColor(bon::ConfigAsset* config, const char* section, const char* name, float defaultR, float defaultG, float defaultB, float defaultA, float* outR, float* outG, float* outB, float* outA);
+
+	/**
 	* Get section name by index.
 	*/
 	BON_DLLEXPORT const char* BON_Config_Section(bon::ConfigAsset* config, int index);
