@@ -79,10 +79,27 @@ namespace bon
 		}
 
 		// draw text
-		void Gfx::DrawText(const FontAsset& font, const char* text, const framework::PointF& position, const Color* color, int fontSize, int maxWidth, BlendModes blend, const PointF* origin, float rotation)
+		void Gfx::DrawText(const FontAsset& font, const char* text, const framework::PointF& position, const Color* color, int fontSize, int maxWidth, BlendModes blend, const PointF* origin, float rotation, int outlineWidth, const Color* outlineColor)
 		{
 			static Color defaultColor(1, 1, 1, 1);
+			static Color defaultOutlineColor(0, 0, 0, 1);
 			static PointF defaultOrigin(0, 0);
+
+			// draw text outline
+			if (outlineWidth > 0)
+			{
+				for (int i = -1; i <= 1; i += 2)
+				{
+					for (int j = -1; j <= 1; j += 2)
+					{
+						_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
+						_Implementor.DrawText(font, text, position + framework::PointF((float)i * outlineWidth, (float)j * outlineWidth),
+							outlineColor ? *outlineColor : defaultOutlineColor, fontSize, blend, origin ? *origin : defaultOrigin, rotation, maxWidth);
+					}
+				}
+			}
+
+			// draw text fill
 			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
 			_Implementor.DrawText(font, text, position, color ? *color : defaultColor, fontSize, blend, origin ? *origin : defaultOrigin, rotation, maxWidth);
 		}

@@ -17,12 +17,16 @@ namespace bon
 {
 	namespace ui
 	{
-		// forward declare element base class
+		// forward declare element base classes
 		class _UIElement;
+		class _UIText;
+		class _UIImage;
 
-		// pointer to an UI element
+		// pointer to all UI element types
 		typedef BON_DLLEXPORT std::shared_ptr<_UIElement> UIElement;
-
+		typedef BON_DLLEXPORT std::shared_ptr<_UIText> UIText;
+		typedef BON_DLLEXPORT std::shared_ptr<_UIImage> UIImage;
+		
 		/**
 		 * Define callback for UI element actions.
 		 * First param is element reference, second param is optional additional data.
@@ -40,25 +44,14 @@ namespace bon
 		};
 
 		/**
-		 * UI Elements we can create.
+		 * UI text alignment
 		 */
-		enum class BON_DLLEXPORT UIElementTypes
+		enum class BON_DLLEXPORT UITextAlignment
 		{
-			/**
-			 * Root element - basically a container that takes whole screen without padding.
-			 */
-			Root,
-
-			/**
-			 * An empty container without graphics.
-			 */
-			 Container,
-			
-			 /**
-			 * An image element.
-			 */
-			 Image
-		};
+			Left = 0,
+			Right = 1,
+			Center = 2
+		};		
 
 		/**
 		 * Different coordinate modes for UI elements.

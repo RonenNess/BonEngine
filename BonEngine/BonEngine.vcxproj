@@ -191,6 +191,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClInclude Include="inc\Gfx\FontsCache.h" />
     <ClInclude Include="inc\UI\Elements\Defs.h" />
     <ClInclude Include="inc\UI\Elements\UIImage.h" />
+    <ClInclude Include="inc\UI\Elements\UIText.h" />
     <ClInclude Include="inc\UI\IUI.h" />
     <ClInclude Include="inc\UI\Elements\UIElement.h" />
     <ClInclude Include="inc\UI\UI.h" />
@@ -275,6 +276,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClCompile Include="src\Sfx\SfxSdlWrapper.cpp" />
     <ClCompile Include="src\UI\Elements\UIElement.cpp" />
     <ClCompile Include="src\UI\Elements\UIImage.cpp" />
+    <ClCompile Include="src\UI\Elements\UIText.cpp" />
     <ClCompile Include="src\UI\UI.cpp" />
     <ClCompile Include="src\_CAPI\CAPI.cpp" />
     <ClCompile Include="src\_CAPI\CAPI_Assets.cpp" />

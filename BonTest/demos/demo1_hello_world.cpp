@@ -48,7 +48,7 @@ namespace demo1_hello_world
 			Gfx().ClearScreen(bon::Color::Cornflower);
 		
 			// draw example text and fps
-			Gfx().DrawText(_font, "Demo #1: Hello World!", bon::PointF(100, 100));
+			Gfx().DrawText(_font, "Demo #1: Hello World!", bon::PointF(100, 100), nullptr, 0, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
 			Gfx().DrawText(_font, "This is just a basic bon demo.\nHit escape to exit.", bon::PointF(100, 200), &bon::Color(1, 1, 0, 1), 18);
 			Gfx().DrawText(_font, (std::string("FPS: ") + std::to_string(Diagnostics().FpsCount())).c_str(), bon::PointF(0, 0), &bon::Color(1, 1, 1, 1), 18);
 

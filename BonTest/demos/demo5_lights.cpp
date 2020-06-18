@@ -67,7 +67,7 @@ namespace demo5_lights
 			Gfx().DrawImage(_lightMap, bon::PointF::Zero, &Gfx().WindowSize(), bon::BlendModes::Multiply);
 
 			// draw demo
-			Gfx().DrawText(_font, "Demo #5: Lights", bon::PointF(100, 100));
+			Gfx().DrawText(_font, "Demo #5: Lights", bon::PointF(100, 100), nullptr, 0, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
 			Gfx().DrawText(_font, "This demo illustrates basic 2d lighting effect.\n\
 It uses a black texture with additive rendering to add lights, then we\n\
 paint this texture with multiply over the scene.\n\

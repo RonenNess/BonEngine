@@ -99,7 +99,7 @@ namespace demo4_spritesheet
 			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw example text and fps
-			Gfx().DrawText(_font, "Demo #4: Spritesheet", bon::PointF(100, 100));
+			Gfx().DrawText(_font, "Demo #4: Spritesheet", bon::PointF(100, 100), nullptr, 0, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
 			Gfx().DrawText(_font, "This demo shows how to use a sprite sheet with animations.\n\
 In this demo, the sprite sheet metadata is loaded from config file. \n\
 Use WASD or Arrows to walk around. Press Space to kill player. \n\

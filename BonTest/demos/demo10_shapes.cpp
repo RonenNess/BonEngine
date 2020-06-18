@@ -39,7 +39,7 @@ namespace demo10_shapes
 			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw text
-			Gfx().DrawText(_font, "Demo #10: Drawing Shapes", bon::PointF(100, 100));
+			Gfx().DrawText(_font, "Demo #10: Drawing Shapes", bon::PointF(100, 100), nullptr, 0, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
 			Gfx().DrawText(_font, "In this demo you see how to draw shapes, lines and pixels on screen.\nHit escape to exit.", bon::PointF(100, 200), &bon::Color(1, 1, 0, 1), 18);
 
 			// draw pixels

@@ -63,7 +63,7 @@ namespace demo9_blend_modes
 			}
 
 			// draw text
-			Gfx().DrawText(_font, "Demo #9: Blend Modes", bon::PointF(100, 100));
+			Gfx().DrawText(_font, "Demo #9: Blend Modes", bon::PointF(100, 100), nullptr, 0, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
 			Gfx().DrawText(_font, "You can draw sprites with different blend modes.\n\
 Left to right: Alpha Blend, Additive, Mod, Multiply, Opaque.\n\
 Press space to toggle background.\

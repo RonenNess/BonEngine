@@ -563,7 +563,7 @@ Draw a sprite. Sprites are structs that holds all the drawing parameters of the 
 
 `offset` is additional offset to add to position. This makes it easier to implement camera behavior.
 
-#### void DrawText(font, text, position, color, fontSize, maxWidth, blend, origin, rotation)
+#### void DrawText(font, text, position, color, fontSize, maxWidth, blend, origin, rotation, outlineWidth, outlineColor)
 
 Draw text on screen.
 
@@ -1037,6 +1037,7 @@ First stable release.
 - Extended Gfx API to get current target size and retrieve render target.
 - Added UI manager and some basic UI elements.
 - Added GetPoint(), GetColor() and GetRect() to config assets.
+- Added outline to text drawing.
 - Changed Rectangle::Zero to be a static const instead of method.
 
 ## In Memory Of Bonnie

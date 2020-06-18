@@ -210,7 +210,7 @@ namespace demo11_custom_manager
 			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw example text and fps
-			Gfx().DrawText(_font, "Demo #11: Custom Managers!", bon::PointF(100, 100));
+			Gfx().DrawText(_font, "Demo #11: Custom Managers!", bon::PointF(100, 100), nullptr, 0, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
 			Gfx().DrawText(_font, "This demo illustrates custom managers in BonEngine.\n\
 In this case, we register a collision manager. Use arrows / WASD to move.\n\
 Hit escape to exit.", bon::PointF(100, 200), &bon::Color(1, 1, 0, 1), 20);

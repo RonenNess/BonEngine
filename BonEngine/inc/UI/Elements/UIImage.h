@@ -22,7 +22,7 @@ namespace bon
 		/**
 		 * Simple UI image class.
 		 */
-		class BON_DLLEXPORT UIImage : public _UIElement
+		class BON_DLLEXPORT _UIImage : public _UIElement
 		{
 		public:
 			/**
@@ -57,6 +57,9 @@ namespace bon
 			 *				* In addition to all the settings from base UIElement stylesheet file, you can add the following:
 			 *				*	[image]
 			 *				*		- image_path = Image path to use.
+			 *				*		- color = Image color, with values ranging from 0 to 255 (r,g,b,a).
+			 *				*		- color_highlight = Image color, while being pointed on / highlighted, with values ranging from 0 to 255 (r,g,b,a).
+			 *				*		- color_pressed = Image color, while being pressed down, with values ranging from 0 to 255 (r,g,b,a).
 			 *				*		- source_rect = Image source rect (x,y,width,height).
 			 *				*		- source_rect_highlight = Image source rect while being highlighted / point on (x,y,width,height).
 			 *				*		- source_rect_pressed = Image source rect while being pressed down (x,y,width,height).

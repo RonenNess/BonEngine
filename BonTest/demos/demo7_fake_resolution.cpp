@@ -74,7 +74,7 @@ namespace demo7_fake_resolution
 			Gfx().DrawImage(_target, bon::PointF(0, 0), &targetSize, bon::BlendModes::Opaque);
 
 			// draw text
-			Gfx().DrawText(_font, "Demo #7: Fake Resolution", bon::PointF(100, 100));
+			Gfx().DrawText(_font, "Demo #7: Fake Resolution", bon::PointF(100, 100), nullptr, 0, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
 			Gfx().DrawText(_font, "This demo is using your desktop native resolution, but the scene itself is only 400x300 pixels (except for the text and cursor which are high res).\n\
 This is done by drawing everything on a 400x300 texture, then stretching that texture to fit screen. The sprite below is only 160x160 pixels, but will always take about half the screen height.\n\
 Fake resolution is useful for when you want to set a constant low resolution, but want your game to run in windowed mode / windowed fullscreen.\n\

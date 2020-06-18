@@ -103,6 +103,12 @@ namespace bon
 			UICallback OnValueChange;
 
 			/**
+			 * Is this UI element currently visible?
+			 * Note: also affect children.
+			 */
+			bool Visible = true;
+
+			/**
 			 * Initialize element style from config file.
 			 * 
 			 * \param config Config file to init element from.
@@ -110,9 +116,6 @@ namespace bon
 			 *				*	[style]
 			 *				*		- width = Element width + unit (p for pixels, % for percent of parent. for example: "100%" or "40p").
 			 *				*		- height = Element height + unit (p for pixels, % for percent of parent. for example: "100%" or "40p").
-			 *				*		- color = Element color, with values ranging from 0 to 255 (r,g,b,a).
-			 *				*		- color_highlight = Element color, while being pointed on / highlighted, with values ranging from 0 to 255 (r,g,b,a).
-			 *				*		- color_pressed = Element color, while being pressed down, with values ranging from 0 to 255 (r,g,b,a).
 			 *				*		- padding = Element padding (left, top, right, bottom).
 			 *				*		- origin = Element origin (x,y).
 			 */
@@ -149,6 +152,11 @@ namespace bon
 			inline void SetPosition(UICoords position) { _position = position; MarkAsDirty(); }
 			
 			/**
+			 * Set element position as pixels.
+			 */
+			inline void SetPosition(framework::PointI position) { SetPosition(UICoords(position.X, UICoordsType::Pixels, position.Y, UICoordsType::Pixels)); }
+
+			/**
 			 * Get element position.
 			 */
 			inline const UICoords& GetPosition() const { return _position; }
@@ -157,6 +165,11 @@ namespace bon
 			 * Set element size.
 			 */
 			inline void SetSize(UICoords size) { _size = size; MarkAsDirty(); }
+			
+			/**
+			 * Set element size as pixels.
+			 */
+			inline void SetSize(framework::PointI size) { SetSize(UICoords(size.X, UICoordsType::Pixels, size.Y, UICoordsType::Pixels)); }
 
 			/**
 			 * Get element size.

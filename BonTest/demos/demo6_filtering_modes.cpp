@@ -52,7 +52,7 @@ namespace demo6_filtering_modes
 			Gfx().ClearScreen(bon::Color::Cornflower);
 
 			// draw text
-			Gfx().DrawText(_font, "Demo #6: Filtering Modes", bon::PointF(100, 100));
+			Gfx().DrawText(_font, "Demo #6: Filtering Modes", bon::PointF(100, 100), nullptr, 0, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
 			Gfx().DrawText(_font, "Image filtering modes determine how to render an image when scaled.\n\
 Here we see 3 types of filtering (left to right): Anisotropic, Linear, and Nearest.\n\
 The default filtering mode is nearest, which is best for pixel art.\n\

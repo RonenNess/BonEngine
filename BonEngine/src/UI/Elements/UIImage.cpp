@@ -14,7 +14,7 @@ namespace bon
 	namespace ui
 	{
 		// get source rect by current state
-		const framework::RectangleI& UIImage::GetCurrentStateSourceRect() const
+		const framework::RectangleI& _UIImage::GetCurrentStateSourceRect() const
 		{
 			switch (_state)
 			{
@@ -32,14 +32,19 @@ namespace bon
 		}
 
 		// initialize element style from config file.
-		void UIImage::LoadStyleFrom(const assets::ConfigAsset& config)
+		void _UIImage::LoadStyleFrom(const assets::ConfigAsset& config)
 		{
 			// load basic stylesheet
 			_UIElement::LoadStyleFrom(config);
 
-			// load image stuff
+			// load source image
 			const char* img = config->GetStr("image", "image_path", nullptr);
 			if (img) { Image = bon::_GetEngine().Assets().LoadImage(img); }
+
+			// load colors
+			Color = config->GetColor("image", "color", Color::White);
+			ColorHighlight = config->GetColor("image", "color_highlight", Color);
+			ColorPressed = config->GetColor("image", "color_pressed", Color);
 
 			// load source rects
 			SourceRect = config->GetRectangleF("image", "source_rect", RectangleF::Zero);
@@ -51,7 +56,7 @@ namespace bon
 		}
 
 		// implement just the drawing of this element.
-		void UIImage::DrawSelf()
+		void _UIImage::DrawSelf()
 		{
 			_UIElement::DrawSelf();
 

@@ -590,13 +590,13 @@ namespace demo13_a_walk_in_the_forest
 			if (_showHelpText) {
 				if (_didSeeGhost) {
 					if (rand() % 4 < 2) {
-						Gfx().DrawText(_font, "Demo #4: YOU WONDERED TOO FAR", bon::PointF(100, 100));
+						Gfx().DrawText(_font, "Demo #13: YOU WONDERED TOO FAR", bon::PointF(100, 100), nullptr, 0, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
 						Gfx().DrawText(_font, "Just a little game where you can ??? ????? ???? ??.\nUse arrows or WASD to RUN.\nPress Space to HIDE.\nThere is no escape.", bon::PointF(100, 200), &bon::Color(1, 0, 0, 1), 26);
 					}
 				}
 				else
 				{
-					Gfx().DrawText(_font, "Demo #4: a Walk In The Forest", bon::PointF(100, 100));
+					Gfx().DrawText(_font, "Demo #13: a Walk In The Forest", bon::PointF(100, 100), nullptr, 0, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
 					Gfx().DrawText(_font, "Just a little game where you can walk around in a forest.\nUse arrows or WASD to move around.\nPress Space to hide / show this text.\nHit escape to exit.", bon::PointF(100, 200), &bon::Color(1, 1, 0, 1), 26);
 
 					// auto index = std::to_string((int)_player.Position.X / TileSize) + "," + std::to_string((int)_player.Position.Y / TileSize);

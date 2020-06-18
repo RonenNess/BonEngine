@@ -75,8 +75,10 @@ namespace bon
 			 * \param blend Blend mode.
 			 * \param origin Text origin.
 			 * \param rotation Text rotation.
+			 * \param outlineWidth Text outline width (0 for no outline).
+			 * \param outlineColor Text outline color.
 			 */
-			virtual void DrawText(const assets::FontAsset& font, const char* text, const framework::PointF& position, const Color* color = nullptr, int fontSize = 0, int maxWidth = 0, BlendModes blend = BlendModes::AlphaBlend, const PointF* origin = nullptr, float rotation = 0.0f) = 0;
+			virtual void DrawText(const assets::FontAsset& font, const char* text, const framework::PointF& position, const Color* color = nullptr, int fontSize = 0, int maxWidth = 0, BlendModes blend = BlendModes::AlphaBlend, const PointF* origin = nullptr, float rotation = 0.0f, int outlineWidth = 0, const Color* outlineColor = nullptr) = 0;
 
 			/**
 			 * Draws a line.

@@ -62,49 +62,60 @@ namespace bon
 			root->DoInputUpdates(mousePosition, updateState);
 		}
 
-		// create and return a new element.
-		UIElement UI::Create(UIElementTypes type, const char* stylesheetPath, UIElement parent)
+		// init a new ui element
+		void UI::InitNewElement(UIElement element, ConfigAsset stylesheet, UIElement parent)
 		{
-			ConfigAsset conf = nullptr;
-			if (stylesheetPath) { conf = bon::_GetEngine().Assets().LoadConfig(stylesheetPath); }
-			return Create(type, conf, parent);
-		}
-
-		// create and return a new element.
-		UIElement UI::Create(UIElementTypes type, ConfigAsset stylesheet, UIElement parent)
-		{
-			// create element
-			UIElement ret;
-			switch (type)
-			{
-			case UIElementTypes::Root:
-				ret = std::make_shared<_UIElement>();
-				ret->SetSize(bon::UICoords(100, bon::UICoordsType::PercentOfParent, 100, bon::UICoordsType::PercentOfParent));
-				ret->SetPadding(UISides(0, 0, 0, 0));
-				break;
-
-			case UIElementTypes::Container:
-				ret = std::make_shared<_UIElement>();
-				break;
-
-			case UIElementTypes::Image:
-				ret = std::make_shared<UIImage>();
-				break;
-			}
-
 			// load stylesheet
 			if (stylesheet != nullptr)
 			{
-				ret->LoadStyleFrom(stylesheet);
+				element->LoadStyleFrom(stylesheet);
 			}
 
 			// add to parent
 			if (parent != nullptr)
 			{
-				parent->AddChild(ret);
+				parent->AddChild(element);
 			}
+		}
 
-			// return new element
+		// init a new ui element
+		void UI::InitNewElement(UIElement element, const char* stylesheetPath, UIElement parent)
+		{
+			ConfigAsset conf = nullptr;
+			if (stylesheetPath) { conf = bon::_GetEngine().Assets().LoadConfig(stylesheetPath); }
+			InitNewElement(element, conf, parent);
+		}
+
+		// create and return root element
+		UIElement UI::CreateRoot()
+		{
+			UIElement ret = std::make_shared<_UIElement>();
+			ret->SetSize(bon::UICoords(100, bon::UICoordsType::PercentOfParent, 100, bon::UICoordsType::PercentOfParent));
+			ret->SetPadding(UISides(0, 0, 0, 0));
+			return ret;
+		}
+
+		// create and return root element
+		UIElement UI::CreateContainer(const char* stylesheet, UIElement parent)
+		{
+			UIElement ret = std::make_shared<_UIElement>();
+			InitNewElement(ret, stylesheet, parent);
+			return ret;
+		}
+
+		// create and return image element
+		UIImage UI::CreateImage(const char* stylesheet, UIElement parent)
+		{
+			UIImage ret = std::make_shared<_UIImage>();
+			InitNewElement(ret, stylesheet, parent);
+			return ret;
+		}
+
+		// create and return a text element
+		UIText UI::CreateText(const char* stylesheet, UIElement parent)
+		{
+			UIText ret = std::make_shared<_UIText>();
+			InitNewElement(ret, stylesheet, parent);
 			return ret;
 		}
 	}

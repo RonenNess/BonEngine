@@ -33,10 +33,15 @@ namespace demo16_ui
 			UI().SetCursor(cursor, bon::PointI(64, 64), bon::PointI::Zero);
 
 			// create UI root
-			_uiRoot = UI().Create(bon::UIElementTypes::Root, nullptr, nullptr);
+			_uiRoot = UI().CreateRoot();
 			
 			// create test image
-			bon::UIElement image = UI().Create(bon::UIElementTypes::Image, "../TestAssets/ui/apple_image.ini", _uiRoot);
+			bon::UIImage image = UI().CreateImage("../TestAssets/ui/apple_image.ini", _uiRoot);
+
+			// create text to count apples
+			bon::UIText text = UI().CreateText("../TestAssets/ui/default_text.ini", _uiRoot);
+			text->SetText("Apples clicked: 0");
+			text->SetPosition(bon::PointF(100, 0));
 		}
 
 		// per-frame update

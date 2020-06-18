@@ -17,6 +17,7 @@
 #include "Elements/Defs.h"
 #include "Elements/UIElement.h"
 #include "Elements/UIImage.h"
+#include "Elements/UIText.h"
 
 namespace bon
 {
@@ -67,26 +68,39 @@ namespace bon
 			 * \param root Root UI element to update.
 			 */
 			virtual void UpdateUI(UIElement root) = 0;
-
-			/**
-			 * Create and return a new element.
-			 * 
-			 * \param type Element type.
-			 * \param stylesheet Optional config asset to load styles from.
-			 * \param parent Optional parent to attach element to.
-			 * \return New element pointer.
-			 */
-			virtual UIElement Create(UIElementTypes type, ConfigAsset stylesheet = nullptr, UIElement parent = nullptr) = 0;
 			
 			/**
-			 * Create and return a new element.
-			 *
-			 * \param type Element type.
-			 * \param stylesheetPath Optional config asset path to load styles from.
-			 * \param parent Optional parent to attach element to.
+			 * Create and return a new root element.
 			 * \return New element pointer.
 			 */
-			virtual UIElement Create(UIElementTypes type, const char* stylesheetPath, UIElement parent = nullptr) = 0;
+			virtual UIElement CreateRoot() = 0;
+
+			/**
+			 * Create and return an empty container element.
+			 * 
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \return Newly created empty container.
+			 */
+			virtual UIElement CreateContainer(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
+
+			/**
+			 * Create and return an image element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \return Newly created image.
+			 */
+			virtual UIImage CreateImage(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
+
+			/**
+			 * Create and return a text element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \return Newly created text.
+			 */
+			virtual UIText CreateText(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
 
 		protected:
 

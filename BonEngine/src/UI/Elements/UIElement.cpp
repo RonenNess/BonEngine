@@ -30,11 +30,6 @@ namespace bon
 		// init style from config
 		void _UIElement::LoadStyleFrom(const assets::ConfigAsset& config)
 		{
-			// load colors
-			Color = config->GetColor("style", "color", Color::White);
-			ColorHighlight = config->GetColor("style", "color_highlight", Color);
-			ColorPressed = config->GetColor("style", "color_pressed", Color);
-
 			// load origin
 			Origin = config->GetPointF("style", "origin", bon::PointF::Zero);
 
@@ -80,6 +75,9 @@ namespace bon
 		// draw ui element and children.
 		void _UIElement::Draw()
 		{
+			// skip draw if not visible
+			if (!Visible) { return; }
+
 			// draw self
 			DrawSelf();
 
@@ -93,6 +91,9 @@ namespace bon
 		// update the UI element and children.
 		void _UIElement::Update(double deltaTime)
 		{
+			// skip update if not visible
+			if (!Visible) { return; }
+
 			// reset states
 			_prevState = _state;
 			_state = UIElementState::Idle;
@@ -110,6 +111,9 @@ namespace bon
 		// update ui interactions with input
 		void _UIElement::DoInputUpdates(const framework::PointI& mousePosition, UIUpdateInputState& updateState)
 		{
+			// skip update if not visible
+			if (!Visible) { return; }
+
 			// check if needs to break
 			if (updateState.BreakUpdatesLoop) { return; }
 

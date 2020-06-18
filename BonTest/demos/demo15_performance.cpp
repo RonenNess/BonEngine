@@ -110,7 +110,7 @@ namespace demo15_performance
 			}
 
 			// draw text data and FPS
-			Gfx().DrawText(_font, "Demo #15: Performance Test", bon::PointF(100, 120));
+			Gfx().DrawText(_font, "Demo #15: Performance Test", bon::PointF(100, 120), nullptr, 0, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
 			Gfx().DrawText(_font, "Performance test, drawing lots of sprites.\nPress Space to add sprites.\nPress 'Z' to rotate sprites (slower).\nHit escape to exit.", bon::PointF(100, 220), &bon::Color::White, 24);
 			Gfx().DrawText(_font, (std::string("FPS: ") + std::to_string(Diagnostics().FpsCount())).c_str(), bon::PointF(0, 0), &bon::Color::White, 22);
 			Gfx().DrawText(_font, (std::string("Sprites: ") + std::to_string(_sprites.size())).c_str(), bon::PointF(0, 35), &bon::Color::White, 22);
