@@ -41,6 +41,12 @@ namespace bon
 			const char* width = config->GetStr("style", "width", "100p");
 			const char* height = config->GetStr("style", "height", "100p");
 			_size.FromStr(width, height);
+
+			// load behavior stuff
+			Interactive = config->GetBool("behavior", "interactive", true);
+			CaptureInput = config->GetBool("behavior", "capture_input", true);
+			CopyParentState = config->GetBool("behavior", "copy_parent_state", false);
+			Draggable = config->GetBool("behavior", "draggable", false);
 		}
 
 		// remove child element.
@@ -124,11 +130,22 @@ namespace bon
 			{
 				--child; // <-- must come here and not in the for line
 				(*child)->DoInputUpdates(mousePosition, updateState);
-				if (updateState.BreakUpdatesLoop) { return; }
+				if (updateState.BreakUpdatesLoop) { break; }
 			}
 
 			// now update self
-			DoInputUpdatesSelf(mousePosition, updateState);
+			if (!updateState.BreakUpdatesLoop) {
+				DoInputUpdatesSelf(mousePosition, updateState);
+			}
+
+			// update children with 'CopyParentState' mode
+			for (auto child : _children)
+			{
+				if (child->CopyParentState) {
+					child->_state = _state;
+					child->_prevState = _prevState;
+				}
+			}
 		}
 
 		// implement just the drawing of this element.
@@ -169,13 +186,16 @@ namespace bon
 		// implement input updates of this element
 		void _UIElement::DoInputUpdatesSelf(const framework::PointI& mousePosition, UIUpdateInputState& updateState)
 		{
+			// not interactive or copying parent? skip
+			if (!Interactive || CopyParentState) { return; }
+
 			// check if pointed on
 			bool pointedOn = _destRect.Contains(mousePosition);
 			if (pointedOn)
 			{
 				// update state
 				updateState.ElementPointedOn = this;
-				updateState.BreakUpdatesLoop = true;
+				if (CaptureInput) { updateState.BreakUpdatesLoop = true; }
 
 				// check if down
 				_state = UIElementState::PointedOn;
@@ -193,6 +213,24 @@ namespace bon
 				}
 				if (_prevState == UIElementState::PressedDown || _prevState == UIElementState::AltPressedDown) {
 					if (OnMouseReleased && !ldown && !rdown) { OnMouseReleased(*this, &UIInputEvent(ldown, rdown)); }
+				}
+
+				// drag element
+				if (Draggable && ldown)
+				{
+					// set dragging start position
+					if (bon::_GetEngine().Input().PressedNow(KeyCodes::MouseLeft))
+					{
+						_startDragOffsetInElement = framework::PointI(mousePosition.X - _destRect.X, mousePosition.Y - _destRect.Y);
+						SetPosition(framework::PointI(_destRect.X, _destRect.Y));
+					}
+					// drag
+					else
+					{
+						SetPosition(framework::PointI(
+							mousePosition.X - _startDragOffsetInElement.X,
+							mousePosition.Y - _startDragOffsetInElement.Y));
+					}
 				}
 			}
 			// mouse leave event

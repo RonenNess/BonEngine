@@ -66,6 +66,21 @@ namespace bon
 		};
 
 		/**
+		 * UI Image drawing types.
+		 */
+		enum class BON_DLLEXPORT UIImageTypes
+		{
+			// Draw image stretched over the calculated destination rect.
+			Stretch,
+
+			// Draw image as tiles that cover the calculated destination rect.
+			Tiled,
+
+			// Draw image as a 9-sliced texture with 4 sides, 4 corners, and tiled center.
+			Sliced,
+		};
+
+		/**
 		 * UI sides - contains values for left, right, top, bottom.
 		 */
 		struct BON_DLLEXPORT UISides

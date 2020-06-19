@@ -36,12 +36,24 @@ namespace demo16_ui
 			_uiRoot = UI().CreateRoot();
 			
 			// create test image
-			bon::UIImage image = UI().CreateImage("../TestAssets/ui/apple_image.ini", _uiRoot);
+			bon::UIImage appleImage = UI().CreateImage("../TestAssets/ui/apple_image.ini", _uiRoot);
 
 			// create text to count apples
 			bon::UIText text = UI().CreateText("../TestAssets/ui/default_text.ini", _uiRoot);
 			text->SetText("Apples clicked: 0");
-			text->SetPosition(bon::PointF(100, 0));
+			text->SetPosition(bon::PointF(100, 20));
+
+			// count how many times we clicked the apple
+			static int clicksCount = 0;
+			appleImage->OnMouseReleased = [text](bon::_UIElement& element, void* data) 
+			{
+				clicksCount++;
+				text->SetText(std::string(("Apples clicked: ") + std::to_string(clicksCount)).c_str());
+			};
+
+			// create test tiled image
+			bon::UIImage tiledImage = UI().CreateImage("../TestAssets/ui/window.ini", _uiRoot);
+			tiledImage->SetPosition(bon::PointI(100, 100));
 		}
 
 		// per-frame update

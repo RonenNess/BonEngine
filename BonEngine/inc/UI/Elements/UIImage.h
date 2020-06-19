@@ -51,6 +51,22 @@ namespace bon
 			gfx::BlendModes BlendMode;
 
 			/**
+			 * Drawing image mode.
+			 */
+			UIImageTypes ImageType = UIImageTypes::Stretch;
+
+			/**
+			 * Scale tiled / sliced texture when drawing in Tiled or Sliced mode.
+			 */
+			float TextureScale = 1.0f;
+
+			/**
+			 * The size, in pixels, of a sliced image sides / frame.
+			 * Only relevant for Sliced image types.
+			 */
+			UISides SlicedImageSides;
+
+			/**
 			 * Initialize element style from config file.
 			 *
 			 * \param config Config file to init element from.
@@ -64,6 +80,9 @@ namespace bon
 			 *				*		- source_rect_highlight = Image source rect while being highlighted / point on (x,y,width,height).
 			 *				*		- source_rect_pressed = Image source rect while being pressed down (x,y,width,height).
 			 *				*		- blend = Image blend mode (opaque / alpha / additive / mod / multiply).
+			 *				*		- type = Image drawing type (stretch / tiled / sliced).
+			 *				*		- texture_scale = Scale texture when in tiled / sliced mode (float value).
+			 *				*		- sliced_sides = Size in pixels of a sliced image sides (left, top, right, bottom).
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
 
@@ -77,6 +96,11 @@ namespace bon
 			 * Implement just the drawing of this element
 			 */
 			virtual void DrawSelf() override;
+
+			/**
+			 * Draw image as tiled on a given region.
+			 */
+			virtual void DrawTiled(const framework::RectangleI& dest, const framework::Color& color, const framework::RectangleI& source);
 		};
 	}
 }

@@ -54,7 +54,11 @@ namespace bon
 			// last known parent dest id. if changes, we need to update ourselves as well
 			unsigned long _parentLastDestCalcId = (unsigned long)-1; 
 
+			// start dragging offset, if element is being dragged
+			framework::PointI _startDragOffsetInElement;
+		
 		protected:
+			
 			// element state
 			UIElementState _state = UIElementState::Idle;
 			
@@ -65,6 +69,28 @@ namespace bon
 			framework::RectangleI _destRect;
 
 		public:
+
+			/**
+			 * If true, this element will interact with user input, respond to clicks, ect.
+			 * If false, its merely a graphical entity and non of the event callbacks will be triggered.
+			 * Note: even if an element is not interactive, its children may still be and can respond to events (and vice versa).
+			 */
+			bool Interactive = true;
+
+			/**
+			 * If true, this element will capture input events and won't allow them to propagate to parent and siblings.
+			 * For example, if user clicks on the element, any elements behind it will not recieve the click.
+			 * If false, this element allow input to go through it, triggering both it and anything behind it.
+			 */
+			bool CaptureInput = true;
+
+			/**
+			 * If true, this element will just copy its parent state - if mouse points on parent, it will behave like mouse points on it,
+			 * If user clicks parent - it will behave like its being clicked. This will affect the graphical aspects of the element, but will
+			 * not trigger any events. If you set this to true, don't bother registering to events register to parent instead.
+			 * Note: this is useful for stuff like text that's attached to buttons - you want text to appear as active the same time as background button.
+			 */
+			bool CopyParentState = false;
 
 			/**
 			 * Callback for mouse press.
@@ -109,15 +135,26 @@ namespace bon
 			bool Visible = true;
 
 			/**
+			 * Can the user drag this element around?
+			 */
+			bool Draggable = false;
+
+			/**
 			 * Initialize element style from config file.
 			 * 
 			 * \param config Config file to init element from.
-			 *				* config must contain the following section:
+			 *				* config may contain the following sections:
 			 *				*	[style]
 			 *				*		- width = Element width + unit (p for pixels, % for percent of parent. for example: "100%" or "40p").
 			 *				*		- height = Element height + unit (p for pixels, % for percent of parent. for example: "100%" or "40p").
 			 *				*		- padding = Element padding (left, top, right, bottom).
 			 *				*		- origin = Element origin (x,y).
+			 *				*
+			 *				*	[behavior]
+			 *				*		- interactive = Is this element interactive? (true / false).
+			 *				*		- capture_input = Will this element capture input events? (true / false). 
+			 *				*		- copy_parent_state = Will this element copy its parent state? (true / false). 
+			 *				*		- draggable = If true, users can drag this element (true / false). 
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
 

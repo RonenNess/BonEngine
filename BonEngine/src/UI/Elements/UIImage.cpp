@@ -41,6 +41,10 @@ namespace bon
 			const char* img = config->GetStr("image", "image_path", nullptr);
 			if (img) { Image = bon::_GetEngine().Assets().LoadImage(img); }
 
+			// load sliced sides
+			RectangleF slicedSides = config->GetRectangleF("image", "sliced_sides", RectangleF::Zero);
+			SlicedImageSides.FromRect(slicedSides);
+
 			// load colors
 			Color = config->GetColor("image", "color", Color::White);
 			ColorHighlight = config->GetColor("image", "color_highlight", Color);
@@ -54,6 +58,13 @@ namespace bon
 			// load blend modes
 			static const char* blendOptions[] = { "opaque", "alpha", "additive", "mod", "multiply" };
 			BlendMode = (BlendModes)config->GetOption("image", "blend", blendOptions, (int)BlendModes::AlphaBlend);
+			
+			// load drawing modes
+			static const char* drawModeOptions[] = { "stretch", "tiled", "sliced" };
+			ImageType = (UIImageTypes)config->GetOption("image", "type", drawModeOptions, (int)UIImageTypes::Stretch);
+
+			// texture scale and slice sides
+			TextureScale = config->GetFloat("image", "texture_scale", 1.0f);
 		}
 
 		// implement just the drawing of this element.
@@ -64,15 +75,99 @@ namespace bon
 			// skip if no image is set
 			if (Image == nullptr) { return; }
 
-			// draw image
+			// get color and source rect
 			const bon::Color& color = GetCurrentStateColor();
-			const RectangleI sourceRect = GetCurrentStateSourceRect();
-			bon::_GetEngine().Gfx().DrawImage(Image, 
-				PointF((float)_destRect.X, (float)_destRect.Y),
-				&PointI(_destRect.Width, _destRect.Height), 
-				BlendMode, 
-				&sourceRect, 
-				&PointF::Zero, 0.0f, &color);
+			const RectangleI& sourceRect = GetCurrentStateSourceRect();
+
+			// draw in plain stretched mode
+			if (ImageType == UIImageTypes::Stretch)
+			{
+				bon::_GetEngine().Gfx().DrawImage(Image,
+					PointF((float)_destRect.X, (float)_destRect.Y),
+					&PointI(_destRect.Width, _destRect.Height),
+					BlendMode,
+					&sourceRect,
+					&PointF::Zero, 0.0f, &color);
+			}
+			// draw in tiled mode
+			else if (ImageType == UIImageTypes::Tiled)
+			{
+				DrawTiled(_destRect, color, sourceRect);
+			}
+			// draw in sliced mode
+			else if (ImageType == UIImageTypes::Sliced)
+			{
+				// draw center part
+				{
+					// calc source rect
+					RectangleI centerSource = sourceRect;
+					centerSource.X += SlicedImageSides.Left;
+					centerSource.Width -= (SlicedImageSides.Left + SlicedImageSides.Right);
+					centerSource.Y += SlicedImageSides.Top;
+					centerSource.Height -= (SlicedImageSides.Top + SlicedImageSides.Bottom);
+
+					// calc dest rect
+					RectangleI centerDest = _destRect;
+					centerDest.X += (int)(SlicedImageSides.Left * TextureScale);
+					centerDest.Width -= (int)(SlicedImageSides.Left * TextureScale + SlicedImageSides.Right * TextureScale);
+					centerDest.Y += (int)(SlicedImageSides.Top * TextureScale);
+					centerDest.Height -= (int)(SlicedImageSides.Top * TextureScale + SlicedImageSides.Bottom * TextureScale);
+
+					// draw center parts
+					DrawTiled(centerDest, color, centerSource);
+				}
+			}
+		}
+
+		// draw tiled image
+		void _UIImage::DrawTiled(const RectangleI& dest, const framework::Color& color, const RectangleI& source)
+		{
+			// get source rect actual values
+			RectangleI sourceRect(source.X, source.Y, source.Width, source.Height);
+			if (sourceRect.Width <= 0) { sourceRect.Width += Image->Width(); }
+			if (sourceRect.Height <= 0) { sourceRect.Height += Image->Height(); }
+
+			// calc the size of a single tile
+			PointI tileSize((int)((sourceRect.Width) * TextureScale), (int)((sourceRect.Height) * TextureScale));
+
+			// current position
+			PointI position(dest.X, dest.Y);
+
+			// draw tiles
+			while (position.X < dest.Right())
+			{
+				position.Y = dest.Y;
+				while (position.Y < dest.Bottom())
+				{
+					// get current tile size and source
+					PointI currTileSize = tileSize;
+					RectangleI currSourceRect = sourceRect;
+
+					// check if need to trim on x axis
+					int trimX = (position.X + currTileSize.X) - dest.Right();
+					if (trimX > 0) {
+						currSourceRect.Width -= (int)std::ceil((float)currSourceRect.Width * ((float)trimX / currTileSize.X));
+						currTileSize.X -= trimX;
+					}
+
+					// check if need to trim on y axis
+					int trimY = (position.Y + currTileSize.Y) - dest.Bottom();
+					if (trimY > 0) {
+						currSourceRect.Height -= (int)std::ceil((float)currSourceRect.Height * ((float)trimY / currTileSize.Y));
+						currTileSize.Y -= trimY;
+					}
+
+					// draw tile
+					bon::_GetEngine().Gfx().DrawImage(Image,
+						position,
+						&currTileSize,
+						BlendMode,
+						&currSourceRect,
+						&PointF::Zero, 0.0f, &color);
+					position.Y += tileSize.Y;
+				}
+				position.X += tileSize.X;
+			}
 		}
 	}
 }
