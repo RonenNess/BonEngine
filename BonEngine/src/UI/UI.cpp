@@ -65,6 +65,9 @@ namespace bon
 		// init a new ui element
 		void UI::InitNewElement(UIElement element, ConfigAsset stylesheet, UIElement parent)
 		{
+			// call element init
+			element->_Init();
+
 			// load stylesheet
 			if (stylesheet != nullptr)
 			{
@@ -116,6 +119,15 @@ namespace bon
 		{
 			UIText ret = std::make_shared<_UIText>();
 			InitNewElement(ret, stylesheet, parent);
+			return ret;
+		}
+
+		// create and return a window element
+		UIWindow UI::CreateWindow(const char* stylesheet, UIElement parent, const char* title)
+		{
+			UIWindow ret = std::make_shared<_UIWindow>();
+			InitNewElement(ret, stylesheet, parent);
+			ret->Title->SetText(title);
 			return ret;
 		}
 	}

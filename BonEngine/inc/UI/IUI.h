@@ -18,6 +18,7 @@
 #include "Elements/UIElement.h"
 #include "Elements/UIImage.h"
 #include "Elements/UIText.h"
+#include "Elements/UIWindow.h"
 
 namespace bon
 {
@@ -101,6 +102,16 @@ namespace bon
 			 * \return Newly created text.
 			 */
 			virtual UIText CreateText(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
+
+			/**
+			 * Create and return a window element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \param title Window title text.
+			 * \return Newly created window.
+			 */
+			virtual UIWindow CreateWindow(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* title = nullptr) = 0;
 
 		protected:
 

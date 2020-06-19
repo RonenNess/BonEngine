@@ -68,7 +68,14 @@ namespace bon
 			// element calculated dest rect (based on position and size)
 			framework::RectangleI _destRect;
 
+			// last calculated parent internal dest rect
+			framework::RectangleI _parentInternalDestRect;
 		public:
+
+			/**
+			 * Optional extra initialization code to apply after creating element.
+			 */
+			virtual void _Init() {}
 
 			/**
 			 * If true, this element will interact with user input, respond to clicks, ect.
@@ -140,6 +147,11 @@ namespace bon
 			bool Draggable = false;
 
 			/**
+			 * If true and element is draggable, user will not be able to drag it outside its parent region.
+			 */
+			bool LimitDragToParentArea = true;
+
+			/**
 			 * Initialize element style from config file.
 			 * 
 			 * \param config Config file to init element from.
@@ -155,6 +167,7 @@ namespace bon
 			 *				*		- capture_input = Will this element capture input events? (true / false). 
 			 *				*		- copy_parent_state = Will this element copy its parent state? (true / false). 
 			 *				*		- draggable = If true, users can drag this element (true / false). 
+			 *				*		- limit_drag_to_parent = If true, will limit dragging to parent's region (true / false). 
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
 

@@ -51,9 +51,9 @@ namespace demo16_ui
 				text->SetText(std::string(("Apples clicked: ") + std::to_string(clicksCount)).c_str());
 			};
 
-			// create test tiled image
-			bon::UIImage tiledImage = UI().CreateImage("../TestAssets/ui/window.ini", _uiRoot);
-			tiledImage->SetPosition(bon::PointI(100, 100));
+			// create test window
+			bon::UIWindow window = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "Hello World!");
+			window->SetPosition(bon::PointI(100, 100));
 		}
 
 		// per-frame update

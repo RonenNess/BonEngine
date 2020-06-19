@@ -21,11 +21,13 @@ namespace bon
 		class _UIElement;
 		class _UIText;
 		class _UIImage;
+		class _UIWindow;
 
 		// pointer to all UI element types
 		typedef BON_DLLEXPORT std::shared_ptr<_UIElement> UIElement;
 		typedef BON_DLLEXPORT std::shared_ptr<_UIText> UIText;
 		typedef BON_DLLEXPORT std::shared_ptr<_UIImage> UIImage;
+		typedef BON_DLLEXPORT std::shared_ptr<_UIWindow> UIWindow;
 		
 		/**
 		 * Define callback for UI element actions.

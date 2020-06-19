@@ -94,6 +94,15 @@ namespace bon
 			 */
 			virtual UIText CreateText(const char* stylesheet = nullptr, UIElement parent = nullptr) override;
 
+			/**
+			 * Create and return a window element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \return Newly created window.
+			 */
+			virtual UIWindow CreateWindow(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* title = nullptr) override;
+
 		private:
 			
 			/**

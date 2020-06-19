@@ -47,6 +47,7 @@ namespace bon
 			CaptureInput = config->GetBool("behavior", "capture_input", true);
 			CopyParentState = config->GetBool("behavior", "copy_parent_state", false);
 			Draggable = config->GetBool("behavior", "draggable", false);
+			LimitDragToParentArea = config->GetBool("behavior", "limit_drag_to_parent", true);
 		}
 
 		// remove child element.
@@ -227,9 +228,29 @@ namespace bon
 					// drag
 					else
 					{
+						// set position
 						SetPosition(framework::PointI(
 							mousePosition.X - _startDragOffsetInElement.X,
 							mousePosition.Y - _startDragOffsetInElement.Y));
+
+						// check boundaries
+						if (LimitDragToParentArea)
+						{
+							UISides padding;
+							if (_parent) { padding = _parent->_padding; }
+							if (_position.Value.X < padding.Left) {
+								_position.Value.X = padding.Left;
+							}
+							if (_position.Value.Y < padding.Top) {
+								_position.Value.Y = padding.Top;
+							}
+							if (_position.Value.X + _destRect.Width > _parentInternalDestRect.Width) {
+								_position.Value.X = _parentInternalDestRect.Width - _destRect.Width;
+							}
+							if (_position.Value.Y + _destRect.Height > _parentInternalDestRect.Height) {
+								_position.Value.Y = _parentInternalDestRect.Height - _destRect.Height;
+							}
+						}
 					}
 				}
 			}
@@ -297,6 +318,7 @@ namespace bon
 				auto renderSize = bon::_GetEngine().Gfx().RenderableSize();
 				parentRect.Set(0, 0, renderSize.X, renderSize.Y);
 			}
+			_parentInternalDestRect = parentRect;
 
 			// calc position
 			auto position = CalcCoords(_position, parentRect, true);
