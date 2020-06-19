@@ -964,7 +964,7 @@ Once a config file is loaded (or created as empty), you can use the following ge
 * GetPointF(section, key, defaultVal)
 * GetRectangleF(section, key, defaultVal)
 * GetColor(section, key, defaultVal)
-* GetOption(section, key, options, optionsCount, defaultVal)
+* GetOption(section, key, options, defaultVal)
 
 Set values with:
 

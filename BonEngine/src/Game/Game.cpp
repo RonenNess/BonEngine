@@ -68,7 +68,7 @@ namespace bon
 			static const char* WindowModesOptions[] = {"windowed", "windowed_borderless", "fullscreen"};
 			const char* title = config->GetStr("gfx", "title", "");
 			framework::PointF resolution = config->GetPointF("gfx", "resolution", framework::PointF(800, 600));
-			int mode = config->GetOption("gfx", "window_mode", WindowModesOptions, 2, 0);
+			int mode = config->GetOption("gfx", "window_mode", WindowModesOptions, 0);
 			bool cursor = config->GetBool("gfx", "cursor", true);
 			BON_DLOG("Gfx config: title = %s, resolution = %dx%d, mode = %s, cursor = %d", 
 				title, (int)resolution.X, (int)resolution.Y, WindowModesOptions[mode], cursor);
@@ -77,7 +77,7 @@ namespace bon
 			// initialize sfx
 			static const char* FormatOptions[] = { "U8", "S8", "U16LSB", "S16LSB", "U16MSB", "S16MSB" };
 			int frequency = config->GetInt("sfx", "frequency", 22050);
-			int format = config->GetOption("sfx", "format", FormatOptions, 6, 3);
+			int format = config->GetOption("sfx", "format", FormatOptions, 3);
 			if (format == -1) { format = (int)AudioFormats::S16LSB; }
 			int stereo = config->GetBool("sfx", "stereo", true);
 			int audio_chunk_size = config->GetInt("sfx", "audio_chunk_size", 4096);

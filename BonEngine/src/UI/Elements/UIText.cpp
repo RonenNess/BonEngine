@@ -33,8 +33,10 @@ namespace bon
 				Font = bon::_GetEngine().Assets().LoadFont(font, fontSize);
 			}
 
-			// load font size
+			// load font size and alignment
 			FontSize = config->GetInt("text", "font_size", 24);
+			static const char* alignments[] = { "left", "right", "center" };
+			Alignment = (UITextAlignment)config->GetOption("text", "alignment", alignments, 0);
 
 			// load colors
 			Color = config->GetColor("text", "color", Color::White);

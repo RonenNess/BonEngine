@@ -63,7 +63,7 @@ namespace bon
 			 *				*		- source_rect = Image source rect (x,y,width,height).
 			 *				*		- source_rect_highlight = Image source rect while being highlighted / point on (x,y,width,height).
 			 *				*		- source_rect_pressed = Image source rect while being pressed down (x,y,width,height).
-			 *				*		- blend = Image blend mode (numeric enum value).
+			 *				*		- blend = Image blend mode (opaque / alpha / additive / mod / multiply).
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
 

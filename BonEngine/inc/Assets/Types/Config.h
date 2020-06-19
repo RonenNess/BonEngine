@@ -16,7 +16,6 @@
 #include <set>
 #include "ConfigHandle.h"
 
-
 namespace bon
 {
 	namespace assets
@@ -149,6 +148,25 @@ namespace bon
 			 */
 			int GetOption(const char* section, const char* name, const char* options[], int optionsCount, int defaultVal) const;
 
+			/**
+			 * Get the index of the selected option from options list.
+			 * For example, if options provided are ["dog", "cat", "mouse"], and value is "cat", will return 1.
+			 * If value exists but doesn't match any of the options, will throw exception.
+			 * This version of the function try to evaluate options count automatically, provided you use a 'char* arr[x]' type of array.
+			 *
+			 * \param section Config section name.
+			 * \param name Config name.
+			 * \param options Options list to match against.
+			 * \param defaultVal Default value to retrieve if value not defined. Note: if illegal option is read, exception will be thrown.
+			 * \return Config value as index of selected option.
+			 */
+			template <size_t N>
+			int GetOption(const char* section, const char* name, const char* (&options)[N], int defaultVal) const
+			{
+				int optionsCount = N;
+				return GetOption(section, name, options, optionsCount, defaultVal);
+			}
+			
 			/**
 			 * Get set with all section names.
 			 */

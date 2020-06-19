@@ -91,7 +91,7 @@ namespace bon
 			 *				*		- font_path = Font path to use.
 			 *				*		- font_native_size = Native font size to use when loading font from font path.
 			 *				*		- font_size = Font drawing size.
-			 *				*		- alignment = Text alignment - 0 = left, 1 = right, 2 = center.
+			 *				*		- alignment = Text alignment (left / right / center).
 			 *				*		- color = Text color, with values ranging from 0 to 255 (r,g,b,a).
 			 *				*		- color_highlight = Text color, while being pointed on / highlighted, with values ranging from 0 to 255 (r,g,b,a).
 			 *				*		- color_pressed = Text color, while being pressed down, with values ranging from 0 to 255 (r,g,b,a).
