@@ -31,6 +31,21 @@ namespace bon
 		};
 
 		/**
+		 * Invalid value exception - happens when user provides or recieve an invalid value.
+		 */
+		class InvalidValue : public exception
+		{
+			const char* _msg;
+
+		public:
+			InvalidValue(const char* msg) : _msg(msg) { }
+			virtual const char* what() const throw()
+			{
+				return _msg;
+			}
+		};
+
+		/**
 		 * Initialize error - happens when something during initialization don't work for unknown reason.
 		 */
 		class InitializeError : public exception

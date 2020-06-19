@@ -65,23 +65,24 @@ namespace bon
 			}
 
 			// start by initializing graphics
+			static const char* WindowModesOptions[] = {"windowed", "windowed_borderless", "fullscreen"};
 			const char* title = config->GetStr("gfx", "title", "");
-			int resX = config->GetInt("gfx", "resolution_x", 900);
-			int resY = config->GetInt("gfx", "resolution_y", 900);
-			int mode = config->GetInt("gfx", "window_mode", 0);
+			framework::PointF resolution = config->GetPointF("gfx", "resolution", framework::PointF(800, 600));
+			int mode = config->GetOption("gfx", "window_mode", WindowModesOptions, 2, 0);
 			bool cursor = config->GetBool("gfx", "cursor", true);
-			BON_DLOG("Gfx config: title = %s, resolution = %dx%d, mode = %d, cursor = %d", 
-				title, resX, resY, mode, cursor);
-			_GetEngine().Gfx().SetWindowProperties(title, resX, resY, (WindowModes)mode, cursor);
+			BON_DLOG("Gfx config: title = %s, resolution = %dx%d, mode = %s, cursor = %d", 
+				title, (int)resolution.X, (int)resolution.Y, WindowModesOptions[mode], cursor);
+			_GetEngine().Gfx().SetWindowProperties(title, (int)resolution.X, (int)resolution.Y, (WindowModes)mode, cursor);
 
 			// initialize sfx
+			static const char* FormatOptions[] = { "U8", "S8", "U16LSB", "S16LSB", "U16MSB", "S16MSB" };
 			int frequency = config->GetInt("sfx", "frequency", 22050);
-			int format = config->GetInt("sfx", "format", -1);
+			int format = config->GetOption("sfx", "format", FormatOptions, 6, 3);
 			if (format == -1) { format = (int)AudioFormats::S16LSB; }
 			int stereo = config->GetBool("sfx", "stereo", true);
 			int audio_chunk_size = config->GetInt("sfx", "audio_chunk_size", 4096);
-			BON_DLOG("Sfx config: frequency = %d, format = %d, stereo = %d, audio_chunk_size = %d", 
-				frequency, format, stereo, audio_chunk_size);
+			BON_DLOG("Sfx config: frequency = %d, format = %s, stereo = %d, audio_chunk_size = %d", 
+				frequency, FormatOptions[format], stereo, audio_chunk_size);
 			_GetEngine().Sfx().SetAudioProperties(frequency, (AudioFormats)format, stereo, audio_chunk_size);
 
 			// initialize controls

@@ -85,5 +85,24 @@ namespace bon
 			ret.Height = (float)std::stoi(*iter); 
 			return ret;
 		}
+
+		// get option index from config
+		int _Config::GetOption(const char* section, const char* name, const char* options[], int optionsCount, int defaultVal) const
+		{
+			// get config as string and return default val if not exist
+			const char* asStr = GetStr(section, name, nullptr);
+			if (!asStr) { return defaultVal; }
+
+			// find value index
+			for (int i = 0; i < optionsCount; ++i)
+			{
+				if (strcmp(asStr, options[i]) == 0) {
+					return i;
+				}
+			}
+
+			// invalid value
+			throw framework::InvalidValue((std::string("Invalid config value: '") + asStr + "': value is not one of the given options.").c_str());
+		}
 	}
 }

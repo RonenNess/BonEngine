@@ -136,6 +136,20 @@ namespace bon
 			framework::Color GetColor(const char* section, const char* name, const framework::Color& defaultVal) const;
 
 			/**
+			 * Get the index of the selected option from options list.
+			 * For example, if options provided are ["dog", "cat", "mouse"], and value is "cat", will return 1.
+			 * If value exists but doesn't match any of the options, will throw exception.
+			 *
+			 * \param section Config section name.
+			 * \param name Config name.
+			 * \param options Options list to match against.
+			 * \param optionsCount how many options we have.
+			 * \param defaultVal Default value to retrieve if value not defined. Note: if illegal option is read, exception will be thrown.
+			 * \return Config value as index of selected option.
+			 */
+			int GetOption(const char* section, const char* name, const char* options[], int optionsCount, int defaultVal) const;
+
+			/**
 			 * Get set with all section names.
 			 */
 			const std::set<std::string>& Sections() const { return Handle()->Sections(); }

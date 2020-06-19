@@ -964,6 +964,7 @@ Once a config file is loaded (or created as empty), you can use the following ge
 * GetPointF(section, key, defaultVal)
 * GetRectangleF(section, key, defaultVal)
 * GetColor(section, key, defaultVal)
+* GetOption(section, key, options, optionsCount, defaultVal)
 
 Set values with:
 
@@ -1036,9 +1037,10 @@ First stable release.
 - Added `Lerp` function to points.
 - Extended Gfx API to get current target size and retrieve render target.
 - Added UI manager and some basic UI elements.
-- Added GetPoint(), GetColor() and GetRect() to config assets.
+- Added GetOption(), GetPoint(), GetColor() and GetRect() to config assets.
 - Added outline to text drawing.
 - Changed Rectangle::Zero to be a static const instead of method.
+- Changed general game config file to use text options instead of numbers for enums.
 
 ## In Memory Of Bonnie
 

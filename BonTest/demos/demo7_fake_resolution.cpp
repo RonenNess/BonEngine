@@ -30,7 +30,7 @@ namespace demo7_fake_resolution
 		virtual void _Load() override
 		{
 			if (IsFirstScene())
-				Game().LoadConfig("../TestAssets/config.ini");
+				Game().LoadConfig("../TestAssets/config_fullscreen_windowed.ini");
 		}
 
 		// on scene start
