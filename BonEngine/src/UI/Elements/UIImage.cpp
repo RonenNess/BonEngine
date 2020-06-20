@@ -177,7 +177,7 @@ namespace bon
 					RectangleI sideSource = sourceRect;
 					sideSource.Y += SlicedImageSides.Top;
 					sideSource.Width = (int)(SlicedImageSides.Left);
-					sideSource.Height -= SlicedImageSides.Top;
+					sideSource.Height -= SlicedImageSides.Top + SlicedImageSides.Bottom;
 
 					// calc dest rect
 					RectangleI topDest = _destRect;
@@ -195,7 +195,7 @@ namespace bon
 					sideSource.Y += SlicedImageSides.Top;
 					sideSource.X = sideSource.Right() - SlicedImageSides.Right;
 					sideSource.Width = (int)(SlicedImageSides.Right);
-					sideSource.Height -= SlicedImageSides.Top;
+					sideSource.Height -= SlicedImageSides.Top + SlicedImageSides.Bottom;
 
 					// calc dest rect
 					RectangleI topDest = _destRect;
