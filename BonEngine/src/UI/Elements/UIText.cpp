@@ -30,7 +30,7 @@ namespace bon
 			if (font)
 			{
 				int fontSize = config->GetInt("text", "font_native_size", 24);
-				Font = bon::_GetEngine().Assets().LoadFont(font, fontSize);
+				Font = bon::_GetEngine().Assets().LoadFont(ToRelativePath(font).c_str(), fontSize);
 			}
 
 			// load font size and alignment

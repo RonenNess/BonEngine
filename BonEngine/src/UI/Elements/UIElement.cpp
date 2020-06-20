@@ -1,7 +1,9 @@
 #include <UI/Elements/UIElement.h>
 #include <Framework/Exceptions.h>
 #include <BonEngine.h>
-
+#include <string>
+#include <filesystem>
+namespace fs = std::filesystem;
 using namespace bon::framework;
 
 namespace bon
@@ -27,9 +29,18 @@ namespace bon
 			_destCalcId = -1;
 		}
 
+		// get filename or path and convert it to a path relative to the folder we loaded stylesheet from.
+		std::string _UIElement::ToRelativePath(const char* path) const
+		{
+			return fs::path(_stylesheetFolder).append(path).u8string();
+		}
+
 		// init style from config
 		void _UIElement::LoadStyleFrom(const assets::ConfigAsset& config)
 		{
+			// store stylesheet folder
+			_stylesheetFolder = fs::path(config->Path()).parent_path().u8string();
+
 			// load origin and anchor
 			Origin = config->GetPointF("style", "origin", bon::PointF::Zero);
 			_anchor = config->GetPointF("style", "anchor", bon::PointF::Zero);

@@ -1042,6 +1042,7 @@ First stable release.
 - Changed Rectangle::Zero to be a static const instead of method.
 - Changed general game config file to use text options instead of numbers for enums.
 - Fixed bug with assets cache that fonts in different sizes and images with different filters had the same key.
+- Changed default compiler to C++ 17.
 
 ## In Memory Of Bonnie
 

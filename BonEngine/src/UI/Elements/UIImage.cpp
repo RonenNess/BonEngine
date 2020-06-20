@@ -39,7 +39,7 @@ namespace bon
 
 			// load source image
 			const char* img = config->GetStr("image", "image_path", nullptr);
-			if (img) { Image = bon::_GetEngine().Assets().LoadImage(img); }
+			if (img) { Image = bon::_GetEngine().Assets().LoadImage(ToRelativePath(img).c_str()); }
 
 			// load sliced sides
 			RectangleF slicedSides = config->GetRectangleF("image", "sliced_sides", RectangleF::Zero);

@@ -30,6 +30,9 @@ namespace bon
 		class BON_DLLEXPORT _UIElement
 		{
 		private:
+			// stylesheet folder, if loaded from stylesheet file
+			std::string _stylesheetFolder;
+
 			// element offset from its anchor position.
 			framework::PointI _offset;
 
@@ -73,6 +76,7 @@ namespace bon
 
 			// last calculated parent internal dest rect
 			framework::RectangleI _parentInternalDestRect;
+
 		public:
 
 			/**
@@ -301,6 +305,11 @@ namespace bon
 			void MoveToFront();
 
 		protected:
+
+			/**
+			 * Get filename or path and convert it to a path relative to the folder we loaded stylesheet from.
+			 */
+			std::string ToRelativePath(const char* path) const;
 
 			/**
 			 * Get drawing color based on element state.
