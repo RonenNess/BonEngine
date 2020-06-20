@@ -43,6 +43,14 @@ namespace bon
 			// stylesheet for items background
 			assets::ConfigAsset _itemsBackgroundSheet;
 
+			// mark that list is dirty and we need to rearrange items in it
+			bool _listDirty = true;
+
+			/**
+			 * Height, in pixels, of a single line in list.
+			 */
+			int _lineHeight;
+
 		public:
 
 			/**
@@ -51,9 +59,16 @@ namespace bon
 			UIWindow Background;
 
 			/**
-			 * Height, in pixels, of a single line in list.
+			 * Set the height, in pixels, of an item in list.
+			 * 
+			 * \param val Line height to set.
 			 */
-			int LineHeight;
+			inline void SetLineHeight(int val) { _lineHeight = val; _listDirty = true; }
+
+			/**
+			 * Get the height, in pixels, of an item in list.
+			 */
+			inline int GetLineHeight() const { return _lineHeight; }
 
 			/**
 			 * Optional extra initialization code to apply after creating element.
@@ -88,9 +103,23 @@ namespace bon
 			void RemoveItem(const char* item);
 
 			/**
+			 * Remove item from list.
+			 *
+			 * \param index Item index to remove.
+			 */
+			void RemoveItem(int index);
+
+			/**
 			 * Clear list.
 			 */
 			void Clear();
+
+			/**
+			 * Update the UI element and children.
+			 *
+			 * \param deltaTime Update frame delta time.
+			 */
+			virtual void Update(double deltaTime) override;
 		};
 	}
 }
