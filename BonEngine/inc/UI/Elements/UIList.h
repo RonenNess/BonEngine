@@ -8,6 +8,7 @@
 #pragma once
 #include "UIWindow.h"
 #include "UIText.h"
+#include "UIImage.h"
 #include "../../Assets/Types/Config.h"
 #include <list>
 
@@ -26,11 +27,21 @@ namespace bon
 		{
 		private:
 
+			// the struct that holds a single item in list.
+			struct ListItem
+			{
+				UIText Text;
+				UIImage Background;
+			};
+
 			// items in list
-			std::list<UIText> _items;
+			std::list<ListItem> _items;
 
 			// stylesheet for items in list
 			assets::ConfigAsset _itemsSheet;
+
+			// stylesheet for items background
+			assets::ConfigAsset _itemsBackgroundSheet;
 
 		public:
 
@@ -55,7 +66,8 @@ namespace bon
 			 * \param config Config file to init element from.
 			 *				* In addition to all the settings from UIElement and UIImage stylesheet files, you can add the following:
 			 *				*	[list]
-			 *				*		- background_style = Stylesheet to use for list background window.
+			 *				*		- list_background_style = Stylesheet to use for list background window (UIWindow).
+			 *				*		- item_background_style = Stylesheet to use for list item background image (UIImage).
 			 *				*		- items_style = Stylesheet to use for text items in list.
 			 *				*		- line_height = Height, in pixels, of a single line in list.
 			 */

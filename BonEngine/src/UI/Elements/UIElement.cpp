@@ -264,14 +264,21 @@ namespace bon
 					if (OnMouseReleased && !ldown && !rdown) { OnMouseReleased(*this, &UIInputEvent(ldown, rdown)); }
 				}
 
+				// start dragging element
+				bool pressedNow = bon::_GetEngine().Input().PressedNow(KeyCodes::MouseLeft);
+				if (Draggable && pressedNow)
+				{
+					_isBeingDragged = true;
+				}
+
 				// drag element
-				if (Draggable && ldown)
+				if (Draggable && ldown && _isBeingDragged)
 				{
 					// set as dragged
 					_isBeingDragged = true;
 
 					// set dragging start position
-					if (bon::_GetEngine().Input().PressedNow(KeyCodes::MouseLeft))
+					if (pressedNow)
 					{
 						_startDragOffsetInElement = framework::PointI(mousePosition.X - _destRect.X, mousePosition.Y - _destRect.Y);
 						_anchor = PointF::Zero;
