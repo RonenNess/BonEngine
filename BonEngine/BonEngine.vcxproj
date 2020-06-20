@@ -196,6 +196,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClInclude Include="inc\UI\Elements\Defs.h" />
     <ClInclude Include="inc\UI\Elements\UIButton.h" />
     <ClInclude Include="inc\UI\Elements\UIImage.h" />
+    <ClInclude Include="inc\UI\Elements\UIList.h" />
     <ClInclude Include="inc\UI\Elements\UIText.h" />
     <ClInclude Include="inc\UI\Elements\UIWindow.h" />
     <ClInclude Include="inc\UI\IUI.h" />
@@ -283,6 +284,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClCompile Include="src\UI\Elements\UIButton.cpp" />
     <ClCompile Include="src\UI\Elements\UIElement.cpp" />
     <ClCompile Include="src\UI\Elements\UIImage.cpp" />
+    <ClCompile Include="src\UI\Elements\UIList.cpp" />
     <ClCompile Include="src\UI\Elements\UIText.cpp" />
     <ClCompile Include="src\UI\Elements\UIWindow.cpp" />
     <ClCompile Include="src\UI\UI.cpp" />

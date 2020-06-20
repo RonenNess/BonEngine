@@ -39,7 +39,7 @@ namespace bon
 			 * \param config Config file to init element from.
 			 *				* In addition to all the settings from UIElement and UIImage stylesheet files, you can add the following:
 			 *				*	[button]
-			 *				*		- caption_stylesheet = Stylesheet to use for button text.
+			 *				*		- caption_style = Stylesheet to use for button text.
 			 *				*		- caption_offset = button text offset (x,y).
 			 *				*		- caption_anchor = if provided, will override button's text anchor (x,y).
 			 */

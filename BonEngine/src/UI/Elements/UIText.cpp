@@ -57,6 +57,16 @@ namespace bon
 		// set text to draw.
 		void _UIText::SetText(const char* text)
 		{
+			// special case - delete text
+			if (!text)
+			{
+				if (_text) {
+					free(_text);
+					_text = nullptr;
+				}
+				return;
+			}
+
 			// special case - empty text
 			if (text[0] == '\0')
 			{

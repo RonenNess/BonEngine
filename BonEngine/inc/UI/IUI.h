@@ -20,6 +20,7 @@
 #include "Elements/UIText.h"
 #include "Elements/UIWindow.h"
 #include "Elements/UIButton.h"
+#include "Elements/UIList.h"
 
 namespace bon
 {
@@ -100,9 +101,10 @@ namespace bon
 			 *
 			 * \param stylesheet Optional stylesheet path to load.
 			 * \param parent Optional parent to set.
+			 * \param text Starting text to set.
 			 * \return Newly created text.
 			 */
-			virtual UIText CreateText(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
+			virtual UIText CreateText(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* text = nullptr) = 0;
 
 			/**
 			 * Create and return a window element.
@@ -123,6 +125,15 @@ namespace bon
 			 * \return Newly created window.
 			 */
 			virtual UIButton CreateButton(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) = 0;
+			
+			/**
+			 * Create and return a list element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \return Newly created list.
+			 */
+			virtual UIList CreateList(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
 
 		protected:
 

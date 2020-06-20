@@ -39,7 +39,7 @@ namespace bon
 			 * \param config Config file to init element from.
 			 *				* In addition to all the settings from UIElement and UIImage stylesheet files, you can add the following:
 			 *				*	[window]
-			 *				*		- title_stylesheet = Stylesheet to use for title text.
+			 *				*		- title_style = Stylesheet to use for title text.
 			 *				*		- title_offset = title text offset (x,y).
 			 *				*		- title_anchor = if provided, will override window's text anchor (x,y).
 			 */

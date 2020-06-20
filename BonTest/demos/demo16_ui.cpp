@@ -16,6 +16,9 @@ namespace demo16_ui
 		// ui root
 		bon::UIElement _uiRoot;
 
+		// should we debug-draw UI?
+		bool _debugDrawUI = false;
+
 	public:
 
 		// on scene load
@@ -86,16 +89,28 @@ namespace demo16_ui
 
 			// create main test window
 			bon::UIWindow window = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "Demo #16: UI");
-			window->SetOffset(bon::PointI(100, 100));
+			window->SetOffset(bon::PointI(100, 50));
 
 			// add intro text
+			bon::UIText intro = UI().CreateText("../TestAssets/ui/small_text.ini", window, 
+				"This example shows some basic UI elements in the built-in UI system. UI elements are loaded from ini files.");
 
-			// add test button
-			bon::UIButton button = UI().CreateButton("../TestAssets/ui/button.ini", window, "Click Me!");
+			// add a button
+			bon::UIButton button = UI().CreateButton("../TestAssets/ui/button.ini", window, "A Button");
+			button->SetOffset(bon::PointI(0, 120));
+
+			// add a list
+			bon::UIList uilist = UI().CreateList("../TestAssets/ui/list.ini", window);
+			uilist->SetOffset(bon::PointI(0, 165));
+			uilist->AddItem("This is a list");
+			uilist->AddItem("You can add items");
+			uilist->AddItem("And select them");
+			uilist->AddItem("Item #1");
+			uilist->AddItem("Item #2");
 
 			// create additional window
 			bon::UIWindow extraStuffWindow = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "More Stuff");
-			extraStuffWindow->SetOffset(bon::PointI(300, 200));
+			extraStuffWindow->SetOffset(bon::PointI(300, 150));
 
 			// move main window to front
 			window->MoveToFront();
@@ -121,6 +136,12 @@ namespace demo16_ui
 			// note: for this demo we separate the ui drawing and cursor drawing calls just to show its possible.
 			// set second param to true to draw cursor at the same call.
 			UI().Draw(_uiRoot, false);
+
+			// debug draw UI
+			if (_debugDrawUI)
+			{
+				_uiRoot->DebugDraw(true);
+			}
 
 			// show draw calls count (doing it last to include everything)
 			Gfx().DrawText(_font, (std::string("Draw Calls: ") + std::to_string(Diagnostics().GetCounter(bon::DiagnosticsCounters::DrawCalls))).c_str(), 

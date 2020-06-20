@@ -127,6 +127,27 @@ namespace bon
 			}
 		}
 
+		// debug draw element
+		void _UIElement::DebugDraw(bool recursive)
+		{
+			// draw padding
+			RectangleI paddingRect = _destRect;
+			paddingRect.X += _padding.Left;
+			paddingRect.Width -= _padding.Left + _padding.Right;
+			paddingRect.Y += _padding.Top;
+			paddingRect.Height -= _padding.Top + _padding.Bottom;
+			bon::_GetEngine().Gfx().DrawRectangle(paddingRect, bon::Color(0.5f, 0.5f, 0.5f, 0.5f), false, bon::BlendModes::AlphaBlend);
+
+			// draw dest rect
+			bon::_GetEngine().Gfx().DrawRectangle(_destRect, _state == UIElementState::Idle ? Color::White : Color::Red, false, bon::BlendModes::AlphaBlend);
+
+			// draw children
+			for (auto child : _children)
+			{
+				child->DebugDraw(recursive);
+			}
+		}
+
 		// update ui interactions with input
 		void _UIElement::DoInputUpdates(const framework::PointI& mousePosition, UIUpdateInputState& updateState)
 		{
@@ -218,7 +239,7 @@ namespace bon
 			if (!Interactive || CopyParentState) { return; }
 
 			// check if pointed on
-			bool pointedOn = _destRect.Contains(mousePosition);
+			bool pointedOn = _isBeingDragged || _destRect.Contains(mousePosition);
 			if (pointedOn)
 			{
 				// update state
@@ -246,6 +267,9 @@ namespace bon
 				// drag element
 				if (Draggable && ldown)
 				{
+					// set as dragged
+					_isBeingDragged = true;
+
 					// set dragging start position
 					if (bon::_GetEngine().Input().PressedNow(KeyCodes::MouseLeft))
 					{
@@ -281,6 +305,11 @@ namespace bon
 							}
 						}
 					}
+				}
+				// no longer dragged
+				else
+				{
+					_isBeingDragged = false;
 				}
 			}
 			// mouse leave event

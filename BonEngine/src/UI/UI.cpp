@@ -115,10 +115,11 @@ namespace bon
 		}
 
 		// create and return a text element
-		UIText UI::CreateText(const char* stylesheet, UIElement parent)
+		UIText UI::CreateText(const char* stylesheet, UIElement parent, const char* text)
 		{
 			UIText ret = std::make_shared<_UIText>();
 			InitNewElement(ret, stylesheet, parent);
+			if (text) { ret->SetText(text); }
 			return ret;
 		}
 
@@ -127,7 +128,7 @@ namespace bon
 		{
 			UIWindow ret = std::make_shared<_UIWindow>();
 			InitNewElement(ret, stylesheet, parent);
-			ret->Title->SetText(title);
+			if (title) { ret->Title->SetText(title); }
 			return ret;
 		}
 
@@ -136,7 +137,15 @@ namespace bon
 		{
 			UIButton ret = std::make_shared<_UIButton>();
 			InitNewElement(ret, stylesheet, parent);
-			ret->Caption->SetText(caption);
+			if (caption) { ret->Caption->SetText(caption); }
+			return ret;
+		}
+
+		// create and return a list element.
+		UIList UI::CreateList(const char* stylesheet, UIElement parent)
+		{
+			UIList ret = std::make_shared<_UIList>();
+			InitNewElement(ret, stylesheet, parent);
 			return ret;
 		}
 	}

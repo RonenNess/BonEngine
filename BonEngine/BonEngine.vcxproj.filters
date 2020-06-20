@@ -318,6 +318,9 @@
     <ClInclude Include="inc\UI\Elements\UIButton.h">
       <Filter>Header Files\UI\Elements</Filter>
     </ClInclude>
+    <ClInclude Include="inc\UI\Elements\UIList.h">
+      <Filter>Header Files\UI\Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Engine.cpp">
@@ -432,6 +435,9 @@
       <Filter>Source Files\UI\Elements</Filter>
     </ClCompile>
     <ClCompile Include="src\UI\Elements\UIButton.cpp">
+      <Filter>Source Files\UI\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Elements\UIList.cpp">
       <Filter>Source Files\UI\Elements</Filter>
     </ClCompile>
   </ItemGroup>

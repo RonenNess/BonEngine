@@ -51,6 +51,9 @@ namespace bon
 			// parent ui element.
 			_UIElement* _parent = nullptr;
 
+			// is this element being dragged right now?
+			bool _isBeingDragged = false;
+
 			// do we need to recalculate dest rect?
 			bool _isDestDirty = true;
 
@@ -303,6 +306,14 @@ namespace bon
 			 * If have no parent or already the most front element - nothing will happen.
 			 */
 			void MoveToFront();
+
+			/**
+			 * Debug draw UI related stuff like dest rects and paddings.
+			 * Used to debug purposes. Call this only after you call all necessary updates.
+			 * 
+			 * \param recursive If true, will debug draw children as well recursively.
+			 */
+			void DebugDraw(bool recursive = true);
 
 		protected:
 

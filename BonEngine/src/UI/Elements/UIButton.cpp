@@ -23,7 +23,7 @@ namespace bon
 			_UIImage::LoadStyleFrom(config);
 
 			// load title stuff
-			const char* textStylesheet = config->GetStr("button", "caption_stylesheet", nullptr);
+			const char* textStylesheet = config->GetStr("button", "caption_style", nullptr);
 			if (textStylesheet) { Caption->LoadStyleFrom(bon::_GetEngine().Assets().LoadConfig(ToRelativePath(textStylesheet).c_str())); }
 			Caption->SetOffset(config->GetPointF("button", "caption_offset", framework::PointF::Zero));
 			framework::PointF anchor = config->GetPointF("button", "caption_anchor", framework::PointF(-1000.0f, -1000.0f));

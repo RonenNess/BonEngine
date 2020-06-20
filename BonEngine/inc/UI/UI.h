@@ -90,9 +90,10 @@ namespace bon
 			 *
 			 * \param stylesheet Optional stylesheet path to load.
 			 * \param parent Optional parent to set.
+			 * \param text Starting text to set.
 			 * \return Newly created text.
 			 */
-			virtual UIText CreateText(const char* stylesheet = nullptr, UIElement parent = nullptr) override;
+			virtual UIText CreateText(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* text = nullptr) override;
 
 			/**
 			 * Create and return a window element.
@@ -112,7 +113,16 @@ namespace bon
 			 * \return Newly created window.
 			 */
 			virtual UIButton CreateButton(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) override;
-		
+			
+			/**
+			 * Create and return a list element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \return Newly created list.
+			 */
+			virtual UIList CreateList(const char* stylesheet = nullptr, UIElement parent = nullptr) override;
+
 		private:
 			
 			/**
