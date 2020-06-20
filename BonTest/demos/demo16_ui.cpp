@@ -88,6 +88,9 @@ namespace demo16_ui
 			bon::UIWindow window = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "Demo #16: UI");
 			window->SetOffset(bon::PointI(100, 100));
 
+			// add test button
+			bon::UIButton button = UI().CreateButton("../TestAssets/ui/button.ini", window, "Click Me!");
+
 			// create additional window
 			bon::UIWindow window2 = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "Extra Window");
 			window2->SetOffset(bon::PointI(300, 300));

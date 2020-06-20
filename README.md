@@ -1036,7 +1036,7 @@ First stable release.
 - Extended `SpriteSheet` API (contains animation, contains bookmark).
 - Added `Lerp` function to points.
 - Extended Gfx API to get current target size and retrieve render target.
-- Added UI system with basic UI elements: Element, Text, Image, Window, Rectangle [todo], Button [todo], List [todo], DropDown [todo], Slider [todo], Checkbox [todo], Radio button [todo].
+- Added UI system with basic UI elements: Element, Text, Image, Window, Rectangle [todo], Button, List [todo], DropDown [todo], Slider [todo], Checkbox [todo], Radio button [todo].
 - Added GetOption(), GetPoint(), GetColor() and GetRect() to config assets.
 - Added outline to text drawing.
 - Changed Rectangle::Zero to be a static const instead of method.

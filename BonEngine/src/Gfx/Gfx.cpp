@@ -88,10 +88,11 @@ namespace bon
 			// draw text outline
 			if (outlineWidth > 0)
 			{
-				for (int i = -1; i <= 1; i += 2)
+				for (int i = -1; i <= 1; i++)
 				{
-					for (int j = -1; j <= 1; j += 2)
+					for (int j = -1; j <= 1; j++)
 					{
+						if (i == 0 && j == 0) { continue; }
 						_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
 						_Implementor.DrawText(font, text, position + framework::PointF((float)i * outlineWidth, (float)j * outlineWidth),
 							outlineColor ? *outlineColor : defaultOutlineColor, fontSize, blend, origin ? *origin : defaultOrigin, rotation, maxWidth);

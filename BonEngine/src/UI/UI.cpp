@@ -130,5 +130,14 @@ namespace bon
 			ret->Title->SetText(title);
 			return ret;
 		}
+
+		// create and return a button element.
+		UIButton UI::CreateButton(const char* stylesheet, UIElement parent, const char* caption)
+		{
+			UIButton ret = std::make_shared<_UIButton>();
+			InitNewElement(ret, stylesheet, parent);
+			ret->Caption->SetText(caption);
+			return ret;
+		}
 	}
 }

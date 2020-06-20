@@ -1,6 +1,6 @@
 /*****************************************************************//**
- * \file   UIWindow.h
- * \brief  A window or panel element.
+ * \file   UIButton.h
+ * \brief  A UI button.
  *
  * \author Ronen Ness
  * \date   June 2020
@@ -17,16 +17,16 @@ namespace bon
 #pragma warning ( disable: 4251 ) // "..needs to have dll-interface to be used by clients..." it's ok in this case because its private.
 
 		/**
-		 * A UI window with background image and title.
+		 * A UI button element with background image and caption.
 		 */
-		class BON_DLLEXPORT _UIWindow : public _UIImage
+		class BON_DLLEXPORT _UIButton : public _UIImage
 		{
 		public:
 
 			/**
-			 * Title text element.
+			 * Caption text element.
 			 */
-			UIText Title;
+			UIText Caption;
 
 			/**
 			 * Optional extra initialization code to apply after creating element.
@@ -38,10 +38,10 @@ namespace bon
 			 *
 			 * \param config Config file to init element from.
 			 *				* In addition to all the settings from UIElement and UIImage stylesheet files, you can add the following:
-			 *				*	[window]
-			 *				*		- title_stylesheet = Stylesheet to use for title text.
-			 *				*		- title_offset = title text offset (x,y).
-			 *				*		- title_anchor = if provided, will override window's text anchor (x,y).
+			 *				*	[button]
+			 *				*		- caption_stylesheet = Stylesheet to use for button text.
+			 *				*		- caption_offset = button text offset (x,y).
+			 *				*		- caption_anchor = if provided, will override button's text anchor (x,y).
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
 		};

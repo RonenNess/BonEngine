@@ -102,7 +102,17 @@ namespace bon
 			 * \return Newly created window.
 			 */
 			virtual UIWindow CreateWindow(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* title = nullptr) override;
-
+			
+			/**
+			 * Create and return a button element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \param caption Button caption text.
+			 * \return Newly created window.
+			 */
+			virtual UIButton CreateButton(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) override;
+		
 		private:
 			
 			/**
