@@ -30,8 +30,9 @@ namespace bon
 		// init style from config
 		void _UIElement::LoadStyleFrom(const assets::ConfigAsset& config)
 		{
-			// load origin
+			// load origin and anchor
 			Origin = config->GetPointF("style", "origin", bon::PointF::Zero);
+			_anchor = config->GetPointF("style", "anchor", bon::PointF::Zero);
 
 			// load padding
 			RectangleF padding = config->GetRectangleF("style", "padding", RectangleF::Zero);
@@ -223,13 +224,14 @@ namespace bon
 					if (bon::_GetEngine().Input().PressedNow(KeyCodes::MouseLeft))
 					{
 						_startDragOffsetInElement = framework::PointI(mousePosition.X - _destRect.X, mousePosition.Y - _destRect.Y);
-						SetPosition(framework::PointI(_destRect.X, _destRect.Y));
+						_anchor = PointF::Zero;
+						SetOffset(framework::PointI(_destRect.X, _destRect.Y));
 					}
 					// drag
 					else
 					{
 						// set position
-						SetPosition(framework::PointI(
+						SetOffset(framework::PointI(
 							mousePosition.X - _startDragOffsetInElement.X,
 							mousePosition.Y - _startDragOffsetInElement.Y));
 
@@ -238,17 +240,17 @@ namespace bon
 						{
 							UISides padding;
 							if (_parent) { padding = _parent->_padding; }
-							if (_position.Value.X < padding.Left) {
-								_position.Value.X = padding.Left;
+							if (_offset.X < padding.Left) {
+								_offset.X = padding.Left;
 							}
-							if (_position.Value.Y < padding.Top) {
-								_position.Value.Y = padding.Top;
+							if (_offset.Y < padding.Top) {
+								_offset.Y = padding.Top;
 							}
-							if (_position.Value.X + _destRect.Width > _parentInternalDestRect.Width) {
-								_position.Value.X = _parentInternalDestRect.Width - _destRect.Width;
+							if (_offset.X + _destRect.Width > _parentInternalDestRect.Width) {
+								_offset.X = _parentInternalDestRect.Width - _destRect.Width;
 							}
-							if (_position.Value.Y + _destRect.Height > _parentInternalDestRect.Height) {
-								_position.Value.Y = _parentInternalDestRect.Height - _destRect.Height;
+							if (_offset.Y + _destRect.Height > _parentInternalDestRect.Height) {
+								_offset.Y = _parentInternalDestRect.Height - _destRect.Height;
 							}
 						}
 					}
@@ -262,7 +264,7 @@ namespace bon
 		}
 
 		// calculate and return coords based on parent, return absolute value in pixels.
-		PointI _UIElement::CalcCoords(const UICoords& coords, const framework::RectangleI& region, bool addRegionPosition)
+		PointI _UIElement::CalcUISize(const UISize& coords, const framework::RectangleI& region, bool addRegionPosition)
 		{
 			// add position
 			PointI ret;
@@ -273,26 +275,26 @@ namespace bon
 			}
 
 			// calc coords X
-			switch (coords.TypeX)
+			switch (coords.WidthType)
 			{
-			case UICoordsType::Pixels:
-				ret.X += coords.Value.X;
+			case UISizeType::Pixels:
+				ret.X += coords.Width;
 				break;
 
-			case UICoordsType::PercentOfParent:
-				ret.X += (int)((float)(coords.Value.X / 100.0f) * region.Width);
+			case UISizeType::PercentOfParent:
+				ret.X += (int)((float)(coords.Width / 100.0f) * region.Width);
 				break;
 			}
 
 			// calc coords Y
-			switch (coords.TypeY)
+			switch (coords.HeightType)
 			{
-			case UICoordsType::Pixels:
-				ret.Y += coords.Value.Y;
+			case UISizeType::Pixels:
+				ret.Y += coords.Height;
 				break;
 
-			case UICoordsType::PercentOfParent:
-				ret.Y += (int)((float)(coords.Value.Y / 100.0f) * region.Height);
+			case UISizeType::PercentOfParent:
+				ret.Y += (int)((float)(coords.Height / 100.0f) * region.Height);
 				break;
 			}
 
@@ -321,12 +323,11 @@ namespace bon
 			_parentInternalDestRect = parentRect;
 
 			// calc position
-			auto position = CalcCoords(_position, parentRect, true);
-			_destRect.X = position.X;
-			_destRect.Y = position.Y;
+			_destRect.X = parentRect.X + (int)((float)parentRect.Width * _anchor.X) + _offset.X;
+			_destRect.Y = parentRect.Y + (int)((float)parentRect.Height * _anchor.Y) + _offset.Y;
 
 			// calc size
-			auto size = CalcCoords(_size, parentRect, false);
+			auto size = CalcUISize(_size, parentRect, false);
 			_destRect.Width = size.X;
 			_destRect.Height = size.Y;
 

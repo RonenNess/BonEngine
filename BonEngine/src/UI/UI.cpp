@@ -93,7 +93,7 @@ namespace bon
 		UIElement UI::CreateRoot()
 		{
 			UIElement ret = std::make_shared<_UIElement>();
-			ret->SetSize(bon::UICoords(100, bon::UICoordsType::PercentOfParent, 100, bon::UICoordsType::PercentOfParent));
+			ret->SetSize(bon::UISize(100, bon::UISizeType::PercentOfParent, 100, bon::UISizeType::PercentOfParent));
 			ret->SetPadding(UISides(0, 0, 0, 0));
 			return ret;
 		}

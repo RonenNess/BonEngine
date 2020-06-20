@@ -25,7 +25,8 @@ namespace bon
 			// load title stuff
 			const char* textStylesheet = config->GetStr("window", "title_stylesheet", nullptr);
 			if (textStylesheet) { Title->LoadStyleFrom(bon::_GetEngine().Assets().LoadConfig(textStylesheet)); }
-			Title->SetPosition(config->GetPointF("window", "title_offset", framework::PointF::Zero));
+			Title->SetOffset(config->GetPointF("window", "title_offset", framework::PointF::Zero));
+			Title->SetAnchor(config->GetPointF("window", "title_anchor", framework::PointF::Zero));
 		}
 	}
 }

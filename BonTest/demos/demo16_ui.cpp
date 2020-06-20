@@ -41,7 +41,7 @@ namespace demo16_ui
 			// create text to count apples
 			bon::UIText text = UI().CreateText("../TestAssets/ui/default_text.ini", _uiRoot);
 			text->SetText("Apples clicked: 0");
-			text->SetPosition(bon::PointF(100, 20));
+			text->SetOffset(bon::PointF(100, 20));
 
 			// count how many times we clicked the apple
 			static int clicksCount = 0;
@@ -53,7 +53,7 @@ namespace demo16_ui
 
 			// create test window
 			bon::UIWindow window = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "Hello World!");
-			window->SetPosition(bon::PointI(100, 100));
+			window->SetOffset(bon::PointI(100, 100));
 		}
 
 		// per-frame update

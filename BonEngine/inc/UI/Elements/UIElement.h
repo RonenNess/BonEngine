@@ -30,11 +30,14 @@ namespace bon
 		class BON_DLLEXPORT _UIElement
 		{
 		private:
-			// element position.
-			UICoords _position;
+			// element offset from its anchor position.
+			framework::PointI _offset;
+
+			// element position relative to its parent dest rect: 0,0 will position element at parent top-left corner, 1,1 at bottom right.
+			framework::PointF _anchor;
 
 			// element size.
-			UICoords _size;
+			UISize _size;
 
 			// child elements.
 			std::list<UIElement> _children;
@@ -161,6 +164,7 @@ namespace bon
 			 *				*		- height = Element height + unit (p for pixels, % for percent of parent. for example: "100%" or "40p").
 			 *				*		- padding = Element padding (left, top, right, bottom).
 			 *				*		- origin = Element origin (x,y).
+			 *				*		- anchor = Element anchor - its position relative to parent bounding box (x,y).
 			 *				*
 			 *				*	[behavior]
 			 *				*		- interactive = Is this element interactive? (true / false).
@@ -197,34 +201,41 @@ namespace bon
 			inline void MarkAsDirty() { _isDestDirty = true; }
 
 			/**
-			 * Set element position.
+			 * Set element offset from its anchor position.
 			 */
-			inline void SetPosition(UICoords position) { _position = position; MarkAsDirty(); }
+			inline void SetOffset(const framework::PointI& offset) { _offset = offset; MarkAsDirty(); }
 			
-			/**
-			 * Set element position as pixels.
-			 */
-			inline void SetPosition(framework::PointI position) { SetPosition(UICoords(position.X, UICoordsType::Pixels, position.Y, UICoordsType::Pixels)); }
-
 			/**
 			 * Get element position.
 			 */
-			inline const UICoords& GetPosition() const { return _position; }
+			inline const framework::PointI& GetOffset() const { return _offset; }
+
+			/**
+			 * Set element anchor.
+			 * Anchor position the element relative to its parent bounding box.
+			 */
+			inline void SetAnchor(const framework::PointF& anchor) { _anchor = anchor; MarkAsDirty(); }
+
+			/**
+			 * Get element anchor.
+			 * Anchor position the element relative to its parent bounding box.
+			 */
+			inline const framework::PointF& GetAnchor() const { return _anchor; }
 
 			/**
 			 * Set element size.
 			 */
-			inline void SetSize(UICoords size) { _size = size; MarkAsDirty(); }
+			inline void SetSize(const UISize& size) { _size = size; MarkAsDirty(); }
 			
 			/**
 			 * Set element size as pixels.
 			 */
-			inline void SetSize(framework::PointI size) { SetSize(UICoords(size.X, UICoordsType::Pixels, size.Y, UICoordsType::Pixels)); }
+			inline void SetSizeInPixels(framework::PointI size) { SetSize(UISize(size.X, UISizeType::Pixels, size.Y, UISizeType::Pixels)); }
 
 			/**
 			 * Get element size.
 			 */
-			inline const UICoords& GetSize() const { return _size; }
+			inline const UISize& GetSize() const { return _size; }
 
 			/**
 			 * Set internal padding.
@@ -298,7 +309,7 @@ namespace bon
 			/**
 			 * Calculate and return coords based on parent, return absolute value in pixels.
 			 */
-			framework::PointI CalcCoords(const UICoords& coords, const framework::RectangleI& region, bool addRegionPosition);
+			framework::PointI CalcUISize(const UISize& coords, const framework::RectangleI& region, bool addRegionPosition);
 
 			/**
 			 * Get the last dest rect we calculated.

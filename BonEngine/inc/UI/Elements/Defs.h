@@ -56,9 +56,9 @@ namespace bon
 		};		
 
 		/**
-		 * Different coordinate modes for UI elements.
+		 * UI Size unit types.
 		 */
-		enum class BON_DLLEXPORT UICoordsType
+		enum class BON_DLLEXPORT UISizeType
 		{
 			// Coordinates are in absolute pixels.
 			Pixels,
@@ -119,34 +119,39 @@ namespace bon
 		};
 
 		/**
-		 * UI coords - contains point and coords type.
+		 * UI size - represent a UI element size.
 		 */
-		struct BON_DLLEXPORT UICoords
+		struct BON_DLLEXPORT UISize
 		{
 			/**
-			 * Coordinates value.
+			 * Width value
 			 */
-			framework::PointI Value;
+			int Width = 0;
 
 			/**
-			 * Coordinates type for X value.
+			 * Height value.
 			 */
-			UICoordsType TypeX = UICoordsType::Pixels;
+			int Height = 0;
 
 			/**
-			 * Coordinates type for Y value.
+			 * Width units type.
 			 */
-			UICoordsType TypeY = UICoordsType::Pixels;
+			UISizeType WidthType = UISizeType::Pixels;
+
+			/**
+			 * Height units type.
+			 */
+			UISizeType HeightType = UISizeType::Pixels;
 
 			/**
 			 * Create the UI coords.
 			 */
-			UICoords() {}
+			UISize() {}
 
 			/**
 			 * Create the UI coords.
 			 */
-			UICoords(int x, UICoordsType xtype, int y, UICoordsType ytype) : Value(x, y), TypeX(xtype), TypeY(ytype)
+			UISize(int w, UISizeType wtype, int h, UISizeType htype) : Width(w), Height(h), WidthType(wtype), HeightType(htype)
 			{
 			}
 
@@ -166,19 +171,19 @@ namespace bon
 				switch (tx)
 				{
 				case '%':
-					TypeX = UICoordsType::PercentOfParent;
+					WidthType = UISizeType::PercentOfParent;
 					break;
 				case 'p':
-					TypeX = UICoordsType::Pixels;
+					WidthType = UISizeType::Pixels;
 					break;
 				default:
-					throw framework::AssetLoadError("Invalid format for UI coord X value!");
+					throw framework::AssetLoadError("Invalid format for UI size width type!");
 				}
 
 				// get x value
 				memcpy_s(buff, lenx - 1, x, lenx - 1);
 				buff[lenx-1] = '\0';
-				Value.X = std::atoi(buff);
+				Width = std::atoi(buff);
 
 				// get y type
 				int leny = strlen(y);
@@ -186,19 +191,19 @@ namespace bon
 				switch (ty)
 				{
 				case '%':
-					TypeY = UICoordsType::PercentOfParent;
+					HeightType = UISizeType::PercentOfParent;
 					break;
 				case 'p':
-					TypeY = UICoordsType::Pixels;
+					HeightType = UISizeType::Pixels;
 					break;
 				default:
-					throw framework::AssetLoadError("Invalid format for UI coord Y value!");
+					throw framework::AssetLoadError("Invalid format for UI size height type!");
 				}
 
 				// get y value
 				memcpy_s(buff, leny - 1, y, leny - 1);
 				buff[leny - 1] = '\0';
-				Value.Y = std::atoi(buff);
+				Height = std::atoi(buff);
 			}
 		};
 
