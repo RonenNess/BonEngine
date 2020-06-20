@@ -48,7 +48,7 @@ namespace bon
 			/**
 			 * Image blend mode.
 			 */
-			gfx::BlendModes BlendMode;
+			gfx::BlendModes BlendMode = gfx::BlendModes::AlphaBlend;
 
 			/**
 			 * Drawing image mode.

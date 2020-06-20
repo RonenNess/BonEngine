@@ -1041,6 +1041,7 @@ First stable release.
 - Added outline to text drawing.
 - Changed Rectangle::Zero to be a static const instead of method.
 - Changed general game config file to use text options instead of numbers for enums.
+- Fixed bug with assets cache that fonts in different sizes and images with different filters had the same key.
 
 ## In Memory Of Bonnie
 

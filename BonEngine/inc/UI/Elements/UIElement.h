@@ -294,6 +294,12 @@ namespace bon
 			 */
 			virtual void DoInputUpdates(const framework::PointI& mousePosition, UIUpdateInputState& updateState);
 
+			/**
+			 * Move this element to front inside its parent.
+			 * If have no parent or already the most front element - nothing will happen.
+			 */
+			void MoveToFront();
+
 		protected:
 
 			/**

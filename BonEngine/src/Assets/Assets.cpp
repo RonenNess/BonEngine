@@ -21,13 +21,14 @@ namespace bon
 			 * 
 			 * \param assets Assets manager.
 			 * \param path Asset path.
+			 * \param cacheKey Key to use when putting / getting from cache
 			 * \param useCache Should we use cache?
 			 * \param extraData Optional extra data to pass to creation.
 			 * \param instanceCreator Optional lambda to create a new instance, if needed. If not provided, will just create using default constructor.
 			 * \return Asset instance.
 			 */
 			template <class AssetType>
-			static shared_ptr<AssetType> LoadAssetT(Assets* assets, const char* path, bool useCache, void* extraData = nullptr, std::function<AssetType*()>&& instanceCreator = nullptr)
+			static shared_ptr<AssetType> LoadAssetT(Assets* assets, const char* path, const char* cacheKey, bool useCache, void* extraData = nullptr, std::function<AssetType*()>&& instanceCreator = nullptr)
 			{
 				// assert
 				if (path == nullptr || path[0] == '\0') {
@@ -36,7 +37,7 @@ namespace bon
 
 				// try to get from cache
 				if (useCache) {
-					AssetPtr fromCache = assets->GetFromCache(path);
+					AssetPtr fromCache = assets->GetFromCache(cacheKey);
 					if (fromCache.get() != nullptr) {
 						return std::static_pointer_cast<AssetType>(fromCache);
 					}
@@ -63,7 +64,7 @@ namespace bon
 				
 				// add to cache and return
 				if (useCache) {
-					assets->PutInCache(assetPtr);
+					assets->PutInCache(assetPtr, cacheKey);
 				}
 				return assetPtr;
 			}
@@ -93,31 +94,37 @@ namespace bon
 		ImageAsset Assets::LoadImage(const char* filename, ImageFilterMode filter, bool useCache)
 		{
 			auto createImageLambda = [filename, filter]() { return new _Image(filename, filter); };
-			return AssetsLoaderCode::LoadAssetT<_Image>(this, filename, useCache, nullptr, createImageLambda);
+			static std::string tempStringForCache;
+			if (useCache) { tempStringForCache = (std::string(filename) + std::to_string((int)filter)); }
+			const char* cacheKey = useCache ? tempStringForCache.c_str() : nullptr;
+			return AssetsLoaderCode::LoadAssetT<_Image>(this, filename, cacheKey, useCache, nullptr, createImageLambda);
 		}
 
 		// load a music asset
 		MusicAsset Assets::LoadMusic(const char* filename, bool useCache)
 		{
-			return AssetsLoaderCode::LoadAssetT<_Music>(this, filename, useCache);
+			return AssetsLoaderCode::LoadAssetT<_Music>(this, filename, filename, useCache);
 		}
 		
 		// load a sound effect asset
 		SoundAsset Assets::LoadSound(const char* filename, bool useCache)
 		{
-			return AssetsLoaderCode::LoadAssetT<_Sound>(this, filename, useCache);
+			return AssetsLoaderCode::LoadAssetT<_Sound>(this, filename, filename, useCache);
 		}
 
 		// load a config asset
 		ConfigAsset Assets::LoadConfig(const char* filename, bool useCache)
 		{
-			return AssetsLoaderCode::LoadAssetT<_Config>(this, filename, useCache);
+			return AssetsLoaderCode::LoadAssetT<_Config>(this, filename, filename, useCache);
 		}
 
 		// load a font asset
 		FontAsset Assets::LoadFont(const char* filename, int fontSize, bool useCache)
 		{
-			return AssetsLoaderCode::LoadAssetT<_Font>(this, filename, useCache, &fontSize);
+			static std::string tempStringForCache;
+			if (useCache) { tempStringForCache = (std::string(filename) + std::to_string(fontSize)); }
+			const char* cacheKey = useCache ? tempStringForCache.c_str() : nullptr;
+			return AssetsLoaderCode::LoadAssetT<_Font>(this, filename, cacheKey, useCache, &fontSize);
 		}
 
 		// create empty image asset
@@ -138,10 +145,10 @@ namespace bon
 		}
 		
 		// add asset to cache
-		void Assets::PutInCache(AssetPtr asset)
+		void Assets::PutInCache(AssetPtr asset, const char* key)
 		{
-			BON_DLOG("Add asset '%s' to cache.", asset->Path());
-			(_cache)[std::move(asset->Path())] = asset;
+			BON_DLOG("Add asset '%s' to cache (key = '%s').", asset->Path(), key);
+			(_cache)[std::move(key)] = asset;
 		}
 
 		// get from cache

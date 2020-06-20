@@ -185,6 +185,21 @@ namespace bon
 			}
 		}
 
+		// move this element to front
+		void _UIElement::MoveToFront()
+		{
+			// no parent? skip
+			if (_parent == nullptr) { return; }
+
+			// already front? skip
+			if (&(*_parent->_children.back()) == this) { return; }
+
+			// move to front
+			UIElement tempPtrThatDoesntDelete = std::shared_ptr<_UIElement>(this, [](_UIElement*) {});
+			auto item = std::find(_parent->_children.begin(), _parent->_children.end(), tempPtrThatDoesntDelete);
+			_parent->_children.splice(_parent->_children.end(), _parent->_children, item);
+		}
+
 		// implement input updates of this element
 		void _UIElement::DoInputUpdatesSelf(const framework::PointI& mousePosition, UIUpdateInputState& updateState)
 		{
@@ -226,6 +241,7 @@ namespace bon
 						_startDragOffsetInElement = framework::PointI(mousePosition.X - _destRect.X, mousePosition.Y - _destRect.Y);
 						_anchor = PointF::Zero;
 						SetOffset(framework::PointI(_destRect.X, _destRect.Y));
+						MoveToFront();
 					}
 					// drag
 					else
@@ -257,7 +273,7 @@ namespace bon
 				}
 			}
 			// mouse leave event
-			if (OnMouseLeave && _prevState != UIElementState::Idle)
+			if (OnMouseLeave && _state == UIElementState::Idle && _prevState != UIElementState::Idle)
 			{
 				OnMouseLeave(*this, nullptr);
 			}

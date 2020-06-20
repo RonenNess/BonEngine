@@ -160,7 +160,7 @@ namespace bon
 			/**
 			 * Put value in cache.
 			 */
-			void PutInCache(AssetPtr asset);
+			void PutInCache(AssetPtr asset, const char* key);
 
 			/**
 			 * Get asset from cache.
