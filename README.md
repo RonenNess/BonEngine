@@ -299,6 +299,10 @@ Get the `log` manager. Described later in details.
 
 Get the `diagnostics` manager. Described later in details.
 
+#### UI()
+
+Get the `ui` manager. Described later in details.
+
 #### IManager* GetManager(id)
 
 Get a custom or built-in manager by name.
@@ -521,7 +525,7 @@ Usage example:
 // note: call this at the end of the drawing functions to make sure it includes everything.
 long drawCalls = Diagnostics().GetCounter(bon::DiagnosticsCounters::DrawCalls);
 ```
- 
+
 
 ### Gfx
 
@@ -814,6 +818,131 @@ Get mouse position change since last frame.
 #### void SetKeyBind(key, actionId)
 
 Bind a key to an action id.
+
+
+### UI
+
+This manager is responsible for drawing and interacting with a built-in UI system. You get this manager with the `UI()` access method.
+
+Usage example:
+
+```cpp
+// create a list from stylesheet file ui/list.ini
+bon::UIList uilist = UI().CreateList("ui/list.ini", window);
+uilist->SetOffset(bon::PointI(0, 165));
+uilist->AddItem("Item #1");
+uilist->AddItem("Item #2");
+uilist->AddItem("Item #3");
+
+// update ui list
+UI().UpdateUI(uilist);
+
+// draw ui list
+UI().Draw(uilist, false);
+
+// set cursor
+bon::ImageAsset cursor = Assets().LoadImage("gfx/cursor.png");
+UI().SetCursor(cursor, bon::PointI(64, 64), bon::PointI::Zero);
+
+// draw cursor
+UI().DrawCursor();
+```
+
+The `UI` manager has the following built-in elements:
+
+* Container
+* Window
+* Button
+* Text
+* Slider
+* Checkbox
+* Radio Button
+* Image
+* Scrollbar
+* List
+
+#### Concepts
+
+The `UI` system provides a nice layout for UI elements, with built in callbacks for user interactions, dragging, nesting elements, and loading elements stylesheets.
+
+`UI` stylesheets are .ini files that define how to draw and interact with the element. There are many examples under the test project ui folder.
+
+#### Callbacks
+
+You can register to the following callbacks of UI elements:
+
+* OnMousePressed
+* OnMouseReleased
+* OnMouseEnter
+* OnMouseLeave
+* OnDraw
+* OnValueChange
+
+`UI` manager contains the following API:
+
+#### void SetCursor(image, size, offset)
+
+Set the UI cursor properties - image, size and offset from actual mouse position.
+
+#### void SetCursor(sprite)
+
+Set the UI cursor from sprite.
+
+#### void DrawCursor()
+
+Draw the curser currently set with `SetCursor()`.
+
+#### void Draw(root, drawCursor)
+
+Draw a UI system from a root element. If `drawCursor` is true, will also draw cursor when done.
+
+#### void UpdateUI(root)
+
+Update a UI system from a root element. You must call it every frame to update the UI.
+
+#### UIElement CreateRoot()
+
+Create an empty root element that covers the whole screen without padding.
+
+#### UIElement CreateContainer(stylesheet, parent)
+
+Create an empty container.
+
+#### UIImage CreateImage(stylesheet, parent)
+
+Create an image element.
+
+#### UIText CreateText(stylesheet, parent, text)
+
+Create a text element.
+
+#### UIWindow CreateWindow(stylesheet, parent, title)
+
+Create a window element.
+
+#### UIButton CreateButton(stylesheet, parent, caption)
+
+Create a button element.
+
+#### UICheckBox CreateCheckbox(stylesheet, parent, caption)
+
+Create a checkbox element.
+
+#### UIRadioButton CreateRadioButton(stylesheet, parent, caption)
+
+Create a radio button element.
+
+#### UIList CreateList(stylesheet, parent)
+
+Create a list element.
+
+#### UISlider CreateSlider(stylesheet, parent)
+
+Create a slider element.
+
+#### UIVerticalScrollbar CreateVerticalScrollbar(stylesheet, parent)
+
+Create a vertical scrollbar element.
 
 
 ## Sprites
