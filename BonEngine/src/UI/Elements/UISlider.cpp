@@ -15,16 +15,31 @@ namespace bon
 			// call base init
 			_UIImage::LoadStyleFrom(config);
 
+			// temp pointer of self to use as parent
+			UIElement tempPtrThatDoesntDelete = std::shared_ptr<_UIElement>(this, [](_UIElement*) {});
+
+			// load overlay image
+			RectangleI overlayRect = config->GetRectangleF("slider", "active_slider_rect", RectangleF(-1, -1, -1, -1));
+			if (overlayRect.X != -1)
+			{
+				_activePartOverlay = bon::_GetEngine().UI().CreateImage(nullptr, tempPtrThatDoesntDelete);
+				_activePartOverlay->LoadStyleFrom(config);
+				_activePartOverlay->SetSizeInPercents(PointI(100, 100));
+				_activePartOverlay->SetAnchor(PointF::Zero);
+				_activePartOverlay->SetOffset(PointI::Zero);
+				_activePartOverlay->Origin = PointF::Zero;
+				_activePartOverlay->Interactive = _activePartOverlay->CaptureInput = false;
+				_activePartOverlay->SourceRect = _activePartOverlay->SourceRectHighlight = _activePartOverlay->SourceRectPressed = overlayRect;
+			}
+
 			// load handle stuff
 			const char* hadleStylesheet = config->GetStr("slider", "handle_style", nullptr);
 			if (hadleStylesheet)
 			{
-				UIElement tempPtrThatDoesntDelete = std::shared_ptr<_UIElement>(this, [](_UIElement*) {});
 				_handle = bon::_GetEngine().UI().CreateImage(ToRelativePath(hadleStylesheet).c_str(), tempPtrThatDoesntDelete);
-				_handle->Draggable = true;
-				_handle->LimitDragToParentArea = true;
+				_handle->Draggable = false;
+				_handle->CaptureInput = false;
 			}
-			SetValue(0);
 		}
 		
 		// set current slider value.
@@ -33,40 +48,39 @@ namespace bon
 			// make sure in range
 			if (value < 0) { value = 0; }
 			if (value > MaxValue) { value = MaxValue; }
-			
-			// set value and position
-			_value = value;
-			float pos = (float)_value / (float)MaxValue;
-			const RectangleI& handlerect = _handle->GetCalculatedDestRect();
-			_handle->SetOffset(bon::PointI((int)(pos * (float)(_destRect.Width - GetPadding().Left - GetPadding().Right - handlerect.Width)), 0));
 
-			// make sure in valid range
-			_handle->ValidateOffsetInsideParent();
+			// value didn't change? skip
+			if (_value == value) { return; }
+			
+			// set value and trigger callback
+			_value = value;
+			if (OnValueChange) { OnValueChange(*this, nullptr); }
 		}
 
 		// update element
-		void _UISlider::Update(double deltaTime)
+		void _UISlider::DoInputUpdatesSelf(const framework::PointI& mousePosition, UIUpdateInputState& updateState)
 		{
 			// call base update
-			_UIImage::Update(deltaTime);
+			_UIImage::DoInputUpdatesSelf(mousePosition, updateState);
 
-			// this will make slider snap to values and validate max
-			SetValue(_value);
+			// update handle position
+			float pos = (float)_value / (float)MaxValue;
+			auto padding = GetPadding();
+			_handle->SetOffset(bon::PointI((int)(pos * (_destRect.Width - padding.Left - padding.Right)), 0));
 
-			// no handle? skip
-			if (_handle == nullptr) { return; }
+			// update active part percent
+			_activePartOverlay->SetSizeInPercents(PointI((int)(pos * 100), 100));
+			_activePartOverlay->Visible = pos > 0;
 
-			// on mouse down, set handle
-			if (_prevState == UIElementState::PressedDown)
+			// set value
+			if (bon::_GetEngine().Input().Down(bon::KeyCodes::MouseLeft) && _destRect.Contains(mousePosition))
 			{
-				int x = bon::_GetEngine().Input().CursorPosition().X - _destRect.X - GetPadding().Left;
-				_handle->SetOffset(bon::PointI(x, 0));
+				int startX = (_destRect.X + padding.Left);
+				float value = (float)(mousePosition.X - startX) / (_destRect.Width - padding.Left - padding.Right - _handle->GetCalculatedDestRect().Width / 2);
+				if (value < 0) { value = 0; }
+				if (value > 1) { value = 1; }
+				SetValue((int)std::floor(value * MaxValue));
 			}
-
-			// calculate current value
-			const RectangleI& handlerect = _handle->GetCalculatedDestRect();
-			int newVal = (int)std::ceil(((float)(_handle->GetOffset().X) / (float)(_destRect.Width - handlerect.Width)) * (float)MaxValue);
-			SetValue(newVal);
 		}
 	}
 }

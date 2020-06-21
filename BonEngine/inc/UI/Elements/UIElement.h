@@ -288,6 +288,11 @@ namespace bon
 			inline void SetSizeInPixels(framework::PointI size) { SetSize(UISize(size.X, UISizeType::Pixels, size.Y, UISizeType::Pixels)); }
 
 			/**
+			 * Set element size as percents of parent.
+			 */
+			inline void SetSizeInPercents(framework::PointI size) { SetSize(UISize(size.X, UISizeType::PercentOfParent, size.Y, UISizeType::PercentOfParent)); }
+
+			/**
 			 * Get element size.
 			 */
 			inline const UISize& GetSize() const { return _size; }

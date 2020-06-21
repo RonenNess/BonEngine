@@ -1026,7 +1026,7 @@ First stable release.
 - Some validations and protections against access violation due to faulty usage.
 - Removed warnings from third party files.
 - Renamed DLLEXPORT to BON_DLLEXPORT, to reduce chance of collision with other libs.
-- Added C API to allow binding with other languages [in progress].
+- Added C API to allow binding with other languages.
 - Rewrote the cached text textures mechanism to be more efficient, less code, and now text support max width, rotation and other effects.
 - Added API to set rendering viewport.
 - Added API to draw circles.
@@ -1036,7 +1036,7 @@ First stable release.
 - Extended `SpriteSheet` API (contains animation, contains bookmark).
 - Added `Lerp` function to points.
 - Extended Gfx API to get current target size and retrieve render target.
-- Added UI system with basic UI elements: Element, Text, Image, Window, Button, List, Scrollbars, DropDown [todo], Slider [todo], Checkbox, Radio button.
+- Added UI system with basic UI elements: Element, Text, Image, Window, Button, List, Scrollbars, Slider, Checkbox, Radio button.
 - Added GetOption(), GetPoint(), GetColor() and GetRect() to config assets.
 - Added outline to text drawing.
 - Changed Rectangle::Zero to be a static const instead of method.

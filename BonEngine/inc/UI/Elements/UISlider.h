@@ -25,6 +25,9 @@ namespace bon
 			// slider handle image.
 			UIImage _handle;
 
+			// active part overlay to mark the parts of the slider which are selected
+			UIImage _activePartOverlay;
+
 			// current value
 			int _value = 0;
 
@@ -38,7 +41,7 @@ namespace bon
 			/**
 			 * Slider max value.
 			 */
-			int MaxValue = 10;
+			int MaxValue = 9;
 
 			/**
 			 * Get current slider value.
@@ -61,15 +64,21 @@ namespace bon
 			 *				* In addition to all the settings from UIElement and UIImage stylesheet files, you can add the following:
 			 *				*	[slider]
 			 *				*		- handle_style = Stylesheet to use for handle (image).
+			 *				*		- active_slider_rect = Optional source rectangle for an overlay part that covers the active part of the slider (x,y,w,h).
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
+		
+		protected:
 
 			/**
-			 * Update the UI element and children.
+			 * Do input updates to interact with element of this specific element.
+			 * This happens after the regular updates.
 			 *
-			 * \param deltaTime Update frame delta time.
+			 * \param mousePosition Mouse position to test.
+			 * \param updateState Contains temporary state about UI input updates.
 			 */
-			virtual void Update(double deltaTime);
+			virtual void DoInputUpdatesSelf(const framework::PointI& mousePosition, UIUpdateInputState& updateState) override;
+
 		};
 	}
 }

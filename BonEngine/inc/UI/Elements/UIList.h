@@ -52,10 +52,10 @@ namespace bon
 			bool _listDirty = true;
 
 			// height, in pixels, of a single line in list.
-			int _lineHeight;
+			int _lineHeight = 24;
 
 			// how many visible items can be visible at any given time (based on line height and list height).
-			int _maxVisibleEntitiesInList;
+			int _maxVisibleEntitiesInList = 0;
 
 			// currently selected index
 			int _selected = -1;
