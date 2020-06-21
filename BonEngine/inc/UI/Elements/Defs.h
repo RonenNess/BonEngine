@@ -24,6 +24,8 @@ namespace bon
 		class _UIWindow;
 		class _UIButton;
 		class _UIList;
+		class _UICheckBox;
+		class _UIVerticalScrollbar;
 
 		// pointer to all UI element types
 		typedef BON_DLLEXPORT std::shared_ptr<_UIElement> UIElement;
@@ -32,6 +34,8 @@ namespace bon
 		typedef BON_DLLEXPORT std::shared_ptr<_UIWindow> UIWindow;
 		typedef BON_DLLEXPORT std::shared_ptr<_UIButton> UIButton;
 		typedef BON_DLLEXPORT std::shared_ptr<_UIList> UIList;
+		typedef BON_DLLEXPORT std::shared_ptr<_UICheckBox> UICheckBox;
+		typedef BON_DLLEXPORT std::shared_ptr<_UIVerticalScrollbar> UIVerticalScrollbar;
 
 		/**
 		 * Define callback for UI element actions.
@@ -84,6 +88,9 @@ namespace bon
 
 			// Draw image as a 9-sliced texture with 4 sides, 4 corners, and tiled center.
 			Sliced,
+
+			// Draw image once, no matter the element size, scaled by texture scale.
+			Single,
 		};
 
 		/**

@@ -21,6 +21,8 @@
 #include "Elements/UIWindow.h"
 #include "Elements/UIButton.h"
 #include "Elements/UIList.h"
+#include "Elements/UICheckBox.h"
+#include "Elements/UIVerticalScrollbar.h"
 
 namespace bon
 {
@@ -125,7 +127,17 @@ namespace bon
 			 * \return Newly created window.
 			 */
 			virtual UIButton CreateButton(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) = 0;
-			
+
+			/**
+			 * Create and return a checkbox element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \param caption Checkbox caption text.
+			 * \return Newly created window.
+			 */
+			virtual UICheckBox CreateCheckbox(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) = 0;
+
 			/**
 			 * Create and return a list element.
 			 *
@@ -134,6 +146,15 @@ namespace bon
 			 * \return Newly created list.
 			 */
 			virtual UIList CreateList(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
+
+			/**
+			 * Create and return a vertical scrollbar element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \return Newly created scrollbar.
+			 */
+			virtual UIVerticalScrollbar CreateVerticalScrollbar(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
 
 		protected:
 

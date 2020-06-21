@@ -9,6 +9,7 @@
 #include "UIWindow.h"
 #include "UIText.h"
 #include "UIImage.h"
+#include "UIVerticalScrollbar.h"
 #include "../../Assets/Types/Config.h"
 #include <list>
 
@@ -30,12 +31,16 @@ namespace bon
 			// the struct that holds a single item in list.
 			struct ListItem
 			{
+				int Index;
 				UIText Text;
 				UIImage Background;
 			};
 
 			// items in list
 			std::list<ListItem> _items;
+
+			// list scrollbar
+			UIVerticalScrollbar _scrollbar;
 
 			// stylesheet for items in list
 			assets::ConfigAsset _itemsSheet;
@@ -46,10 +51,17 @@ namespace bon
 			// mark that list is dirty and we need to rearrange items in it
 			bool _listDirty = true;
 
-			/**
-			 * Height, in pixels, of a single line in list.
-			 */
+			// height, in pixels, of a single line in list.
 			int _lineHeight;
+
+			// how many visible items can be visible at any given time (based on line height and list height).
+			int _maxVisibleEntitiesInList;
+
+			// currently selected index
+			int _selected = -1;
+
+			// an internal container for list items
+			UIElement _itemsContainer;
 
 		public:
 
@@ -85,8 +97,17 @@ namespace bon
 			 *				*		- item_background_style = Stylesheet to use for list item background image (UIImage).
 			 *				*		- items_style = Stylesheet to use for text items in list.
 			 *				*		- line_height = Height, in pixels, of a single line in list.
+			 *				*		- vscrollbar_style = Stylesheet for list vertical scrollbar (UIVerticalScrollbar).
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
+
+			/**
+			 * Show / hide scrollbar.
+			 * Note: only work if scrollbar stylesheet is defined, otherwise no scrollbar is created.
+			 * 
+			 * \param show Show / hide scrollbar.
+			 */
+			inline void ShowScrollbar(bool show) { if (_scrollbar) { _scrollbar->Visible = show; } }
 
 			/**
 			 * Add item to list.
@@ -99,8 +120,9 @@ namespace bon
 			 * Remove item from list.
 			 *
 			 * \param item Item text to remove.
+			 * \param removeAll If true, will remove all items matching the value. If false, will remove only first occurance found.
 			 */
-			void RemoveItem(const char* item);
+			void RemoveItem(const char* item, bool removeAll);
 
 			/**
 			 * Remove item from list.
@@ -120,6 +142,44 @@ namespace bon
 			 * \param deltaTime Update frame delta time.
 			 */
 			virtual void Update(double deltaTime) override;
+
+			/**
+			 * Get currently selected index.
+			 * 
+			 * \return Selected index, or -1 if no item is selected.
+			 */
+			inline int SelectedIndex() const { return _selected; }
+
+			/**
+			 * Get currently selected item text.
+			 * 
+			 * \return Selected item text, or nullptr if no item is selected.
+			 */
+			const char* SelectedItem() const;
+
+			/**
+			 * Selet list item by index.
+			 * 
+			 * \param index Index to select, or -1 to clear selection.
+			 */
+			void Select(int index);
+
+			/**
+			 * Selet list item by value (if duplications exist, will select first item found.
+			 *
+			 * \param item Item value to select, or nullptr to clear selection.
+			 */
+			void Select(const char* item);
+
+			/**
+			 * Clear currently selected index.
+			 */
+			inline void ClearSelection() { Select(-1); }
+
+			/**
+			 * Draw ui element and children.
+			 */
+			virtual void Draw() override;
 		};
 	}
 }

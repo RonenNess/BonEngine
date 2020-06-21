@@ -45,9 +45,10 @@ namespace bon
 			Origin = config->GetPointF("style", "origin", bon::PointF::Zero);
 			_anchor = config->GetPointF("style", "anchor", bon::PointF::Zero);
 
-			// load padding
+			// load padding and if should ignore padding
 			RectangleF padding = config->GetRectangleF("style", "padding", RectangleF::Zero);
 			_padding.FromRect(padding);
+			_ignoreParentPadding = config->GetBool("style", "ignore_padding", false);
 
 			// load width and height
 			const char* width = config->GetStr("style", "width", "100p");
@@ -112,10 +113,18 @@ namespace bon
 		{
 			// skip update if not visible
 			if (!Visible) { return; }
-
+			
+			// special case - force-active (we need this here too, in case someone blocks our update loop)
+			if (ForceActiveState)
+			{
+				_state = UIElementState::PressedDown;
+			}
 			// reset states
-			_prevState = _state;
-			_state = UIElementState::Idle;
+			else
+			{
+				_prevState = _state;
+				_state = (CopyParentState && _parent) ? _parent->_state :  UIElementState::Idle;
+			}
 
 			// update self
 			UpdateSelf(deltaTime);
@@ -130,6 +139,9 @@ namespace bon
 		// debug draw element
 		void _UIElement::DebugDraw(bool recursive)
 		{
+			// skip if not visible
+			if (!Visible) { return; }
+
 			// draw padding
 			RectangleI paddingRect = _destRect;
 			paddingRect.X += _padding.Left;
@@ -290,26 +302,13 @@ namespace bon
 					{
 						// set position
 						SetOffset(framework::PointI(
-							mousePosition.X - _startDragOffsetInElement.X,
-							mousePosition.Y - _startDragOffsetInElement.Y));
+							mousePosition.X - _startDragOffsetInElement.X - _parentInternalDestRect.X,
+							mousePosition.Y - _startDragOffsetInElement.Y - _parentInternalDestRect.Y));
 
 						// check boundaries
 						if (LimitDragToParentArea)
 						{
-							UISides padding;
-							if (_parent) { padding = _parent->_padding; }
-							if (_offset.X < padding.Left) {
-								_offset.X = padding.Left;
-							}
-							if (_offset.Y < padding.Top) {
-								_offset.Y = padding.Top;
-							}
-							if (_offset.X + _destRect.Width > _parentInternalDestRect.Width) {
-								_offset.X = _parentInternalDestRect.Width - _destRect.Width;
-							}
-							if (_offset.Y + _destRect.Height > _parentInternalDestRect.Height) {
-								_offset.Y = _parentInternalDestRect.Height - _destRect.Height;
-							}
+							ValidateOffsetInsideParent();
 						}
 					}
 				}
@@ -323,6 +322,31 @@ namespace bon
 			if (OnMouseLeave && _state == UIElementState::Idle && _prevState != UIElementState::Idle)
 			{
 				OnMouseLeave(*this, nullptr);
+			}
+
+			// special case - force-active
+			if (ForceActiveState)
+			{
+				_state = UIElementState::PressedDown;
+			}
+		}
+
+		// make sure element offset is inside parent boundaries
+		void _UIElement::ValidateOffsetInsideParent()
+		{
+			UISides padding;
+			if (_parent && !_ignoreParentPadding) { padding = _parent->_padding; }
+			if (_offset.X < padding.Left) {
+				_offset.X = padding.Left;
+			}
+			if (_offset.Y < padding.Top) {
+				_offset.Y = padding.Top;
+			}
+			if (_offset.X + _destRect.Width > _parentInternalDestRect.Width) {
+				_offset.X = _parentInternalDestRect.Width - _destRect.Width;
+			}
+			if (_offset.Y + _destRect.Height > _parentInternalDestRect.Height) {
+				_offset.Y = _parentInternalDestRect.Height - _destRect.Height;
 			}
 		}
 
@@ -373,10 +397,13 @@ namespace bon
 			if (_parent)
 			{
 				parentRect = _parent->GetCalculatedDestRect();
-				parentRect.X += _parent->_padding.Left;
-				parentRect.Width -= _parent->_padding.Left + _parent->_padding.Right;
-				parentRect.Y += _parent->_padding.Top;
-				parentRect.Height -= _parent->_padding.Top + _parent->_padding.Bottom;
+				if (!_ignoreParentPadding)
+				{
+					parentRect.X += _parent->_padding.Left;
+					parentRect.Width -= _parent->_padding.Left + _parent->_padding.Right;
+					parentRect.Y += _parent->_padding.Top;
+					parentRect.Height -= _parent->_padding.Top + _parent->_padding.Bottom;
+				}
 			}
 			else
 			{

@@ -65,6 +65,9 @@ namespace bon
 
 			// start dragging offset, if element is being dragged
 			framework::PointI _startDragOffsetInElement;
+
+			// if true, will ignore parent padding
+			bool _ignoreParentPadding;
 		
 		protected:
 			
@@ -152,14 +155,33 @@ namespace bon
 			bool Visible = true;
 
 			/**
+			 * Allow user to attach custom data to this element.
+			 */
+			void* UserData = nullptr;
+
+			/**
 			 * Can the user drag this element around?
 			 */
 			bool Draggable = false;
 
 			/**
+			 * Get if this element is being dragged right now.
+			 * 
+			 * \return True if element is currently being dragged.
+			 */
+			inline bool IsBeingDragged() const { return _isBeingDragged; }
+
+			/**
 			 * If true and element is draggable, user will not be able to drag it outside its parent region.
 			 */
 			bool LimitDragToParentArea = true;
+
+			/**
+			 * Set if we want to ignore parent's padding.
+			 * 
+			 * \param ignore If true, will ignore parent padding.
+			 */
+			inline void IgnoteParentPadding(bool ignore) { _ignoreParentPadding = ignore; MarkAsDirty(); }
 
 			/**
 			 * Initialize element style from config file.
@@ -172,6 +194,7 @@ namespace bon
 			 *				*		- padding = Element padding (left, top, right, bottom).
 			 *				*		- origin = Element origin (x,y).
 			 *				*		- anchor = Element anchor - its position relative to parent bounding box (x,y).
+			 *				*		- ignore_padding = If true, will ignore parent's padding (true / false).
 			 *				*
 			 *				*	[behavior]
 			 *				*		- interactive = Is this element interactive? (true / false).
@@ -181,6 +204,11 @@ namespace bon
 			 *				*		- limit_drag_to_parent = If true, will limit dragging to parent's region (true / false). 
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
+
+			/**
+			 * If true, this element will remain "stuck" in active state, as if user is constantly pressing it.
+			 */
+			bool ForceActiveState = false;
 
 			/**
 			 * Element origin, relative to dest rect size.
@@ -210,7 +238,7 @@ namespace bon
 			/**
 			 * Set element offset from its anchor position.
 			 */
-			inline void SetOffset(const framework::PointI& offset) { _offset = offset; MarkAsDirty(); }
+			inline void SetOffset(const framework::PointI& offset) { if (_offset != offset) { _offset = offset; MarkAsDirty(); } }
 			
 			/**
 			 * Get element position.
@@ -233,7 +261,17 @@ namespace bon
 			 * Set element size.
 			 */
 			inline void SetSize(const UISize& size) { _size = size; MarkAsDirty(); }
-			
+
+			/**
+			 * Set element width to be 100% of its parent.
+			 */
+			inline void SetWidthToMax() { _size.Width = 100; _size.WidthType = UISizeType::PercentOfParent; MarkAsDirty(); }
+
+			/**
+			 * Set element height to be 100% of its parent.
+			 */
+			inline void SetHeightToMax() { _size.Height = 100; _size.HeightType = UISizeType::PercentOfParent; MarkAsDirty(); }
+
 			/**
 			 * Set element size as pixels.
 			 */
@@ -315,6 +353,18 @@ namespace bon
 			 */
 			void DebugDraw(bool recursive = true);
 
+			/**
+			 * Get the last dest rect we calculated.
+			 * Note: may be outdated if actions were done without calling CalcDestRect() or Update().
+			 * Sometimes you need to Update() parent too.
+			 */
+			inline const framework::RectangleI& GetCalculatedDestRect() const { return _destRect; }
+			
+			/**
+			 * Make sure element offset is inside is parent boundaries (takes element width and height into consideration).
+			 */
+			void ValidateOffsetInsideParent();
+
 		protected:
 
 			/**
@@ -336,13 +386,6 @@ namespace bon
 			 * Calculate and return coords based on parent, return absolute value in pixels.
 			 */
 			framework::PointI CalcUISize(const UISize& coords, const framework::RectangleI& region, bool addRegionPosition);
-
-			/**
-			 * Get the last dest rect we calculated.
-			 * Note: may be outdated if actions were done without calling CalcDestRect() or Update(). 
-			 * Sometimes you need to Update() parent too.
-			 */
-			inline const framework::RectangleI& GetCalculatedDestRect() const { return _destRect; }
 
 			/**
 			 * Implement just the drawing of this element

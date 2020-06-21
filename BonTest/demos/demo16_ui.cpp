@@ -16,8 +16,8 @@ namespace demo16_ui
 		// ui root
 		bon::UIElement _uiRoot;
 
-		// should we debug-draw UI?
-		bool _debugDrawUI = false;
+		// checkbox to debug draw ui
+		bon::UICheckBox _checkboxShowDebug;
 
 	public:
 
@@ -105,12 +105,26 @@ namespace demo16_ui
 			uilist->AddItem("This is a list");
 			uilist->AddItem("You can add items");
 			uilist->AddItem("And select them");
-			uilist->AddItem("Item #1");
-			uilist->AddItem("Item #2");
+			for (int i = 1; i <= 15; ++i) {
+				uilist->AddItem((std::string("Item #") + std::to_string(i)).c_str());
+			}
 
-			// create additional window
-			bon::UIWindow extraStuffWindow = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "More Stuff");
+			// add text to show selected item on change
+			bon::UIText listSelectedText = UI().CreateText("../TestAssets/ui/small_text.ini", window, "Selected: ");
+			listSelectedText->SetOffset(bon::PointI(0, 342));
+			uilist->OnValueChange = [uilist, listSelectedText](bon::_UIElement& self, void*)
+			{
+				listSelectedText->SetText((std::string("Selected: " + std::string(uilist->SelectedItem())).c_str()));
+			};
+
+			// create additional window to show more stuff
+			bon::UIWindow extraStuffWindow = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "More Elements");
 			extraStuffWindow->SetOffset(bon::PointI(300, 150));
+
+			// create checkboxes
+			bon::UICheckBox checkbox1 = UI().CreateCheckbox("../TestAssets/ui/checkbox.ini", extraStuffWindow, "Checkbox 1");
+			_checkboxShowDebug = UI().CreateCheckbox("../TestAssets/ui/checkbox.ini", extraStuffWindow, "Debug Draw UI");
+			_checkboxShowDebug->SetOffset(bon::PointI(0, 50));
 
 			// move main window to front
 			window->MoveToFront();
@@ -138,7 +152,7 @@ namespace demo16_ui
 			UI().Draw(_uiRoot, false);
 
 			// debug draw UI
-			if (_debugDrawUI)
+			if (_checkboxShowDebug->Checked())
 			{
 				_uiRoot->DebugDraw(true);
 			}

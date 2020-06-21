@@ -115,6 +115,16 @@ namespace bon
 			virtual UIButton CreateButton(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) override;
 			
 			/**
+			 * Create and return a checkbox element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \param caption Checkbox caption text.
+			 * \return Newly created window.
+			 */
+			virtual UICheckBox CreateCheckbox(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) override;
+
+			/**
 			 * Create and return a list element.
 			 *
 			 * \param stylesheet Optional stylesheet path to load.
@@ -122,6 +132,15 @@ namespace bon
 			 * \return Newly created list.
 			 */
 			virtual UIList CreateList(const char* stylesheet = nullptr, UIElement parent = nullptr) override;
+
+			/**
+			 * Create and return a vertical scrollbar element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \return Newly created scrollbar.
+			 */
+			virtual UIVerticalScrollbar CreateVerticalScrollbar(const char* stylesheet = nullptr, UIElement parent = nullptr) override;
 
 		private:
 			

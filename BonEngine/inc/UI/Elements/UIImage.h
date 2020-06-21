@@ -80,7 +80,7 @@ namespace bon
 			 *				*		- source_rect_highlight = Image source rect while being highlighted / point on (x,y,width,height).
 			 *				*		- source_rect_pressed = Image source rect while being pressed down (x,y,width,height).
 			 *				*		- blend = Image blend mode (opaque / alpha / additive / mod / multiply).
-			 *				*		- type = Image drawing type (stretch / tiled / sliced).
+			 *				*		- type = Image drawing type (stretch / tiled / sliced / single).
 			 *				*		- texture_scale = Scale texture when in tiled / sliced mode (float value).
 			 *				*		- sliced_sides = Size in pixels of a sliced image sides (left, top, right, bottom).
 			 */

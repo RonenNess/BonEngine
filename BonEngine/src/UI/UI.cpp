@@ -141,6 +141,15 @@ namespace bon
 			return ret;
 		}
 
+		// create and return a button element.
+		UICheckBox UI::CreateCheckbox(const char* stylesheet, UIElement parent, const char* caption)
+		{
+			UICheckBox ret = std::make_shared<_UICheckBox>();
+			InitNewElement(ret, stylesheet, parent);
+			if (caption) { ret->Caption->SetText(caption); }
+			return ret;
+		}
+
 		// create and return a list element.
 		UIList UI::CreateList(const char* stylesheet, UIElement parent)
 		{
@@ -148,5 +157,14 @@ namespace bon
 			InitNewElement(ret, stylesheet, parent);
 			return ret;
 		}
+
+		// create and return a scrollbar element.
+		UIVerticalScrollbar UI::CreateVerticalScrollbar(const char* stylesheet, UIElement parent)
+		{
+			UIVerticalScrollbar ret = std::make_shared<_UIVerticalScrollbar>();
+			InitNewElement(ret, stylesheet, parent);
+			return ret;
+		}
+
 	}
 }
