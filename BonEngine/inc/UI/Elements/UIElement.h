@@ -42,14 +42,8 @@ namespace bon
 			// element size.
 			UISize _size;
 
-			// child elements.
-			std::list<UIElement> _children;
-
 			// internal padding
 			UISides _padding;
-
-			// parent ui element.
-			_UIElement* _parent = nullptr;
 
 			// is this element being dragged right now?
 			bool _isBeingDragged = false;
@@ -68,9 +62,15 @@ namespace bon
 
 			// if true, will ignore parent padding
 			bool _ignoreParentPadding;
+
+			// child elements.
+			std::list<UIElement> _children;
 		
 		protected:
-			
+
+			// parent ui element.
+			_UIElement* _parent = nullptr;
+
 			// element state
 			UIElementState _state = UIElementState::Idle;
 			
@@ -84,6 +84,16 @@ namespace bon
 			framework::RectangleI _parentInternalDestRect;
 
 		public:
+
+			/**
+			 * Get all children's list.
+			 */
+			inline const std::list<UIElement>& GetChildren() { return _children; }
+
+			/**
+			 * Get element type.
+			 */
+			virtual UIElementType GetType() const { return UIElementType::Element; }
 
 			/**
 			 * Optional extra initialization code to apply after creating element.

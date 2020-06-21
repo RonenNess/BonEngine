@@ -28,6 +28,11 @@ namespace bon
 		public:
 
 			/**
+			 * Get element type.
+			 */
+			virtual UIElementType GetType() const override { return UIElementType::Checkbox; }
+
+			/**
 			 * Caption text element.
 			 */
 			UIText Caption;
@@ -42,7 +47,7 @@ namespace bon
 			 * 
 			 * \param checked True to check checkbox.
 			 */
-			void SetValue(bool checked);
+			virtual void SetValue(bool checked);
 
 			/**
 			 * Toggle checkbox value.

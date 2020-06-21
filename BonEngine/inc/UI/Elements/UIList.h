@@ -66,6 +66,11 @@ namespace bon
 		public:
 
 			/**
+			 * Get element type.
+			 */
+			virtual UIElementType GetType() const override { return UIElementType::List; }
+
+			/**
 			 * List background window.
 			 */
 			UIWindow Background;

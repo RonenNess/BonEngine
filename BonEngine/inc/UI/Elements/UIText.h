@@ -32,6 +32,11 @@ namespace bon
 		public:
 
 			/**
+			 * Get element type.
+			 */
+			virtual UIElementType GetType() const override { return UIElementType::Text; }
+
+			/**
 			 * Font to draw text with.
 			 */
 			assets::FontAsset Font;

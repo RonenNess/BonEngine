@@ -24,6 +24,11 @@ namespace bon
 		public:
 
 			/**
+			 * Get element type.
+			 */
+			virtual UIElementType GetType() const override { return UIElementType::Button; }
+
+			/**
 			 * Caption text element.
 			 */
 			UIText Caption;

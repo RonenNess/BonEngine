@@ -141,10 +141,19 @@ namespace bon
 			return ret;
 		}
 
-		// create and return a button element.
+		// create and return a checkbox element.
 		UICheckBox UI::CreateCheckbox(const char* stylesheet, UIElement parent, const char* caption)
 		{
 			UICheckBox ret = std::make_shared<_UICheckBox>();
+			InitNewElement(ret, stylesheet, parent);
+			if (caption) { ret->Caption->SetText(caption); }
+			return ret;
+		}
+
+		// create and return a radio button element.
+		UIRadioButton UI::CreateRadioButton(const char* stylesheet, UIElement parent, const char* caption)
+		{
+			UIRadioButton ret = std::make_shared<_UIRadioButton>();
 			InitNewElement(ret, stylesheet, parent);
 			if (caption) { ret->Caption->SetText(caption); }
 			return ret;

@@ -198,6 +198,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClInclude Include="inc\UI\Elements\UICheckBox.h" />
     <ClInclude Include="inc\UI\Elements\UIImage.h" />
     <ClInclude Include="inc\UI\Elements\UIList.h" />
+    <ClInclude Include="inc\UI\Elements\UIRadioButton.h" />
     <ClInclude Include="inc\UI\Elements\UIText.h" />
     <ClInclude Include="inc\UI\Elements\UIWindow.h" />
     <ClInclude Include="inc\UI\IUI.h" />
@@ -284,6 +285,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClCompile Include="src\Sfx\Sfx.cpp" />
     <ClCompile Include="src\Sfx\SfxSdlWrapper.cpp" />
     <ClCompile Include="src\UI\Elements\UICheckBox.cpp" />
+    <ClCompile Include="src\UI\Elements\UIRadioButton.cpp" />
     <ClCompile Include="src\UI\Elements\UIVerticalScrollbar.cpp" />
     <ClCompile Include="src\UI\Elements\UIButton.cpp" />
     <ClCompile Include="src\UI\Elements\UIElement.cpp" />

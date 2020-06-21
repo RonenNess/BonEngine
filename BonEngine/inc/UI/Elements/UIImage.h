@@ -25,6 +25,12 @@ namespace bon
 		class BON_DLLEXPORT _UIImage : public _UIElement
 		{
 		public:
+
+			/**
+			 * Get element type.
+			 */
+			virtual UIElementType GetType() const override { return UIElementType::Image; }
+
 			/**
 			 * Image to draw.
 			 */

@@ -123,6 +123,16 @@ namespace bon
 			 * \return Newly created window.
 			 */
 			virtual UICheckBox CreateCheckbox(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) override;
+			
+			/**
+			 * Create and return a radio button element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \param caption Checkbox caption text.
+			 * \return Newly created radio button.
+			 */
+			virtual UIRadioButton CreateRadioButton(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) override;
 
 			/**
 			 * Create and return a list element.

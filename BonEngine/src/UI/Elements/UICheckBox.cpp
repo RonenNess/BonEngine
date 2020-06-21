@@ -54,6 +54,7 @@ namespace bon
 				_checked = checked; 
 				if (OnValueChange) { OnValueChange(*this, nullptr); }
 			} 
+			ForceActiveState = checked;
 		}
 	}
 }

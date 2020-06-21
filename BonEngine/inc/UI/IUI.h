@@ -22,6 +22,7 @@
 #include "Elements/UIButton.h"
 #include "Elements/UIList.h"
 #include "Elements/UICheckBox.h"
+#include "Elements/UIRadioButton.h"
 #include "Elements/UIVerticalScrollbar.h"
 
 namespace bon
@@ -124,7 +125,7 @@ namespace bon
 			 * \param stylesheet Optional stylesheet path to load.
 			 * \param parent Optional parent to set.
 			 * \param caption Button caption text.
-			 * \return Newly created window.
+			 * \return Newly created button.
 			 */
 			virtual UIButton CreateButton(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) = 0;
 
@@ -134,9 +135,19 @@ namespace bon
 			 * \param stylesheet Optional stylesheet path to load.
 			 * \param parent Optional parent to set.
 			 * \param caption Checkbox caption text.
-			 * \return Newly created window.
+			 * \return Newly created checkbox.
 			 */
 			virtual UICheckBox CreateCheckbox(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) = 0;
+
+			/**
+			 * Create and return a radio button element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \param caption Checkbox caption text.
+			 * \return Newly created radio button.
+			 */
+			virtual UIRadioButton CreateRadioButton(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) = 0;
 
 			/**
 			 * Create and return a list element.

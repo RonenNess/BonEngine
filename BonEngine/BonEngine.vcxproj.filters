@@ -324,8 +324,11 @@
     <ClInclude Include="inc\UI\Elements\UIVerticalScrollbar.h">
       <Filter>Header Files\UI\Elements</Filter>
     </ClInclude>
+    <ClInclude Include="inc\UI\Elements\UIRadioButton.h">
+      <Filter>Header Files\UI\Elements</Filter>
+    </ClInclude>
     <ClInclude Include="inc\UI\Elements\UICheckBox.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\UI\Elements</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -446,11 +449,14 @@
     <ClCompile Include="src\UI\Elements\UIList.cpp">
       <Filter>Source Files\UI\Elements</Filter>
     </ClCompile>
-    <ClCompile Include="src\UI\Elements\UIVerticalScrollbar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\UI\Elements\UICheckBox.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\UI\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Elements\UIRadioButton.cpp">
+      <Filter>Source Files\UI\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Elements\UIVerticalScrollbar.cpp">
+      <Filter>Source Files\UI\Elements</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

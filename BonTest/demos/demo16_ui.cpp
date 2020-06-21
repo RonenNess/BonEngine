@@ -126,6 +126,16 @@ namespace demo16_ui
 			_checkboxShowDebug = UI().CreateCheckbox("../TestAssets/ui/checkbox.ini", extraStuffWindow, "Debug Draw UI");
 			_checkboxShowDebug->SetOffset(bon::PointI(0, 50));
 
+			// add radio buttons
+			bon::UIText tempText = UI().CreateText("../TestAssets/ui/small_text.ini", extraStuffWindow, "Radio buttons:");
+			tempText->SetOffset(bon::PointI(0, 110));
+			for (int i = 0; i < 3; ++i)
+			{
+				bon::UIRadioButton radio = UI().CreateRadioButton("../TestAssets/ui/radiobutton.ini", extraStuffWindow, 
+					std::string("Radio option " + std::to_string(i+1)).c_str());
+				radio->SetOffset(bon::PointI(0, 140 + 50 * i));
+			}
+
 			// move main window to front
 			window->MoveToFront();
 		}

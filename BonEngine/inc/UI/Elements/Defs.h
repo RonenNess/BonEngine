@@ -25,6 +25,7 @@ namespace bon
 		class _UIButton;
 		class _UIList;
 		class _UICheckBox;
+		class _UIRadioButton;
 		class _UIVerticalScrollbar;
 
 		// pointer to all UI element types
@@ -35,6 +36,7 @@ namespace bon
 		typedef BON_DLLEXPORT std::shared_ptr<_UIButton> UIButton;
 		typedef BON_DLLEXPORT std::shared_ptr<_UIList> UIList;
 		typedef BON_DLLEXPORT std::shared_ptr<_UICheckBox> UICheckBox;
+		typedef BON_DLLEXPORT std::shared_ptr<_UIRadioButton> UIRadioButton;
 		typedef BON_DLLEXPORT std::shared_ptr<_UIVerticalScrollbar> UIVerticalScrollbar;
 
 		/**
@@ -73,6 +75,22 @@ namespace bon
 
 			// Coordinates are relative to parent size.
 			PercentOfParent,
+		};
+
+		/**
+		 * Define all basic UI types.
+		 */
+		enum class BON_DLLEXPORT UIElementType
+		{
+			Element,
+			Button,
+			Checkbox,
+			Radio,
+			Image,
+			List,
+			Text,
+			Scrollbar,
+			Window
 		};
 
 		/**
