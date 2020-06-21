@@ -23,6 +23,7 @@
 #include "Elements/UIList.h"
 #include "Elements/UICheckBox.h"
 #include "Elements/UIRadioButton.h"
+#include "Elements/UISlider.h"
 #include "Elements/UIVerticalScrollbar.h"
 
 namespace bon
@@ -157,6 +158,15 @@ namespace bon
 			 * \return Newly created list.
 			 */
 			virtual UIList CreateList(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
+			
+			/**
+			 * Create and return a slider element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \return Newly created slider.
+			 */
+			virtual UISlider CreateSlider(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
 
 			/**
 			 * Create and return a vertical scrollbar element.

@@ -136,6 +136,12 @@ namespace demo16_ui
 				radio->SetOffset(bon::PointI(0, 140 + 50 * i));
 			}
 
+			// add slider
+			bon::UIText sliderText = UI().CreateText("../TestAssets/ui/small_text.ini", extraStuffWindow, "Slider widget:");
+			sliderText->SetOffset(bon::PointI(0, 300));
+			bon::UISlider slider = UI().CreateSlider("../TestAssets/ui/slider.ini", extraStuffWindow);
+			slider->SetOffset(bon::PointI(0, 340));
+
 			// move main window to front
 			window->MoveToFront();
 		}

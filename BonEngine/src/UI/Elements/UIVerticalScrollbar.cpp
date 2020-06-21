@@ -32,6 +32,9 @@ namespace bon
 			// call base update
 			_UIImage::Update(deltaTime);
 
+			// no handle? skip
+			if (_handle == nullptr) { return; }
+
 			// on mouse down, set handle
 			if (_prevState == UIElementState::PressedDown)
 			{

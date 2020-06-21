@@ -135,6 +135,15 @@ namespace bon
 			virtual UIRadioButton CreateRadioButton(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) override;
 
 			/**
+			 * Create and return a slider element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \return Newly created slider.
+			 */
+			virtual UISlider CreateSlider(const char* stylesheet = nullptr, UIElement parent = nullptr) override;
+
+			/**
 			 * Create and return a list element.
 			 *
 			 * \param stylesheet Optional stylesheet path to load.

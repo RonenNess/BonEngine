@@ -1,6 +1,6 @@
 /*****************************************************************//**
- * \file   UIVerticalScrollbar.h
- * \brief  A vertical scrollbar element.
+ * \file   UISlider.h
+ * \brief  A horizontal slider element.
  *
  * \author Ronen Ness
  * \date   June 2020
@@ -17,12 +17,12 @@ namespace bon
 #pragma warning ( disable: 4251 ) // "..needs to have dll-interface to be used by clients..." it's ok in this case because its private.
 
 		/**
-		 * A UI vertical scrollbar.
+		 * A UI horizontal slider.
 		 */
-		class BON_DLLEXPORT _UIVerticalScrollbar : public _UIImage
+		class BON_DLLEXPORT _UISlider : public _UIImage
 		{
 		private:
-			// scrollbar handle image.
+			// slider handle image.
 			UIImage _handle;
 
 			// current value
@@ -33,26 +33,33 @@ namespace bon
 			/**
 			 * Get element type.
 			 */
-			virtual UIElementType GetType() const override { return UIElementType::Scrollbar; }
+			virtual UIElementType GetType() const override { return UIElementType::Slider; }
 
 			/**
-			 * Scrollbar max value.
+			 * Slider max value.
 			 */
 			int MaxValue = 10;
 
 			/**
-			 * Get current scrollbar value.
-			 * 
-			 * \return Scrollbar value.
+			 * Get current slider value.
+			 *
+			 * \return Slider value.
 			 */
 			int Value() const { return _value; }
+
+			/**
+			 * Set current slider value.
+			 * 
+			 * \param value New value to set.
+			 */
+			void SetValue(int value);
 
 			/**
 			 * Initialize element style from config file.
 			 *
 			 * \param config Config file to init element from.
 			 *				* In addition to all the settings from UIElement and UIImage stylesheet files, you can add the following:
-			 *				*	[scrollbar]
+			 *				*	[slider]
 			 *				*		- handle_style = Stylesheet to use for handle (image).
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);

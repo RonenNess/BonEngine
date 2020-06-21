@@ -26,6 +26,7 @@ namespace bon
 		class _UIList;
 		class _UICheckBox;
 		class _UIRadioButton;
+		class _UISlider;
 		class _UIVerticalScrollbar;
 
 		// pointer to all UI element types
@@ -37,6 +38,7 @@ namespace bon
 		typedef BON_DLLEXPORT std::shared_ptr<_UIList> UIList;
 		typedef BON_DLLEXPORT std::shared_ptr<_UICheckBox> UICheckBox;
 		typedef BON_DLLEXPORT std::shared_ptr<_UIRadioButton> UIRadioButton;
+		typedef BON_DLLEXPORT std::shared_ptr<_UISlider> UISlider;
 		typedef BON_DLLEXPORT std::shared_ptr<_UIVerticalScrollbar> UIVerticalScrollbar;
 
 		/**
@@ -90,7 +92,8 @@ namespace bon
 			List,
 			Text,
 			Scrollbar,
-			Window
+			Slider,
+			Window,
 		};
 
 		/**

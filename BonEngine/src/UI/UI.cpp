@@ -150,6 +150,14 @@ namespace bon
 			return ret;
 		}
 
+		// create and return a slider element.
+		UISlider UI::CreateSlider(const char* stylesheet, UIElement parent)
+		{
+			UISlider ret = std::make_shared<_UISlider>();
+			InitNewElement(ret, stylesheet, parent);
+			return ret;
+		}
+
 		// create and return a radio button element.
 		UIRadioButton UI::CreateRadioButton(const char* stylesheet, UIElement parent, const char* caption)
 		{
