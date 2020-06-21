@@ -73,7 +73,7 @@
       <Filter>Source Files\Demos</Filter>
     </ClCompile>
     <ClCompile Include="demos\demo16_ui.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Demos</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
