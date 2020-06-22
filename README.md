@@ -1160,7 +1160,7 @@ First stable release.
 - Added API to set rendering viewport.
 - Added API to draw circles.
 
-# 1.2
+# 1.2 [22/06/2020]
 
 - Extended `SpriteSheet` API (contains animation, contains bookmark).
 - Added `Lerp` function to points.
