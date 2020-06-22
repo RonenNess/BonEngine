@@ -63,6 +63,22 @@ namespace bon
 			}
 
 			/**
+			 * Set color components.
+			 * 
+			 * \param r Color red value.
+			 * \param g Color green value.
+			 * \param b Color blue value.
+			 * \param a Color alpha value.
+			 */
+			void Set(float r, float g, float b, float a = 1)
+			{
+				R = r;
+				G = g;
+				B = b;
+				A = a;
+			}
+
+			/**
 			 * Implement equality operator.
 			 * 
 			 * \param other Color to compare to.

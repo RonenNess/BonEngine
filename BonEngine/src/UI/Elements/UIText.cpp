@@ -76,7 +76,7 @@ namespace bon
 			}
 
 			// get new string len
-			int len = strlen(text);
+			size_t len = strlen(text);
 
 			// realloc / alloc previous buffer and copy string
 			_text = (char*)realloc(_text, sizeof(char) * (len + 1));

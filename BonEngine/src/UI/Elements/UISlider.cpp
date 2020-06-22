@@ -69,8 +69,12 @@ namespace bon
 			_handle->SetOffset(bon::PointI((int)(pos * (_destRect.Width - padding.Left - padding.Right)), 0));
 
 			// update active part percent
-			_activePartOverlay->SetSizeInPercents(PointI((int)(pos * 100), 100));
-			_activePartOverlay->Visible = pos > 0;
+			if (_activePartOverlay != nullptr)
+			{
+				_activePartOverlay->SetSizeInPercents(PointI((int)(pos * 100), 100));
+				_activePartOverlay->Visible = pos > 0;
+				_activePartOverlay->Update(0.1);
+			}
 
 			// set value
 			if (bon::_GetEngine().Input().Down(bon::KeyCodes::MouseLeft) && _destRect.Contains(mousePosition))

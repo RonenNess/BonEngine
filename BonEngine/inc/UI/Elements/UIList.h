@@ -31,9 +31,9 @@ namespace bon
 			// the struct that holds a single item in list.
 			struct ListItem
 			{
-				int Index;
-				UIText Text;
-				UIImage Background;
+				int Index = 0;
+				UIText Text = nullptr;
+				UIImage Background = nullptr;
 			};
 
 			// items in list

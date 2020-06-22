@@ -191,7 +191,7 @@ namespace bon
 			 * 
 			 * \param ignore If true, will ignore parent padding.
 			 */
-			inline void IgnoteParentPadding(bool ignore) { _ignoreParentPadding = ignore; MarkAsDirty(); }
+			inline void IgnoreParentPadding(bool ignore) { _ignoreParentPadding = ignore; MarkAsDirty(); }
 
 			/**
 			 * Initialize element style from config file.

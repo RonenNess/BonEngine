@@ -28,14 +28,31 @@ namespace bon
 		// set cursor to render from sprite.
 		void UI::SetCursor(const gfx::Sprite& sprite) 		
 		{
-			_cursor = sprite;
+			UIImage cursor = std::make_shared<_UIImage>();
+			cursor->Image = sprite.Image;
+			cursor->BlendMode = sprite.Blend;
+			cursor->Origin = sprite.Origin;
+			cursor->SetOffset(sprite.Position);
+			cursor->Color = sprite.Color;
+			cursor->SourceRect = sprite.SourceRect;
+			cursor->SetSizeInPixels(sprite.Size);
+			_cursor = cursor;
+		}
+
+		void UI::SetCursor(const UIImage& image)
+		{
+			_cursor = image;
 		}
 
 		// draw cursor
 		void UI::DrawCursor() 		
 		{
 			PointF mousePosition = GetRelativeCursorPos();
-			bon::_GetEngine().Gfx().DrawSprite(_cursor, &mousePosition);
+			PointF screenSize = _GetEngine().Gfx().RenderableSize();
+			_cursor->SetAnchor(PointF(mousePosition.X / screenSize.X, mousePosition.Y / screenSize.Y));
+			_cursor->Draggable = _cursor->CaptureInput = _cursor->Interactive = false;
+			_cursor->Update(0.1);
+			_cursor->Draw();
 		}
 
 		// draw a UI system or element.

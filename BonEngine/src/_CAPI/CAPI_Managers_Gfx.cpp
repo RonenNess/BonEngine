@@ -1,7 +1,6 @@
 #include <_CAPI/CAPI_Managers_Gfx.h>
 #include <BonEngine.h>
 
-
 /**
 * Draw an image on screen.
 */
@@ -24,6 +23,14 @@ void BON_Gfx_DrawImageEx(const bon::assets::ImageAsset* image, float x, float y,
 void BON_Gfx_DrawText(const bon::assets::FontAsset* font, const char* text, float x, float y, float r, float g, float b, float a, int fontSize, int maxWidth, BON_BlendModes blend, float originX, float originY, float rotation)
 {
 	bon::_GetEngine().Gfx().DrawText(*font, text, bon::PointF(x, y), &bon::Color(r, g, b, a), fontSize, maxWidth, (bon::BlendModes)blend, &bon::PointF(originX, originY), rotation);
+}
+
+/**
+* Draw text with outline on screen.
+*/
+BON_DLLEXPORT void BON_Gfx_DrawTextWithOutline(const bon::assets::FontAsset* font, const char* text, float x, float y, float r, float g, float b, float a, int fontSize, int maxWidth, BON_BlendModes blend, float originX, float originY, float rotation, int outlineWidth, float outlineR, float outlineG, float outlineB, float outlineA)
+{
+	bon::_GetEngine().Gfx().DrawText(*font, text, bon::PointF(x, y), &bon::Color(r, g, b, a), fontSize, maxWidth, (bon::BlendModes)blend, &bon::PointF(originX, originY), rotation, outlineWidth, &bon::Color(outlineR, outlineG, outlineB, outlineA));
 }
 
 /**

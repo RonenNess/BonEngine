@@ -234,7 +234,7 @@ namespace bon
 				_maxVisibleEntitiesInList = listRegionHeight / _lineHeight;
 
 				// calculate how many extra items are outside
-				int extras = (_items.size() - _maxVisibleEntitiesInList);
+				int extras = (int)(_items.size() - _maxVisibleEntitiesInList);
 				
 				// got items outside? set scrollbar visible and max
 				if (extras > 0) 

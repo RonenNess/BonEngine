@@ -198,7 +198,7 @@ namespace bon
 				char buff[16];
 
 				// get x type
-				int lenx = strlen(x);
+				size_t lenx = strlen(x);
 				char tx = x[lenx - 1];
 				switch (tx)
 				{
@@ -218,7 +218,7 @@ namespace bon
 				Width = std::atoi(buff);
 
 				// get y type
-				int leny = strlen(y);
+				size_t leny = strlen(y);
 				char ty = y[leny - 1];
 				switch (ty)
 				{

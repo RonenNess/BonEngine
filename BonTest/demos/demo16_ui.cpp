@@ -33,8 +33,7 @@ namespace demo16_ui
 		virtual void _Start() override
 		{
 			// set ui cursor
-			bon::ImageAsset cursor = Assets().LoadImage("../TestAssets/gfx/cursor.png");
-			UI().SetCursor(cursor, bon::PointI(64, 64), bon::PointI::Zero);
+			UI().SetCursor(UI().CreateImage("../TestAssets/ui/cursor.ini"));
 
 			// create UI root
 			_uiRoot = UI().CreateRoot();
@@ -140,7 +139,7 @@ namespace demo16_ui
 			bon::UIText sliderText = UI().CreateText("../TestAssets/ui/small_text.ini", extraStuffWindow, "Slider widget:");
 			sliderText->SetOffset(bon::PointI(0, 300));
 			bon::UISlider slider = UI().CreateSlider("../TestAssets/ui/slider.ini", extraStuffWindow);
-			slider->SetOffset(bon::PointI(0, 340));
+			slider->SetOffset(bon::PointI(0, 335));
 
 			// move main window to front
 			window->MoveToFront();

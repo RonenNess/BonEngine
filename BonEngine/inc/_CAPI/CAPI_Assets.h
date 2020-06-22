@@ -74,6 +74,11 @@ extern "C" {
 	BON_DLLEXPORT void BON_Config_GetColor(bon::ConfigAsset* config, const char* section, const char* name, float defaultR, float defaultG, float defaultB, float defaultA, float* outR, float* outG, float* outB, float* outA);
 
 	/**
+	* Get option index from config.
+	*/
+	BON_DLLEXPORT int BON_Config_GetOption(bon::ConfigAsset* config, const char* section, const char* name, const char** options, int optionsCount, int defaultVal);
+
+	/**
 	* Get section name by index.
 	*/
 	BON_DLLEXPORT const char* BON_Config_Section(bon::ConfigAsset* config, int index);

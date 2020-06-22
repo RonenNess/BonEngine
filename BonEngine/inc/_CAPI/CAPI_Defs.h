@@ -118,6 +118,53 @@ extern "C" {
 	};
 
 	/**
+	 * CAPI export of ui element types.
+	 */
+	BON_DLLEXPORT enum BON_UIElementType
+	{
+		BON_UIElement = bon::UIElementType::Element,
+		BON_UIButton = bon::UIElementType::Button,
+		BON_UICheckbox = bon::UIElementType::Checkbox,
+		BON_UIRadio = bon::UIElementType::Radio,
+		BON_UIImage = bon::UIElementType::Image,
+		BON_UIList = bon::UIElementType::List,
+		BON_UIText = bon::UIElementType::Text,
+		BON_UIScrollbar = bon::UIElementType::Scrollbar,
+		BON_UISlider = bon::UIElementType::Slider,
+		BON_UIWindow = bon::UIElementType::Window,
+	};
+
+	/**
+	 * CAPI export of ui element size modes.
+	 */
+	BON_DLLEXPORT enum BON_UISizeType
+	{
+		BON_UISizeType_Pixels = bon::UISizeType::Pixels,
+		BON_UISizeType_PercentOfParent = bon::UISizeType::PercentOfParent,
+	};
+
+	/**
+	 * CAPI export of UI image types.
+	 */
+	BON_DLLEXPORT enum BON_UIImageTypes
+	{
+		BON_UIImageTypes_Single = bon::UIImageTypes::Single,
+		BON_UIImageTypes_Sliced = bon::UIImageTypes::Sliced,
+		BON_UIImageTypes_Stretch = bon::UIImageTypes::Stretch,
+		BON_UIImageTypes_Tiled = bon::UIImageTypes::Tiled,
+	};
+
+	/**
+	 * CAPI export of text alignment.
+	 */
+	BON_DLLEXPORT enum BON_UITextAlignment
+	{
+		BON_UITextAlignment_Left = bon::UITextAlignment::Left,
+		BON_UITextAlignment_Right = bon::UITextAlignment::Right,
+		BON_UITextAlignment_Center = bon::UITextAlignment::Center,
+	};
+
+	/**
 	 * All supported keyboard and mouse key codes.
 	 */
 	BON_DLLEXPORT enum BON_KeyCodes

@@ -57,6 +57,13 @@ namespace bon
 			virtual void SetCursor(const gfx::Sprite& sprite) = 0;
 
 			/**
+			 * Set cursor to render from image element.
+			 *
+			 * \param image UIImage to draw as cursor.
+			 */
+			virtual void SetCursor(const UIImage& image) = 0;
+
+			/**
 			 * Draw cursor, based on what set with SetCursor().
 			 */
 			virtual void DrawCursor() = 0;

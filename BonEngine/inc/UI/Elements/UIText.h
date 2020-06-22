@@ -83,6 +83,20 @@ namespace bon
 			UITextAlignment Alignment = UITextAlignment::Left;
 
 			/**
+			 * Set text to draw.
+			 *
+			 * \param text Text to draw.
+			 */
+			void SetText(const char* text);
+
+			/**
+			 * Get text we draw.
+			 *
+			 * \return Text to draw.
+			 */
+			const char* GetText() const;
+
+			/**
 			 * Destroy the text.
 			 */
 			virtual ~_UIText();
@@ -108,20 +122,6 @@ namespace bon
 			 * 				*		- outline_width_pressed = Text outline width, while being pressed on / interacted with.
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
-
-			/**
-			 * Set text to draw.
-			 * 
-			 * \param text Text to draw.
-			 */
-			void SetText(const char* text);
-
-			/**
-			 * Get text we draw.
-			 * 
-			 * \return Text to draw.
-			 */
-			const char* GetText() const;
 
 		protected:
 

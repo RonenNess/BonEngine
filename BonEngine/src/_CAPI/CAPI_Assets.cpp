@@ -99,6 +99,14 @@ void BON_Config_GetColor(bon::ConfigAsset* config, const char* section, const ch
 }
 
 /**
+* Get option index from config.
+*/
+BON_DLLEXPORT int BON_Config_GetOption(bon::ConfigAsset* config, const char* section, const char* name, const char** options, int optionsCount, int defaultVal)
+{
+	return (*config)->GetOption(section, name, options, optionsCount, defaultVal);
+}
+
+/**
 * Get section name by index.
 */
 const char* BON_Config_Section(bon::ConfigAsset* config, int index)

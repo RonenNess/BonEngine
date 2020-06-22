@@ -1,9 +1,16 @@
 #include <Assets/Assets.h>
 #include <Assets/Types/IAsset.h>
+#include <Framework/Exceptions.h>
 #include <Diagnostics/IDiagnostics.h>
 #include <functional>
 #include <BonEngine.h>
+#include <fstream>
 
+// make sure file exists
+inline bool validate_file_exist(const std::string& name) {
+	ifstream f(name.c_str());
+	return f.good();
+}
 
 namespace bon
 {
@@ -30,9 +37,15 @@ namespace bon
 			template <class AssetType>
 			static shared_ptr<AssetType> LoadAssetT(Assets* assets, const char* path, const char* cacheKey, bool useCache, void* extraData = nullptr, std::function<AssetType*()>&& instanceCreator = nullptr)
 			{
-				// assert
+				// make sure path is valid
 				if (path == nullptr || path[0] == '\0') {
 					throw framework::AssetLoadError("Cannot load asset with empty path!");
+				}
+
+				// make sure file exists
+				if (!validate_file_exist(path))
+				{
+					throw framework::AssetLoadError((std::string("File not found! Path: '" + std::string(path)).c_str()));
 				}
 
 				// try to get from cache

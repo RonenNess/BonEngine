@@ -1160,11 +1160,11 @@ First stable release.
 - Added API to set rendering viewport.
 - Added API to draw circles.
 
-# 1.2 [WIP]
+# 1.2
 
 - Extended `SpriteSheet` API (contains animation, contains bookmark).
 - Added `Lerp` function to points.
-- Extended Gfx API to get current target size and retrieve render target.
+- Extended `Gfx` API to get current target size and retrieve render target.
 - Added UI system with basic UI elements: Element, Text, Image, Window, Button, List, Scrollbars, Slider, Checkbox, Radio button.
 - Added GetOption(), GetPoint(), GetColor() and GetRect() to config assets.
 - Added outline to text drawing.

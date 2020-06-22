@@ -48,7 +48,7 @@ namespace bon
 			 *
 			 * \return Slider value.
 			 */
-			int Value() const { return _value; }
+			int GetValue() const { return _value; }
 
 			/**
 			 * Set current slider value.

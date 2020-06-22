@@ -21,7 +21,7 @@ namespace bon
 		{
 		private:
 			// cursor sprite to draw
-			gfx::Sprite _cursor;
+			UIImage _cursor;
 
 		public:
 
@@ -40,6 +40,13 @@ namespace bon
 			 * \param sprite Sprite to draw as cursor.
 			 */
 			virtual void SetCursor(const gfx::Sprite& sprite) override;
+
+			/**
+			 * Set cursor to render from image element.
+			 *
+			 * \param image UIImage to draw as cursor.
+			 */
+			virtual void SetCursor(const UIImage& image) override;
 
 			/**
 			 * Draw cursor, based on what set with SetCursor().
