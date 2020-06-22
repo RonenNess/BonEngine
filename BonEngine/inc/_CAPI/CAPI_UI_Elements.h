@@ -612,6 +612,26 @@ extern "C" {
 	 */
 	BON_DLLEXPORT void BON_UIText_GetOutlinePressedColor(bon::UIText* element, float* r, float* g, float* b, float* a);
 
+	/**
+	 * Get title from window.
+	 */
+	BON_DLLEXPORT bon::UIText* BON_UIWindow_Title(bon::UIWindow* element);
+
+	/**
+	 * Get scrollbar max value.
+	 */
+	BON_DLLEXPORT void BON_UIScrollbar_SetMaxValue(bon::UIVerticalScrollbar* element, int maxVal);
+
+	/**
+	 * Get scrollbar max value.
+	 */
+	BON_DLLEXPORT int BON_UIScrollbar_GetMaxValue(bon::UIVerticalScrollbar* element);
+	
+	/**
+	 * Get scrollbar value.
+	 */
+	BON_DLLEXPORT int BON_UIScrollbar_GetValue(bon::UIVerticalScrollbar* element);
+
 #ifdef __cplusplus
 }
 #endif

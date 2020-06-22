@@ -504,14 +504,6 @@ void BON_UIElement_ValidateOffsetInsideParent(bon::UIElement* element)
 	(*element)->ValidateOffsetInsideParent();
 }
 
-
-
-
-
-
-
-
-
 /**
  * Get caption from button.
  */
@@ -978,7 +970,7 @@ void BON_UIText_SetText(bon::UIText* element, const char* text)
 /**
  * Set element outline color.
  */
-void BON_UIElement_SetOutlineColor(bon::UIText* element, float r, float g, float b, float a)
+void BON_UIText_SetOutlineColor(bon::UIText* element, float r, float g, float b, float a)
 {
 	(*element)->OutlineColor.Set(r, g, b, a);
 }
@@ -1030,4 +1022,36 @@ void BON_UIText_GetOutlinePressedColor(bon::UIText* element, float* r, float* g,
 	*g = (*element)->OutlineColorPressed.G;
 	*b = (*element)->OutlineColorPressed.B;
 	*a = (*element)->OutlineColorPressed.A;
+}
+
+/**
+ * Get title from window.
+ */
+bon::UIText* BON_UIWindow_Title(bon::UIWindow* element)
+{
+	return &((*element)->Title);
+}
+
+/**
+ * Get scrollbar max value.
+ */
+void BON_UIScrollbar_SetMaxValue(bon::UIVerticalScrollbar* element, int maxVal)
+{
+	(*element)->MaxValue = maxVal;
+}
+
+/**
+ * Get scrollbar max value.
+ */
+int BON_UIScrollbar_GetMaxValue(bon::UIVerticalScrollbar* element)
+{
+	return (*element)->MaxValue;
+}
+
+/**
+ * Get scrollbar value.
+ */
+int BON_UIScrollbar_GetValue(bon::UIVerticalScrollbar* element)
+{
+	return (*element)->Value();
 }
