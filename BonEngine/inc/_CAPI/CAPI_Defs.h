@@ -8,7 +8,7 @@
  *********************************************************************/
 #pragma once
 #include "../dllimport.h"
-#include <BonEngine.h>
+#include "../BonEngine.h"
 
 #pragma warning( push )
 #pragma warning(disable: 4091)

@@ -109,6 +109,20 @@ namespace bon
 			virtual void DrawText(const assets::FontAsset& font, const char* text, const framework::PointF& position, const Color* color = nullptr, int fontSize = 0, int maxWidth = 0, BlendModes blend = BlendModes::AlphaBlend, const PointF* origin = nullptr, float rotation = 0.0f, int outlineWidth = 0, const Color* outlineColor = nullptr) override;
 
 			/**
+			 * Calculate and get text bounding box.
+			 * 
+			 * \param font Font to use.
+			 * \param text Text to draw.
+			 * \param position Text position.
+			 * \param fontSize Font size.
+			 * \param maxWidth Text max width.
+			 * \param origin Text origin.
+			 * \param rotation Text rotation.
+			 * \return Rectangle representing the bounding box this text drawing would take.
+			 */
+			virtual RectangleI GetTextBoundingBox(const assets::FontAsset& font, const char* text, const framework::PointF& position, int fontSize = 0, int maxWidth = 0, const PointF* origin = nullptr, float rotation = 0.0f) override;
+
+			/**
 			 * Draws a line.
 			 *
 			 * \param from Line start.

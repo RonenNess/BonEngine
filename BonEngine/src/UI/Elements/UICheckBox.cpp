@@ -26,8 +26,12 @@ namespace bon
 			const char* textStylesheet = config->GetStr("checkbox", "caption_style", nullptr);
 			if (textStylesheet) { Caption->LoadStyleFrom(bon::_GetEngine().Assets().LoadConfig(ToRelativePath(textStylesheet).c_str())); }
 			Caption->SetOffset(config->GetPointF("checkbox", "caption_offset", framework::PointF::Zero));
+			Caption->ExemptFromAutoArrange = true;
 			framework::PointF anchor = config->GetPointF("checkbox", "caption_anchor", framework::PointF(-1000.0f, -1000.0f));
 			if (anchor.X != -1000.0f) { Caption->SetAnchor(anchor); }
+
+			// load allow uncheck
+			AllowUncheck = config->GetBool("checkbox", "allow_uncheck", true);
 		}
 
 		// do self updates
@@ -39,7 +43,12 @@ namespace bon
 			// check if should toggle
 			if (_destRect.Contains(mousePosition) && bon::_GetEngine().Input().ReleasedNow(bon::KeyCodes::MouseLeft))
 			{
-				Toggle();
+				if (AllowUncheck) {
+					Toggle();
+				}
+				else {
+					SetValue(true);
+				}
 			}
 			
 			// change display if checked

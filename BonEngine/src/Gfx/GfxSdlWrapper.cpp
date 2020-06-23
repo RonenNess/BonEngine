@@ -584,7 +584,7 @@ namespace bon
 		}
 
 		// draw text on screen
-		void GfxSdlWrapper::DrawText(const FontAsset& fontAsset, const char* text, const PointF& position, const Color& color, int fontSize, BlendModes blend, const PointF& origin, float rotation, int maxWidth)
+		void GfxSdlWrapper::DrawText(const FontAsset& fontAsset, const char* text, const PointF& position, const Color& color, int fontSize, BlendModes blend, const PointF& origin, float rotation, int maxWidth, RectangleI* outDestRect, bool dryrun)
 		{
 			// wrap text as string
 			std::string asString(text);
@@ -614,7 +614,7 @@ namespace bon
 			// draw text
 			PointI size((int)(fromCache.Width * sizeFactor), (int)(fromCache.Height * sizeFactor));
 			static RectangleI srcRect;
-			DrawTexture(fromCache.Texture, position, size, blend, srcRect, origin, rotation, color);
+			DrawTexture(fromCache.Texture, position, size, blend, srcRect, origin, rotation, color, outDestRect);
 		}
 
 		// set gamma
@@ -636,12 +636,15 @@ namespace bon
 		}
 
 		// draw texture on screen
-		void GfxSdlWrapper::DrawTexture(SDL_Texture* texture, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color)
+		void GfxSdlWrapper::DrawTexture(SDL_Texture* texture, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color, RectangleI* outDestRect, bool dryrun)
 		{
 			// set blend mode and color
-			SDL_SetTextureBlendMode(texture, BonBlendToSdlBlend(blend));
-			SDL_SetTextureColorMod(texture, color.RB(), color.GB(), color.BB());
-			SDL_SetTextureAlphaMod(texture, color.AB());
+			if (!dryrun)
+			{
+				SDL_SetTextureBlendMode(texture, BonBlendToSdlBlend(blend));
+				SDL_SetTextureColorMod(texture, color.RB(), color.GB(), color.BB());
+				SDL_SetTextureAlphaMod(texture, color.AB());
+			}
 
 			// source rect
 			static SDL_Rect sdlSrcRect;
@@ -674,17 +677,35 @@ namespace bon
 			}
 
 			// draw texture with rotation
-			if ((rotation != 0) || (flip != SDL_RendererFlip::SDL_FLIP_NONE) || (!origin.IsZero())) {
+			if ((rotation != 0) || (flip != SDL_RendererFlip::SDL_FLIP_NONE) || (!origin.IsZero())) 
+			{
 				SDL_Point sdlOrigin;
 				sdlOrigin.x = (int)(origin.X * dest.w);
 				sdlOrigin.y = (int)(origin.Y * dest.h);
 				dest.x -= sdlOrigin.x;
 				dest.y -= sdlOrigin.y;
-				SDL_RenderCopyEx(_renderer, texture, sdlSrcRectPtr, &dest, rotation, &sdlOrigin, (SDL_RendererFlip)flip);
+				if (outDestRect) {
+					outDestRect->X = dest.x;
+					outDestRect->Y = dest.y;
+					outDestRect->Width = dest.w;
+					outDestRect->Height = dest.h;
+				}
+				if (!dryrun) {
+					SDL_RenderCopyEx(_renderer, texture, sdlSrcRectPtr, &dest, rotation, &sdlOrigin, (SDL_RendererFlip)flip);
+				}
 			}
 			// draw texture without rotation
-			else {
-				SDL_RenderCopy(_renderer, texture, sdlSrcRectPtr, &dest);
+			else 
+			{
+				if (outDestRect) {
+					outDestRect->X = dest.x;
+					outDestRect->Y = dest.y;
+					outDestRect->Width = dest.w;
+					outDestRect->Height = dest.h;
+				}
+				if (!dryrun) {
+					SDL_RenderCopy(_renderer, texture, sdlSrcRectPtr, &dest);
+				}
 			}
 		}
 

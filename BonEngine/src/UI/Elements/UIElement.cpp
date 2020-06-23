@@ -49,6 +49,10 @@ namespace bon
 			RectangleF padding = config->GetRectangleF("style", "padding", RectangleF::Zero);
 			_padding.FromRect(padding);
 			_ignoreParentPadding = config->GetBool("style", "ignore_padding", false);
+			
+			// load margin
+			RectangleF margin = config->GetRectangleF("style", "margin", RectangleF(0, 0, 0, 6));
+			Marging.FromRect(margin);
 
 			// load width and height
 			const char* width = config->GetStr("style", "width", "100p");
@@ -61,6 +65,8 @@ namespace bon
 			CopyParentState = config->GetBool("behavior", "copy_parent_state", false);
 			Draggable = config->GetBool("behavior", "draggable", false);
 			LimitDragToParentArea = config->GetBool("behavior", "limit_drag_to_parent", true);
+			AutoArrangeChildren = config->GetBool("behavior", "auto_arrange_children", false);
+			ExemptFromAutoArrange = config->GetBool("behavior", "exempt_auto_arrange", false);
 		}
 
 		// remove child element.
@@ -129,10 +135,35 @@ namespace bon
 			// update self
 			UpdateSelf(deltaTime);
 
+			// for auto arrange
+			int offsetY = 0;
+
 			// update children
 			for (auto child : _children)
 			{
+				// update child
 				child->Update(deltaTime);
+
+				// auto-arrange children
+				if (AutoArrangeChildren && !child->ExemptFromAutoArrange)
+				{
+					offsetY += child->Marging.Top;
+					if (child->_anchor.Y != 0)
+					{
+						child->_anchor.Y = 0;
+						child->_isDestDirty = true;
+					}
+					if (child->_offset.Y != offsetY)
+					{
+						child->_offset.Y = offsetY;
+						child->_isDestDirty = true;
+					}
+					if (child->_isDestDirty) 
+					{
+						child->CalcDestRect();
+					}
+					offsetY += child->GetActualDestRect().Height + child->Marging.Bottom;
+				}
 			}
 		}
 
@@ -152,6 +183,12 @@ namespace bon
 
 			// draw dest rect
 			bon::_GetEngine().Gfx().DrawRectangle(_destRect, _state == UIElementState::Idle ? Color::White : Color::Red, false, bon::BlendModes::AlphaBlend);
+
+			// draw actual dest rect
+			const RectangleI& actualRect = GetActualDestRect();
+			if (actualRect != _destRect){
+				bon::_GetEngine().Gfx().DrawRectangle(actualRect, Color::Yellow, false, bon::BlendModes::AlphaBlend);
+			}
 
 			// draw children
 			for (auto child : _children)

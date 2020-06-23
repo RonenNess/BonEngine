@@ -248,6 +248,16 @@ extern "C" {
 	BON_DLLEXPORT void BON_UIElement_GetPadding(bon::UIElement* element, int* left, int* top, int* right, int* bottom);
 
 	/**
+	 * Set element margin.
+	 */
+	BON_DLLEXPORT void BON_UIElement_SetMargin(bon::UIElement* element, int left, int top, int right, int bottom);
+
+	/**
+	 * Get element margin.
+	 */
+	BON_DLLEXPORT void BON_UIElement_GetMargin(bon::UIElement* element, int* left, int* top, int* right, int* bottom);
+
+	/**
 	 * Get element parent.
 	 */
 	BON_DLLEXPORT bon::_UIElement* BON_UIElement_GetParent(bon::UIElement* element);
@@ -296,6 +306,31 @@ extern "C" {
 	 * Get calculated dest rect.
 	 */
 	BON_DLLEXPORT void BON_UIElement_GetCalculatedDestRect(bon::UIElement* element, int* x, int* y, int* width, int* height);
+	
+	/**
+	 * Get actual dest rect.
+	 */
+	BON_DLLEXPORT void BON_UIElement_GetActualDestRect(bon::UIElement* element, int* x, int* y, int* width, int* height);
+
+	/**
+	 * Get element AutoArrangeChildren.
+	 */
+	BON_DLLEXPORT bool BON_UIElement_GetAutoArrangeChildren(bon::UIElement* element);
+
+	/**
+	 * Set element AutoArrangeChildren.
+	 */
+	BON_DLLEXPORT void BON_UIElement_SetAutoArrangeChildren(bon::UIElement* element, bool val);
+
+	/**
+	 * Get element ExemptFromAutoArrange.
+	 */
+	BON_DLLEXPORT bool BON_UIElement_GetExemptFromAutoArrange(bon::UIElement* element);
+
+	/**
+	 * Set element ExemptFromAutoArrange.
+	 */
+	BON_DLLEXPORT void BON_UIElement_SetExemptFromAutoArrange(bon::UIElement* element, bool val);
 
 	/**
 	 * Validate element is inside parent.
@@ -631,6 +666,26 @@ extern "C" {
 	 * Get scrollbar value.
 	 */
 	BON_DLLEXPORT int BON_UIScrollbar_GetValue(bon::UIVerticalScrollbar* element);
+
+	/**
+	 * Get checkbox allow uncheck.
+	 */
+	BON_DLLEXPORT bool BON_UICheckbox_GetAllowUncheck(bon::UICheckBox* element);
+
+	/**
+	 * Set checkbox allow uncheck.
+	 */
+	BON_DLLEXPORT void BON_UICheckbox_SetAllowUncheck(bon::UICheckBox* element, bool value);
+
+	/**
+	 * Get checkbox allow uncheck.
+	 */
+	BON_DLLEXPORT bool BON_UIRadio_GetAllowUncheck(bon::UIRadioButton* element);
+
+	/**
+	 * Set checkbox allow uncheck.
+	 */
+	BON_DLLEXPORT void BON_UIRadio_SetAllowUncheck(bon::UIRadioButton* element, bool value);
 
 #ifdef __cplusplus
 }

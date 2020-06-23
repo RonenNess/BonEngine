@@ -105,8 +105,9 @@ namespace bon
 			 * \param origin Drawing origin.
 			 * \param rotation Rotation.
 			 * \param maxWidth Max line width.
+			 * \param outDestRect If provided, will hold calculated destination rect when done.
 			 */
-			void DrawText(const assets::FontAsset& fontAsset, const char* text, const framework::PointF& position, const framework::Color& color, int fontSize, BlendModes blend, const framework::PointF& origin, float rotation, int maxWidth);
+			void DrawText(const assets::FontAsset& fontAsset, const char* text, const framework::PointF& position, const framework::Color& color, int fontSize, BlendModes blend, const framework::PointF& origin, float rotation, int maxWidth, framework::RectangleI* outDestRect, bool dryrun = false);
 
 			/**
 			 * Set textures filtering mode.
@@ -238,7 +239,7 @@ namespace bon
 			/**
 			 * Draw texture directly. Used internally.
 			 */
-			void DrawTexture(SDL_Texture* texture, const framework::PointF& position, const framework::PointI& size, BlendModes blend, const framework::RectangleI& sourceRect, const framework::PointF& origin, float rotation, framework::Color color);
+			void DrawTexture(SDL_Texture* texture, const framework::PointF& position, const framework::PointI& size, BlendModes blend, const framework::RectangleI& sourceRect, const framework::PointF& origin, float rotation, framework::Color color, framework::RectangleI* outDestRect = nullptr, bool dryrun = false);
 		};
 	}
 }

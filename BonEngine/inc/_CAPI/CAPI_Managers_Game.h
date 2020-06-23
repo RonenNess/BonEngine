@@ -8,7 +8,7 @@
  *********************************************************************/
 #pragma once
 #include "../dllimport.h"
-#include <BonEngine.h>
+#include "../BonEngine.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -404,11 +404,31 @@ void BON_UIElement_SetPadding(bon::UIElement* element, int left, int top, int ri
  */
 void BON_UIElement_GetPadding(bon::UIElement* element, int* left, int* top, int* right, int* bottom)
 {
-	auto padding = (*element)->GetPadding();
+	const bon::UISides& padding = (*element)->GetPadding();
 	*left = padding.Left;
 	*right = padding.Right;
 	*top = padding.Top;
 	*bottom = padding.Bottom;
+}
+
+/**
+ * Set element margin.
+ */
+void BON_UIElement_SetMargin(bon::UIElement* element, int left, int top, int right, int bottom)
+{
+	(*element)->SetPadding(bon::UISides(left, right, top, bottom));
+}
+
+/**
+ * Get element margin.
+ */
+void BON_UIElement_GetMargin(bon::UIElement* element, int* left, int* top, int* right, int* bottom)
+{
+	const bon::UISides& margin = (*element)->Marging;
+	*left = margin.Left;
+	*right = margin.Right;
+	*top = margin.Top;
+	*bottom = margin.Bottom;
 }
 
 /**
@@ -497,6 +517,50 @@ void BON_UIElement_GetCalculatedDestRect(bon::UIElement* element, int* x, int* y
 }
 
 /**
+ * Get actual dest rect.
+ */
+void BON_UIElement_GetActualDestRect(bon::UIElement* element, int* x, int* y, int* width, int* height)
+{
+	const bon::RectangleI& rect = (*element)->GetActualDestRect();
+	*x = rect.X;
+	*y = rect.Y;
+	*width = rect.Width;
+	*height = rect.Height;
+}
+
+/**
+ * Get element AutoArrangeChildren.
+ */
+bool BON_UIElement_GetAutoArrangeChildren(bon::UIElement* element)
+{
+	return (*element)->AutoArrangeChildren;
+}
+
+/**
+ * Set element AutoArrangeChildren.
+ */
+void BON_UIElement_SetAutoArrangeChildren(bon::UIElement* element, bool val)
+{
+	(*element)->AutoArrangeChildren = val;
+}
+
+/**
+ * Get element ExemptFromAutoArrange.
+ */
+bool BON_UIElement_GetExemptFromAutoArrange(bon::UIElement* element)
+{
+	return (*element)->ExemptFromAutoArrange;
+}
+
+/**
+ * Set element ExemptFromAutoArrange.
+ */
+void BON_UIElement_SetExemptFromAutoArrange(bon::UIElement* element, bool val)
+{
+	(*element)->ExemptFromAutoArrange = val;
+}
+
+/**
  * Validate element is inside parent.
  */
 void BON_UIElement_ValidateOffsetInsideParent(bon::UIElement* element)
@@ -533,7 +597,39 @@ bool BON_UICheckbox_Checked(bon::UICheckBox* element)
  */
 void BON_UICheckbox_SetValue(bon::UICheckBox* element, bool value)
 {
-	return (*element)->SetValue(value);
+	(*element)->SetValue(value);
+}
+
+/**
+ * Get checkbox allow uncheck.
+ */
+bool BON_UICheckbox_GetAllowUncheck(bon::UICheckBox* element)
+{
+	return (*element)->AllowUncheck;
+}
+
+/**
+ * Set checkbox allow uncheck.
+ */
+void BON_UICheckbox_SetAllowUncheck(bon::UICheckBox* element, bool value)
+{
+	(*element)->AllowUncheck = value;
+}
+
+/**
+ * Get checkbox allow uncheck.
+ */
+bool BON_UIRadio_GetAllowUncheck(bon::UIRadioButton* element)
+{
+	return (*element)->AllowUncheck;
+}
+
+/**
+ * Set checkbox allow uncheck.
+ */
+void BON_UIRadio_SetAllowUncheck(bon::UIRadioButton* element, bool value)
+{
+	(*element)->AllowUncheck = value;
 }
 
 /**

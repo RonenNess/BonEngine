@@ -101,6 +101,16 @@ namespace bon
 			virtual void _Init() {}
 
 			/**
+			 * If true, will automatically arrange children every frame based on their actual dest rect.
+			 */
+			bool AutoArrangeChildren = false;
+
+			/**
+			 * If parent `AutoArrangeChildren` is true but this flag is also true, will skip this element when auto arranging.
+			 */
+			bool ExemptFromAutoArrange = false;
+
+			/**
 			 * If true, this element will interact with user input, respond to clicks, ect.
 			 * If false, its merely a graphical entity and non of the event callbacks will be triggered.
 			 * Note: even if an element is not interactive, its children may still be and can respond to events (and vice versa).
@@ -175,6 +185,12 @@ namespace bon
 			bool Draggable = false;
 
 			/**
+			 * Adds margin around element sides when auto-arranging elements.
+			 * This property is not used when element is not being auto-arranged.
+			 */
+			UISides Marging;
+
+			/**
 			 * Get if this element is being dragged right now.
 			 * 
 			 * \return True if element is currently being dragged.
@@ -202,6 +218,7 @@ namespace bon
 			 *				*		- width = Element width + unit (p for pixels, % for percent of parent. for example: "100%" or "40p").
 			 *				*		- height = Element height + unit (p for pixels, % for percent of parent. for example: "100%" or "40p").
 			 *				*		- padding = Element padding (left, top, right, bottom).
+			 *				*		- margin = Element margin (left, top, right, bottom).
 			 *				*		- origin = Element origin (x,y).
 			 *				*		- anchor = Element anchor - its position relative to parent bounding box (x,y).
 			 *				*		- ignore_padding = If true, will ignore parent's padding (true / false).
@@ -212,6 +229,8 @@ namespace bon
 			 *				*		- copy_parent_state = Will this element copy its parent state? (true / false). 
 			 *				*		- draggable = If true, users can drag this element (true / false). 
 			 *				*		- limit_drag_to_parent = If true, will limit dragging to parent's region (true / false). 
+			 *				*		- auto_arrange_children = If true, will auto-arrange children based on actual dest rects (true / false). 
+			 *				*		- exempt_auto_arrange = If true, will ignore parent's auto arrange (true / false). 
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
 
@@ -374,7 +393,13 @@ namespace bon
 			 * Sometimes you need to Update() parent too.
 			 */
 			inline const framework::RectangleI& GetCalculatedDestRect() const { return _destRect; }
-			
+
+			/**
+			 * Get the actual destination rect as calculated by the Update() method.
+			 * This would usually be the same as GetCalculatedDestRect(), but might be different for some UI elements.
+			 */
+			virtual const framework::RectangleI& GetActualDestRect() const { return _destRect; }
+
 			/**
 			 * Make sure element offset is inside is parent boundaries (takes element width and height into consideration).
 			 */

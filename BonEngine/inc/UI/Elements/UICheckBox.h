@@ -38,6 +38,12 @@ namespace bon
 			UIText Caption;
 
 			/**
+			 * If true, users can click this radio button again to uncheck it.
+			 * If false, users can only select radio but can uncheck them.
+			 */
+			bool AllowUncheck = true;
+
+			/**
 			 * Is this checkbox checked?
 			 */
 			inline bool Checked() const { return _checked; }
@@ -68,6 +74,7 @@ namespace bon
 			 *				*		- caption_style = Stylesheet to use for checkbox text.
 			 *				*		- caption_offset = checkbox text offset (x,y).
 			 *				*		- caption_anchor = if provided, will override checkbox's text anchor (x,y).
+			 *				*		- allow_uncheck = set if user can uncheck the checkbox.
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
 

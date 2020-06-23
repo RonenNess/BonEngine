@@ -1143,7 +1143,9 @@ This lib is distributed with the MIT license, so you can do pretty much anything
 
 First stable release.
 
-# 1.1 [11/06/2020]
+# 1.1 
+
+**[11/06/2020]**
 
 - Added diagnostics manager.
 - Added performance test example.
@@ -1160,7 +1162,9 @@ First stable release.
 - Added API to set rendering viewport.
 - Added API to draw circles.
 
-# 1.2 [22/06/2020]
+# 1.2 
+
+**[22/06/2020]**
 
 - Extended `SpriteSheet` API (contains animation, contains bookmark).
 - Added `Lerp` function to points.
@@ -1172,6 +1176,16 @@ First stable release.
 - Changed general game config file to use text options instead of numbers for enums.
 - Fixed bug with assets cache that fonts in different sizes and images with different filters had the same key.
 - Changed default compiler to C++ 17.
+
+# 1.21 
+
+**[24/06/2020]**
+
+- Added validation that if user try to draw UI cursor but not cursor is set, nothing will happen.
+- Added 'AllowUncheck' property to checkbox and radio button.
+- Added function to get bounding box of text (added to `Gfx` manager).
+- Added actual bounding box to UI elements.
+- Added auto-arrange property to UI elements, exempt, and margin.
 
 ## In Memory Of Bonnie
 

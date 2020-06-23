@@ -26,6 +26,7 @@ namespace bon
 			const char* textStylesheet = config->GetStr("button", "caption_style", nullptr);
 			if (textStylesheet) { Caption->LoadStyleFrom(bon::_GetEngine().Assets().LoadConfig(ToRelativePath(textStylesheet).c_str())); }
 			Caption->SetOffset(config->GetPointF("button", "caption_offset", framework::PointF::Zero));
+			Caption->ExemptFromAutoArrange = true;
 			framework::PointF anchor = config->GetPointF("button", "caption_anchor", framework::PointF(-1000.0f, -1000.0f));
 			if (anchor.X != -1000.0f) { Caption->SetAnchor(anchor); }
 		}

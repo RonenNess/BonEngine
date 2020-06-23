@@ -57,12 +57,14 @@ bon::UIElement* BON_UI_CreateRoot()
 	return new bon::UIElement(bon::_GetEngine().UI().CreateRoot());
 }
 
+#define ptrOrNull(_parent_) (parent != nullptr ? *parent : nullptr)
+
 /**
 * Create and return an empty container element.
 */
 bon::UIElement* BON_UI_CreateContainer(const char* stylesheet, bon::UIElement* parent)
 {
-	return new bon::UIElement(bon::_GetEngine().UI().CreateContainer(stylesheet, *parent));
+	return new bon::UIElement(bon::_GetEngine().UI().CreateContainer(stylesheet, ptrOrNull(parent)));
 }
 
 /**
@@ -70,7 +72,7 @@ bon::UIElement* BON_UI_CreateContainer(const char* stylesheet, bon::UIElement* p
 */
 bon::UIImage* BON_UI_CreateImage(const char* stylesheet, bon::UIElement* parent)
 {
-	return new bon::UIImage(bon::_GetEngine().UI().CreateImage(stylesheet, *parent));
+	return new bon::UIImage(bon::_GetEngine().UI().CreateImage(stylesheet, ptrOrNull(parent)));
 }
 
 /**
@@ -78,7 +80,7 @@ bon::UIImage* BON_UI_CreateImage(const char* stylesheet, bon::UIElement* parent)
 */
 bon::UIText* BON_UI_CreateText(const char* stylesheet, bon::UIElement* parent, const char* text)
 {
-	return new bon::UIText(bon::_GetEngine().UI().CreateText(stylesheet, *parent, text));
+	return new bon::UIText(bon::_GetEngine().UI().CreateText(stylesheet, ptrOrNull(parent), text));
 }
 
 /**
@@ -86,7 +88,7 @@ bon::UIText* BON_UI_CreateText(const char* stylesheet, bon::UIElement* parent, c
 */
 bon::UIWindow* BON_UI_CreateWindow(const char* stylesheet, bon::UIElement* parent, const char* title)
 {
-	return new bon::UIWindow(bon::_GetEngine().UI().CreateWindow(stylesheet, *parent, title));
+	return new bon::UIWindow(bon::_GetEngine().UI().CreateWindow(stylesheet, ptrOrNull(parent), title));
 }
 
 /**
@@ -94,7 +96,7 @@ bon::UIWindow* BON_UI_CreateWindow(const char* stylesheet, bon::UIElement* paren
 */
 bon::UIButton* BON_UI_CreateButton(const char* stylesheet, bon::UIElement* parent, const char* caption)
 {
-	return new bon::UIButton(bon::_GetEngine().UI().CreateButton(stylesheet, *parent, caption));
+	return new bon::UIButton(bon::_GetEngine().UI().CreateButton(stylesheet, ptrOrNull(parent), caption));
 }
 
 /**
@@ -102,7 +104,7 @@ bon::UIButton* BON_UI_CreateButton(const char* stylesheet, bon::UIElement* paren
 */
 bon::UICheckBox* BON_UI_CreateCheckbox(const char* stylesheet, bon::UIElement* parent, const char* caption)
 {
-	return new bon::UICheckBox(bon::_GetEngine().UI().CreateCheckbox(stylesheet, *parent, caption));
+	return new bon::UICheckBox(bon::_GetEngine().UI().CreateCheckbox(stylesheet, ptrOrNull(parent), caption));
 }
 
 /**
@@ -110,7 +112,7 @@ bon::UICheckBox* BON_UI_CreateCheckbox(const char* stylesheet, bon::UIElement* p
 */
 bon::UIRadioButton* BON_UI_CreateRadioButton(const char* stylesheet, bon::UIElement* parent, const char* caption)
 {
-	return new bon::UIRadioButton(bon::_GetEngine().UI().CreateRadioButton(stylesheet, *parent, caption));
+	return new bon::UIRadioButton(bon::_GetEngine().UI().CreateRadioButton(stylesheet, ptrOrNull(parent), caption));
 }
 
 /**
@@ -118,7 +120,7 @@ bon::UIRadioButton* BON_UI_CreateRadioButton(const char* stylesheet, bon::UIElem
 */
 bon::UIList* BON_UI_CreateList(const char* stylesheet, bon::UIElement* parent)
 {
-	return new bon::UIList(bon::_GetEngine().UI().CreateList(stylesheet, *parent));
+	return new bon::UIList(bon::_GetEngine().UI().CreateList(stylesheet, ptrOrNull(parent)));
 }
 
 /**
@@ -126,7 +128,7 @@ bon::UIList* BON_UI_CreateList(const char* stylesheet, bon::UIElement* parent)
 */
 bon::UISlider* BON_UI_CreateSlider(const char* stylesheet, bon::UIElement* parent)
 {
-	return new bon::UISlider(bon::_GetEngine().UI().CreateSlider(stylesheet, *parent));
+	return new bon::UISlider(bon::_GetEngine().UI().CreateSlider(stylesheet, ptrOrNull(parent)));
 }
 
 /**
@@ -134,5 +136,5 @@ bon::UISlider* BON_UI_CreateSlider(const char* stylesheet, bon::UIElement* paren
 */
 bon::UIVerticalScrollbar* BON_UI_CreateVerticalScrollbar(const char* stylesheet, bon::UIElement* parent)
 {
-	return new bon::UIVerticalScrollbar(bon::_GetEngine().UI().CreateVerticalScrollbar(stylesheet, *parent));
+	return new bon::UIVerticalScrollbar(bon::_GetEngine().UI().CreateVerticalScrollbar(stylesheet, ptrOrNull(parent)));
 }

@@ -8,7 +8,7 @@
  *********************************************************************/
 #pragma once
 #include "../dllimport.h"
-#include <BonEngine.h>
+#include "../BonEngine.h"
 #include "CAPI_Assets.h"
 
 #ifdef __cplusplus

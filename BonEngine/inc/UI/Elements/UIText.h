@@ -26,8 +26,13 @@ namespace bon
 		 */
 		class BON_DLLEXPORT _UIText : public _UIElement
 		{
+		private:
+
 			// text to draw
 			char* _text = nullptr;
+
+			// actual calculated bounding box of the ui text.
+			framework::RectangleI _actualDestRect;
 
 		public:
 
@@ -97,6 +102,12 @@ namespace bon
 			const char* GetText() const;
 
 			/**
+			 * Get the actual destination rect as calculated by the Update() method.
+			 * This would usually be the same as GetCalculatedDestRect(), but might be different for some UI elements.
+			 */
+			virtual const framework::RectangleI& GetActualDestRect() const override { return _actualDestRect; }
+
+			/**
 			 * Destroy the text.
 			 */
 			virtual ~_UIText();
@@ -123,7 +134,19 @@ namespace bon
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
 
+			/**
+			 * Update the UI element and children.
+			 *
+			 * \param deltaTime Update frame delta time.
+			 */
+			virtual void Update(double deltaTime);
+
 		protected:
+
+			/**
+			 * Draw text or calc actual dest rect.
+			 */
+			void DrawOrCalcActualRect(bool draw, bool calcActualRect);
 
 			/**
 			 * Get outline color based on current state.

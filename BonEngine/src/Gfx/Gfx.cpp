@@ -95,14 +95,23 @@ namespace bon
 						if (i == 0 && j == 0) { continue; }
 						_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
 						_Implementor.DrawText(font, text, position + framework::PointF((float)i * outlineWidth, (float)j * outlineWidth),
-							outlineColor ? *outlineColor : defaultOutlineColor, fontSize, blend, origin ? *origin : defaultOrigin, rotation, maxWidth);
+							outlineColor ? *outlineColor : defaultOutlineColor, fontSize, blend, origin ? *origin : defaultOrigin, rotation, maxWidth, nullptr);
 					}
 				}
 			}
 
 			// draw text fill
 			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
-			_Implementor.DrawText(font, text, position, color ? *color : defaultColor, fontSize, blend, origin ? *origin : defaultOrigin, rotation, maxWidth);
+			_Implementor.DrawText(font, text, position, color ? *color : defaultColor, fontSize, blend, origin ? *origin : defaultOrigin, rotation, maxWidth, nullptr);
+		}
+
+		// calculate and get text bounding box
+		RectangleI Gfx::GetTextBoundingBox(const assets::FontAsset& font, const char* text, const framework::PointF& position, int fontSize, int maxWidth, const PointF* origin, float rotation)
+		{
+			static PointF defaultOrigin(0, 0);
+			RectangleI ret;
+			_Implementor.DrawText(font, text, position, Color::White, fontSize, BlendModes::AlphaBlend, origin ? *origin : defaultOrigin, rotation, maxWidth, &ret, true);
+			return ret;
 		}
 
 		// draw line

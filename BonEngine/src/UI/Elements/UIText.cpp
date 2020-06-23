@@ -125,9 +125,23 @@ namespace bon
 			}
 		}
 
+		// do updates
+		void _UIText::Update(double deltaTime)
+		{
+			_UIElement::Update(deltaTime);
+			DrawOrCalcActualRect(false, true);
+		}
+
 		// implement just the drawing of this element
 		void _UIText::DrawSelf()
 		{
+			DrawOrCalcActualRect(true, false);
+		}
+
+		// draw text or calc actual dest rect
+		void _UIText::DrawOrCalcActualRect(bool draw, bool calcActualRect)
+		{
+			// skip if no text, font, or empty
 			if (_text == nullptr || Font == nullptr || _text[0] == '\0')
 			{
 				return;
@@ -157,12 +171,22 @@ namespace bon
 			int outlineWidth = GetCurrentStateOutlineWidth();
 
 			// draw text
-			bon::_GetEngine().Gfx().DrawText(Font, _text, position, 
-				&color, 
-				FontSize, 
-				_destRect.Width, 
-				BlendModes::AlphaBlend, &origin, 
-				0.0f, outlineWidth, &outlineColor);
+			if (draw)
+			{
+				bon::_GetEngine().Gfx().DrawText(Font,
+					_text,
+					position,
+					&color,
+					FontSize,
+					_destRect.Width,
+					BlendModes::AlphaBlend, &origin,
+					0.0f, outlineWidth, &outlineColor);
+			}
+
+			// calculate actual dest rect
+			if (calcActualRect) {
+				_actualDestRect = bon::_GetEngine().Gfx().GetTextBoundingBox(Font, _text, position, FontSize, _destRect.Width, &origin, 0.0f);
+			}
 		}
 	}
 }

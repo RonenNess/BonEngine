@@ -47,6 +47,7 @@ namespace bon
 		// draw cursor
 		void UI::DrawCursor() 		
 		{
+			if (_cursor == nullptr) { return; }
 			PointF mousePosition = GetRelativeCursorPos();
 			PointF screenSize = _GetEngine().Gfx().RenderableSize();
 			_cursor->SetAnchor(PointF(mousePosition.X / screenSize.X, mousePosition.Y / screenSize.Y));
