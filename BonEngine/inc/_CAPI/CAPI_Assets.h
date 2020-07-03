@@ -42,6 +42,22 @@ extern "C" {
 	 * Save image to file.
 	 */
 	BON_DLLEXPORT void BON_Image_SaveToFile(bon::ImageAsset* image, const char* filename);
+	
+	/**
+	 * Prepare image for reading pixels from it.
+	 */
+	BON_DLLEXPORT void BON_Image_PrepareReadingBuffer(bon::ImageAsset* image, int x, int y, int w, int h);
+
+	/**
+	 * Free reading buffer after PrepareReadingBuffer() was called.
+	 * Happens automatically anyway when asset is destroyed.
+	 */
+	BON_DLLEXPORT void BON_Image_FreeReadingBuffer(bon::ImageAsset* image);
+
+	/**
+	 * Get pixel from image. Must call PrepareReadingBuffer() before calling this.
+	 */
+	BON_DLLEXPORT void BON_Image_GetPixel(bon::ImageAsset* image, int x, int y, float* r, float* g, float* b, float* a);
 
 	/**
 	* Get string value from config.

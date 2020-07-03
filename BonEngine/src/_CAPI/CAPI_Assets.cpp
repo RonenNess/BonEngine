@@ -38,6 +38,28 @@ void BON_Image_SaveToFile(bon::ImageAsset* image, const char* filename)
 	(*image)->SaveToFile(filename);
 }
 
+// Prepare image for reading pixels from it.
+void BON_Image_PrepareReadingBuffer(bon::ImageAsset* image, int x, int y, int w, int h)
+{
+	(*image)->PrepareReadingBuffer(bon::framework::RectangleI(x, y, w, h));
+}
+
+// Free reading buffer after PrepareReadingBuffer() was called.
+void BON_Image_FreeReadingBuffer(bon::ImageAsset* image)
+{
+	(*image)->FreeReadingBuffer();
+}
+
+// get pixel from image
+void BON_Image_GetPixel(bon::ImageAsset* image, int x, int y, float* r, float* g, float* b, float* a)
+{
+	bon::Color ret = (*image)->GetPixel(bon::PointI(x, y));
+	*r = ret.R;
+	*g = ret.G;
+	*b = ret.B;
+	*a = ret.A;
+}
+
 /**
 * Get string value from config.
 */

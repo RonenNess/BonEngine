@@ -177,8 +177,7 @@ namespace bon
 				SDL_Color rgb;
 				SDL_GetRGBA(data, _asSurface->format, &rgb.r, &rgb.g, &rgb.b, &rgb.a);
 				return framework::Color::FromBytes(rgb.r, rgb.g, rgb.b, rgb.a);
-			}
-			
+			}		
 
 			/**
 			 * Store this texture's last set blending mode.
