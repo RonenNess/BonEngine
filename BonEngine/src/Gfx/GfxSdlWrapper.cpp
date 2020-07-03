@@ -140,6 +140,12 @@ namespace bon
 					return framework::Color::TransparentBlack;
 				}
 
+				// validate in range
+				if (position.X < 0 || position.Y < 0 || position.X >= _asSurface->w || position.Y >= _asSurface->h)
+				{
+					return framework::Color::TransparentBlack;
+				}
+
 				// get bytes per pixel and pixel data
 				int bpp = _asSurface->format->BytesPerPixel;
 				int buffOffset = position.Y * _asSurface->pitch + position.X * bpp;
@@ -744,6 +750,10 @@ namespace bon
 		// convert texture to surface
 		SDL_Surface* GfxSdlWrapper::TextureToSurface(SDL_Texture* texture, int width, int height, framework::RectangleI sourceRect)
 		{
+			// get current render target and set texture as the new render target
+			SDL_Texture* target = SDL_GetRenderTarget(_renderer);
+			SDL_SetRenderTarget(_renderer, texture);
+
 			// calc source rect
 			SDL_Rect rect;
 			rect.x = sourceRect.X;
@@ -754,8 +764,11 @@ namespace bon
 			// create surface
 			SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h, 32, 0, 0, 0, 0);
 			
-			// read pixels and return
+			// read pixels into new surface
 			SDL_RenderReadPixels(_renderer, &rect, surface->format->format, surface->pixels, surface->pitch);
+
+			// recover previous render target and return
+			SDL_SetRenderTarget(_renderer, target);
 			return surface;
 		}
 
