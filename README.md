@@ -1189,7 +1189,7 @@ First stable release.
 
 # 1.22 
 
-**WIP**
+**[03/07/2020]**
 
 - Added Save Image method to image assets.
 - Added option to read pixels from image asset.
