@@ -8,6 +8,8 @@
 #pragma once
 #include "../../dllimport.h"
 #include "../../Framework/Point.h"
+#include "../../Framework/Color.h"
+#include "../../Framework/Rectangle.h"
 #include "IAsset.h"
 #include "../Defs.h"
 #include "ImageHandle.h"
@@ -114,6 +116,47 @@ namespace bon
 			inline int Height() const 
 			{
 				return IsValid() ? Handle()->Height() : 0;
+			}
+
+			/**
+			* Read pixels into internal buffer to allow querying pixels using `GetPixel()`.
+			* You must call this before using GetPixel.
+			* \param sourceRect Source rectangle to read from image, or empty to read everything.
+			*/
+			inline void PrepareReadingBuffer(const framework::RectangleI& sourceRect)
+			{
+				if (IsValid())
+				{
+					Handle()->PrepareReadingBuffer(sourceRect);
+				}
+			}
+
+			/**
+			 * Free reading buffer previously set using `PrepareReadingBuffer()`.
+			 * This happens automatically when asset is released.
+			 */
+			inline void FreeReadingBuffer()
+			{
+				if (IsValid())
+				{
+					Handle()->FreeReadingBuffer();
+				}
+			}
+
+			/**
+			 * Get pixel from image.
+			 * You must first call 'ReadPixelsData' to prepare internal reading buffer.
+			 *
+			 * \param position Pixel to read.
+			 * \return Pixel color.
+			 */
+			framework::Color GetPixel(const framework::PointI& position)
+			{
+				if (IsValid())
+				{
+					return Handle()->GetPixel(position);
+				}
+				return framework::Color::TransparentBlack;
 			}
 		};
 	}

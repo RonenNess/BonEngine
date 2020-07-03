@@ -118,6 +118,17 @@ namespace bon
 			 * \param filename Target filename.
 			 */
 			void SaveImageToFile(SDL_Texture* texture, int width, int height, const char* filename);
+			
+			/**
+			 * Convert a texture to surface, and read all pixels into it.
+			 * 
+			 * \param texture Texture to convert.
+			 * \param width Texture width.
+			 * \param height Texture height.
+			 * \param sourceRect Source rect to copy, or empty to copy whole texture.
+			 * \return Surface from texture (you need to release it later).
+			 */
+			SDL_Surface* TextureToSurface(SDL_Texture* texture, int width, int height, framework::RectangleI sourceRect);
 
 			/**
 			 * Set textures filtering mode.

@@ -41,7 +41,7 @@ extern "C" {
 	/**
 	 * Save image to file.
 	 */
-	BON_DLLEXPORT int BON_Image_SaveToFile(bon::ImageAsset* image, const char* filename);
+	BON_DLLEXPORT void BON_Image_SaveToFile(bon::ImageAsset* image, const char* filename);
 
 	/**
 	* Get string value from config.

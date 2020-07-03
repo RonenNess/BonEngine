@@ -8,6 +8,8 @@
 #pragma once
 #include "../../dllimport.h"
 #include "../../Framework/Point.h"
+#include "../../Framework/Color.h"
+#include "../../Framework/Rectangle.h"
 #include "IAsset.h"
 #include "../Defs.h"
 
@@ -55,7 +57,30 @@ namespace bon
 			 * \param filename Filename to save image to.
 			 */
 			virtual void SaveToFile(const char* filename) const = 0;
+		
+			/**
+			* Read pixels into internal buffer to allow querying pixels using `GetPixel()`.
+			* You must call this before using GetPixel.
+			* \param sourceRect Source rectangle to read from image, or empty to read everything.
+			*/
+			virtual void PrepareReadingBuffer(const framework::RectangleI& sourceRect) = 0;
+			
+			/**
+			 * Free reading buffer previously set using `PrepareReadingBuffer()`.
+			 * This happens automatically when asset is released.
+			 */
+			virtual void FreeReadingBuffer() = 0;
+
+			/**
+			 * Get pixel from image.
+			 * You must first call 'ReadPixelsData' to prepare internal reading buffer.
+			 * 
+			 * \param position Pixel to read.
+			 * \return Pixel color.
+			 */
+			virtual framework::Color GetPixel(const framework::PointI& position) = 0;
 		};
+
 
 		/**
 		 * Image filtering modes.

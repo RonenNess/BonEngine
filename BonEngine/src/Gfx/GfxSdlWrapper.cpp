@@ -28,9 +28,15 @@ namespace bon
 		class SDL_ImageHandle : public _ImageHandle
 		{
 		private:
+			// width and height
 			int _w;
 			int _h;
+
+			// sdl wrapper
 			GfxSdlWrapper* _wrapper;
+
+			// if we want to read image pixels - convert it to surface
+			SDL_Surface* _asSurface = nullptr;
 
 		public:
 
@@ -53,6 +59,10 @@ namespace bon
 				if (Texture) 
 				{
 					SDL_DestroyTexture((SDL_Texture*)(Texture));
+				}
+				if (_asSurface)
+				{
+					SDL_FreeSurface(_asSurface);
 				}
 			}
 
@@ -85,6 +95,90 @@ namespace bon
 			{
 				_wrapper->SaveImageToFile((SDL_Texture*)Texture, _w, _h, filename);
 			}
+
+			/**
+			 * Read pixels into buffer to allow us to query pixels.
+			 * You must call this if you want to use 'GetPixel()'.
+			 */
+			virtual void PrepareReadingBuffer(const framework::RectangleI& sourceRect) override
+			{
+				// remove previous surface
+				if (_asSurface)
+				{
+					SDL_FreeSurface(_asSurface);
+				}
+
+				// get new surface
+				_asSurface = _wrapper->TextureToSurface((SDL_Texture*)Texture, _w, _h, sourceRect);
+			}
+
+			/**
+			 * Free reading buffer previously set using `PrepareReadingBuffer()`.
+			 * This happens automatically when asset is released.
+			 */
+			virtual void FreeReadingBuffer() override
+			{
+				if (_asSurface)
+				{
+					SDL_FreeSurface(_asSurface);
+					_asSurface = nullptr;
+				}
+			}
+
+			/**
+			 * Get pixel from image.
+			 * You must first call 'ReadPixelsData' to prepare internal reading buffer.
+			 *
+			 * \param position Pixel to read.
+			 * \return Pixel color.
+			 */
+			virtual framework::Color GetPixel(const framework::PointI& position) override
+			{
+				// buffer not prepared? return null
+				if (_asSurface == nullptr)
+				{
+					return framework::Color::TransparentBlack;
+				}
+
+				// get bytes per pixel and pixel data
+				int bpp = _asSurface->format->BytesPerPixel;
+				int buffOffset = position.Y * _asSurface->pitch + position.X * bpp;
+				Uint8* p = ((Uint8*)_asSurface->pixels + buffOffset);
+
+				// pixel data based on format
+				Uint32 data;
+
+				switch (bpp)
+				{
+				case 1:
+					data = *p;
+					break;
+
+				case 2:
+					data = *(Uint16*)p;
+					break;
+
+				case 3:
+					if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+						data = p[0] << 16 | p[1] << 8 | p[2];
+					else
+						data = p[0] | p[1] << 8 | p[2] << 16;
+					break;
+
+				case 4:
+					data = *(Uint32*)p;
+					break;
+
+				default:
+					data = 0;       /* shouldn't happen, but avoids warnings */
+				}
+
+				// convert to color and return
+				SDL_Color rgb;
+				SDL_GetRGBA(data, _asSurface->format, &rgb.r, &rgb.g, &rgb.b, &rgb.a);
+				return framework::Color::FromBytes(rgb.r, rgb.g, rgb.b, rgb.a);
+			}
+			
 
 			/**
 			 * Store this texture's last set blending mode.
@@ -646,6 +740,24 @@ namespace bon
 		int GfxSdlWrapper::WindowHeight() const
 		{
 			return _screenSurface->h;
+		}
+
+		// convert texture to surface
+		SDL_Surface* GfxSdlWrapper::TextureToSurface(SDL_Texture* texture, int width, int height, framework::RectangleI sourceRect)
+		{
+			// calc source rect
+			SDL_Rect rect;
+			rect.x = sourceRect.X;
+			rect.y = sourceRect.Y;
+			rect.w = (sourceRect.Width != 0) ? sourceRect.Width : (width - sourceRect.X);
+			rect.h = (sourceRect.Height != 0) ? sourceRect.Height : (height - sourceRect.Y);
+
+			// create surface
+			SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h, 32, 0, 0, 0, 0);
+			
+			// read pixels and return
+			SDL_RenderReadPixels(_renderer, &rect, surface->format->format, surface->pixels, surface->pitch);
+			return surface;
 		}
 
 		// save image asset to file

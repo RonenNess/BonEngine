@@ -33,7 +33,7 @@ int BON_Image_Height(bon::ImageAsset* image)
 }
 
 // Save image to file.
-int BON_Image_SaveToFile(bon::ImageAsset* image, const char* filename)
+void BON_Image_SaveToFile(bon::ImageAsset* image, const char* filename)
 {
 	(*image)->SaveToFile(filename);
 }

@@ -61,7 +61,7 @@ namespace bon
 			framework::PointI _startDragOffsetInElement;
 
 			// if true, will ignore parent padding
-			bool _ignoreParentPadding;
+			bool _ignoreParentPadding = false;
 
 			// child elements.
 			std::list<UIElement> _children;

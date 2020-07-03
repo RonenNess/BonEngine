@@ -1192,6 +1192,7 @@ First stable release.
 **WIP**
 
 - Added Save Image method to image assets.
+- Added option to read pixels from image asset.
 
 ## In Memory Of Bonnie
 
