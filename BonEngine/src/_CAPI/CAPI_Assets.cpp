@@ -32,6 +32,12 @@ int BON_Image_Height(bon::ImageAsset* image)
 	return (*image)->Height();
 }
 
+// Save image to file.
+int BON_Image_SaveToFile(bon::ImageAsset* image, const char* filename)
+{
+	(*image)->SaveToFile(filename);
+}
+
 /**
 * Get string value from config.
 */

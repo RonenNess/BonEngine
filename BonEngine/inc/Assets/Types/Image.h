@@ -78,7 +78,23 @@ namespace bon
 			 * 
 			 * \return Image filtering mode.
 			 */
-			inline ImageFilterMode FilteringMode() const { return _filtering; }
+			inline ImageFilterMode FilteringMode() const 
+			{ 
+				return _filtering; 
+			}
+
+			/**
+			 * Save image asset to file.
+			 * 
+			 * \param filename Filename to save image to.
+			 */
+			inline void SaveToFile(const char* filename) const
+			{
+				if (IsValid())
+				{
+					Handle()->SaveToFile(filename);
+				}
+			}
 
 			/**
 			 * Get image width.

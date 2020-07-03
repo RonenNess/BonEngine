@@ -110,6 +110,16 @@ namespace bon
 			void DrawText(const assets::FontAsset& fontAsset, const char* text, const framework::PointF& position, const framework::Color& color, int fontSize, BlendModes blend, const framework::PointF& origin, float rotation, int maxWidth, framework::RectangleI* outDestRect, bool dryrun = false);
 
 			/**
+			 * Save a texture to file.
+			 * 
+			 * \param texture Texture to save.
+			 * \param width Texture width.
+			 * \param height Texture height.
+			 * \param filename Target filename.
+			 */
+			void SaveImageToFile(SDL_Texture* texture, int width, int height, const char* filename);
+
+			/**
 			 * Set textures filtering mode.
 			 * 
 			 * \param mode Texture filtering mode.

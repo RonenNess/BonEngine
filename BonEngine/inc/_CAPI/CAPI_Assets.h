@@ -39,6 +39,11 @@ extern "C" {
 	BON_DLLEXPORT int BON_Image_Height(bon::ImageAsset* image);
 
 	/**
+	 * Save image to file.
+	 */
+	BON_DLLEXPORT int BON_Image_SaveToFile(bon::ImageAsset* image, const char* filename);
+
+	/**
 	* Get string value from config.
 	*/
 	BON_DLLEXPORT const char* BON_Config_GetStr(bon::ConfigAsset* config, const char* section, const char* name, const char* defaultVal);

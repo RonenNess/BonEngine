@@ -48,6 +48,13 @@ namespace bon
 			 * \return Image height.
 			 */
 			virtual int Height() const = 0;
+
+			/**
+			 * Save image asset to file.
+			 *
+			 * \param filename Filename to save image to.
+			 */
+			virtual void SaveToFile(const char* filename) const = 0;
 		};
 
 		/**

@@ -1187,6 +1187,12 @@ First stable release.
 - Added actual bounding box to UI elements.
 - Added auto-arrange property to UI elements, exempt, and margin.
 
+# 1.22 
+
+**WIP**
+
+- Added Save Image method to image assets.
+
 ## In Memory Of Bonnie
 
 `BonEngine` is named after my deceased dog, Bonnie.

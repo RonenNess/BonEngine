@@ -30,17 +30,19 @@ namespace bon
 		private:
 			int _w;
 			int _h;
+			GfxSdlWrapper* _wrapper;
 
 		public:
 
 			/**
 			 * Create SDL image surface.
 			 */
-			SDL_ImageHandle(SDL_Texture* texture, int w, int h)
+			SDL_ImageHandle(SDL_Texture* texture, int w, int h, GfxSdlWrapper* wrapper)
 			{
 				_w = w;
 				_h = h;
 				Texture = texture;
+				_wrapper = wrapper;
 			}
 
 			/**
@@ -48,7 +50,8 @@ namespace bon
 			 */
 			virtual ~SDL_ImageHandle()
 			{
-				if (Texture) {
+				if (Texture) 
+				{
 					SDL_DestroyTexture((SDL_Texture*)(Texture));
 				}
 			}
@@ -71,6 +74,16 @@ namespace bon
 			virtual int Height() const override
 			{
 				return _h;
+			}
+			
+			/**
+			 * Save image asset to file.
+			 *
+			 * \param filename Filename to save image to.
+			 */
+			virtual void SaveToFile(const char* filename) const override
+			{
+				_wrapper->SaveImageToFile((SDL_Texture*)Texture, _w, _h, filename);
 			}
 
 			/**
@@ -139,7 +152,7 @@ namespace bon
 			}
 
 			// set handle
-			SDL_ImageHandle* handle = new SDL_ImageHandle(texture, width, height);
+			SDL_ImageHandle* handle = new SDL_ImageHandle(texture, width, height, ((GfxSdlWrapper*)context));
 			asset->_SetHandle(handle);
 		}
 
@@ -633,6 +646,25 @@ namespace bon
 		int GfxSdlWrapper::WindowHeight() const
 		{
 			return _screenSurface->h;
+		}
+
+		// save image asset to file
+		void GfxSdlWrapper::SaveImageToFile(SDL_Texture* texture, int width, int height, const char* filename)
+		{
+			// get current render target and set texture as the new render target
+			SDL_Texture* target = SDL_GetRenderTarget(_renderer);
+			SDL_SetRenderTarget(_renderer, texture);
+
+			// create surface the size of the texture and read texture into it
+			SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+			SDL_RenderReadPixels(_renderer, NULL, surface->format->format, surface->pixels, surface->pitch);
+			
+			// save to file and free surface
+			IMG_SavePNG(surface, filename);
+			SDL_FreeSurface(surface);
+
+			// recover previous render target
+			SDL_SetRenderTarget(_renderer, target);
 		}
 
 		// draw texture on screen
