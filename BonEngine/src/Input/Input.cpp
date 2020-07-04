@@ -760,5 +760,20 @@ namespace bon
 				return wasUpdateNow ? KeyStates::ReleasedNow : KeyStates::Released;
 			}
 		}
+		
+		// get keys assigned to action id
+		std::vector<KeyCodes> Input::GetAssignedKeys(const char* actionId) const
+		{
+			std::vector<KeyCodes> ret;
+			std::string actionIdStr(actionId);
+			for (auto x : _keyBinds)
+			{
+				if (x.second == actionIdStr)
+				{
+					ret.push_back(x.first);
+				}
+			}
+			return ret;
+		}
 	}
 }

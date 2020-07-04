@@ -339,6 +339,9 @@
     <ClInclude Include="inc\_CAPI\CAPI_UI_Elements.h">
       <Filter>Header Files\_CAPI</Filter>
     </ClInclude>
+    <ClInclude Include="inc\UI\Elements\UITextInput.h">
+      <Filter>Header Files\UI\Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Engine.cpp">
@@ -475,6 +478,9 @@
     </ClCompile>
     <ClCompile Include="src\_CAPI\CAPI_UI_Elements.cpp">
       <Filter>Source Files\_CAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Elements\UITextInput.cpp">
+      <Filter>Source Files\UI\Elements</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

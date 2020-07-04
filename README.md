@@ -819,6 +819,10 @@ Get mouse position change since last frame.
 
 Bind a key to an action id.
 
+#### vector GetAssignedKeys(actionId)
+
+Get vector with all keys assigned to a given action id.
+
 
 ### UI
 
@@ -1193,6 +1197,14 @@ First stable release.
 
 - Added Save Image method to image assets.
 - Added option to read pixels from image asset.
+
+# 1.23 
+
+**WIP**
+
+- Added optional 'active element' output param to UI update.
+- Added text input UI element.
+- Added method to get keys assigned to action id.
 
 ## In Memory Of Bonnie
 

@@ -65,8 +65,9 @@ namespace bon
 			 * Update a UI system and to all interactions.
 			 *
 			 * \param root Root UI element to update.
+			 * \param activeElement If provided, will contain the element the user currently points on, or null if not interacting with anything.
 			 */
-			virtual void UpdateUI(UIElement root) override;
+			virtual void UpdateUI(UIElement root, UIElement* activeElement = nullptr) override;
 
 			/**
 			 * Create and return a new root element.

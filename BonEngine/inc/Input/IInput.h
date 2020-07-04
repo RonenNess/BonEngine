@@ -9,6 +9,7 @@
 #include "../dllimport.h"
 #include "../IManager.h"
 #include "../Framework/Point.h"
+#include <vector>
 #include "Defs.h"
 
 
@@ -78,6 +79,14 @@ namespace bon
 			 * \return Scroll delta.
 			 */
 			virtual const framework::PointI& ScrollDelta() const = 0;
+
+			/**
+			 * Get all key codes assigned to a given action id.
+			 * 
+			 * \param actionId Action id to get assigned keys to.
+			 * \return Vector with all keys currently assigned to action id.
+			 */
+			virtual std::vector<KeyCodes> GetAssignedKeys(const char* actionId) const = 0;
 
 			/**
 			 * Get cursor position.

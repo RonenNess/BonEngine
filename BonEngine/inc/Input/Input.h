@@ -133,6 +133,14 @@ namespace bon
 			 */
 			virtual void SetKeyBind(KeyCodes keyCode, const char* actionId) override;
 
+			/**
+			 * Get all key codes assigned to a given action id.
+			 *
+			 * \param actionId Action id to get assigned keys to.
+			 * \return Vector with all keys currently assigned to action id.
+			 */
+			virtual std::vector<KeyCodes> GetAssignedKeys(const char* actionId) const override;
+
 		protected:
 
 			/**

@@ -28,6 +28,7 @@ namespace bon
 		class _UIRadioButton;
 		class _UISlider;
 		class _UIVerticalScrollbar;
+		class _UITextInput;
 
 		// pointer to all UI element types
 		typedef BON_DLLEXPORT std::shared_ptr<_UIElement> UIElement;
@@ -40,6 +41,7 @@ namespace bon
 		typedef BON_DLLEXPORT std::shared_ptr<_UIRadioButton> UIRadioButton;
 		typedef BON_DLLEXPORT std::shared_ptr<_UISlider> UISlider;
 		typedef BON_DLLEXPORT std::shared_ptr<_UIVerticalScrollbar> UIVerticalScrollbar;
+		typedef BON_DLLEXPORT std::shared_ptr<_UITextInput> UITextInput;
 
 		/**
 		 * Define callback for UI element actions.
@@ -93,6 +95,7 @@ namespace bon
 			Text,
 			Scrollbar,
 			Slider,
+			TextInput,
 			Window,
 		};
 

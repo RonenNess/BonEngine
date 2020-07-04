@@ -24,6 +24,7 @@
 #include "Elements/UICheckBox.h"
 #include "Elements/UIRadioButton.h"
 #include "Elements/UISlider.h"
+#include "Elements/UITextInput.h"
 #include "Elements/UIVerticalScrollbar.h"
 
 namespace bon
@@ -80,8 +81,9 @@ namespace bon
 			 * Update a UI system and to all interactions.
 			 * 
 			 * \param root Root UI element to update.
+			 * \param activeElement If provided, will contain the element the user currently points on, or null if not interacting with anything.
 			 */
-			virtual void UpdateUI(UIElement root) = 0;
+			virtual void UpdateUI(UIElement root, UIElement* activeElement = nullptr) = 0;
 			
 			/**
 			 * Create and return a new root element.

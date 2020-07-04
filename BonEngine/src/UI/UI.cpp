@@ -69,7 +69,7 @@ namespace bon
 		}
 
 		// update UI system and do input interactions
-		void UI::UpdateUI(UIElement root)
+		void UI::UpdateUI(UIElement root, UIElement* activeElement)
 		{
 			// first call updates
 			root->Update(bon::_GetEngine().Game().DeltaTime());
@@ -78,6 +78,12 @@ namespace bon
 			auto mousePosition = GetRelativeCursorPos();
 			UIUpdateInputState updateState;
 			root->DoInputUpdates(mousePosition, updateState);
+
+			// set active element
+			if (activeElement)
+			{
+				*activeElement = std::shared_ptr<_UIElement>(updateState.ElementPointedOn, [](_UIElement*) {});
+			}
 		}
 
 		// init a new ui element

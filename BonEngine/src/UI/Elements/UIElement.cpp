@@ -186,7 +186,8 @@ namespace bon
 
 			// draw actual dest rect
 			const RectangleI& actualRect = GetActualDestRect();
-			if (actualRect != _destRect){
+			if (actualRect != _destRect)
+			{
 				bon::_GetEngine().Gfx().DrawRectangle(actualRect, Color::Yellow, false, bon::BlendModes::AlphaBlend);
 			}
 
