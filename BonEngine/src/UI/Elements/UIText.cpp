@@ -71,7 +71,7 @@ namespace bon
 			if (text[0] == '\0')
 			{
 				_text = (char*)realloc(_text, sizeof(char) * 1);
-				_text[0];
+				_text[0] = '\0';
 				return;
 			}
 
@@ -135,6 +135,7 @@ namespace bon
 		// implement just the drawing of this element
 		void _UIText::DrawSelf()
 		{
+			_UIElement::DrawSelf();
 			DrawOrCalcActualRect(true, false);
 		}
 
@@ -144,6 +145,7 @@ namespace bon
 			// skip if no text, font, or empty
 			if (_text == nullptr || Font == nullptr || _text[0] == '\0')
 			{
+				if (calcActualRect) { _actualDestRect.Set(0, 0, 0, 0); }
 				return;
 			}
 

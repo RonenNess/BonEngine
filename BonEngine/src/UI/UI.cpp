@@ -165,6 +165,16 @@ namespace bon
 			return ret;
 		}
 
+		// create and return a text input element
+		UITextInput UI::CreateTextInput(const char* stylesheet, UIElement parent, const char* startingValue, const char* placeholder)
+		{
+			UITextInput ret = std::make_shared<_UITextInput>();
+			InitNewElement(ret, stylesheet, parent);
+			if (startingValue) { ret->SetValue(startingValue); }
+			if (placeholder) { ret->SetPlaceholderText(placeholder); }
+			return ret;
+		}
+
 		// create and return a checkbox element.
 		UICheckBox UI::CreateCheckbox(const char* stylesheet, UIElement parent, const char* caption)
 		{

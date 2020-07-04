@@ -121,7 +121,18 @@ namespace bon
 			 * \return Newly created window.
 			 */
 			virtual UIButton CreateButton(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) override;
-			
+
+			/**
+			 * Create and return a text input element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \param startingValue Starting text value.
+			 * \param placeholder Placeholder text.
+			 * \return Newly created text input.
+			 */
+			virtual UITextInput CreateTextInput(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* startingValue = nullptr, const char* placeholder = nullptr) override;
+
 			/**
 			 * Create and return a checkbox element.
 			 *

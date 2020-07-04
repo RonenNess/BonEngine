@@ -118,7 +118,8 @@ namespace demo16_ui
 			// create additional window to show more stuff
 			bon::UIWindow extraStuffWindow = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "More Elements");
 			extraStuffWindow->AutoArrangeChildren = true;
-			extraStuffWindow->SetOffset(bon::PointI(300, 150));
+			extraStuffWindow->SetOffset(bon::PointI(300, 100));
+			extraStuffWindow->SetSizeInPixels(bon::PointI(350, 460));
 
 			// create checkboxes
 			bon::UICheckBox checkbox1 = UI().CreateCheckbox("../TestAssets/ui/checkbox.ini", extraStuffWindow, "Checkbox 1");
@@ -135,6 +136,9 @@ namespace demo16_ui
 			// add slider
 			bon::UIText sliderText = UI().CreateText("../TestAssets/ui/small_text.ini", extraStuffWindow, "Slider widget:");
 			bon::UISlider slider = UI().CreateSlider("../TestAssets/ui/slider.ini", extraStuffWindow);
+
+			// add text input
+			bon::UITextInput textInput = UI().CreateTextInput("../TestAssets/ui/textinput.ini", extraStuffWindow, "", "Insert Text..");
 
 			// move main window to front
 			window->MoveToFront();

@@ -35,6 +35,40 @@ namespace bon
 			UIText Text;
 
 			/**
+			 * Text to show when input is empty.
+			 */
+			UIText PlaceholderText;
+
+			/**
+			 * Is this element currently accepting text input?
+			 */
+			bool IsReceivingInput = false;
+
+			/**
+			 * Set text input value.
+			 * 
+			 * \param value Text input value.
+			 */
+			inline void SetValue(const char* value) { Text->SetText(value); }
+
+			/**
+			 * Get text input value.
+			 */
+			inline const char* GetValue() const { return Text->GetText(); }
+
+			/**
+			 * Set placeholder text.
+			 *
+			 * \param value Placeholder text.
+			 */
+			inline void SetPlaceholderText(const char* value) { PlaceholderText->SetText(value); }
+
+			/**
+			 * Get placeholder text.
+			 */
+			inline const char* GetPlaceholderText() const { return PlaceholderText->GetText(); }
+
+			/**
 			 * Optional extra initialization code to apply after creating element.
 			 */
 			virtual void _Init() override;
@@ -48,8 +82,27 @@ namespace bon
 			 *				*		- text_style = Stylesheet to use for text element.
 			 *				*		- text_offset = text offset (x,y).
 			 *				*		- text_anchor = if provided, will override text's text anchor (x,y).
+			 *				*		- placeholder_style = Stylesheet to use for text placeholder element.
+			 *				*		- placeholder_offset = text placeholder offset (x,y).
+			 *				*		- placeholder_anchor = if provided, will override text's placeholder anchor (x,y).
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
+
+		protected:
+
+			/**
+			 * Implement just the drawing of this element
+			 */
+			virtual void DrawSelf() override;
+
+			/**
+			 * Do input updates to interact with element of this specific element.
+			 * This happens after the regular updates.
+			 *
+			 * \param mousePosition Mouse position to test.
+			 * \param updateState Contains temporary state about UI input updates.
+			 */
+			virtual void DoInputUpdatesSelf(const framework::PointI& mousePosition, UIUpdateInputState& updateState) override;
 		};
 	}
 }

@@ -140,6 +140,17 @@ namespace bon
 			virtual UIButton CreateButton(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* caption = nullptr) = 0;
 
 			/**
+			 * Create and return a text input element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \param startingValue Starting text value.
+			 * \param placeholder Placeholder text.
+			 * \return Newly created text input.
+			 */
+			virtual UITextInput CreateTextInput(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* startingValue = nullptr, const char* placeholder = nullptr) = 0;
+
+			/**
 			 * Create and return a checkbox element.
 			 *
 			 * \param stylesheet Optional stylesheet path to load.

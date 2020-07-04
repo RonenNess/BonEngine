@@ -928,6 +928,10 @@ Create a window element.
 
 Create a button element.
 
+#### UITextInput CreateTextInput(stylesheet, parent, startingValue)
+
+Create a text input element.
+
 #### UICheckBox CreateCheckbox(stylesheet, parent, caption)
 
 Create a checkbox element.
@@ -1205,6 +1209,7 @@ First stable release.
 - Added optional 'active element' output param to UI update.
 - Added text input UI element.
 - Added method to get keys assigned to action id.
+- Fixed bug with UI text with empty string.
 
 ## In Memory Of Bonnie
 
