@@ -188,7 +188,7 @@ namespace bon
 				_value.end());
 			
 			// validate length
-			if (MaxLength && _value.length() > MaxLength)
+			if (MaxLength && (int)_value.length() > MaxLength)
 			{
 				_value = _value.substr(0, MaxLength);
 			}

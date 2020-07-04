@@ -104,3 +104,14 @@ void BON_Input_SetKeyBind(BON_KeyCodes keyCode, const char* actionId)
 {
 	bon::_GetEngine().Input().SetKeyBind((bon::KeyCodes)keyCode, actionId);
 }
+
+/**
+* Get list of key codes assigned to given action id.
+*/
+int* BON_Input_GetAssignedKeys(const char* actionId, int* retLength)
+{
+	static std::vector<bon::KeyCodes> retVal;
+	retVal = bon::_GetEngine().Input().GetAssignedKeys(actionId);
+	(*retLength) = (int)retVal.size();
+	return (int*)retVal.data();
+}

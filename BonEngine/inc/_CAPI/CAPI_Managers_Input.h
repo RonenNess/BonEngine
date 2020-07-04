@@ -78,6 +78,11 @@ extern "C" {
 	*/
 	BON_DLLEXPORT void BON_Input_SetKeyBind(BON_KeyCodes keyCode, const char* actionId);
 
+	/**
+	* Get list of key codes assigned to given action id.
+	*/
+	BON_DLLEXPORT int* BON_Input_GetAssignedKeys(const char* actionId, int* retLength);
+
 #ifdef __cplusplus
 }
 #endif
