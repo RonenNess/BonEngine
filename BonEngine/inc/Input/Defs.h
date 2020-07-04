@@ -39,6 +39,11 @@ namespace bon
 			bool Paste = false;
 
 			/**
+			 * Was tab pressed in this frame?
+			 */
+			bool Tab = false;
+
+			/**
 			 * Text input in current frame.
 			 */
 			char Text[32] = { '\0' };

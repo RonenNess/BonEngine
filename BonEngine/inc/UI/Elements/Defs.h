@@ -100,6 +100,40 @@ namespace bon
 		};
 
 		/**
+		 * UI text input mode
+		 */
+		enum class BON_DLLEXPORT UITextInputMode
+		{
+			// allow any text input.
+			AnyText = 0,
+
+			// allow only numbers.
+			NumbersOnly = 1,
+			
+			// don't allow numbers.
+			NoNumbers = 1 << 1,
+			
+			// make all input uppercase.
+			Uppercase = 1 << 2,
+
+			// make all input lowercase.
+			Lowercase = 1 << 3,
+
+			// allow only characters.
+			AlphaOnly = 1 << 4,
+		};
+		
+		inline UITextInputMode operator|(UITextInputMode a, UITextInputMode b)
+		{
+			return static_cast<UITextInputMode>(static_cast<int>(a) | static_cast<int>(b));
+		}
+
+		inline UITextInputMode operator&(UITextInputMode a, UITextInputMode b)
+		{
+			return static_cast<UITextInputMode>(static_cast<int>(a) & static_cast<int>(b));
+		}
+		
+		/**
 		 * UI Image drawing types.
 		 */
 		enum class BON_DLLEXPORT UIImageTypes

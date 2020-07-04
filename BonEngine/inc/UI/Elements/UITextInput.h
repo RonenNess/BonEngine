@@ -24,6 +24,7 @@ namespace bon
 		class BON_DLLEXPORT _UITextInput : public _UIImage
 		{
 		public:
+
 			/**
 			 * Character to use for caret position.
 			 */
@@ -33,6 +34,11 @@ namespace bon
 			 * Get element type.
 			 */
 			virtual UIElementType GetType() const override { return UIElementType::TextInput; }
+
+			/**
+			 * Text input mode.
+			 */
+			UITextInputMode InputMode = UITextInputMode::AnyText;
 
 			/**
 			 * Text element.
@@ -55,11 +61,26 @@ namespace bon
 			bool IsReceivingInput = false;
 
 			/**
+			 * Should we allow tabs input.
+			 */
+			bool AllowTabs = true;
+
+			/**
+			 * Max text length.
+			 */
+			int MaxLength = 0;
+
+			/**
 			 * Set text input value.
 			 * 
 			 * \param value Text input value.
 			 */
-			inline void SetValue(const char* value) { Text->SetText(value); _value = std::string(value); }
+			inline void SetValue(const char* value) 
+			{ 
+				_value = std::string(value);
+				ValidateValue();
+				Text->SetText(_value.c_str());
+			}
 
 			/**
 			 * Get text input value.
@@ -100,6 +121,13 @@ namespace bon
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
 
+			/**
+			 * Update the UI element and children.
+			 *
+			 * \param deltaTime Update frame delta time.
+			 */
+			virtual void Update(double deltaTime) override;
+
 		protected:
 
 			/**
@@ -108,25 +136,15 @@ namespace bon
 			virtual void DrawSelf() override;
 
 			/**
-			 * Do input updates to interact with element of this specific element.
-			 * This happens after the regular updates.
-			 *
-			 * \param mousePosition Mouse position to test.
-			 * \param updateState Contains temporary state about UI input updates.
+			 * Validate and fix _value if needed.
 			 */
-			virtual void DoInputUpdatesSelf(const framework::PointI& mousePosition, UIUpdateInputState& updateState) override;
+			void ValidateValue();
 
 			/**
 			 * Implement the part of getting text input from user.
 			 * You can use this to support different languages or change the way you recieve input.
 			 */
 			virtual void GetTextInput();
-
-			/**
-			 * Check key input.
-			 * This also implement short delay after first press and following characters while holding key down.
-			 */
-			virtual bool CheckKeyInput(bon::input::KeyCodes key);
 
 		private:
 

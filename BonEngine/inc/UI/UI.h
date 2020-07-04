@@ -179,13 +179,13 @@ namespace bon
 			 * \return Newly created scrollbar.
 			 */
 			virtual UIVerticalScrollbar CreateVerticalScrollbar(const char* stylesheet = nullptr, UIElement parent = nullptr) override;
-
-		private:
-			
+	
 			/**
 			 * Get mouse position, relative to current screen / render target / viewport size.
 			 */
-			PointI GetRelativeCursorPos();
+			virtual PointI _GetRelativeCursorPos() const override;
+
+		private:
 
 			/**
 			 * Init a newly created UI element.

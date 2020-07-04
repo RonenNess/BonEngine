@@ -196,6 +196,11 @@ namespace bon
 			 * \return Newly created scrollbar.
 			 */
 			virtual UIVerticalScrollbar CreateVerticalScrollbar(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
+			
+			/**
+			 * Get mouse position, relative to current screen / render target / viewport size.
+			 */
+			virtual PointI _GetRelativeCursorPos() const = 0;
 
 		protected:
 

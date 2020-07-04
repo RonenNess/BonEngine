@@ -88,19 +88,19 @@ namespace demo16_ui
 			}
 
 			// create main test window
-			bon::UIWindow window = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "Demo #16: UI");
-			window->SetOffset(bon::PointI(100, 50));
-			window->AutoArrangeChildren = true;
+			bon::UIWindow intoWindow = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "Button & List");
+			intoWindow->SetOffset(bon::PointI(100, 50));
+			intoWindow->AutoArrangeChildren = true;
 
 			// add intro text
-			bon::UIText intro = UI().CreateText("../TestAssets/ui/small_text.ini", window, 
+			bon::UIText intro = UI().CreateText("../TestAssets/ui/small_text.ini", intoWindow, 
 				"This example shows some basic UI elements in the built-in UI system. UI elements are loaded from ini files.");
 
 			// add a button
-			bon::UIButton button = UI().CreateButton("../TestAssets/ui/button.ini", window, "A Button");
+			bon::UIButton button = UI().CreateButton("../TestAssets/ui/button.ini", intoWindow, "A Button");
 
 			// add a list
-			bon::UIList uilist = UI().CreateList("../TestAssets/ui/list.ini", window);
+			bon::UIList uilist = UI().CreateList("../TestAssets/ui/list.ini", intoWindow);
 			uilist->AddItem("This is a list");
 			uilist->AddItem("You can add items");
 			uilist->AddItem("And select them");
@@ -109,39 +109,75 @@ namespace demo16_ui
 			}
 
 			// add text to show selected item on change
-			bon::UIText listSelectedText = UI().CreateText("../TestAssets/ui/small_text.ini", window, "Selected: ");
+			bon::UIText listSelectedText = UI().CreateText("../TestAssets/ui/small_text.ini", intoWindow, "Selected: ");
 			uilist->OnValueChange = [uilist, listSelectedText](bon::_UIElement& self, void*)
 			{
 				listSelectedText->SetText((std::string("Selected: " + std::string(uilist->SelectedItem())).c_str()));
 			};
 
 			// create additional window to show more stuff
-			bon::UIWindow extraStuffWindow = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "More Elements");
-			extraStuffWindow->AutoArrangeChildren = true;
-			extraStuffWindow->SetOffset(bon::PointI(300, 100));
-			extraStuffWindow->SetSizeInPixels(bon::PointI(350, 460));
+			bon::UIWindow checkAndSliderWindow = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "Check, Radio, Slider");
+			checkAndSliderWindow->AutoArrangeChildren = true;
+			checkAndSliderWindow->SetOffset(bon::PointI(300, 100));
 
 			// create checkboxes
-			bon::UICheckBox checkbox1 = UI().CreateCheckbox("../TestAssets/ui/checkbox.ini", extraStuffWindow, "Checkbox 1");
-			_checkboxShowDebug = UI().CreateCheckbox("../TestAssets/ui/checkbox.ini", extraStuffWindow, "Debug Draw UI");
+			bon::UICheckBox checkbox1 = UI().CreateCheckbox("../TestAssets/ui/checkbox.ini", checkAndSliderWindow, "Checkbox 1");
+			_checkboxShowDebug = UI().CreateCheckbox("../TestAssets/ui/checkbox.ini", checkAndSliderWindow, "Debug Draw UI");
 
 			// add radio buttons
-			bon::UIText tempText = UI().CreateText("../TestAssets/ui/small_text.ini", extraStuffWindow, "Radio buttons:");
+			bon::UIText tempText = UI().CreateText("../TestAssets/ui/small_text.ini", checkAndSliderWindow, "Radio buttons:");
 			for (int i = 0; i < 3; ++i)
 			{
-				bon::UIRadioButton radio = UI().CreateRadioButton("../TestAssets/ui/radiobutton.ini", extraStuffWindow, 
+				bon::UIRadioButton radio = UI().CreateRadioButton("../TestAssets/ui/radiobutton.ini", checkAndSliderWindow, 
 					std::string("Radio option " + std::to_string(i+1)).c_str());
 			}
 
 			// add slider
-			bon::UIText sliderText = UI().CreateText("../TestAssets/ui/small_text.ini", extraStuffWindow, "Slider widget:");
-			bon::UISlider slider = UI().CreateSlider("../TestAssets/ui/slider.ini", extraStuffWindow);
+			bon::UIText sliderText = UI().CreateText("../TestAssets/ui/small_text.ini", checkAndSliderWindow, "Slider widget:");
+			bon::UISlider slider = UI().CreateSlider("../TestAssets/ui/slider.ini", checkAndSliderWindow);
+
+			// create additional window for text inputs
+			bon::UIWindow inputsWindow = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "Text Inputs");
+			inputsWindow->AutoArrangeChildren = true;
+			inputsWindow->SetOffset(bon::PointI(400, 150));
 
 			// add text input
-			bon::UITextInput textInput = UI().CreateTextInput("../TestAssets/ui/textinput.ini", extraStuffWindow, "", "Insert Text..");
+			bon::UITextInput textInput = UI().CreateTextInput("../TestAssets/ui/textinput.ini", inputsWindow, "", "Free text input..");
+			textInput->MaxLength = 16;
+			
+			// add numbers input
+			bon::UITextInput numbersInput = UI().CreateTextInput("../TestAssets/ui/textinput.ini", inputsWindow, "", "Numbers input..");
+			numbersInput->InputMode = bon::UITextInputMode::NumbersOnly;
+			numbersInput->MaxLength = 16;
+
+			// add characters input
+			bon::UITextInput alphaInput = UI().CreateTextInput("../TestAssets/ui/textinput.ini", inputsWindow, "", "Alpha input..");
+			alphaInput->InputMode = bon::UITextInputMode::AlphaOnly;
+			alphaInput->MaxLength = 16;
+
+			// add numbers and alpha input
+			bon::UITextInput numbersAlphaInput = UI().CreateTextInput("../TestAssets/ui/textinput.ini", inputsWindow, "", "Numbers & alpha input..");
+			numbersAlphaInput->InputMode = bon::UITextInputMode::NumbersOnly | bon::UITextInputMode::AlphaOnly;
+			numbersAlphaInput->MaxLength = 16;
+			
+			// add upper input
+			bon::UITextInput upperInput = UI().CreateTextInput("../TestAssets/ui/textinput.ini", inputsWindow, "", "UPPERCASE INPUT..");
+			upperInput->InputMode = bon::UITextInputMode::Uppercase;
+			upperInput->MaxLength = 16;
+
+			// add lower input
+			bon::UITextInput lowerInput = UI().CreateTextInput("../TestAssets/ui/textinput.ini", inputsWindow, "", "lowercase input..");
+			lowerInput->InputMode = bon::UITextInputMode::Lowercase;
+			lowerInput->MaxLength = 16;
+
+			// add upper alpha input
+			bon::UITextInput upperAlphaInput = UI().CreateTextInput("../TestAssets/ui/textinput.ini", inputsWindow, "", "UPPERCASE ALPHA INPUT..");
+			upperAlphaInput->InputMode = bon::UITextInputMode::Uppercase | bon::UITextInputMode::AlphaOnly;
+			upperAlphaInput->MaxLength = 16;
 
 			// move main window to front
-			window->MoveToFront();
+			checkAndSliderWindow->MoveToFront();
+			intoWindow->MoveToFront();
 		}
 
 		// per-frame update

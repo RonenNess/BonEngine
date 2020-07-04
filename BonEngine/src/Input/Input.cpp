@@ -711,9 +711,14 @@ namespace bon
 					_textInputData.Backspace = true;
 				}
 				// handle delete
-				if (e.key.keysym.sym == SDLK_DELETE)
+				else if (e.key.keysym.sym == SDLK_DELETE)
 				{
 					_textInputData.Delete = true;
+				}
+				// handle tab
+				else if (e.key.keysym.sym == SDLK_TAB)
+				{
+					_textInputData.Tab = true;
 				}
 				// handle copy command
 				else if (e.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL)

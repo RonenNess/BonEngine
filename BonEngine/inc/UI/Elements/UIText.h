@@ -83,6 +83,12 @@ namespace bon
 			int FontSize = 0;
 
 			/**
+			 * If true, will wrap text (break line) if exceed element width.
+			 * If false, text can "overflow" out of the element boundaries.
+			 */
+			bool WordWrap = true;
+
+			/**
 			 * Text alignment.
 			 */
 			UITextAlignment Alignment = UITextAlignment::Left;

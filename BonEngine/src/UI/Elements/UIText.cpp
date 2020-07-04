@@ -180,7 +180,7 @@ namespace bon
 					position,
 					&color,
 					FontSize,
-					_destRect.Width,
+					WordWrap ? _destRect.Width : 0,
 					BlendModes::AlphaBlend, &origin,
 					0.0f, outlineWidth, &outlineColor);
 			}

@@ -9,7 +9,7 @@ namespace bon
 	namespace ui
 	{
 		// get mouse position, relative to current screen / render target / viewport size.
-		PointI UI::GetRelativeCursorPos()
+		PointI UI::_GetRelativeCursorPos() const
 		{
 			PointF cp = bon::_GetEngine().Input().CursorPosition();
 			auto windowSize = bon::_GetEngine().Gfx().WindowSize();
@@ -48,7 +48,7 @@ namespace bon
 		void UI::DrawCursor() 		
 		{
 			if (_cursor == nullptr) { return; }
-			PointF mousePosition = GetRelativeCursorPos();
+			PointF mousePosition = _GetRelativeCursorPos();
 			PointF screenSize = _GetEngine().Gfx().RenderableSize();
 			_cursor->SetAnchor(PointF(mousePosition.X / screenSize.X, mousePosition.Y / screenSize.Y));
 			_cursor->Draggable = _cursor->CaptureInput = _cursor->Interactive = false;
@@ -75,7 +75,7 @@ namespace bon
 			root->Update(bon::_GetEngine().Game().DeltaTime());
 
 			// now do input interactions
-			auto mousePosition = GetRelativeCursorPos();
+			auto mousePosition = _GetRelativeCursorPos();
 			UIUpdateInputState updateState;
 			root->DoInputUpdates(mousePosition, updateState);
 
