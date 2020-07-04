@@ -14,6 +14,37 @@ namespace bon
 	namespace input
 	{
 		/**
+		 * Store data related to text input.
+		 */
+		struct BON_DLLEXPORT TextInputData
+		{
+			/**
+			 * Is backspace being pressed in this frame?
+			 */
+			bool Backspace = false;
+
+			/**
+			 * Is delete being pressed in this frame?
+			 */
+			bool Delete = false;
+
+			/**
+			 * Was copy command issued in this frame? (ctrl c).
+			 */
+			bool Copy = false;
+
+			/**
+			 * Was paste command issues in this frame? (ctrl v).
+			 */
+			bool Paste = false;
+
+			/**
+			 * Text input in current frame.
+			 */
+			char Text[32] = { '\0' };
+		};
+
+		/**
 		 * Possible key states.
 		 */
 		enum class BON_DLLEXPORT KeyStates

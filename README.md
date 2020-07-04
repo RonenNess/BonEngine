@@ -819,9 +819,23 @@ Get mouse position change since last frame.
 
 Bind a key to an action id.
 
-#### vector GetAssignedKeys(actionId)
+#### key[] GetAssignedKeys(actionId)
 
 Get vector with all keys assigned to a given action id.
+
+#### void SetClipboard(string)
+
+Set the clipboard current value.
+
+#### string GetClipboard()
+
+Get the current clipboard value as string.
+
+#### TextInput GetTextInput()
+
+Get the text input data for current frame.
+
+This struct contains flags indicating if actions such as 'delete', 'backspace', 'copy', 'paste' happened in current frame, plus all the characters input user entered since last frame (up to 32).
 
 
 ### UI
@@ -1210,6 +1224,8 @@ First stable release.
 - Added text input UI element.
 - Added method to get keys assigned to action id.
 - Fixed bug with UI text with empty string.
+- Added clipboard methods to Input manager.
+- Added text input methods to Input manager.
 
 ## In Memory Of Bonnie
 

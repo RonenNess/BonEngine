@@ -10,6 +10,7 @@
 #include "../IManager.h"
 #include "../Framework/Point.h"
 #include <vector>
+#include <string>
 #include "Defs.h"
 
 
@@ -109,6 +110,27 @@ namespace bon
 			 * \param actionId Action to trigger when this key pressed.
 			 */
 			virtual void SetKeyBind(KeyCodes keyCode, const char* actionId) = 0;
+
+			/**
+			 * Set clipboard value.
+			 * 
+			 * \param text Text to set as clipboard.
+			 */
+			virtual void SetClipboard(const char* text) = 0;
+
+			/**
+			 * Get clipboard value.
+			 *
+			 * \return Clipboard value.
+			 */
+			virtual std::string GetClipboard() const = 0;
+			
+			/**
+			 * Get text input data.
+			 * 
+			 * \return Text input data.
+			 */
+			virtual const TextInputData& GetTextInput() const = 0;
 
 		protected:
 

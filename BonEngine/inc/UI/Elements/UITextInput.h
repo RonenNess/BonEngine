@@ -8,6 +8,7 @@
 #pragma once
 #include "UIImage.h"
 #include "UIText.h"
+#include "../../Input/Defs.h"
 
 namespace bon
 {
@@ -23,6 +24,10 @@ namespace bon
 		class BON_DLLEXPORT _UITextInput : public _UIImage
 		{
 		public:
+			/**
+			 * Character to use for caret position.
+			 */
+			char CaretCharacter = '|';
 
 			/**
 			 * Get element type.
@@ -40,6 +45,11 @@ namespace bon
 			UIText PlaceholderText;
 
 			/**
+			 * Determine the speed of the caret blinking animation.
+			 */
+			float CaretBlinkingInterval = 1.0f;
+
+			/**
 			 * Is this element currently accepting text input?
 			 */
 			bool IsReceivingInput = false;
@@ -49,7 +59,7 @@ namespace bon
 			 * 
 			 * \param value Text input value.
 			 */
-			inline void SetValue(const char* value) { Text->SetText(value); }
+			inline void SetValue(const char* value) { Text->SetText(value); _value = std::string(value); }
 
 			/**
 			 * Get text input value.
@@ -79,6 +89,8 @@ namespace bon
 			 * \param config Config file to init element from.
 			 *				* In addition to all the settings from UIElement and UIImage stylesheet files, you can add the following:
 			 *				*	[text_input]
+			 *				*		- caret = Caret character to use to indicate text position.
+			 *				*		- caret_blink_interval = Caret blinking animation interval.
 			 *				*		- text_style = Stylesheet to use for text element.
 			 *				*		- text_offset = text offset (x,y).
 			 *				*		- text_anchor = if provided, will override text's text anchor (x,y).
@@ -103,6 +115,27 @@ namespace bon
 			 * \param updateState Contains temporary state about UI input updates.
 			 */
 			virtual void DoInputUpdatesSelf(const framework::PointI& mousePosition, UIUpdateInputState& updateState) override;
+
+			/**
+			 * Implement the part of getting text input from user.
+			 * You can use this to support different languages or change the way you recieve input.
+			 */
+			virtual void GetTextInput();
+
+			/**
+			 * Check key input.
+			 * This also implement short delay after first press and following characters while holding key down.
+			 */
+			virtual bool CheckKeyInput(bon::input::KeyCodes key);
+
+		private:
+
+			// store value as string to optimize setting it
+			std::string _value;
+
+			// for caret blinking animation
+			bool _showCaret = true;
+			float _timeForCaretBlink = 0.0f;
 		};
 	}
 }

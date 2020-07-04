@@ -141,6 +141,27 @@ namespace bon
 			 */
 			virtual std::vector<KeyCodes> GetAssignedKeys(const char* actionId) const override;
 
+			/**
+			 * Set clipboard value.
+			 *
+			 * \param text Text to set as clipboard.
+			 */
+			virtual void SetClipboard(const char* text) override;
+
+			/**
+			 * Get clipboard value.
+			 *
+			 * \return Clipboard value.
+			 */
+			virtual std::string GetClipboard() const override;
+
+			/**
+			 * Get text input data.
+			 *
+			 * \return Text input data.
+			 */
+			virtual const TextInputData& GetTextInput() const override;
+
 		protected:
 
 			/**
@@ -187,6 +208,11 @@ namespace bon
 		private:
 
 			/**
+			 * Handle text input events.
+			 */
+			void HandleTextInput(SDL_Event& e);
+
+			/**
 			 * Set default key binds.
 			 * Used when user doesn't specify any keys.
 			 */
@@ -199,6 +225,9 @@ namespace bon
 			 * \param value New value.
 			 */
 			void SetKeyState(KeyCodes key, bool value);
+
+			// current frame's text input data
+			TextInputData _textInputData;
 		};
 	}
 }

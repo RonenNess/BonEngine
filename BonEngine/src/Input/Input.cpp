@@ -541,11 +541,15 @@ namespace bon
 		// dispose input resources
 		void Input::_Dispose()
 		{
+			SDL_StopTextInput();
 		}
 
 		// do updates
 		void Input::_Update(double deltaTime)
 		{
+			// reset current frame's text input data
+			_textInputData = TextInputData();
+
 			// copy current cursor position to previous frame cursor position
 			_prevCursorPosition = _cursorPosition;
 
@@ -570,6 +574,9 @@ namespace bon
 			else {
 				BON_ILOG("Skip setting default key bindings, because user defined his own map.");
 			}
+
+			// enable text input
+			SDL_StartTextInput();
 		}
 
 		// set default keys
@@ -645,6 +652,7 @@ namespace bon
 
 				// key down
 				case SDL_KEYDOWN:
+					HandleTextInput(event);
 					SetKeyState(SdlToEzKeyCode((int)(event.key.keysym.sym)), true);
 					break;
 
@@ -662,6 +670,69 @@ namespace bon
 				case SDL_MOUSEBUTTONUP:
 					SetKeyState(SdlToEzMouseCode((int)(event.button.button)), false);
 					break;
+
+				// text input event
+				case SDL_TEXTINPUT:
+					HandleTextInput(event);
+					break;
+			}
+		}
+
+		// set clipboard value.
+		void Input::SetClipboard(const char* text)
+		{
+			SDL_SetClipboardText(text);
+		}
+
+		// get clipboard value.
+		std::string Input::GetClipboard() const
+		{
+			char* temp = SDL_GetClipboardText();
+			std::string ret = std::string(temp);
+			SDL_free(temp);
+			return ret;
+		}
+
+		// get text input data.
+		const TextInputData& Input::GetTextInput() const
+		{
+			return _textInputData;
+		}
+
+		// handle text input
+		void Input::HandleTextInput(SDL_Event& e)
+		{
+			// keydown events - handle backspace and copy-paste events
+			if (e.type == SDL_KEYDOWN)
+			{
+				// handle backspace
+				if (e.key.keysym.sym == SDLK_BACKSPACE)
+				{
+					_textInputData.Backspace = true;
+				}
+				// handle delete
+				if (e.key.keysym.sym == SDLK_DELETE)
+				{
+					_textInputData.Delete = true;
+				}
+				// handle copy command
+				else if (e.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL)
+				{
+					_textInputData.Copy = true;
+				}
+				// handle paste command
+				else if (e.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL)
+				{
+					_textInputData.Paste = true;
+				}
+			}
+			else if (e.type == SDL_TEXTINPUT)
+			{
+				// only if not copy or paste event, add character
+				if (!(SDL_GetModState() & KMOD_CTRL && (e.text.text[0] == 'c' || e.text.text[0] == 'C' || e.text.text[0] == 'v' || e.text.text[0] == 'V')))
+				{
+					strcpy_s(_textInputData.Text, e.text.text);
+				}
 			}
 		}
 

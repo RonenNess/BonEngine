@@ -145,7 +145,7 @@ namespace bon
 			// skip if no text, font, or empty
 			if (_text == nullptr || Font == nullptr || _text[0] == '\0')
 			{
-				if (calcActualRect) { _actualDestRect.Set(0, 0, 0, 0); }
+				if (calcActualRect) { _actualDestRect.Set(_destRect.X, _destRect.Y, 0, 0); }
 				return;
 			}
 
