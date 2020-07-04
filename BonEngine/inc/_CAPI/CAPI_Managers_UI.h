@@ -45,7 +45,7 @@ extern "C" {
 	/**
 	* Update a UI system and to all interactions.
 	*/
-	BON_DLLEXPORT void BON_UI_UpdateUI(bon::UIElement* root, bon::UIElement* outActiveElement);
+	BON_DLLEXPORT bon::UIElement* BON_UI_UpdateUI(bon::UIElement* root);
 
 	/**
 	* Create and return a new root element.

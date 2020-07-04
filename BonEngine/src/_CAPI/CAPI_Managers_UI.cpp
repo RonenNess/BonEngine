@@ -44,9 +44,11 @@ void BON_UI_Draw(bon::UIElement* root, bool drawCursor)
 /**
 * Update a UI system and to all interactions.
 */
-void BON_UI_UpdateUI(bon::UIElement* root, bon::UIElement* outActiveElement)
+bon::UIElement* BON_UI_UpdateUI(bon::UIElement* root)
 {
+	bon::UIElement* outActiveElement = new bon::UIElement;
 	bon::_GetEngine().UI().UpdateUI(*root, outActiveElement);
+	return outActiveElement;
 }
 
 /**
