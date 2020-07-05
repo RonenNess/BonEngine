@@ -822,6 +822,13 @@ bon::UIWindow* BON_UIList_Background(bon::UIList* element)
 {
 	return &(*element)->Background;
 }
+/**
+* Get if list contains an item.
+*/
+bool BON_UIList_Contains(bon::UIList* element, const char* item)
+{
+	return (*element)->Contains(item);
+}
 
 /**
  * Set list line height.
@@ -1048,6 +1055,22 @@ void BON_UIText_SetAlignment(bon::UIText* element, BON_UITextAlignment alignment
 }
 
 /**
+ * Get text word wrap state.
+ */
+bool BON_UIText_GetWordWrap(bon::UIText* element)
+{
+	return (*element)->WordWrap;
+}
+
+/**
+ * Set text word wrap state.
+ */
+void BON_UIText_SetWordWrap(bon::UIText* element, bool value)
+{
+	(*element)->WordWrap = value;
+}
+
+/**
  * Get text text.
  */
 const char* BON_UIText_GetText(bon::UIText* element)
@@ -1150,4 +1173,148 @@ int BON_UIScrollbar_GetMaxValue(bon::UIVerticalScrollbar* element)
 int BON_UIScrollbar_GetValue(bon::UIVerticalScrollbar* element)
 {
 	return (*element)->Value();
+}
+
+/**
+ * Set text input caret character.
+ */
+void BON_UITextInput_SetCaretCharacter(bon::UITextInput* element, char value)
+{
+	(*element)->CaretCharacter = value;
+}
+
+/**
+ * Get text input caret character.
+ */
+char BON_UITextInput_GetCaretCharacter(bon::UITextInput* element)
+{
+	return (*element)->CaretCharacter;
+}
+
+/**
+ * Set text input input mode.
+ */
+void BON_UITextInput_SetInputMode(bon::UITextInput* element, BON_UITextInputMode value)
+{
+	(*element)->InputMode = (bon::UITextInputMode)value;
+}
+
+/**
+ * Get text input input mode.
+ */
+BON_UITextInputMode BON_UITextInput_GetInputMode(bon::UITextInput* element)
+{
+	return (BON_UITextInputMode)((*element)->InputMode);
+}
+
+/**
+ * Get text input text element.
+ */
+bon::UIText* BON_UITextInput_Text(bon::UITextInput* element)
+{
+	return &((*element)->Text);
+}
+
+/**
+ * Get text input placeholder element.
+ */
+bon::UIText* BON_UITextInput_Placeholder(bon::UITextInput* element)
+{
+	return &((*element)->PlaceholderText);
+}
+
+/**
+ * Set text input caret blinking interval.
+ */
+void BON_UITextInput_SetCaretBlinkingInterval(bon::UITextInput* element, float value)
+{
+	(*element)->CaretBlinkingInterval = value;
+}
+
+/**
+ * Get text input caret blinking interval.
+ */
+float BON_UITextInput_GetCaretBlinkingInterval(bon::UITextInput* element)
+{
+	return (*element)->CaretBlinkingInterval;
+}
+
+/**
+ * Set if text input is currently receiving input
+ */
+void BON_UITextInput_SetReceivingInput(bon::UITextInput* element, bool value)
+{
+	(*element)->IsReceivingInput = value;
+}
+
+/**
+ * Get text input caret blinking interval.
+ */
+bool BON_UITextInput_GetReceivingInput(bon::UITextInput* element)
+{
+	return (*element)->IsReceivingInput;
+}
+
+/**
+ * Set if text input allows tab input.
+ */
+void BON_UITextInput_SetAllowTabs(bon::UITextInput* element, bool value)
+{
+	(*element)->AllowTabs = value;
+}
+
+/**
+ * Get text input allows tab input.
+ */
+bool BON_UITextInput_GetAllowTabs(bon::UITextInput* element)
+{
+	return (*element)->AllowTabs;
+}
+
+/**
+ * Set text input max length.
+ */
+void BON_UITextInput_SetMaxLength(bon::UITextInput* element, int value)
+{
+	(*element)->MaxLength = value;
+}
+
+/**
+ * Get text input max length.
+ */
+int BON_UITextInput_GetMaxLength(bon::UITextInput* element)
+{
+	return (*element)->MaxLength;
+}
+
+/**
+ * Set text input value.
+ */
+void BON_UITextInput_SetValue(bon::UITextInput* element, const char* value)
+{
+	(*element)->SetValue(value);
+}
+
+/**
+ * Get text input value.
+ */
+const char* BON_UITextInput_GetValue(bon::UITextInput* element)
+{
+	return (*element)->GetValue();
+}
+
+/**
+ * Set text input placeholder.
+ */
+void BON_UITextInput_SetPlaceholder(bon::UITextInput* element, const char* value)
+{
+	(*element)->SetPlaceholderText(value);
+}
+
+/**
+ * Get text input placeholder.
+ */
+const char* BON_UITextInput_GetPlaceholder(bon::UITextInput* element)
+{
+	return (*element)->GetPlaceholderText();
 }

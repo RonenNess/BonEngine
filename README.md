@@ -1218,14 +1218,16 @@ First stable release.
 
 # 1.23 
 
-**WIP**
+**[06/07/2020]**
 
 - Added optional 'active element' output param to UI update.
 - Added text input UI element.
 - Added method to get keys assigned to action id.
+- Added 'Contains' and 'Items()' methods to UI list.
 - Fixed bug with UI text with empty string.
 - Added clipboard methods to Input manager.
 - Added text input methods to Input manager.
+- Added word wrap flag to UI text element.
 
 ## In Memory Of Bonnie
 

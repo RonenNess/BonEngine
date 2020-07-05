@@ -463,9 +463,14 @@ extern "C" {
 	BON_DLLEXPORT void BON_UIImage_GetSlicedImageSides(bon::UIImage* element, int* left, int* top, int* right, int* bottom);
 
 	/**
-	 * Get list background
+	 * Get list background element.
 	 */
 	BON_DLLEXPORT bon::UIWindow* BON_UIList_Background(bon::UIList* element);
+
+	/**
+	 * Get if list contains an item.
+	 */
+	BON_DLLEXPORT bool BON_UIList_Contains(bon::UIList* element, const char* item);
 
 	/**
 	 * Set list line height.
@@ -603,6 +608,16 @@ extern "C" {
 	BON_DLLEXPORT BON_UITextAlignment BON_UIText_GetAlignment(bon::UIText* element);
 
 	/**
+	 * Get text word wrap state.
+	 */
+	BON_DLLEXPORT bool BON_UIText_GetWordWrap(bon::UIText* element);
+
+	/**
+	 * Set text word wrap state.
+	 */
+	BON_DLLEXPORT void BON_UIText_SetWordWrap(bon::UIText* element, bool value);
+
+	/**
 	 * Set text alignment.
 	 */
 	BON_DLLEXPORT void BON_UIText_SetAlignment(bon::UIText* element, BON_UITextAlignment alignment);
@@ -686,6 +701,96 @@ extern "C" {
 	 * Set checkbox allow uncheck.
 	 */
 	BON_DLLEXPORT void BON_UIRadio_SetAllowUncheck(bon::UIRadioButton* element, bool value);
+
+	/**
+	 * Set text input caret character.
+	 */
+	BON_DLLEXPORT void BON_UITextInput_SetCaretCharacter(bon::UITextInput* element, char value);
+
+	/**
+	 * Get text input caret character.
+	 */
+	BON_DLLEXPORT char BON_UITextInput_GetCaretCharacter(bon::UITextInput* element);
+
+	/**
+	 * Set text input input mode.
+	 */
+	BON_DLLEXPORT void BON_UITextInput_SetInputMode(bon::UITextInput* element, BON_UITextInputMode value);
+
+	/**
+	 * Get text input input mode.
+	 */
+	BON_DLLEXPORT BON_UITextInputMode BON_UITextInput_GetInputMode(bon::UITextInput* element);
+
+	/**
+	 * Get text input text element.
+	 */
+	BON_DLLEXPORT bon::UIText* BON_UITextInput_Text(bon::UITextInput* element);
+
+	/**
+	 * Get text input placeholder element.
+	 */
+	BON_DLLEXPORT bon::UIText* BON_UITextInput_Placeholder(bon::UITextInput* element);
+
+	/**
+	 * Set text input caret blinking interval.
+	 */
+	BON_DLLEXPORT void BON_UITextInput_SetCaretBlinkingInterval(bon::UITextInput* element, float value);
+
+	/**
+	 * Get text input caret blinking interval.
+	 */
+	BON_DLLEXPORT float BON_UITextInput_GetCaretBlinkingInterval(bon::UITextInput* element);
+
+	/**
+	 * Set if text input is currently receiving input.
+	 */
+	BON_DLLEXPORT void BON_UITextInput_SetReceivingInput(bon::UITextInput* element, bool value);
+
+	/**
+	 * Get text input caret blinking interval.
+	 */
+	BON_DLLEXPORT bool BON_UITextInput_GetReceivingInput(bon::UITextInput* element);
+
+	/**
+	 * Set if text input allows tab input.
+	 */
+	BON_DLLEXPORT void BON_UITextInput_SetAllowTabs(bon::UITextInput* element, bool value);
+
+	/**
+	 * Get text input allows tab input.
+	 */
+	BON_DLLEXPORT bool BON_UITextInput_GetAllowTabs(bon::UITextInput* element);
+
+	/**
+	 * Set text input max length.
+	 */
+	BON_DLLEXPORT void BON_UITextInput_SetMaxLength(bon::UITextInput* element, int value);
+
+	/**
+	 * Get text input max length.
+	 */
+	BON_DLLEXPORT int BON_UITextInput_GetMaxLength(bon::UITextInput* element);
+
+	/**
+	 * Set text input value.
+	 */
+	BON_DLLEXPORT void BON_UITextInput_SetValue(bon::UITextInput* element, const char* value);
+
+	/**
+	 * Get text input value.
+	 */
+	BON_DLLEXPORT const char* BON_UITextInput_GetValue(bon::UITextInput* element);
+
+	/**
+	 * Set text input placeholder.
+	 */
+	BON_DLLEXPORT void BON_UITextInput_SetPlaceholder(bon::UITextInput* element, const char* value);
+
+	/**
+	 * Get text input placeholder.
+	 */
+	BON_DLLEXPORT const char* BON_UITextInput_GetPlaceholder(bon::UITextInput* element);
 
 #ifdef __cplusplus
 }

@@ -93,6 +93,16 @@ namespace bon
 			virtual void _Init() override;
 
 			/**
+			 * Get list items list.
+			 */
+			std::vector<std::string> Items() const;
+
+			/**
+			 * Get if list contains a given value.
+			 */
+			bool Contains(const char* value) const;
+
+			/**
 			 * Initialize element style from config file.
 			 *
 			 * \param config Config file to init element from.

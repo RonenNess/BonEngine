@@ -1,5 +1,6 @@
 #include <_CAPI/CAPI_Managers_Input.h>
 #include <BonEngine.h>
+//#include <comutil.h>
 
 /**
 * Get if a given game action is down.
@@ -110,8 +111,38 @@ void BON_Input_SetKeyBind(BON_KeyCodes keyCode, const char* actionId)
 */
 int* BON_Input_GetAssignedKeys(const char* actionId, int* retLength)
 {
+	// note: we return a local static vector but its OK since the binding side need to copy it to his own array
 	static std::vector<bon::KeyCodes> retVal;
 	retVal = bon::_GetEngine().Input().GetAssignedKeys(actionId);
 	(*retLength) = (int)retVal.size();
 	return (int*)retVal.data();
+}
+
+/**
+* Get clipboard content.
+*/
+const char* BON_Input_GetClipboard()
+{
+	static std::string temp;
+	temp = bon::_GetEngine().Input().GetClipboard();
+	return temp.c_str();
+}
+
+/**
+* Set clipboard content.
+*/
+void BON_Input_SetClipboard(const char* value)
+{
+	bon::_GetEngine().Input().SetClipboard(value);
+}
+
+/**
+* Get text input data.
+*/
+BON_TextInputData BON_Input_GetTextInput(const char* value)
+{
+	const bon::TextInputData& data = bon::_GetEngine().Input().GetTextInput();
+	BON_TextInputData ret;
+	memcpy_s(&ret, sizeof(BON_TextInputData), &data, sizeof(bon::TextInputData));
+	return ret;
 }

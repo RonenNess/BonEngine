@@ -102,6 +102,14 @@ bon::UIButton* BON_UI_CreateButton(const char* stylesheet, bon::UIElement* paren
 }
 
 /**
+* Create and return a text input element.
+*/
+bon::UITextInput* BON_UI_CreateTextInput(const char* stylesheet, bon::UIElement* parent, const char* startingVal, const char* placeholder)
+{
+	return new bon::UITextInput(bon::_GetEngine().UI().CreateTextInput(stylesheet, ptrOrNull(parent), startingVal, placeholder));
+}
+
+/**
 * Create and return a checkbox element.
 */
 bon::UICheckBox* BON_UI_CreateCheckbox(const char* stylesheet, bon::UIElement* parent, const char* caption)

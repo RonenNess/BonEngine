@@ -720,6 +720,41 @@ namespace bon
 				{
 					_textInputData.Tab = true;
 				}
+				// handle down
+				else if (e.key.keysym.sym == SDLK_DOWN)
+				{
+					_textInputData.Down = true;
+				}
+				// handle up
+				else if (e.key.keysym.sym == SDLK_UP)
+				{
+					_textInputData.Up = true;
+				}
+				// handle left
+				else if (e.key.keysym.sym == SDLK_LEFT)
+				{
+					_textInputData.Left = true;
+				}
+				// handle right
+				else if (e.key.keysym.sym == SDLK_RIGHT)
+				{
+					_textInputData.Right = true;
+				}
+				// handle home
+				else if (e.key.keysym.sym == SDLK_HOME)
+				{
+					_textInputData.Home = true;
+				}
+				// handle end
+				else if (e.key.keysym.sym == SDLK_END)
+				{
+					_textInputData.End = true;
+				}
+				// handle insert
+				else if (e.key.keysym.sym == SDLK_INSERT)
+				{
+					_textInputData.Insert = true;
+				}
 				// handle copy command
 				else if (e.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL)
 				{

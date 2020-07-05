@@ -78,6 +78,30 @@ namespace bon
 			_listDirty = true;
 		}
 
+		// get list items list.
+		std::vector<std::string> _UIList::Items() const
+		{
+			std::vector<std::string> ret;
+			for (auto curr : _items)
+			{
+				ret.push_back(curr.Text->GetText());
+			}
+			return ret;
+		}
+
+		// get if list contains a given value.
+		bool _UIList::Contains(const char* value) const
+		{
+			for (auto curr : _items)
+			{
+				if (strcmp(curr.Text->GetText(), value) == 0)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
 		// remove item from list.
 		void _UIList::RemoveItem(const char* item, bool removeAll)
 		{

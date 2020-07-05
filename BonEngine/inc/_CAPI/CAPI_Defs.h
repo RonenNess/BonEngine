@@ -28,6 +28,39 @@ extern "C" {
 	BON_DLLEXPORT typedef void(__stdcall* BON_CallbackDoubleArg)(double);
 
 	/**
+	* Store data related to text input.
+	*/
+	struct BON_DLLEXPORT BON_TextInputData
+	{
+		bool Backspace;
+		bool Delete;
+		bool Copy;
+		bool Paste;
+		bool Tab;
+		bool Up;
+		bool Down;
+		bool Left;
+		bool Right;
+		bool Home;
+		bool End;
+		bool Insert;
+		char Text[32];
+	};
+
+	/**
+	 * CAPI export of text input modes.
+	 */
+	BON_DLLEXPORT enum BON_UITextInputMode
+	{
+		BON_UITextInputMode_AnyText = bon::UITextInputMode::AnyText,
+		BON_UITextInputMode_AlphaOnly = bon::UITextInputMode::AlphaOnly,
+		BON_UITextInputMode_Lowercase = bon::UITextInputMode::Lowercase,
+		BON_UITextInputMode_Uppercase = bon::UITextInputMode::Uppercase,
+		BON_UITextInputMode_NoNumbers = bon::UITextInputMode::NoNumbers,
+		BON_UITextInputMode_NumbersOnly = bon::UITextInputMode::NumbersOnly,
+	};
+
+	/**
 	 * CAPI export of image filters.
 	 */
 	BON_DLLEXPORT enum BON_ImageFilterMode

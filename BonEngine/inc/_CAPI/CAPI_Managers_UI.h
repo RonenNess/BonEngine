@@ -78,6 +78,11 @@ extern "C" {
 	BON_DLLEXPORT bon::UIButton* BON_UI_CreateButton(const char* stylesheet, bon::UIElement* parent, const char* caption);
 
 	/**
+	* Create and return a text input element.
+	*/
+	BON_DLLEXPORT bon::UITextInput* BON_UI_CreateTextInput(const char* stylesheet, bon::UIElement* parent, const char* startingVal, const char* placeholder);
+
+	/**
 	* Create and return a checkbox element.
 	*/
 	BON_DLLEXPORT bon::UICheckBox* BON_UI_CreateCheckbox(const char* stylesheet, bon::UIElement* parent, const char* caption);

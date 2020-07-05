@@ -129,6 +129,15 @@ namespace bon
 			}
 		}
 
+		// set text input value
+		void _UITextInput::SetValue(const char* value)
+		{
+			_value = std::string(value);
+			ValidateValue();
+			Text->SetText(_value.c_str());
+			if (OnValueChange) { OnValueChange(*this, nullptr); }
+		}
+
 		// get if a text input mode is set
 		#define bon_is_text_mode_set(__flag)  (((int)InputMode & (int)__flag) != 0)
 

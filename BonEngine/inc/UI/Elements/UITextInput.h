@@ -26,14 +26,14 @@ namespace bon
 		public:
 
 			/**
-			 * Character to use for caret position.
-			 */
-			char CaretCharacter = '|';
-
-			/**
 			 * Get element type.
 			 */
 			virtual UIElementType GetType() const override { return UIElementType::TextInput; }
+
+			/**
+			 * Character to use for caret position.
+			 */
+			char CaretCharacter = '|';
 
 			/**
 			 * Text input mode.
@@ -75,12 +75,7 @@ namespace bon
 			 * 
 			 * \param value Text input value.
 			 */
-			inline void SetValue(const char* value) 
-			{ 
-				_value = std::string(value);
-				ValidateValue();
-				Text->SetText(_value.c_str());
-			}
+			void SetValue(const char* value);
 
 			/**
 			 * Get text input value.

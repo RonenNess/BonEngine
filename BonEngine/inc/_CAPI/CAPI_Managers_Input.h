@@ -83,6 +83,21 @@ extern "C" {
 	*/
 	BON_DLLEXPORT int* BON_Input_GetAssignedKeys(const char* actionId, int* retLength);
 
+	/**
+	* Get clipboard content.
+	*/
+	BON_DLLEXPORT const char* BON_Input_GetClipboard();
+
+	/**
+	* Set clipboard content.
+	*/
+	BON_DLLEXPORT void BON_Input_SetClipboard(const char* value);
+
+	/**
+	* Get text input data.
+	*/
+	BON_DLLEXPORT BON_TextInputData BON_Input_GetTextInput(const char* value);
+
 #ifdef __cplusplus
 }
 #endif

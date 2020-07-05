@@ -44,6 +44,41 @@ namespace bon
 			bool Tab = false;
 
 			/**
+			 * Was key up pressed this frame?
+			 */
+			bool Up = false;
+
+			/**
+			 * Was key down pressed this frame?
+			 */
+			bool Down = false;
+
+			/**
+			 * Was key left pressed this frame?
+			 */
+			bool Left = false;
+
+			/**
+			 * Was key right pressed this frame?
+			 */
+			bool Right = false;
+
+			/**
+			 * Was key home pressed this frame?
+			 */
+			bool Home = false;
+
+			/**
+			 * Was key end pressed this frame?
+			 */
+			bool End = false;
+
+			/**
+			 * Was key insert pressed this frame?
+			 */
+			bool Insert = false;
+
+			/**
 			 * Text input in current frame.
 			 */
 			char Text[32] = { '\0' };
