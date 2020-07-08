@@ -1229,6 +1229,12 @@ First stable release.
 - Added text input methods to Input manager.
 - Added word wrap flag to UI text element.
 
+# 1.24 
+
+**[WIP]**
+
+- Added logs to scene switching.
+
 ## In Memory Of Bonnie
 
 `BonEngine` is named after my deceased dog, Bonnie.

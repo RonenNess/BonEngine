@@ -354,17 +354,19 @@ namespace bon
 			_scenesSwitchCount++;
 
 			// log and sanity check
-			_logManager->Write(log::LogLevel::Debug, "Change scene..");
+			_logManager->Write(log::LogLevel::Debug, "Change scene - beings..");
 			if (_destroyed) {
 				throw InvalidState("Cannot set scene after engine was destroyed!");
 			}
 
 			// dispose previous scene
 			if (_activeScene) {
+				_logManager->Write(log::LogLevel::Debug, "Unload previously active scene.");
 				_activeScene->_Unload();
 			}
 
 			// set new scene
+			_logManager->Write(log::LogLevel::Debug, "Set and load new active scene.");
 			_previousScene = _activeScene;
 			_activeScene = _nextScene;
 			_activeScene->_Load();
@@ -372,6 +374,7 @@ namespace bon
 
 			// if already started main loop, trigger _Start() now
 			if (_mainLoopStarted) {
+				_logManager->Write(log::LogLevel::Debug, "Start new active scene.");
 				_activeScene->_Start();
 			}
 		}
