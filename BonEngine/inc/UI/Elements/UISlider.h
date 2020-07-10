@@ -39,7 +39,7 @@ namespace bon
 			virtual UIElementType GetType() const override { return UIElementType::Slider; }
 
 			/**
-			 * Slider max value.
+			 * Slider max value (inclusive).
 			 */
 			int MaxValue = 9;
 

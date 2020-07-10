@@ -1231,9 +1231,10 @@ First stable release.
 
 # 1.24 
 
-**[WIP]**
+**[10/07/2020]**
 
 - Added logs to scene switching.
+- Fixed bug with list having scrollbar and then resized into not needing one.
 
 ## In Memory Of Bonnie
 

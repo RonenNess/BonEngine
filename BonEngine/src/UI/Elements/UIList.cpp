@@ -270,6 +270,7 @@ namespace bon
 				else 
 				{
 					_scrollbar->Visible = false;
+					_scrollbar->MaxValue = 0;
 				}
 			}
 		}
@@ -281,7 +282,7 @@ namespace bon
 			int listBottomPosition = Background->GetCalculatedDestRect().Bottom() - Background->GetPadding().Bottom;
 
 			// get scrollbar value
-			int scrollVal = _scrollbar ? _scrollbar->Value() : 0;
+			int scrollVal = (_scrollbar && _scrollbar->Visible) ? _scrollbar->Value() : 0;
 
 			// set election and visibility of items
 			int index = 0;
