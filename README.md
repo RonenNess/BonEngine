@@ -1241,6 +1241,7 @@ First stable release.
 **[WIP]**
 
 - Added missing CAPI method to get text bounding box.
+- Fixed bug that querying text bounding box also renders it.
 
 ## In Memory Of Bonnie
 

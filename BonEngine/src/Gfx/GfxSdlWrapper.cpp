@@ -726,7 +726,7 @@ namespace bon
 			// draw text
 			PointI size((int)(fromCache.Width * sizeFactor), (int)(fromCache.Height * sizeFactor));
 			static RectangleI srcRect;
-			DrawTexture(fromCache.Texture, position, size, blend, srcRect, origin, rotation, color, outDestRect);
+			DrawTexture(fromCache.Texture, position, size, blend, srcRect, origin, rotation, color, outDestRect, dryrun);
 		}
 
 		// set gamma
