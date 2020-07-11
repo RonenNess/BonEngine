@@ -1236,6 +1236,12 @@ First stable release.
 - Added logs to scene switching.
 - Fixed bug with list having scrollbar and then resized into not needing one.
 
+# 1.25
+
+**[WIP]**
+
+- Added missing CAPI method to get text bounding box.
+
 ## In Memory Of Bonnie
 
 `BonEngine` is named after my deceased dog, Bonnie.
