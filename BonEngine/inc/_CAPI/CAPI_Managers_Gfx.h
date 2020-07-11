@@ -103,6 +103,11 @@ extern "C" {
 	*/
 	BON_DLLEXPORT void BON_Gfx_SetViewport(int x, int y, int w, int h);
 
+	/**
+	 * Get the estimated bounding box of a text drawing.
+	 */
+	BON_DLLEXPORT void BON_Gfx_GetTextBoundingBox(const bon::assets::FontAsset* font, const char* text, float x, float y, int fontSize, int maxWidth, float originX, float originY, float rotation, int* outX, int* outY, int* outWidth, int* outHeight);
+
 #ifdef __cplusplus
 }
 #endif

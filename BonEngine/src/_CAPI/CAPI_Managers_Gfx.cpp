@@ -152,3 +152,15 @@ void BON_Gfx_SetViewport(int x, int y, int w, int h)
 		bon::_GetEngine().Gfx().SetViewport(&bon::framework::RectangleI(x, y, w, h));
 	}
 }
+
+/**
+* Get text bounding box.
+*/
+void BON_Gfx_GetTextBoundingBox(const bon::assets::FontAsset* font, const char* text, float x, float y, int fontSize, int maxWidth, float originX, float originY, float rotation, int* outX, int* outY, int* outWidth, int* outHeight)
+{
+	auto ret = bon::_GetEngine().Gfx().GetTextBoundingBox(*font, text, bon::framework::PointF(x, y), fontSize, maxWidth, &bon::PointF(originX, originY), rotation);
+	*outX = ret.X;
+	*outY = ret.Y;
+	*outWidth = ret.Width;
+	*outHeight = ret.Height;
+}
