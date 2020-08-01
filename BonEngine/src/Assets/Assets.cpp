@@ -80,8 +80,7 @@ namespace bon
 				// convert to shared ptr with corresponding deleter
 				auto assetPtr = std::shared_ptr<AssetType>(ret, [assets](IAsset* asset) {
 					if (!bon::_GetEngine().Destroyed()) {
-						assets->Dispose(asset);
-						delete asset;
+						_deleteQueue.push_back(asset);
 					}
 				});
 				BON_DLOG("Created new asset with path: '%s'. Asset address: %x. Add to cache: %d", path, assetPtr.get(), useCache);
@@ -178,8 +177,7 @@ namespace bon
 			// convert to shared ptr with corresponding deleter
 			auto assetPtr = std::shared_ptr<_Image>(ret, [this](IAsset* asset) {
 				if (!bon::_GetEngine().Destroyed()) {
-					this->Dispose(asset);
-					delete asset;
+					_deleteQueue.push_back(asset);
 				}
 			});
 			return assetPtr;
@@ -232,7 +230,7 @@ namespace bon
 
 			// convert to shared ptr with corresponding deleter
 			auto assetPtr = std::shared_ptr<_Config>(ret, [this](IAsset* asset) {
-				if (!bon::_GetEngine().Destroyed() && asset->IsValid()) {
+				if (!bon::_GetEngine().Destroyed()) {
 					_deleteQueue.push_back(asset);
 				}
 			});
