@@ -193,6 +193,23 @@ namespace bon
 			 * \param key Key name.
 			 */
 			void RemoveKey(const char* section, const char* key) { Handle()->RemoveKey(section, key); }
+	
+			/**
+			 * Return if a section exists.
+			 * 
+			 * \param section Section to check if exists.
+			 * \return True if section exists, false otherwise.
+			 */
+			bool Exists(const char* section) const;
+
+			/**
+			 * Return if a key exists under a given section.
+			 * 
+			 * \param section Section to search key under.
+			 * \param key Key to check if exists.
+			 * \return True if key exists in section, false otherwise.
+			 */
+			bool Exists(const char* section, const char* key) const;
 
 			/**
 			 * Save configuration to file.

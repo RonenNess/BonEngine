@@ -130,6 +130,16 @@ extern "C" {
 	BON_DLLEXPORT void BON_Config_RemoveKey(bon::ConfigAsset* config, const char* section, const char* key);
 
 	/**
+	* Checks if a section exists.
+	*/
+	BON_DLLEXPORT bool BON_Config_SectionExists(bon::ConfigAsset* config, const char* section);
+
+	/**
+	* Checks if a key exists.
+	*/
+	BON_DLLEXPORT bool BON_Config_KeyExists(bon::ConfigAsset* config, const char* section, const char* key);
+
+	/**
 	* Get music track length.
 	*/
 	BON_DLLEXPORT float BON_Music_Length(bon::MusicAsset* music);

@@ -1238,10 +1238,12 @@ First stable release.
 
 # 1.25
 
-**[WIP]**
+**[01/08/2020]**
 
 - Added missing CAPI method to get text bounding box.
 - Fixed bug that querying text bounding box also renders it.
+- Added 'Exists()' methods to config assets.
+- Fixed asset pointer bug with CAPI binds.
 
 ## In Memory Of Bonnie
 

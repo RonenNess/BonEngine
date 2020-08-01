@@ -184,6 +184,22 @@ void BON_Config_RemoveKey(bon::ConfigAsset* config, const char* section, const c
 	(*config)->RemoveKey(section, key);
 }
 
+/**
+* Checks if a section exists.
+*/
+bool BON_Config_SectionExists(bon::ConfigAsset* config, const char* section)
+{
+	return (*config)->Exists(section);
+}
+
+/**
+* Checks if a key exists.
+*/
+bool BON_Config_KeyExists(bon::ConfigAsset* config, const char* section, const char* key)
+{
+	return (*config)->Exists(section, key);
+}
+
 // Get music track length.
 float BON_Music_Length(bon::MusicAsset* music)
 {

@@ -5,6 +5,10 @@
 #include <functional>
 #include <BonEngine.h>
 #include <fstream>
+#include <mutex>
+
+// mutex for cache so we won't accidentally get a broken asset
+std::mutex g_cache_mutex;
 
 // make sure file exists
 inline bool validate_file_exist(const std::string& name) {
@@ -16,6 +20,10 @@ namespace bon
 {
 	namespace assets
 	{
+		// queue of assets that we're supposed to delete next frame.
+		// its important to dispose assets during 'update' and not on the actual moment they release, to prevent crashes in SDL.
+		std::vector<IAsset*> _deleteQueue;
+
 		/**
 		 * Internal helper class that implements generic loading code.
 		 */
@@ -50,8 +58,10 @@ namespace bon
 
 				// try to get from cache
 				if (useCache) {
+					std::lock_guard<std::mutex> guard(g_cache_mutex);
 					AssetPtr fromCache = assets->GetFromCache(cacheKey);
 					if (fromCache.get() != nullptr) {
+						BON_DLOG("Retrieved asset from cache: '%s'. Asset address: %x.", cacheKey, fromCache.get());
 						return std::static_pointer_cast<AssetType>(fromCache);
 					}
 				}
@@ -73,8 +83,9 @@ namespace bon
 						assets->Dispose(asset);
 						delete asset;
 					}
-					});
-				
+				});
+				BON_DLOG("Created new asset with path: '%s'. Asset address: %x. Add to cache: %d", path, assetPtr.get(), useCache);
+
 				// add to cache and return
 				if (useCache) {
 					assets->PutInCache(assetPtr, cacheKey);
@@ -96,6 +107,19 @@ namespace bon
 		// do updates
 		void Assets::_Update(double deltaTime)
 		{
+			// clear assets on delete list
+			for (auto asset : _deleteQueue)
+			{
+				if (asset->IsValid())
+				{
+					this->Dispose(asset);
+				}
+			}
+			for (auto asset : _deleteQueue)
+			{
+				delete asset;
+			}
+			_deleteQueue.clear();
 		}
 
 		// called on main loop start
@@ -107,7 +131,7 @@ namespace bon
 		ImageAsset Assets::LoadImage(const char* filename, ImageFilterMode filter, bool useCache)
 		{
 			auto createImageLambda = [filename, filter]() { return new _Image(filename, filter); };
-			static std::string tempStringForCache;
+			std::string tempStringForCache;
 			if (useCache) { tempStringForCache = (std::string(filename) + std::to_string((int)filter)); }
 			const char* cacheKey = useCache ? tempStringForCache.c_str() : nullptr;
 			return AssetsLoaderCode::LoadAssetT<_Image>(this, filename, cacheKey, useCache, nullptr, createImageLambda);
@@ -134,7 +158,7 @@ namespace bon
 		// load a font asset
 		FontAsset Assets::LoadFont(const char* filename, int fontSize, bool useCache)
 		{
-			static std::string tempStringForCache;
+			std::string tempStringForCache;
 			if (useCache) { tempStringForCache = (std::string(filename) + std::to_string(fontSize)); }
 			const char* cacheKey = useCache ? tempStringForCache.c_str() : nullptr;
 			return AssetsLoaderCode::LoadAssetT<_Font>(this, filename, cacheKey, useCache, &fontSize);
@@ -153,7 +177,7 @@ namespace bon
 					this->Dispose(asset);
 					delete asset;
 				}
-				});
+			});
 			return assetPtr;
 		}
 		
@@ -161,6 +185,7 @@ namespace bon
 		void Assets::PutInCache(AssetPtr asset, const char* key)
 		{
 			BON_DLOG("Add asset '%s' to cache (key = '%s').", asset->Path(), key);
+			std::lock_guard<std::mutex> guard(g_cache_mutex);
 			(_cache)[std::move(key)] = asset;
 		}
 
@@ -174,6 +199,7 @@ namespace bon
 		void Assets::ClearCache()
 		{
 			BON_DLOG("Clear assets cache.");
+			std::lock_guard<std::mutex> guard(g_cache_mutex);
 			_cache.clear();
 		}
 
@@ -202,11 +228,10 @@ namespace bon
 
 			// convert to shared ptr with corresponding deleter
 			auto assetPtr = std::shared_ptr<_Config>(ret, [this](IAsset* asset) {
-				if (!bon::_GetEngine().Destroyed()) {
-					this->Dispose(asset);
-					delete asset;
+				if (!bon::_GetEngine().Destroyed() && asset->IsValid()) {
+					_deleteQueue.push_back(asset);
 				}
-				});
+			});
 			return assetPtr;
 		}
 
@@ -215,7 +240,7 @@ namespace bon
 		{
 			// log
 			const char* temp = asset->Path();
-			BON_DLOG("Load asset '%s'", temp);
+			BON_DLOG("Init new asset with path '%s' and address %x.", temp, asset);
 
 			// already initialized? error
 			if (asset->IsValid()) {
@@ -243,7 +268,7 @@ namespace bon
 		void Assets::Dispose(IAsset* asset)
 		{
 			// log
-			BON_DLOG("Dispose asset '%s'", asset->Path());
+			BON_DLOG("Dispose asset with path '%s' and address %x.", asset->Path(), asset);
 
 			// already disposed? error
 			if (!asset->IsValid()) {
@@ -262,6 +287,18 @@ namespace bon
 
 			// clear handle
 			asset->_SetHandle(nullptr);
+
+			// sanity - if asset is somehow in cache, remove it
+			for (auto it = _cache.begin(); it != _cache.end(); )
+			{
+				if (it->second.get() == asset) 
+				{ 
+					std::lock_guard<std::mutex> guard(g_cache_mutex);
+					BON_ELOG("Warning! Disposed asset while its still in cache! Path: '%s', Address: %x.", asset->Path(), asset);
+					_cache.erase(it++); 
+				}
+				else { ++it; }
+			}
 		}
 	}
 }

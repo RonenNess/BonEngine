@@ -1,12 +1,17 @@
 #include <_CAPI/CAPI_Managers_Assets.h>
 #include <BonEngine.h>
 
+#define return_asset_ptr(_type, _val) \
+	_type* ret = new _type;	\
+	*ret = _val;	\
+	return ret
+
 /**
 * Load and return an Image asset.
 */
 bon::ImageAsset* BON_Assets_LoadImage(const char* filename, BON_ImageFilterMode filter, bool useCache)
 {
-	return new bon::ImageAsset(bon::_GetEngine().Assets().LoadImage(filename, (bon::ImageFilterMode)filter, useCache));
+	return_asset_ptr(bon::ImageAsset, bon::_GetEngine().Assets().LoadImage(filename, (bon::ImageFilterMode)filter, useCache));
 }
 
 /**
@@ -14,7 +19,7 @@ bon::ImageAsset* BON_Assets_LoadImage(const char* filename, BON_ImageFilterMode 
 */
 bon::ImageAsset* BON_Assets_CreateEmptyImage(int x, int y, BON_ImageFilterMode filter)
 {
-	return new bon::ImageAsset(bon::_GetEngine().Assets().CreateEmptyImage(bon::PointI(x, y), (bon::ImageFilterMode)filter));
+	return_asset_ptr(bon::ImageAsset, bon::_GetEngine().Assets().CreateEmptyImage(bon::PointI(x, y), (bon::ImageFilterMode)filter));
 }
 
 /**
@@ -22,7 +27,7 @@ bon::ImageAsset* BON_Assets_CreateEmptyImage(int x, int y, BON_ImageFilterMode f
 */
 bon::MusicAsset* BON_Assets_LoadMusic(const char* filename, bool useCache)
 {
-	return new bon::MusicAsset(bon::_GetEngine().Assets().LoadMusic(filename, useCache));
+	return_asset_ptr(bon::MusicAsset,bon::_GetEngine().Assets().LoadMusic(filename, useCache));
 }
 
 /**
@@ -30,7 +35,7 @@ bon::MusicAsset* BON_Assets_LoadMusic(const char* filename, bool useCache)
 */
 bon::SoundAsset* BON_Assets_LoadSound(const char* filename, bool useCache)
 {
-	return new bon::SoundAsset(bon::_GetEngine().Assets().LoadSound(filename, useCache));
+	return_asset_ptr(bon::SoundAsset,bon::_GetEngine().Assets().LoadSound(filename, useCache));
 }
 
 /**
@@ -38,7 +43,7 @@ bon::SoundAsset* BON_Assets_LoadSound(const char* filename, bool useCache)
 */
 bon::FontAsset* BON_Assets_LoadFont(const char* filename, int fontSize, bool useCache)
 {
-	return new bon::FontAsset(bon::_GetEngine().Assets().LoadFont(filename, fontSize, useCache));
+	return_asset_ptr(bon::FontAsset,bon::_GetEngine().Assets().LoadFont(filename, fontSize, useCache));
 }
 
 /**
@@ -46,7 +51,7 @@ bon::FontAsset* BON_Assets_LoadFont(const char* filename, int fontSize, bool use
 */
 bon::ConfigAsset* BON_Assets_LoadConfig(const char* filename, bool useCache)
 {
-	return new bon::ConfigAsset(bon::_GetEngine().Assets().LoadConfig(filename, useCache));
+	return_asset_ptr(bon::ConfigAsset,bon::_GetEngine().Assets().LoadConfig(filename, useCache));
 }
 
 /**
@@ -54,7 +59,7 @@ bon::ConfigAsset* BON_Assets_LoadConfig(const char* filename, bool useCache)
 */
 bon::ConfigAsset* BON_Assets_CreateEmptyConfig()
 {
-	return new bon::ConfigAsset(bon::_GetEngine().Assets().CreateEmptyConfig());
+	return_asset_ptr(bon::ConfigAsset,bon::_GetEngine().Assets().CreateEmptyConfig());
 }
 
 /**

@@ -104,5 +104,18 @@ namespace bon
 			// invalid value
 			throw framework::InvalidValue((std::string("Invalid config value: '") + asStr + "': value is not one of the given options.").c_str());
 		}
+
+		// return if a section exists
+		bool _Config::Exists(const char* section) const
+		{
+			auto sections = Sections();
+			return sections.find(section) != sections.end();
+		}
+
+		// return if a key exists under a given section
+		bool _Config::Exists(const char* section, const char* key) const
+		{
+			return GetStr(section, key, NULL) != NULL;
+		}
 	}
 }
