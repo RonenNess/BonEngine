@@ -108,18 +108,22 @@ namespace bon
 		void Assets::_Update(double deltaTime)
 		{
 			// clear assets on delete list
-			for (auto asset : _deleteQueue)
+			if (!_deleteQueue.empty())
 			{
-				if (asset->IsValid())
+				BON_DLOG("Got %d assets to destroy.", _deleteQueue.size());
+				for (auto asset : _deleteQueue)
 				{
-					this->Dispose(asset);
+					if (asset->IsValid())
+					{
+						this->Dispose(asset);
+					}
 				}
+				for (auto asset : _deleteQueue)
+				{
+					delete asset;
+				}
+				_deleteQueue.clear();
 			}
-			for (auto asset : _deleteQueue)
-			{
-				delete asset;
-			}
-			_deleteQueue.clear();
 		}
 
 		// called on main loop start
