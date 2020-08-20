@@ -837,6 +837,10 @@ Get the text input data for current frame.
 
 This struct contains flags indicating if actions such as 'delete', 'backspace', 'copy', 'paste' happened in current frame, plus all the characters input user entered since last frame (up to 32).
 
+#### void LoadControlsFromConfig(config)
+
+Load key binds from config asset. All key binds must appear under a 'controls' section.
+
 
 ### UI
 
@@ -1244,6 +1248,13 @@ First stable release.
 - Fixed bug that querying text bounding box also renders it.
 - Added 'Exists()' methods to config assets.
 - Fixed asset pointer bug with CAPI binds.
+
+# 1.26
+
+**[TBD]**
+
+- Added 'LoadControlsFromConfig' to Input Manager.
+- Fixed access violation when creating empty config asset.
 
 ## In Memory Of Bonnie
 

@@ -632,10 +632,7 @@ namespace bon
 		// set a key binding
 		void Input::SetKeyBind(KeyCodes keyCode, const char* actionId)
 		{
-			// log
 			BON_DLOG("Bind key: %s --> '%s'.", KeyCodeToString(keyCode), actionId);
-
-			// set key
 			(_keyBinds)[keyCode] = std::string(actionId);
 		}
 
@@ -682,6 +679,28 @@ namespace bon
 		void Input::SetClipboard(const char* text)
 		{
 			SDL_SetClipboardText(text);
+		}
+
+		// load controls from config asset
+		void Input::LoadControlsFromConfig(const assets::ConfigAsset& config, bool removePreviousBinds)
+		{
+			// clear previous key binds
+			if (removePreviousBinds)
+			{
+				_keyBinds.clear();
+			}
+
+			// load keys
+			if (config->Exists("controls"))
+			{
+				auto controls = config->Keys("controls");
+				for (auto key : controls)
+				{
+					KeyCodes keyCode = _StrToKeyCode(key.c_str());
+					const char* action = config->GetStr("controls", key.c_str(), nullptr);
+					SetKeyBind(keyCode, action);
+				}
+			}
 		}
 
 		// get clipboard value.

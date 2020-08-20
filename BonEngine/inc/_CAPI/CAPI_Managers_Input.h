@@ -98,6 +98,11 @@ extern "C" {
 	*/
 	BON_DLLEXPORT BON_TextInputData BON_Input_GetTextInput(const char* value);
 
+	/**
+	* Load key binds from config asset.
+	*/
+	BON_DLLEXPORT void BON_Input_LoadControlsFromConfig(bon::ConfigAsset* config, bool replaceExisting);
+
 #ifdef __cplusplus
 }
 #endif

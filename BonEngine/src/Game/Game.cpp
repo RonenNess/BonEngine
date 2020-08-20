@@ -65,34 +65,37 @@ namespace bon
 			}
 
 			// start by initializing graphics
-			static const char* WindowModesOptions[] = {"windowed", "windowed_borderless", "fullscreen"};
-			const char* title = config->GetStr("gfx", "title", "");
-			framework::PointF resolution = config->GetPointF("gfx", "resolution", framework::PointF(800, 600));
-			int mode = config->GetOption("gfx", "window_mode", WindowModesOptions, 0);
-			bool cursor = config->GetBool("gfx", "cursor", true);
-			BON_DLOG("Gfx config: title = %s, resolution = %dx%d, mode = %s, cursor = %d", 
-				title, (int)resolution.X, (int)resolution.Y, WindowModesOptions[mode], cursor);
-			_GetEngine().Gfx().SetWindowProperties(title, (int)resolution.X, (int)resolution.Y, (WindowModes)mode, cursor);
+			if (config->Exists("gfx"))
+			{
+				static const char* WindowModesOptions[] = { "windowed", "windowed_borderless", "fullscreen" };
+				const char* title = config->GetStr("gfx", "title", "");
+				framework::PointF resolution = config->GetPointF("gfx", "resolution", framework::PointF(800, 600));
+				int mode = config->GetOption("gfx", "window_mode", WindowModesOptions, 0);
+				bool cursor = config->GetBool("gfx", "cursor", true);
+				BON_DLOG("Gfx config: title = %s, resolution = %dx%d, mode = %s, cursor = %d",
+					title, (int)resolution.X, (int)resolution.Y, WindowModesOptions[mode], cursor);
+				_GetEngine().Gfx().SetWindowProperties(title, (int)resolution.X, (int)resolution.Y, (WindowModes)mode, cursor);
+			}
 
 			// initialize sfx
-			static const char* FormatOptions[] = { "U8", "S8", "U16LSB", "S16LSB", "U16MSB", "S16MSB" };
-			int frequency = config->GetInt("sfx", "frequency", 22050);
-			int format = config->GetOption("sfx", "format", FormatOptions, 3);
-			if (format == -1) { format = (int)AudioFormats::S16LSB; }
-			int stereo = config->GetBool("sfx", "stereo", true);
-			int audio_chunk_size = config->GetInt("sfx", "audio_chunk_size", 4096);
-			BON_DLOG("Sfx config: frequency = %d, format = %s, stereo = %d, audio_chunk_size = %d", 
-				frequency, FormatOptions[format], stereo, audio_chunk_size);
-			_GetEngine().Sfx().SetAudioProperties(frequency, (AudioFormats)format, stereo, audio_chunk_size);
+			if (config->Exists("sfx"))
+			{
+				static const char* FormatOptions[] = { "U8", "S8", "U16LSB", "S16LSB", "U16MSB", "S16MSB" };
+				int frequency = config->GetInt("sfx", "frequency", 22050);
+				int format = config->GetOption("sfx", "format", FormatOptions, 3);
+				if (format == -1) { format = (int)AudioFormats::S16LSB; }
+				int stereo = config->GetBool("sfx", "stereo", true);
+				int audio_chunk_size = config->GetInt("sfx", "audio_chunk_size", 4096);
+				BON_DLOG("Sfx config: frequency = %d, format = %s, stereo = %d, audio_chunk_size = %d",
+					frequency, FormatOptions[format], stereo, audio_chunk_size);
+				_GetEngine().Sfx().SetAudioProperties(frequency, (AudioFormats)format, stereo, audio_chunk_size);
+			}
 
 			// initialize controls
-			auto controls = config->Keys("controls");
-			BON_DLOG("Found %d key binds in config. Will set them now:", controls.size());
-			for (auto key : controls)
+			if (config->Exists("controls"))
 			{
-				input::KeyCodes keyCode = input::_StrToKeyCode(key.c_str());
-				const char* action = config->GetStr("controls", key.c_str(), nullptr);
-				_GetEngine().Input().SetKeyBind(keyCode, action);
+				BON_DLOG("Found %d key binds in config. Will set them now.");
+				_GetEngine().Input().LoadControlsFromConfig(config, true);
 			}
 
 			BON_DLOG("Finished config loading.");

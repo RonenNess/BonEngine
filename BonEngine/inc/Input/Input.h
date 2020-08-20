@@ -162,6 +162,14 @@ namespace bon
 			 */
 			virtual const TextInputData& GetTextInput() const override;
 
+			/**
+			 * Load controls from a config file. All keys must be under 'controls' section.
+			 *
+			 * \param config Config asset to load controls from.
+			 * \param removePreviousBinds if true, will remove previous key binds.
+			 */
+			virtual void LoadControlsFromConfig(const assets::ConfigAsset& config, bool removePreviousBinds) override;
+
 		protected:
 
 			/**

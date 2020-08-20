@@ -63,7 +63,7 @@ namespace bon
 			 * 
 			 * \param path Asset's path.
 			 */
-			IAsset(const char* path) : _path(path), _untypedHandle(nullptr) {
+			IAsset(const char* path) : _path(path == nullptr ? "" : path), _untypedHandle(nullptr) {
 			}
 
 			/**

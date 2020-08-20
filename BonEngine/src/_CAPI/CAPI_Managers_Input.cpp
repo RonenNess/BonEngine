@@ -146,3 +146,11 @@ BON_TextInputData BON_Input_GetTextInput(const char* value)
 	memcpy_s(&ret, sizeof(BON_TextInputData), &data, sizeof(bon::TextInputData));
 	return ret;
 }
+
+/**
+* Load key binds from config asset.
+*/
+void BON_Input_LoadControlsFromConfig(bon::ConfigAsset* config, bool replaceExisting)
+{
+	bon::_GetEngine().Input().LoadControlsFromConfig(*config, replaceExisting);
+}
