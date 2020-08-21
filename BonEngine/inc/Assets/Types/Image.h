@@ -158,6 +158,17 @@ namespace bon
 				}
 				return framework::Color::TransparentBlack;
 			}
+
+			/**
+			 * Clear image to transparent color.
+			 */
+			void Clear()
+			{
+				if (IsValid())
+				{
+					Handle()->Clear();
+				}
+			}
 		};
 	}
 }

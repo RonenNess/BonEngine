@@ -79,8 +79,12 @@ namespace bon
 			 * \return Pixel color.
 			 */
 			virtual framework::Color GetPixel(const framework::PointI& position) = 0;
-		};
 
+			/**
+			 * Clear this image to transparent pixels.
+			 */
+			virtual void Clear() = 0;
+		};
 
 		/**
 		 * Image filtering modes.

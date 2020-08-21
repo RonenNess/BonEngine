@@ -126,6 +126,14 @@ namespace bon
 			}
 
 			/**
+			 * Clear this image to transparent black pixels.
+			 */
+			virtual void Clear() override
+			{
+				_wrapper->ClearTexture((SDL_Texture*)Texture);
+			}
+
+			/**
 			 * Get pixel from image.
 			 * You must first call 'ReadPixelsData' to prepare internal reading buffer.
 			 *
@@ -565,6 +573,32 @@ namespace bon
 				rect.h = clearRect.Height;
 				SDL_RenderFillRect(_renderer, &rect);
 			}
+		}
+
+		// clear an image to transparent
+		void GfxSdlWrapper::ClearTexture(SDL_Texture* texture)
+		{
+			// get previous render target
+			SDL_Texture* prevTarget = SDL_GetRenderTarget(_renderer);
+
+			// set drawing color
+			SetShapesRenderColorAndBlend(_renderer, bon::framework::Color(0, 0, 0, 0), BlendModes::Opaque);
+
+			// make render draw to tex
+			SDL_SetRenderTarget(_renderer, texture);
+
+			// will make pixels with alpha 0 fully transparent
+			// use SDL_SetTextureBlendMode . Not SDL_SetRenderDrawBlendMode
+			SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+
+			// tell render to use colore with alpha 0
+			SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 0);
+
+			// fill texture with transparent pixels
+			SDL_RenderClear(_renderer);
+
+			// make render draw to window
+			SDL_SetRenderTarget(_renderer, prevTarget);
 		}
 
 		// destructor - cleanup window and quit.

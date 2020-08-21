@@ -1253,8 +1253,9 @@ First stable release.
 
 **[TBD]**
 
-- Added 'LoadControlsFromConfig' to Input Manager.
+- Added 'LoadControlsFromConfig()' to Input Manager.
 - Fixed access violation when creating empty config asset.
+- Added 'Clear()' method to Image Assets.
 
 ## In Memory Of Bonnie
 

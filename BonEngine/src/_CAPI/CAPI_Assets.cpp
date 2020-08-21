@@ -50,6 +50,12 @@ void BON_Image_FreeReadingBuffer(bon::ImageAsset* image)
 	(*image)->FreeReadingBuffer();
 }
 
+// Clear image to transparent pixels.
+void BON_Image_Clear(bon::ImageAsset* image)
+{
+	(*image)->Clear();
+}
+
 // get pixel from image
 void BON_Image_GetPixel(bon::ImageAsset* image, int x, int y, float* r, float* g, float* b, float* a)
 {

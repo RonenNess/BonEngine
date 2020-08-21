@@ -221,6 +221,13 @@ namespace bon
 			void ClearScreen(const framework::Color& color, const framework::RectangleI& clearRect);
 
 			/**
+			 * Clears a texture to 0,0,0,0 - including alpha channel.
+			 *
+			 * \param texture Texture to clear.
+			 */
+			void ClearTexture(SDL_Texture* texture);
+
+			/**
 			 * Set the target we render to.
 			 * This enable us to draw on images instead of on screen.
 			 *

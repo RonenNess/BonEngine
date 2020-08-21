@@ -60,6 +60,11 @@ extern "C" {
 	BON_DLLEXPORT void BON_Image_GetPixel(bon::ImageAsset* image, int x, int y, float* r, float* g, float* b, float* a);
 
 	/**
+	 * Clear image to transparent pixels.
+	 */
+	BON_DLLEXPORT void BON_Image_Clear(bon::ImageAsset* image);
+
+	/**
 	* Get string value from config.
 	*/
 	BON_DLLEXPORT const char* BON_Config_GetStr(bon::ConfigAsset* config, const char* section, const char* name, const char* defaultVal);
