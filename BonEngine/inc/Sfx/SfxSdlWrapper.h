@@ -15,9 +15,9 @@
 #include <Sfx/Defs.h>
 
  // forward declare some SDL stuff
-class SDL_Window;
-class SDL_Surface;
-class SDL_Renderer;
+struct SDL_Window;
+struct SDL_Surface;
+struct SDL_Renderer;
 
 namespace bon
 {

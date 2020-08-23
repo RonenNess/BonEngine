@@ -90,7 +90,7 @@ bon::UIText* BON_UI_CreateText(const char* stylesheet, bon::UIElement* parent, c
 */
 bon::UIWindow* BON_UI_CreateWindow(const char* stylesheet, bon::UIElement* parent, const char* title)
 {
-	return new bon::UIWindow(bon::_GetEngine().UI().CreateWindow(stylesheet, ptrOrNull(parent), title));
+	return new bon::UIWindow(bon::_GetEngine().UI().CreateUIWindow(stylesheet, ptrOrNull(parent), title));
 }
 
 /**

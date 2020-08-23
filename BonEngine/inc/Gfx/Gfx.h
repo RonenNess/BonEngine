@@ -9,6 +9,7 @@
 #include "../dllimport.h"
 #include "IGfx.h"
 #include "GfxSdlWrapper.h"
+#include "GfxSdlEffects.h"
 
 namespace bon
 {
@@ -226,6 +227,13 @@ namespace bon
 			 * \return Render target or null.
 			 */
 			virtual const assets::ImageAsset& GetRenderTarget() const override;
+
+			/**
+			 * Start using an effect for next renderings.
+			 * 
+			 * \param effect Effect to use to null to use default rendering effect.
+			 */
+			virtual void UseEffect(assets::EffectAsset effect) override;
 		};
 	}
 }

@@ -199,6 +199,13 @@ namespace bon
 			 */
 			virtual framework::PointI RenderableSize() const = 0;
 
+			/**
+			 * Start using an effect for next renderings.
+			 *
+			 * \param effect Effect to use to null to use default rendering effect.
+			 */
+			virtual void UseEffect(assets::EffectAsset effect) = 0;
+
 		protected:
 
 			/**

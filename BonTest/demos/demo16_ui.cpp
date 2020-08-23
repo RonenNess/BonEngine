@@ -88,7 +88,7 @@ namespace demo16_ui
 			}
 
 			// create main test window
-			bon::UIWindow intoWindow = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "Button & List");
+			bon::UIWindow intoWindow = UI().CreateUIWindow("../TestAssets/ui/window.ini", _uiRoot, "Button & List");
 			intoWindow->SetOffset(bon::PointI(100, 50));
 			intoWindow->AutoArrangeChildren = true;
 
@@ -116,7 +116,7 @@ namespace demo16_ui
 			};
 
 			// create additional window to show more stuff
-			bon::UIWindow checkAndSliderWindow = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "Check, Radio, Slider");
+			bon::UIWindow checkAndSliderWindow = UI().CreateUIWindow("../TestAssets/ui/window.ini", _uiRoot, "Check, Radio, Slider");
 			checkAndSliderWindow->AutoArrangeChildren = true;
 			checkAndSliderWindow->SetOffset(bon::PointI(300, 100));
 
@@ -137,7 +137,7 @@ namespace demo16_ui
 			bon::UISlider slider = UI().CreateSlider("../TestAssets/ui/slider.ini", checkAndSliderWindow);
 
 			// create additional window for text inputs
-			bon::UIWindow inputsWindow = UI().CreateWindow("../TestAssets/ui/window.ini", _uiRoot, "Text Inputs");
+			bon::UIWindow inputsWindow = UI().CreateUIWindow("../TestAssets/ui/window.ini", _uiRoot, "Text Inputs");
 			inputsWindow->AutoArrangeChildren = true;
 			inputsWindow->SetOffset(bon::PointI(400, 150));
 

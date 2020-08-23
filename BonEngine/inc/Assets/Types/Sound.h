@@ -20,7 +20,7 @@ namespace bon
 		 * A sound track asset.
 		 * Used to play sound effects.
 		 */
-		class _Sound : public IAsset
+		class BON_DLLEXPORT _Sound : public IAsset
 		{
 		public:
 

@@ -97,7 +97,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)3rdparty\SDL2-2.0.12\lib\x86\*.dll" "$(TargetDir)"
@@ -117,7 +117,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x86\*.dll" "$(TargetDir)"</Comma
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)3rdparty\SDL2-2.0.12\lib\x64\*.dll" "$(TargetDir)"
@@ -141,7 +141,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)3rdparty\SDL2-2.0.12\lib\x86\*.dll" "$(TargetDir)"
@@ -165,7 +165,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x86\*.dll" "$(TargetDir)"</Comma
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)3rdparty\SDL2-2.0.12\lib\x64\*.dll" "$(TargetDir)"
@@ -179,6 +179,8 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClInclude Include="3rdparty_from_src\custom_mix_pitch\custom_mix_pitch_callback.h" />
     <ClInclude Include="inc\Assets\Types\Config.h" />
     <ClInclude Include="inc\Assets\Types\ConfigHandle.h" />
+    <ClInclude Include="inc\Assets\Types\Effect.h" />
+    <ClInclude Include="inc\Assets\Types\EffectHandle.h" />
     <ClInclude Include="inc\Assets\Types\Font.h" />
     <ClInclude Include="inc\Assets\Types\FontHandle.h" />
     <ClInclude Include="inc\Assets\Types\IAsset.h" />
@@ -193,6 +195,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClInclude Include="inc\Assets\Types\SoundHandle.h" />
     <ClInclude Include="inc\Engine\Defs.h" />
     <ClInclude Include="inc\Gfx\FontsCache.h" />
+    <ClInclude Include="inc\Gfx\GfxSdlEffects.h" />
     <ClInclude Include="inc\UI\Elements\Defs.h" />
     <ClInclude Include="inc\UI\Elements\UIButton.h" />
     <ClInclude Include="inc\UI\Elements\UICheckBox.h" />
@@ -270,12 +273,14 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     </ClCompile>
     <ClCompile Include="src\Assets\Assets.cpp" />
     <ClCompile Include="src\Assets\Config.cpp" />
+    <ClCompile Include="src\Assets\Effect.cpp" />
     <ClCompile Include="src\Diagnostics\Diagnostics.cpp" />
     <ClCompile Include="src\Engine\Scene.cpp" />
     <ClCompile Include="src\Framework\Color.cpp" />
     <ClCompile Include="src\Framework\Point.cpp" />
     <ClCompile Include="src\Framework\Rectangle.cpp" />
     <ClCompile Include="src\Gfx\FontsCache.cpp" />
+    <ClCompile Include="src\Gfx\GfxSdlEffects.cpp" />
     <ClCompile Include="src\Gfx\SpriteSheet.cpp" />
     <ClCompile Include="src\Input\Defs.cpp" />
     <ClCompile Include="src\Log\Log.cpp" />

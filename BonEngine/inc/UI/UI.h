@@ -110,7 +110,7 @@ namespace bon
 			 * \param parent Optional parent to set.
 			 * \return Newly created window.
 			 */
-			virtual UIWindow CreateWindow(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* title = nullptr) override;
+			virtual UIWindow CreateUIWindow(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* title = nullptr) override;
 			
 			/**
 			 * Create and return a button element.

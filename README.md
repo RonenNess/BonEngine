@@ -17,6 +17,8 @@ If you're looking for a C# bind of this engine, you can find it [here](https://g
 6. [Managers](#managers)
 7. [Sprites](#sprites)
 8. [Config](#config)
+8. [Effects](#effects)
+8. [Features](#features)
 9. [License](#license)
 
 ## Example
@@ -313,13 +315,14 @@ This method is not so fast so its best to cache it after getting the manager.
 
 An asset is a game resource you load from a file (or create your own in some cases) to use in your game. Assets are held by shared_ptr, meaning they'll get deleted automatically when you stop using them, unless put in cache.
 
-The basic assets `BonEngine` uses are:
+The basic assets `BonEngine` provides are:
 
 1. **ImageAsset**: An image you load to draw on screen. You can also create empty images and draw on them.
 2. **FontAsset**: A font, used to draw text.
 3. **SoundAsset**: A sound track, for sound effects.
 4. **MusicAsset**: A long music track, used to play background music.
 5. **ConfigAsset**: A set of configurations you can load from a standard ini file.
+5. **EffectAsset**: A set of (glsl) shaders you can load and render with, for special drawing effects.
 
 All assets are created with the assets manager, as described later.
 
@@ -472,6 +475,11 @@ Loads a font, used to draw text.
 
 For example, if `fontSize` is really small, and you try to render large text, result will appear blurry. However, if you pick unnecessarily large `fontSize` just to have better quality, remember it also cost resources. So you need to find a balance based on your requirements and systems you aim to run on.
 
+#### EffectAsset LoadEffect(path, useCache)
+
+Loads an effect asset from file.
+Path should lead to an .ini file containing effect's properties. For more info, see [Effects](#effects) section in this doc.
+
 #### ConfigAsset LoadConfig(path, useCache)
 
 Load a config file. You can use these files for whatever you like, by default `BonEngine` uses standard .ini files to store config.
@@ -593,6 +601,10 @@ Clears the screen, or if `clearRect` is provided, just a region of it.
 
 Recreate the window with new properties.
 if `width` or `height` are set to 0, it will take full size.
+
+#### void UseEffect(effect)
+
+Set the currently active effect, or nullptr to use default rendering.
 
 #### void SetTitle(title)
 
@@ -977,6 +989,8 @@ As mentioned before, `Sprite` is a struct that hold rendering params for the `Gf
 
 A `Sprite` contains the following properties: Image, Position, Size, Blend, SourceRect, Origin, Rotation and Color.
 
+### SpriteSheet
+
 `SpriteSheet` Is a more sophisticated object. The `SpriteSheet` is an object that defines a single texture with multiple sprites in it, with or without animations. You can load spritesheets from a config file (see `TestAssets/gfx/player_spritesheet.ini` for an example) or create it from code (less recommended). 
 
 Lets start with a basic spritesheet Example:
@@ -1134,7 +1148,7 @@ In addition, you can get section names or key names in section:
 * Sections()
 * Keys(section)
 
-### Create Empty And Save
+### Create Empty Config & Save
 
 As mentioned before, we can create an empty config file via the assets manager:
 
@@ -1149,6 +1163,43 @@ Assets().SaveConfig(config, filePath);
 ```
 
 You can use config files to save anything you like, but remember they are textual files and easy to access / edit by users.
+
+
+## Effects
+
+Effects are Assets that load [GLSL](https://en.wikipedia.org/wiki/OpenGL_Shading_Language) shaders, and allow you to render sprites with special effects which are not natively supported by `BonEngine`.
+
+For example, say you want to draw a texture with grayscale effect (only black & white). This feature is not supported by `BonEngine`, however you can write a fragment shader to render in grayscale, load it as an Effect Asset, and render with it.
+
+If you don't know GLSL yet, its best if you take some time to learn this subject.
+Once you get familiar with GLSL, creating an Effect asset is easy. Simply create an .ini file and set the following values:
+
+```ini
+[general]
+description = Optional effect description.
+texture = true                          ; true / false. set to true if this effect uses textures.
+vertex_color = true                          ; true / false. set to true if this effect uses vertex color.
+
+[shaders]
+vertex = shader.vertex                          ; relative path (from effect ini file) to the vertex shader file.
+fragment = shader.fragment                          ; relative path (from effect ini file) to the fragment shader file.
+```
+
+Once an effect is loaded, you can use the set of API methods under the `Gfx` manager that supports custom effects.
+
+Note: Effects are disabled by default, as they force `BonEngine` to use OpenGL and not other drivers like DirectX.
+To use effects, initialize `BonEngine` with Features struct setting effects to true.
+
+## Features
+
+When initializing `BonEngine` you can provide a struct with Feature flags, to determine which features to enable and which to disable while setting up the engine. These extra flags allow you to customize `BonEngine` at runtime, during initialization.
+
+Possible features:
+
+- *EffectsEnabled*: allow loading and using Effect assets, but force the engine to use OpenGL.
+- *ForceOpenGL*: if true, will force the Gfx manager to use OpenGL renderer.
+
+Once init, you can retrieve the Features() struct with `bon::Features()`, however note that they are readonly at this point.
 
 
 # Miscs
@@ -1249,13 +1300,19 @@ First stable release.
 - Added 'Exists()' methods to config assets.
 - Fixed asset pointer bug with CAPI binds.
 
-# 1.26
+# 1.3
 
 **[TBD]**
 
+- Added 'Effects' for special rendering effects (shaders support).
+- Breaking Change: renamed `CreateUIWindow` to `CreateUIWindow` to avoid collision with the windows macro.
 - Added 'LoadControlsFromConfig()' to Input Manager.
 - Fixed access violation when creating empty config asset.
 - Added 'Clear()' method to Image Assets.
+- Added 'Features' init struct.
+- Added dependency to OpenGL for effects.
+- Fixed getting screen size when using OpenGL (previously returned 0,0).
+- Added dll export to all asset types.
 
 ## In Memory Of Bonnie
 

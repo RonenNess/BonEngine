@@ -113,6 +113,15 @@ namespace bon
 			virtual FontAsset LoadFont(const char* filename, int fontSize = 32, bool useCache = true) override;
 
 			/**
+			 * Load and return an effect asset.
+			 *
+			 * \param filename Effect file path.
+			 * \param useCache If true, will try to get asset from cache first. If not found in cache will add to cache after load.
+			 * \return Effect asset.
+			 */
+			virtual EffectAsset LoadEffect(const char* filename, bool useCache = true) override;
+
+			/**
 			 * Save configuration file.
 			 *
 			 * \param config Config file to save.

@@ -127,7 +127,7 @@ namespace bon
 			 * \param title Window title text.
 			 * \return Newly created window.
 			 */
-			virtual UIWindow CreateWindow(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* title = nullptr) = 0;
+			virtual UIWindow CreateUIWindow(const char* stylesheet = nullptr, UIElement parent = nullptr, const char* title = nullptr) = 0;
 
 			/**
 			 * Create and return a button element.

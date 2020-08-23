@@ -14,8 +14,8 @@
 #include "Engine/Engine.h"
 #include "Engine/Scene.h"
 
-#define _BON_VERSION_STR "1.2.6"
-#define _BON_VERSION 1.26
+#define _BON_VERSION_STR "1.3.0"
+#define _BON_VERSION 1.3
 
 namespace bon
 {
@@ -31,14 +31,42 @@ namespace bon
 	using namespace bon::ui;
 
 	/**
+	 * Initialization struct with features to enable in BonEngine.
+	 */
+	struct BonFeatures
+	{
+	public:
+		/**
+		 * If true, will enable Effects asset. 
+		 * With BonEngine default GFX implementation, this also forces us to use OpenGL.
+		 */
+		bool EffectsEnabled = false;
+
+		/**
+		 * If true, will force the Gfx manager to use OpenGL implementation.
+		 * Note: if Effects are enabled it will force OpenGL regardless of this setting.
+		 */
+		bool ForceOpenGL = false;
+	};
+
+	/**
+	 * Get bon engine enabled features.
+	 */
+	BON_DLLEXPORT const BonFeatures& Features();
+
+	/**
 	 * Get engine instance.
 	 * Use this only if you want to tweak with the engine itself, normally you don't need it.
 	 */
 	BON_DLLEXPORT engine::Engine& _GetEngine();
 
 	/**
-	 * Start running BonEngine with a given scene.
-	 * Yes, you have to call this method if you want to start.
+	 * Start running BonEngine with a given scene and features struct.
+	 */
+	BON_DLLEXPORT void Start(engine::Scene& startingScene, const BonFeatures& features);
+
+	/**
+	 * Start running BonEngine with a given scene and default features.
 	 */
 	BON_DLLEXPORT void Start(engine::Scene& startingScene);
 

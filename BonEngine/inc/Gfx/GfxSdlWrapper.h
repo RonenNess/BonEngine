@@ -12,13 +12,15 @@
 #include <Framework/Rectangle.h>
 #include <Framework/Color.h>
 #include <Assets/Types/Image.h>
+#include <Assets/Types/Effect.h>
 #include <Gfx/Defs.h>
+#include "GfxSdlEffects.h"
 
  // forward declare some SDL stuff
-class SDL_Window;
-class SDL_Surface;
-class SDL_Renderer;
-class SDL_Texture;
+struct SDL_Window;
+struct SDL_Surface;
+struct SDL_Renderer;
+struct SDL_Texture;
 
 namespace bon
 {
@@ -38,6 +40,15 @@ namespace bon
 
 			// renderer
 			SDL_Renderer* _renderer = nullptr;
+
+#pragma warning ( push )
+#pragma warning ( disable: 4251 ) 
+			// sdl glsl effects manager
+			GfxSdlEffects _effectsImpl;
+
+			// currently active effect
+			assets::EffectAsset _currentEffect;
+#pragma warning (pop)
 
 		public:
 
@@ -67,6 +78,13 @@ namespace bon
 			 * \param windowMode Window mode (fullscreen / windowed).
 			 */
 			void CreateWindow(const char* title, int width, int height, WindowModes windowMode = WindowModes::Windowed);
+
+			/**
+			 * Set currently active effect, or null to remove effects.
+			 * 
+			 * \param effect Effect to draw with.
+			 */
+			void SetEffect(const assets::EffectAsset& effect);
 			
 			/**
 			 * Draw an image on screen.
@@ -267,7 +285,7 @@ namespace bon
 			/**
 			 * Draw texture directly. Used internally.
 			 */
-			void DrawTexture(SDL_Texture* texture, const framework::PointF& position, const framework::PointI& size, BlendModes blend, const framework::RectangleI& sourceRect, const framework::PointF& origin, float rotation, framework::Color color, framework::RectangleI* outDestRect = nullptr, bool dryrun = false);
+			void DrawTexture(SDL_Texture* texture, const framework::PointF& position, const framework::PointI& size, BlendModes blend, const framework::RectangleI& sourceRect, const framework::PointF& origin, float rotation, framework::Color color, framework::RectangleI* outDestRect = nullptr, bool dryrun = false, int textW = 0, int textH = 0);
 		};
 	}
 }

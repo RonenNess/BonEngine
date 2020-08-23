@@ -20,6 +20,7 @@ namespace bon
 		class _Sound;
 		class _Config;
 		class _Font;
+		class _Effect;
 
 		/**
 		 * Method different managers can register to handle assets creation.
@@ -43,6 +44,7 @@ namespace bon
 		typedef BON_DLLEXPORT std::shared_ptr<_Sound>	SoundAsset;
 		typedef BON_DLLEXPORT std::shared_ptr<_Config>	ConfigAsset;
 		typedef BON_DLLEXPORT std::shared_ptr<_Font>	FontAsset;
+		typedef BON_DLLEXPORT std::shared_ptr<_Effect>	EffectAsset;
 
 		/**
 		 * Struct used to hold initializer, disposer and context.
@@ -64,6 +66,7 @@ namespace bon
 			Music,
 			Config,
 			Font,
+			Effect,
 			_Count
 		};
 	}

@@ -128,3 +128,11 @@ namespace demo16_ui
 {
 	void main();
 }
+
+/**
+ * Demo 17 - effects.
+ */
+namespace demo17_effects
+{
+	void main();
+}

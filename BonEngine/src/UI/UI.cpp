@@ -148,7 +148,7 @@ namespace bon
 		}
 
 		// create and return a window element
-		UIWindow UI::CreateWindow(const char* stylesheet, UIElement parent, const char* title)
+		UIWindow UI::CreateUIWindow(const char* stylesheet, UIElement parent, const char* title)
 		{
 			UIWindow ret = std::make_shared<_UIWindow>();
 			InitNewElement(ret, stylesheet, parent);

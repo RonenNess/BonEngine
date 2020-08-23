@@ -21,7 +21,7 @@ namespace bon
 		 * A font asset.
 		 * Used to draw text.
 		 */
-		class _Font : public IAsset
+		class BON_DLLEXPORT _Font : public IAsset
 		{
 		public:
 

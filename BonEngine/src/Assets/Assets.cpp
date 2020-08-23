@@ -167,6 +167,12 @@ namespace bon
 			return AssetsLoaderCode::LoadAssetT<_Font>(this, filename, cacheKey, useCache, &fontSize);
 		}
 
+		// load effect asset
+		EffectAsset Assets::LoadEffect(const char* filename, bool useCache)
+		{
+			return AssetsLoaderCode::LoadAssetT<_Effect>(this, filename, filename, useCache);
+		}
+
 		// create empty image asset
 		ImageAsset Assets::CreateEmptyImage(const framework::PointI& size, ImageFilterMode filter)
 		{

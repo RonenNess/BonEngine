@@ -20,7 +20,7 @@ namespace bon
 		 * A music track asset.
 		 * Used to play background music.
 		 */
-		class _Music : public IAsset
+		class BON_DLLEXPORT _Music : public IAsset
 		{
 		public:
 

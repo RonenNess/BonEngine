@@ -15,7 +15,7 @@ namespace bon
 		{
 			// create list background
 			UIElement tempPtrThatDoesntDelete = std::shared_ptr<_UIElement>(this, [](_UIElement*) {});
-			Background = bon::_GetEngine().UI().CreateWindow(nullptr, tempPtrThatDoesntDelete);
+			Background = bon::_GetEngine().UI().CreateUIWindow(nullptr, tempPtrThatDoesntDelete);
 
 			// create container for list items
 			_itemsContainer = bon::_GetEngine().UI().CreateContainer(nullptr, Background);

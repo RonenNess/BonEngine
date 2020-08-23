@@ -354,7 +354,9 @@ namespace bon
 		void GfxSdlWrapper::Initialize()
 		{
 			// initialize SDL and make sure succeed
-			if (SDL_Init(SDL_INIT_VIDEO) < 0)
+			int flags = (bon::Features().EffectsEnabled || bon::Features().ForceOpenGL) ? 
+				(SDL_INIT_VIDEO | SDL_VIDEO_OPENGL) : (SDL_INIT_VIDEO);
+			if (SDL_Init(flags) < 0)
 			{
 				BON_ELOG("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 				throw InitializeError("Failed to initialize SDL video drivers.");
@@ -685,13 +687,45 @@ namespace bon
 			// start in center
 			SDL_SetWindowPosition(_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
+			// force using opengl
+			if (bon::Features().EffectsEnabled || bon::Features().ForceOpenGL)
+			{
+				SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
+			}
+
 			// create renderer
-			_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+			_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
+
+			// init effects manager
+			if (bon::Features().EffectsEnabled)
+			{
+				_effectsImpl.Initialize(_renderer);
+			}
+		}
+
+		// set currently active effect, or null to remove effects.
+		void GfxSdlWrapper::SetEffect(const assets::EffectAsset& effect)
+		{
+			// skip if no change
+			if (effect == _currentEffect) { return; }
+
+			SDL_SetRenderTarget(_renderer, NULL);
+
+			// apply effect
+			_effectsImpl.UseEffect(effect);
+			_currentEffect = effect;
 		}
 
 		// update window / draw.
 		void GfxSdlWrapper::UpdateWindow()
 		{
+			// update effects
+			if (bon::Features().EffectsEnabled)
+			{
+				_effectsImpl.OnFrameStart();
+				_currentEffect = nullptr;
+			}
+
 			// render screen
 			SDL_RenderPresent(_renderer);
 
@@ -760,7 +794,7 @@ namespace bon
 			// draw text
 			PointI size((int)(fromCache.Width * sizeFactor), (int)(fromCache.Height * sizeFactor));
 			static RectangleI srcRect;
-			DrawTexture(fromCache.Texture, position, size, blend, srcRect, origin, rotation, color, outDestRect, dryrun);
+			DrawTexture(fromCache.Texture, position, size, blend, srcRect, origin, rotation, color, outDestRect, dryrun, fromCache.Width, fromCache.Height);
 		}
 
 		// set gamma
@@ -772,13 +806,17 @@ namespace bon
 		// get window width
 		int GfxSdlWrapper::WindowWidth() const
 		{
-			return _screenSurface->w;
+			int w; int h;
+			SDL_GetWindowSize(_window, &w, &h);
+			return w;
 		}
 
 		// get window height
 		int GfxSdlWrapper::WindowHeight() const
 		{
-			return _screenSurface->h;
+			int w; int h;
+			SDL_GetWindowSize(_window, &w, &h);
+			return h;
 		}
 
 		// convert texture to surface
@@ -826,7 +864,7 @@ namespace bon
 		}
 
 		// draw texture on screen
-		void GfxSdlWrapper::DrawTexture(SDL_Texture* texture, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color, RectangleI* outDestRect, bool dryrun)
+		void GfxSdlWrapper::DrawTexture(SDL_Texture* texture, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color, RectangleI* outDestRect, bool dryrun, int textW, int textH)
 		{
 			// set blend mode and color
 			if (!dryrun)
@@ -864,6 +902,13 @@ namespace bon
 			if (dest.h < 0) {
 				flip |= SDL_RendererFlip::SDL_FLIP_VERTICAL;
 				dest.h = -dest.h;
+			}
+
+			// draw with effect
+			if (_currentEffect != nullptr)
+			{
+				_effectsImpl.DrawTexture(&dest, sdlSrcRectPtr, texture, color, textW, textH);
+				return;
 			}
 
 			// draw texture with rotation
@@ -921,7 +966,7 @@ namespace bon
 		void GfxSdlWrapper::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color)
 		{
 			// get image handle
-			SDL_ImageHandle* handle = (SDL_ImageHandle *)sourceImage->Handle();
+			SDL_ImageHandle* handle = (SDL_ImageHandle*)sourceImage->Handle();
 
 			// get texture
 			SDL_Texture* texture = (SDL_Texture*)handle->Texture;
@@ -973,6 +1018,13 @@ namespace bon
 				dest.h = -dest.h;
 			}
 
+			// draw with effect
+			if (_currentEffect != nullptr)
+			{
+				_effectsImpl.DrawTexture(&dest, sdlSrcRectPtr, texture, color, handle->Width(), handle->Height());
+				return;
+			}
+
 			// draw texture with rotation
 			if ((rotation != 0) || (flip != SDL_RendererFlip::SDL_FLIP_NONE) || (!origin.IsZero())) {
 				SDL_Point sdlOrigin;
@@ -1004,10 +1056,6 @@ namespace bon
 			// get texture
 			SDL_Texture* texture = (SDL_Texture*)handle->Texture;
 
-			// set blend mode and color
-			static Color color(1, 1, 1, 1);
-			SetTextureProperties(handle, texture, color, blend);
-
 			// do flipping
 			int flip = SDL_RendererFlip::SDL_FLIP_NONE;
 			if (dest.w < 0) {
@@ -1018,6 +1066,17 @@ namespace bon
 				flip |= SDL_RendererFlip::SDL_FLIP_VERTICAL;
 				dest.h = -dest.h;
 			}
+
+			// draw with effect
+			static Color color(1, 1, 1, 1);
+			if (_currentEffect != nullptr)
+			{
+				_effectsImpl.DrawTexture(&dest, nullptr, texture, color, handle->Width(), handle->Height());
+				return;
+			}
+
+			// set blend mode and color
+			SetTextureProperties(handle, texture, color, blend);
 
 			// draw texture with rotation
 			if (flip != SDL_RendererFlip::SDL_FLIP_NONE) {

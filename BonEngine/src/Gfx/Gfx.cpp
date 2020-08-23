@@ -219,5 +219,11 @@ namespace bon
 			_Implementor.CreateWindow(title, width, height, windowMode);
 			_Implementor.ShowCursor(showCursor);
 		}
+
+		// set active effect
+		void Gfx::UseEffect(assets::EffectAsset effect)
+		{
+			_Implementor.SetEffect(effect);
+		}
 	}
 }

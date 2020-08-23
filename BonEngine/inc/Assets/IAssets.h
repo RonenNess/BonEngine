@@ -12,6 +12,7 @@
 #include "Types/Sound.h"
 #include "Types/Config.h"
 #include "Types/Font.h"
+#include "Types/Effect.h"
 #include "../Framework/Point.h"
 #include "../IManager.h"
 #include "../Framework/Rectangle.h"
@@ -84,6 +85,15 @@ namespace bon
 			 * \return Config asset.
 			 */
 			virtual ConfigAsset LoadConfig(const char* filename, bool useCache = true) = 0;
+
+			/**
+			 * Load and return an effect asset.
+			 *
+			 * \param filename Effect file path.
+			 * \param useCache If true, will try to get asset from cache first. If not found in cache will add to cache after load.
+			 * \return Effect asset.
+			 */
+			virtual EffectAsset LoadEffect(const char* filename, bool useCache = true) = 0;
 
 			/**
 			 * Create and return an empty configuration file.

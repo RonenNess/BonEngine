@@ -23,7 +23,7 @@ namespace bon
 		 * An image asset.
 		 * Used to draw sprites.
 		 */
-		class _Image : public IAsset
+		class BON_DLLEXPORT _Image : public IAsset
 		{
 		private:
 			ImageFilterMode _filtering = ImageFilterMode::Nearest;

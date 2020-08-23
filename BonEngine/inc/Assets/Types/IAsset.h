@@ -9,6 +9,8 @@
 #include <string>
 #include "../../dllimport.h"
 #include "../Defs.h"
+#pragma warning ( push )
+#pragma warning ( disable: 4251 ) // "..needs to have dll-interface to be used by clients..." it's ok in this case because its private.
 
 
 namespace bon
@@ -18,7 +20,7 @@ namespace bon
 		/**
 		 * Assets base class.
 		 */
-		class IAsset
+		class BON_DLLEXPORT IAsset
 		{
 		private:
 			// asset path
@@ -92,3 +94,5 @@ namespace bon
 		};
 	}
 }
+
+#pragma warning (pop)

@@ -24,7 +24,7 @@ namespace bon
 		 * A configuration asset.
 		 * Used to read config from user.
 		 */
-		class _Config : public IAsset
+		class BON_DLLEXPORT _Config : public IAsset
 		{
 		public:
 

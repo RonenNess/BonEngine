@@ -9,6 +9,7 @@
 #include <Diagnostics/Diagnostics.h>
 #include <UI/UI.h>
 #include <Engine/Scene.h>
+#include <BonEngine.h>
 
 #pragma warning(push, 0)
 #include <SDL2-2.0.12/include/SDL.h>
@@ -36,6 +37,13 @@ namespace bon
 			// init log manager before everyone else
 			_logManager->_Initialize();
 			_logManager->Write(log::LogLevel::Info, "Engine starts.");
+
+			// list features
+			auto features = bon::Features();
+			_logManager->Write(log::LogLevel::Info, "Features:\n\
+	- EffectsEnabled: %d\n\
+	- ForceOpenGL: %d",
+				features.EffectsEnabled, features.ForceOpenGL);
 
 			// create default diagnostics manager
 			if (!_diagnosticsManager) {
