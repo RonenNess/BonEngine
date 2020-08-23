@@ -55,6 +55,13 @@ namespace bon
 			 * \return Vertex shader file path.
 			 */
 			virtual const char* VertexShaderPath() const = 0;
+
+			/**
+			 * Get if should flip texture coords on Y axis.
+			 *
+			 * \return If should flip texture coords v.
+			 */
+			virtual bool FlipTextureCoordsV() const = 0;
 		};
 	}
 }

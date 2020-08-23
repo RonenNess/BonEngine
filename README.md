@@ -1179,6 +1179,7 @@ Once you get familiar with GLSL, creating an Effect asset is easy. Simply create
 description = Optional effect description.
 texture = true                          ; true / false. set to true if this effect uses textures.
 vertex_color = true                          ; true / false. set to true if this effect uses vertex color.
+flip_texture_v = false                          ; true / false. set to true to flip texture y coords.
 
 [shaders]
 vertex = shader.vertex                          ; relative path (from effect ini file) to the vertex shader file.

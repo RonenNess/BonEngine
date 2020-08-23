@@ -76,7 +76,7 @@
       <Filter>Source Files\Demos</Filter>
     </ClCompile>
     <ClCompile Include="demos\demo17_effects.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Demos</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

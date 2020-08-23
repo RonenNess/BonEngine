@@ -23,7 +23,7 @@ namespace demo17_effects
 		// cell and grayscale effects
 		bon::EffectAsset _celEffect;
 		bon::EffectAsset _grayscaleEffect;
-		bon::EffectAsset _hardEffect;
+		bon::EffectAsset _plainEffect;
 
 	public:
 		// on scene load
@@ -46,7 +46,7 @@ namespace demo17_effects
 			// load cel effect for lightmap
 			_grayscaleEffect = Assets().LoadEffect("../TestAssets/effects/grayscale/effect.ini");
 			_celEffect = Assets().LoadEffect("../TestAssets/effects/cel/effect.ini");
-			_hardEffect = Assets().LoadEffect("../TestAssets/effects/hard/effect.ini");
+			_plainEffect = Assets().LoadEffect("../TestAssets/effects/plain/effect.ini");
 		}
 
 		// per-frame update
@@ -63,6 +63,7 @@ namespace demo17_effects
 			// set lightsmap as target and paint it black
 			Gfx().SetRenderTarget(_lightMap);
 			Gfx().ClearScreen(bon::Color::Black);
+			Gfx().UseEffect(nullptr);
 
 			// paint light on cursor
 			bon::PointF origin(0.5f, 0.5f);
@@ -78,7 +79,8 @@ namespace demo17_effects
 				Gfx().UseEffect(_grayscaleEffect);
 			}
 			auto windowSize = Gfx().WindowSize();
-			Gfx().DrawImage(_backgroundImage, bon::PointF::Zero, &windowSize, bon::BlendModes::AlphaBlend, &bon::framework::RectangleI(0, 0, 100, 150),nullptr, 0, nullptr);
+			Gfx().DrawImage(_backgroundImage, bon::PointF::Zero, &windowSize, bon::BlendModes::Opaque);
+			Gfx().UseEffect(nullptr);
 
 			// draw lightmap with cel effect
 			Gfx().UseEffect(_celEffect);
@@ -94,9 +96,8 @@ In addition you can hold down space to draw in grayscale, using another effect a
 Hit escape to exit.", bon::PointF(100, 200), &bon::Color(1, 1, 0, 1), 16);
 
 			// draw cursor
-			Gfx().UseEffect(_hardEffect);
+		///	Gfx().UseEffect(nullptr);
 			Gfx().DrawImage(_cursorImage, Input().CursorPosition(), &bon::PointI(64, 64));
-
 		}
 	};
 

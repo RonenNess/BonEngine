@@ -174,6 +174,7 @@ namespace bon
 			bool _useTextures;
 			bool _useVertexColor;
 			bool _isValid;
+			bool _flipCoordsV;
 			GLuint _programId;
 			std::string _fragmentPath;
 			std::string _vertexPath;
@@ -196,6 +197,9 @@ namespace bon
 				BON_DLOG("Load effect '%s' shaders. Fragment: %s, Vertex: %s.", config->Path(), _fragmentPath.c_str(), _vertexPath.c_str());
 				_programId = compileProgram(_vertexPath.c_str(), _fragmentPath.c_str());
 				BON_DLOG("Created effect program with id: %d", _programId);
+
+				// load general params
+				_flipCoordsV = config->GetBool("general", "flip_texture_v", true);
 
 				// set as valid!
 				_isValid = true;
@@ -220,13 +224,19 @@ namespace bon
 			 */
 			virtual const char* VertexShaderPath() const override { return _vertexPath.c_str(); }
 
-
 			/**
 			 * Get if this handle is valid.
 			 *
 			 * \return If image is valid.
 			 */
 			virtual bool IsValid() const override { return _isValid; }
+
+			/**
+			 * Get if should flip texture coords on Y axis.
+			 *
+			 * \return If should flip texture coords v.
+			 */
+			virtual bool FlipTextureCoordsV() const override { return _flipCoordsV; }
 
 			/**
 			 * Get if this effect use textures.
@@ -307,7 +317,7 @@ namespace bon
 		void GfxSdlEffects::UseEffect(const assets::EffectAsset& effect)
 		{
 			// just in case - try to get default program
-			if (_defaultProgram == 0)
+			if (_defaultProgram == 0 || _effect == nullptr)
 			{
 				glGetIntegerv(GL_CURRENT_PROGRAM, &_defaultProgram);
 			}
@@ -333,6 +343,7 @@ namespace bon
 				glUseProgram(_defaultProgram);
 				_effect = nullptr;
 			}
+			glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
 		}
 
 		// called on drawing frame end
@@ -343,13 +354,42 @@ namespace bon
 		}
 
 		// draw texture with effect on screen
-		void GfxSdlEffects::DrawTexture(const SDL_Rect* destRect, const SDL_Rect* sourceRect, SDL_Texture* texture, const Color& color, int textW, int textH)
+		void GfxSdlEffects::DrawTexture(const SDL_Rect* destRect, const SDL_Rect* sourceRect, SDL_Texture* texture, const Color& color, int textW, int textH, BlendModes blend)
 		{
 			// bind texture
 			bool useTexture = _effect->UseTextures();
 			if (useTexture)
 			{
 				SDL_GL_BindTexture(texture, NULL, NULL);
+			}
+
+			// set blend mode
+			switch (blend)
+			{
+			case BlendModes::Opaque:
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+				glDisable(GL_BLEND);
+				break;
+
+			case BlendModes::Mod:
+				glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_COLOR);
+				glEnable(GL_BLEND);
+				break;
+
+			case BlendModes::Additive:
+				glBlendFunc(GL_ONE, GL_ONE);
+				glEnable(GL_BLEND);
+				break;
+
+			case BlendModes::AlphaBlend:
+				glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
+				glEnable(GL_BLEND);
+				break;
+
+			case BlendModes::Multiply:
+				glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
+				glEnable(GL_BLEND);
+				break;
 			}
 
 			// use vertex color
@@ -371,15 +411,31 @@ namespace bon
 			{
 				minu = (GLfloat)sourceRect->x / textW;
 				maxu = (GLfloat)(sourceRect->x + sourceRect->w) / textW;
-				minv = (GLfloat)(sourceRect->y + sourceRect->h) / textH;
-				maxv = (GLfloat)sourceRect->y / textH;
+				if (_effect->Handle()->FlipTextureCoordsV())
+				{
+					minv = (GLfloat)(sourceRect->y + sourceRect->h) / textH;
+					maxv = (GLfloat)sourceRect->y / textH;
+				}
+				else
+				{
+					minv = (GLfloat)sourceRect->y / textH; 
+					maxv = (GLfloat)(sourceRect->y + sourceRect->h) / textH;
+				}
 			}
 			else
 			{
 				minu = 0;
 				maxu = 1;
-				minv = 0;
-				maxv = 1;
+				if (_effect->Handle()->FlipTextureCoordsV())
+				{
+					minv = 1;
+					maxv = 0;
+				}
+				else
+				{
+					minv = 0;
+					maxv = 1;
+				}
 			}
 
 			// start drawing quad

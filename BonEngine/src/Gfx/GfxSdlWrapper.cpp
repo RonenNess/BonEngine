@@ -707,9 +707,9 @@ namespace bon
 		void GfxSdlWrapper::SetEffect(const assets::EffectAsset& effect)
 		{
 			// skip if no change
-			if (effect == _currentEffect) { return; }
+			//if (effect == _currentEffect) { return; }
 
-			SDL_SetRenderTarget(_renderer, NULL);
+			//SDL_SetRenderTarget(_renderer, NULL);
 
 			// apply effect
 			_effectsImpl.UseEffect(effect);
@@ -867,7 +867,7 @@ namespace bon
 		void GfxSdlWrapper::DrawTexture(SDL_Texture* texture, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color, RectangleI* outDestRect, bool dryrun, int textW, int textH)
 		{
 			// set blend mode and color
-			if (!dryrun)
+			if (!dryrun && _currentEffect == nullptr)
 			{
 				SDL_SetTextureBlendMode(texture, BonBlendToSdlBlend(blend));
 				SDL_SetTextureColorMod(texture, color.RB(), color.GB(), color.BB());
@@ -907,7 +907,7 @@ namespace bon
 			// draw with effect
 			if (_currentEffect != nullptr)
 			{
-				_effectsImpl.DrawTexture(&dest, sdlSrcRectPtr, texture, color, textW, textH);
+				_effectsImpl.DrawTexture(&dest, sdlSrcRectPtr, texture, color, textW, textH, blend);
 				return;
 			}
 
@@ -972,7 +972,10 @@ namespace bon
 			SDL_Texture* texture = (SDL_Texture*)handle->Texture;
 
 			// set blend mode and color
-			SetTextureProperties(handle, texture, color, blend);
+			if (_currentEffect == nullptr)
+			{
+				SetTextureProperties(handle, texture, color, blend);
+			}
 
 			// source rect
 			static SDL_Rect sdlSrcRect;
@@ -1021,7 +1024,7 @@ namespace bon
 			// draw with effect
 			if (_currentEffect != nullptr)
 			{
-				_effectsImpl.DrawTexture(&dest, sdlSrcRectPtr, texture, color, handle->Width(), handle->Height());
+				_effectsImpl.DrawTexture(&dest, sdlSrcRectPtr, texture, color, handle->Width(), handle->Height(), blend);
 				return;
 			}
 
@@ -1071,7 +1074,7 @@ namespace bon
 			static Color color(1, 1, 1, 1);
 			if (_currentEffect != nullptr)
 			{
-				_effectsImpl.DrawTexture(&dest, nullptr, texture, color, handle->Width(), handle->Height());
+				_effectsImpl.DrawTexture(&dest, nullptr, texture, color, handle->Width(), handle->Height(), blend);
 				return;
 			}
 

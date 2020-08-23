@@ -11,6 +11,7 @@
 #include <Assets/Defs.h>
 #include <Framework/RectangleF.h>
 #include <Framework/Color.h>
+#include <Gfx/Defs.h>
 
 struct SDL_Renderer;
 struct SDL_Texture;
@@ -51,7 +52,7 @@ namespace bon
 			/**
 			 * Draw texture using currently active effect.
 			 */
-			void DrawTexture(const SDL_Rect* destRect, const SDL_Rect* sourceRect, SDL_Texture* texture, const framework::Color& color, int textW, int textH);
+			void DrawTexture(const SDL_Rect* destRect, const SDL_Rect* sourceRect, SDL_Texture* texture, const framework::Color& color, int textW, int textH, BlendModes blend);
 
 			/**
 			 * Call this after every update frame when it starts.
