@@ -62,6 +62,61 @@ namespace bon
 			 * \return If should flip texture coords v.
 			 */
 			virtual bool FlipTextureCoordsV() const = 0;
+
+			/**
+			 * Set float uniform.
+			 */
+			virtual void SetUniformFloat(const char* name, float value) = 0;
+
+			/**
+			 * Set vector2 uniform.
+			 */
+			virtual void SetUniformVector2(const char* name, float x, float y) = 0;
+
+			/**
+			 * Set vector3 uniform.
+			 */
+			virtual void SetUniformVector3(const char* name, float x, float y, float z) = 0;
+
+			/**
+			 * Set vector4 uniform.
+			 */
+			virtual void SetUniformVector4(const char* name, float x, float y, float z, float w) = 0;
+
+			/**
+			 * Set float uniform.
+			 */
+			virtual void SetUniformInt(const char* name, int value) = 0;
+
+			/**
+			 * Set vector2 uniform.
+			 */
+			virtual void SetUniformVector2(const char* name, int x, int y) = 0;
+
+			/**
+			 * Set vector3 uniform.
+			 */
+			virtual void SetUniformVector3(const char* name, int x, int y, int z) = 0;
+
+			/**
+			 * Set vector4 uniform.
+			 */
+			virtual void SetUniformVector4(const char* name, int x, int y, int z, int w) = 0;
+
+			/**
+			 * Set a matrix uniform.
+			 */
+			virtual void SetUniformMatrix2(const char* name, int count, bool transpose, const float* values) = 0;
+
+			/**
+			 * Set a matrix uniform.
+			 */
+			virtual void SetUniformMatrix3(const char* name, int count, bool transpose, const float* values) = 0;
+
+			/**
+			 * Set a matrix uniform.
+			 */
+			virtual void SetUniformMatrix4(const char* name, int count, bool transpose, const float* values) = 0;
 		};
 	}
 }

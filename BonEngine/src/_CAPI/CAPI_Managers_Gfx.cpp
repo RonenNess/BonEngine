@@ -117,6 +117,14 @@ bon::assets::ImageAsset* BON_Gfx_GetRenderTarget()
 }
 
 /**
+ * Set effect to use.
+ */
+void BON_Gfx_UseEffect(const bon::assets::EffectAsset* effect)
+{
+	bon::_GetEngine().Gfx().UseEffect(effect != nullptr ? *effect : nullptr);
+}
+
+/**
 * Draws a rectangle.
 */
 void BON_Gfx_DrawRectangle(int x, int y, int w, int h, float r, float g, float b, float a, bool filled, BON_BlendModes blend)

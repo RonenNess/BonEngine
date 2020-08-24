@@ -164,6 +164,76 @@ extern "C" {
 	 */
 	BON_DLLEXPORT int BON_Font_Size(bon::FontAsset* font);
 
+	/**
+	 * Get if effect is valid
+	 */
+	BON_DLLEXPORT bool BON_Effect_IsValid(bon::EffectAsset* effect);
+
+	/**
+	 * Return if this effect uses textures.
+	 */
+	BON_DLLEXPORT bool BON_Effect_UseTextures(bon::EffectAsset* effect);
+
+	/**
+	 * Return if this effect uses vertex color.
+	 */
+	BON_DLLEXPORT bool BON_Effect_UseVertexColor(bon::EffectAsset* effect);
+
+	/**
+	 * Set effect uniform.
+	 */
+	BON_DLLEXPORT void BON_Effect_SetUniformFloat(bon::EffectAsset* effect, const char* name, float val);
+
+	/**
+	 * Set effect uniform.
+	 */
+	BON_DLLEXPORT void BON_Effect_SetUniformVector2(bon::EffectAsset* effect, const char* name, float x, float y);
+
+	/**
+	 * Set effect uniform.
+	 */
+	BON_DLLEXPORT void BON_Effect_SetUniformVector3(bon::EffectAsset* effect, const char* name, float x, float y, float z);
+
+	/**
+	 * Set effect uniform.
+	 */
+	BON_DLLEXPORT void BON_Effect_SetUniformVector4(bon::EffectAsset* effect, const char* name, float x, float y, float z, float w);
+
+	/**
+	 * Set effect uniform.
+	 */
+	BON_DLLEXPORT void BON_Effect_SetUniformInt(bon::EffectAsset* effect, const char* name, int val);
+
+	/**
+	 * Set effect uniform.
+	 */
+	BON_DLLEXPORT void BON_Effect_SetUniformVector2i(bon::EffectAsset* effect, const char* name, int x, int y);
+
+	/**
+	 * Set effect uniform.
+	 */
+	BON_DLLEXPORT void BON_Effect_SetUniformVector3i(bon::EffectAsset* effect, const char* name, int x, int y, int z);
+
+	/**
+	 * Set effect uniform.
+	 */
+	BON_DLLEXPORT void BON_Effect_SetUniformVector4i(bon::EffectAsset* effect, const char* name, int x, int y, int z, int w);
+
+	/**
+	 * Set effect uniform.
+	 */
+	BON_DLLEXPORT void BON_Effect_SetUniformMatrix2(bon::EffectAsset* effect, const char* name, int count, bool transpose, const float* values);
+
+	/**
+	 * Set effect uniform.
+	 */
+	BON_DLLEXPORT void BON_Effect_SetUniformMatrix3(bon::EffectAsset* effect, const char* name, int count, bool transpose, const float* values);
+
+	/**
+	 * Set effect uniform.
+	 */
+	BON_DLLEXPORT void BON_Effect_SetUniformMatrix4(bon::EffectAsset* effect, const char* name, int count, bool transpose, const float* values);
+
 #ifdef __cplusplus
 }
 #endif

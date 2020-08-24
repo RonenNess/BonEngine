@@ -22,6 +22,11 @@ extern "C" {
 	BON_DLLEXPORT void BON_Start(bon::engine::Scene* scene);
 
 	/**
+	 * Initialize the engine with a special scene designed to accept callbacks from external sources + feature flags.
+	 */
+	BON_DLLEXPORT void BON_StartEx(bon::engine::Scene* scene, bool forceOpenGL, bool enableEffects);
+
+	/**
 	 * Stop and exit the engine.
 	 */
 	BON_DLLEXPORT void BON_Stop();

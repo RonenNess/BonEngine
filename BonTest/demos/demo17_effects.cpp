@@ -23,7 +23,7 @@ namespace demo17_effects
 		// cell and grayscale effects
 		bon::EffectAsset _celEffect;
 		bon::EffectAsset _grayscaleEffect;
-		bon::EffectAsset _plainEffect;
+		bon::EffectAsset _shakeEffect;
 
 	public:
 		// on scene load
@@ -37,7 +37,7 @@ namespace demo17_effects
 		virtual void _Start() override
 		{
 			// load assets
-			_cursorImage = Assets().LoadImage("../TestAssets/gfx/cursor.png");
+			_cursorImage = Assets().LoadImage("../TestAssets/gfx/cursor_with_pad.png");
 			_lightImage = Assets().LoadImage("../TestAssets/gfx/light.png");
 			_backgroundImage = Assets().LoadImage("../TestAssets/gfx/lights-scene.png");
 			_lightMap = Assets().CreateEmptyImage(bon::PointI(800, 600));
@@ -46,7 +46,7 @@ namespace demo17_effects
 			// load cel effect for lightmap
 			_grayscaleEffect = Assets().LoadEffect("../TestAssets/effects/grayscale/effect.ini");
 			_celEffect = Assets().LoadEffect("../TestAssets/effects/cel/effect.ini");
-			_plainEffect = Assets().LoadEffect("../TestAssets/effects/plain/effect.ini");
+			_shakeEffect = Assets().LoadEffect("../TestAssets/effects/wavey/effect.ini");
 		}
 
 		// per-frame update
@@ -74,16 +74,20 @@ namespace demo17_effects
 
 			// draw scene background
 			Gfx().SetRenderTarget(nullptr);
-			if (Input().Down(bon::input::KeyCodes::KeySpace))
+			bool grayscale = Input().Down(bon::input::KeyCodes::KeySpace);
+			if (grayscale)
 			{
 				Gfx().UseEffect(_grayscaleEffect);
 			}
 			auto windowSize = Gfx().WindowSize();
-			Gfx().DrawImage(_backgroundImage, bon::PointF::Zero, &windowSize, bon::BlendModes::Opaque);
+			Gfx().DrawImage(_backgroundImage, bon::PointF::Zero, &windowSize, bon::BlendModes::AlphaBlend);
 			Gfx().UseEffect(nullptr);
 
 			// draw lightmap with cel effect
 			Gfx().UseEffect(_celEffect);
+			if (!grayscale) { 
+				windowSize.Y *= -1; 
+			}
 			Gfx().DrawImage(_lightMap, bon::PointF::Zero, &windowSize, bon::BlendModes::Multiply);
 			Gfx().UseEffect(nullptr);
 
@@ -91,13 +95,15 @@ namespace demo17_effects
 			Gfx().DrawText(_font, "Demo #17: Effects", bon::PointF(60, 100), nullptr, 0, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
 			Gfx().DrawText(_font, "This demo illustrates Effects.\n\
 Its like the lights demo, but there's a CEL effect on the lightmap. \n\
-Also the cursor is with effect that makes colors sharper. \n\
+Also the cursor is with effect to makes it wavey. \n\
 In addition you can hold down space to draw in grayscale, using another effect asset. \n\
 Hit escape to exit.", bon::PointF(100, 200), &bon::Color(1, 1, 0, 1), 16);
 
 			// draw cursor
-		///	Gfx().UseEffect(nullptr);
-			Gfx().DrawImage(_cursorImage, Input().CursorPosition(), &bon::PointI(64, 64));
+			Gfx().UseEffect(_shakeEffect);
+			_shakeEffect->SetUniformFloat("time", (float)Game().ElapsedTime());
+			Gfx().DrawImage(_cursorImage, Input().CursorPosition(), &bon::PointI(64, 64), bon::BlendModes::AlphaBlend);
+			Gfx().UseEffect(nullptr);
 		}
 	};
 

@@ -605,6 +605,7 @@ if `width` or `height` are set to 0, it will take full size.
 #### void UseEffect(effect)
 
 Set the currently active effect, or nullptr to use default rendering.
+More info on using effects: [Effects](#effects).
 
 #### void SetTitle(title)
 
@@ -1186,10 +1187,37 @@ vertex = shader.vertex                          ; relative path (from effect ini
 fragment = shader.fragment                          ; relative path (from effect ini file) to the fragment shader file.
 ```
 
-Once an effect is loaded, you can use the set of API methods under the `Gfx` manager that supports custom effects.
+To set an effect you use the `Gfx` manager:
+
+```cpp
+Gfx().UseEffect(myEffect);
+```
+
+Once an effect is set, future renderings will use it until the end of frame, or until you set nullptr as active effect:
+
+```cpp
+Gfx().UseEffect(nullptr);
+```
 
 Note: Effects are disabled by default, as they force `BonEngine` to use OpenGL and not other drivers like DirectX.
 To use effects, initialize `BonEngine` with Features struct setting effects to true.
+
+### Uniforms
+
+Uniforms are global variables you can set in your effects from your code.
+For example, if you have a shader that uses current game time as input, you need to set game time as a uniform.
+
+To set Effect's uniforms, there's a set of `SetUniformXXX` methods:
+
+```cpp
+myEffect->SetUniformFloat("uniform_float_name", 0.5);
+myEffect->SetUniformVector2("uniform_vec_name", 0.5, 1);
+myEffect->SetUniformInt("uniform_int_name", 5);
+// there are more methods for different types - check out EffectAsset API for more.
+```
+
+Note that you first need to set effect as active. If you try to set uniforms while effect is not the active effect, it will not apply properly.
+
 
 ## Features
 
@@ -1303,7 +1331,7 @@ First stable release.
 
 # 1.3
 
-**[TBD]**
+**[24/08/2020]**
 
 - Added 'Effects' for special rendering effects (shaders support).
 - Breaking Change: renamed `CreateUIWindow` to `CreateUIWindow` to avoid collision with the windows macro.

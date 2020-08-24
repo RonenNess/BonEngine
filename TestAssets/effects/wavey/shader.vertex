@@ -1,0 +1,10 @@
+varying vec4 v_color;
+varying vec2 v_texCoord;
+uniform float time;
+
+void main()
+{
+    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+    v_color = gl_Color;
+    v_texCoord = clamp(vec2(gl_MultiTexCoord0) + vec2(sin(time) / 10, cos(time) / 10), 0, 1);
+}

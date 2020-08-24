@@ -65,6 +65,11 @@ extern "C" {
 	*/
 	BON_DLLEXPORT void BON_Assets_ClearCache();
 
+	/**
+	* Load and return an effect asset.
+	*/
+	BON_DLLEXPORT bon::EffectAsset* BON_Assets_LoadEffect(const char* filename, bool useCache);
+
 #ifdef __cplusplus
 }
 #endif

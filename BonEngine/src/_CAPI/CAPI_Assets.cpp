@@ -231,3 +231,115 @@ int BON_Font_Size(bon::FontAsset* font)
 {
 	return (*font)->FontSize();
 }
+
+/**
+ * Get if effect is valid
+ */
+bool BON_Effect_IsValid(bon::EffectAsset* effect)
+{
+	return (*effect)->IsValid();
+}
+
+/**
+ * Return if this effect uses textures.
+ */
+bool BON_Effect_UseTextures(bon::EffectAsset* effect)
+{
+	return (*effect)->UseTextures();
+}
+
+/**
+ * Return if this effect uses vertex color.
+ */
+bool BON_Effect_UseVertexColor(bon::EffectAsset* effect)
+{
+	return (*effect)->UseVertexColor();
+}
+
+/**
+ * Set effect uniform.
+ */
+void BON_Effect_SetUniformFloat(bon::EffectAsset* effect, const char* name, float val)
+{
+	(*effect)->SetUniformFloat(name, val);
+}
+
+/**
+ * Set effect uniform.
+ */
+void BON_Effect_SetUniformVector2(bon::EffectAsset* effect, const char* name, float x, float y)
+{
+	(*effect)->SetUniformVector2(name, x, y);
+}
+
+/**
+ * Set effect uniform.
+ */
+void BON_Effect_SetUniformVector3(bon::EffectAsset* effect, const char* name, float x, float y, float z)
+{
+	(*effect)->SetUniformVector3(name, x, y, z);
+}
+
+/**
+ * Set effect uniform.
+ */
+void BON_Effect_SetUniformVector4(bon::EffectAsset* effect, const char* name, float x, float y, float z, float w)
+{
+	(*effect)->SetUniformVector4(name, x, y, z, w);
+}
+
+/**
+ * Set effect uniform.
+ */
+void BON_Effect_SetUniformInt(bon::EffectAsset* effect, const char* name, int val)
+{
+	(*effect)->SetUniformInt(name, val);
+}
+
+/**
+ * Set effect uniform.
+ */
+void BON_Effect_SetUniformVector2i(bon::EffectAsset* effect, const char* name, int x, int y)
+{
+	(*effect)->SetUniformVector2(name, x, y);
+}
+
+/**
+ * Set effect uniform.
+ */
+void BON_Effect_SetUniformVector3i(bon::EffectAsset* effect, const char* name, int x, int y, int z)
+{
+	(*effect)->SetUniformVector3(name, x, y, z);
+}
+
+/**
+ * Set effect uniform.
+ */
+void BON_Effect_SetUniformVector4i(bon::EffectAsset* effect, const char* name, int x, int y, int z, int w)
+{
+	(*effect)->SetUniformVector4(name, x, y, z, w);
+}
+
+/**
+ * Set effect uniform.
+ */
+void BON_Effect_SetUniformMatrix2(bon::EffectAsset* effect, const char* name, int count, bool transpose, const float* values)
+{
+	(*effect)->SetUniformMatrix2(name, count, transpose, values);
+}
+
+/**
+ * Set effect uniform.
+ */
+void BON_Effect_SetUniformMatrix3(bon::EffectAsset* effect, const char* name, int count, bool transpose, const float* values)
+{
+	(*effect)->SetUniformMatrix3(name, count, transpose, values);
+}
+
+/**
+ * Set effect uniform.
+ */
+void BON_Effect_SetUniformMatrix4(bon::EffectAsset* effect, const char* name, int count, bool transpose, const float* values)
+{
+	(*effect)->SetUniformMatrix4(name, count, transpose, values);
+}

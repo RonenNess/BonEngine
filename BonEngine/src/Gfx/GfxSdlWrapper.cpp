@@ -353,6 +353,9 @@ namespace bon
 		// initialize graphics
 		void GfxSdlWrapper::Initialize()
 		{
+			// do we need to update gl blend mode?
+			_needToUpdateGlBlend = false;
+
 			// initialize SDL and make sure succeed
 			int flags = (bon::Features().EffectsEnabled || bon::Features().ForceOpenGL) ? 
 				(SDL_INIT_VIDEO | SDL_VIDEO_OPENGL) : (SDL_INIT_VIDEO);
@@ -706,14 +709,10 @@ namespace bon
 		// set currently active effect, or null to remove effects.
 		void GfxSdlWrapper::SetEffect(const assets::EffectAsset& effect)
 		{
-			// skip if no change
-			//if (effect == _currentEffect) { return; }
-
-			//SDL_SetRenderTarget(_renderer, NULL);
-
 			// apply effect
 			_effectsImpl.UseEffect(effect);
 			_currentEffect = effect;
+			if (effect == nullptr) { _needToUpdateGlBlend = true; }
 		}
 
 		// update window / draw.
@@ -907,8 +906,14 @@ namespace bon
 			// draw with effect
 			if (_currentEffect != nullptr)
 			{
-				_effectsImpl.DrawTexture(&dest, sdlSrcRectPtr, texture, color, textW, textH, blend);
+				_effectsImpl.DrawTexture(&dest, sdlSrcRectPtr, texture, color, textW, textH, blend, flip);
 				return;
+			}
+			// fix blend mode
+			else if (_needToUpdateGlBlend)
+			{
+				_effectsImpl.SetBlendMode(blend);
+				_needToUpdateGlBlend = false;
 			}
 
 			// draw texture with rotation
@@ -1024,8 +1029,14 @@ namespace bon
 			// draw with effect
 			if (_currentEffect != nullptr)
 			{
-				_effectsImpl.DrawTexture(&dest, sdlSrcRectPtr, texture, color, handle->Width(), handle->Height(), blend);
+				_effectsImpl.DrawTexture(&dest, sdlSrcRectPtr, texture, color, handle->Width(), handle->Height(), blend, flip);
 				return;
+			}
+			// fix blend mode
+			else if (_needToUpdateGlBlend)
+			{
+				_effectsImpl.SetBlendMode(blend);
+				_needToUpdateGlBlend = false;
 			}
 
 			// draw texture with rotation
@@ -1074,8 +1085,14 @@ namespace bon
 			static Color color(1, 1, 1, 1);
 			if (_currentEffect != nullptr)
 			{
-				_effectsImpl.DrawTexture(&dest, nullptr, texture, color, handle->Width(), handle->Height(), blend);
+				_effectsImpl.DrawTexture(&dest, nullptr, texture, color, handle->Width(), handle->Height(), blend, flip);
 				return;
+			}
+			// fix blend mode
+			else if (_needToUpdateGlBlend)
+			{
+				_effectsImpl.SetBlendMode(blend);
+				_needToUpdateGlBlend = false;
 			}
 
 			// set blend mode and color

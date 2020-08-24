@@ -52,12 +52,17 @@ namespace bon
 			/**
 			 * Draw texture using currently active effect.
 			 */
-			void DrawTexture(const SDL_Rect* destRect, const SDL_Rect* sourceRect, SDL_Texture* texture, const framework::Color& color, int textW, int textH, BlendModes blend);
+			void DrawTexture(const SDL_Rect* destRect, const SDL_Rect* sourceRect, SDL_Texture* texture, const framework::Color& color, int textW, int textH, BlendModes blend, int flip);
 
 			/**
 			 * Call this after every update frame when it starts.
 			 */
 			void OnFrameStart();
+			
+			/**
+			 * Update blend mode directly in openGL.
+			 */
+			void SetBlendMode(BlendModes blend);
 
 		private:
 

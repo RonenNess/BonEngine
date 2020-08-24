@@ -55,6 +55,14 @@ bon::ConfigAsset* BON_Assets_LoadConfig(const char* filename, bool useCache)
 }
 
 /**
+ * Loadand return an effect asset.
+ */
+bon::EffectAsset* BON_Assets_LoadEffect(const char* filename, bool useCache)
+{
+	return_asset_ptr(bon::EffectAsset, bon::_GetEngine().Assets().LoadEffect(filename, useCache));
+}
+
+/**
 * Create and return an empty configuration file.
 */
 bon::ConfigAsset* BON_Assets_CreateEmptyConfig()

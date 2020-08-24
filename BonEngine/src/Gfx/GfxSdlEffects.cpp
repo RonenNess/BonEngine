@@ -49,6 +49,20 @@ PFNGLVALIDATEPROGRAMPROC glValidateProgram;
 PFNGLGETPROGRAMIVPROC glGetProgramiv;
 PFNGLGETPROGRAMINFOLOGPROC glGetProgramInfoLog;
 PFNGLUSEPROGRAMPROC glUseProgram;
+PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocation;
+PFNGLUNIFORM1FPROC glUniform1f;
+PFNGLUNIFORM2FPROC glUniform2f;
+PFNGLUNIFORM3FPROC glUniform3f;
+PFNGLUNIFORM4FPROC glUniform4f;
+PFNGLUNIFORM1IPROC glUniform1i;
+PFNGLUNIFORM2IPROC glUniform2i;
+PFNGLUNIFORM3IPROC glUniform3i;
+PFNGLUNIFORM4IPROC glUniform4i;
+PFNGLUNIFORMMATRIX2FVPROC glUniformMatrix2fv;
+PFNGLUNIFORMMATRIX3FVPROC glUniformMatrix3fv;
+PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fv;
+PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparate;
+PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparate;
 
 // load GL extension methods
 bool initGLExtensions() 
@@ -66,6 +80,20 @@ bool initGLExtensions()
 	glGetProgramiv = (PFNGLGETPROGRAMIVPROC)SDL_GL_GetProcAddress("glGetProgramiv");
 	glGetProgramInfoLog = (PFNGLGETPROGRAMINFOLOGPROC)SDL_GL_GetProcAddress("glGetProgramInfoLog");
 	glUseProgram = (PFNGLUSEPROGRAMPROC)SDL_GL_GetProcAddress("glUseProgram");
+	glGetUniformLocation = (PFNGLGETUNIFORMLOCATIONPROC)SDL_GL_GetProcAddress("glGetUniformLocation");
+	glBlendFuncSeparate = (PFNGLBLENDFUNCSEPARATEPROC)SDL_GL_GetProcAddress("glBlendFuncSeparate");
+	glUniform1f = (PFNGLUNIFORM1FPROC)SDL_GL_GetProcAddress("glUniform1f");
+	glUniform2f = (PFNGLUNIFORM2FPROC)SDL_GL_GetProcAddress("glUniform2f");
+	glUniform3f = (PFNGLUNIFORM3FPROC)SDL_GL_GetProcAddress("glUniform3f");
+	glUniform4f = (PFNGLUNIFORM4FPROC)SDL_GL_GetProcAddress("glUniform4f");
+	glUniform1i = (PFNGLUNIFORM1IPROC)SDL_GL_GetProcAddress("glUniform1i");
+	glUniform2i = (PFNGLUNIFORM2IPROC)SDL_GL_GetProcAddress("glUniform2i");
+	glUniform3i = (PFNGLUNIFORM3IPROC)SDL_GL_GetProcAddress("glUniform3i");
+	glUniform4i = (PFNGLUNIFORM4IPROC)SDL_GL_GetProcAddress("glUniform4i");
+	glUniformMatrix2fv = (PFNGLUNIFORMMATRIX2FVPROC)SDL_GL_GetProcAddress("glUniformMatrix2fv");
+	glUniformMatrix3fv = (PFNGLUNIFORMMATRIX3FVPROC)SDL_GL_GetProcAddress("glUniformMatrix3fv");
+	glUniformMatrix4fv = (PFNGLUNIFORMMATRIX4FVPROC)SDL_GL_GetProcAddress("glUniformMatrix4fv");
+	glBlendEquationSeparate = (PFNGLBLENDEQUATIONSEPARATEPROC)SDL_GL_GetProcAddress("glBlendEquationSeparate");
 
 	return glCreateShader && glShaderSource && glCompileShader && glGetShaderiv &&
 		glGetShaderInfoLog && glDeleteShader && glAttachShader && glCreateProgram &&
@@ -171,13 +199,22 @@ namespace bon
 		class SDL_EffectHandle : public _EffectHandle
 		{
 		private:
-			bool _useTextures;
-			bool _useVertexColor;
-			bool _isValid;
-			bool _flipCoordsV;
+
+			// loaded program id
 			GLuint _programId;
+
+			// fragment / vertex shaders full path
 			std::string _fragmentPath;
 			std::string _vertexPath;
+			
+			// effect params
+			bool _isValid;
+			bool _useTextures;
+			bool _useVertexColor;
+			bool _flipCoordsV;
+
+			// cache uniforms
+			unordered_map<std::string, GLint> _uniformAddress;
 
 		public:
 			
@@ -203,6 +240,120 @@ namespace bon
 
 				// set as valid!
 				_isValid = true;
+			}
+
+			/**
+			 * Get uniform location from program.
+			 */
+			inline GLint GetUniform(const char* name)
+			{
+				// get from cache
+				if (_uniformAddress.find(name) != _uniformAddress.end())
+				{
+					return _uniformAddress[name];
+				}
+				GLint ret = glGetUniformLocation(_programId, name);
+				_uniformAddress[name] = ret;
+				return ret;
+			}
+
+			/**
+			 * Set float uniform.
+			 */
+			virtual void SetUniformFloat(const char* name, float value) override
+			{
+				GLint uni = GetUniform(name);
+				glUniform1f(uni, value);
+			}
+
+			/**
+			 * Set vector2 uniform.
+			 */
+			virtual void SetUniformVector2(const char* name, float x, float y) override
+			{
+				GLint uni = GetUniform(name);
+				glUniform2f(uni, x, y);
+			}
+
+			/**
+			 * Set vector3 uniform.
+			 */
+			virtual void SetUniformVector3(const char* name, float x, float y, float z) override
+			{
+				GLint uni = GetUniform(name);
+				glUniform3f(uni, x, y, z);
+			}
+
+			/**
+			 * Set vector4 uniform.
+			 */
+			virtual void SetUniformVector4(const char* name, float x, float y, float z, float w) override
+			{
+				GLint uni = GetUniform(name);
+				glUniform4f(uni, x, y, z, w);
+			}
+
+			/**
+			 * Set float uniform.
+			 */
+			virtual void SetUniformInt(const char* name, int value) override
+			{
+				GLint uni = GetUniform(name);
+				glUniform1i(uni, value);
+			}
+
+			/**
+			 * Set vector2 uniform.
+			 */
+			virtual void SetUniformVector2(const char* name, int x, int y) override
+			{
+				GLint uni = GetUniform(name);
+				glUniform2i(uni, x, y);
+			}
+
+			/**
+			 * Set vector3 uniform.
+			 */
+			virtual void SetUniformVector3(const char* name, int x, int y, int z) override
+			{
+				GLint uni = GetUniform(name);
+				glUniform3i(uni, x, y, z);
+			}
+
+			/**
+			 * Set vector4 uniform.
+			 */
+			virtual void SetUniformVector4(const char* name, int x, int y, int z, int w) override
+			{
+				GLint uni = GetUniform(name);
+				glUniform4i(uni, x, y, z, w);
+			}
+
+			/**
+			 * Set a matrix uniform.
+			 */
+			virtual void SetUniformMatrix2(const char* name, int count, bool transpose, const float* values) override
+			{
+				GLint uni = GetUniform(name);
+				glUniformMatrix2fv(uni, count, transpose, values);
+			}
+
+			/**
+			 * Set a matrix uniform.
+			 */
+			virtual void SetUniformMatrix3(const char* name, int count, bool transpose, const float* values) override
+			{
+				GLint uni = GetUniform(name);
+				glUniformMatrix3fv(uni, count, transpose, values);
+			}
+
+			/**
+			 * Set a matrix uniform.
+			 */
+			virtual void SetUniformMatrix4(const char* name, int count, bool transpose, const float* values) override
+			{
+				GLint uni = GetUniform(name);
+				glUniformMatrix4fv(uni, count, transpose, values);
 			}
 
 			/**
@@ -343,7 +494,6 @@ namespace bon
 				glUseProgram(_defaultProgram);
 				_effect = nullptr;
 			}
-			glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
 		}
 
 		// called on drawing frame end
@@ -353,16 +503,9 @@ namespace bon
 			RestoreDefaultEffect();
 		}
 
-		// draw texture with effect on screen
-		void GfxSdlEffects::DrawTexture(const SDL_Rect* destRect, const SDL_Rect* sourceRect, SDL_Texture* texture, const Color& color, int textW, int textH, BlendModes blend)
+		// set opengl blend mode
+		void GfxSdlEffects::SetBlendMode(BlendModes blend)
 		{
-			// bind texture
-			bool useTexture = _effect->UseTextures();
-			if (useTexture)
-			{
-				SDL_GL_BindTexture(texture, NULL, NULL);
-			}
-
 			// set blend mode
 			switch (blend)
 			{
@@ -377,12 +520,13 @@ namespace bon
 				break;
 
 			case BlendModes::Additive:
-				glBlendFunc(GL_ONE, GL_ONE);
+				glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
+				glBlendFuncSeparate(GL_ONE, GL_ONE, GL_ZERO, GL_ONE);
 				glEnable(GL_BLEND);
 				break;
 
 			case BlendModes::AlphaBlend:
-				glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				glEnable(GL_BLEND);
 				break;
 
@@ -391,6 +535,20 @@ namespace bon
 				glEnable(GL_BLEND);
 				break;
 			}
+		}
+
+		// draw texture with effect on screen
+		void GfxSdlEffects::DrawTexture(const SDL_Rect* destRect, const SDL_Rect* sourceRect, SDL_Texture* texture, const Color& color, int textW, int textH, BlendModes blend, int flip)
+		{
+			// bind texture
+			bool useTexture = _effect->UseTextures();
+			if (useTexture)
+			{
+				SDL_GL_BindTexture(texture, NULL, NULL);
+			}
+
+			// set blend mode
+			SetBlendMode(blend);
 
 			// use vertex color
 			bool useVertexColor = _effect->UseVertexColor();
@@ -436,6 +594,20 @@ namespace bon
 					minv = 0;
 					maxv = 1;
 				}
+			}
+
+			// do flips
+			if ((flip & SDL_FLIP_VERTICAL) != 0)
+			{
+				float temp = minv;
+				minv = maxv;
+				maxv = temp;
+			}
+			if ((flip & SDL_FLIP_HORIZONTAL) != 0)
+			{
+				float temp = minu;
+				minu = maxu;
+				maxu = temp;
 			}
 
 			// start drawing quad
