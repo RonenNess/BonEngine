@@ -410,6 +410,9 @@ format = 3                      ; audio format: 0 = U8, 1 = S8, 2 = U16LSB, 3 = 
 stereo = true                   ; do we support stereo sound (false for mono).
 audio_chunk_size = 4096         ; smaller value = more responsive sound at the price of CPU. 2048 and 4096 are good values.
 
+; logging config
+[log]
+log_level = Info                    ; set log level to info
 
 ; input - assign keys to game actions
 [controls]
@@ -742,6 +745,11 @@ Get current log level.
 #### bool IsValid(level)
 
 Checks if a given log level should be written to log.
+
+#### void Flush()
+
+Force logger to flush its internal buffers and write everything to files.
+In debug mode the logger will flush after every line.
 
 #### BON_XLOG Macros
 
