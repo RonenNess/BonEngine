@@ -63,6 +63,11 @@ namespace bon
 			 * \return True if log level is valid for current log level.
 			 */
 			virtual bool IsValid(LogLevel level) const = 0;
+
+			/**
+			 * Flush log and internal buffers.
+			 */
+			virtual void Flush() = 0;
 		
 		protected:
 

@@ -1343,6 +1343,21 @@ First stable release.
 - Fixed getting screen size when using OpenGL (previously returned 0,0).
 - Added dll export to all asset types.
 
+# 1.3.1
+
+**[01/09/2020]**
+
+- Added more logs and signals handling.
+- Added 'Flush' to logs.
+- Made sound effects more efficient by doing less queries.
+- Fixed log to flush after every line in debug mode.
+- Added try-catch around main loop in debug mode.
+- Added guard around assets deletion.
+- Fixed access violation while playing multiple long sounds with pitch (happened randomly).
+- Reduced memory allocations when using sound effects with pitch + made code safer against memory leaks.
+- Added option to set log level from config file.
+- Added option to turn off logging during init.
+
 ## In Memory Of Bonnie
 
 `BonEngine` is named after my deceased dog, Bonnie.

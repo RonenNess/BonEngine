@@ -12,18 +12,32 @@
 // AudioFormatType depends on the current audio format (queryable via Mix_QuerySpec)
 void Custom_Mix_PlaybackSpeedEffectFuncCallback(int mixChannel, void* stream, int length, void* userData)
 {
-	int frequency, channelCount;
-	Mix_QuerySpec(&frequency, NULL, &channelCount);
+	// sanity
+	if (stream == NULL || userData == NULL) {
+		return; 
+	}
 
 	Custom_Mix_PlaybackSpeedEffectHandler* handler = (Custom_Mix_PlaybackSpeedEffectHandler*) userData;
+	int frequency = handler->freq;
+	int channelCount = handler->chancnt;
 
 	// take a "snapshot" of these values
 	const float speedFactor = (handler->speed);
 
+	// sanity
+	if (handler->chunk == NULL || handler->chunk->abuf == NULL) {
+		return;
+	}
+
 	const AudioFormatType* chunkData = (AudioFormatType*) handler->chunk->abuf;
-
 	AudioFormatType* buffer = (AudioFormatType*) stream;
+	
+	// sanity
+	if (chunkData == NULL || buffer == NULL) { 
+		return; 
+	}
 
+	// get buffer size and duration
 	const int bufferSize = length / sizeof(AudioFormatType);  // buffer size (as array)
 	const int bufferDuration = Custom_Mix_ComputeChunkLengthMillisec(length);  // buffer time duration
 
@@ -39,8 +53,10 @@ void Custom_Mix_PlaybackSpeedEffectFuncCallback(int mixChannel, void* stream, in
 				handler->position += bufferDuration;
 
 				// reset position if looping
-				if (handler->loop) while (handler->position > handler->duration) {
-					handler->position -= handler->duration;
+				if (handler->loop) {
+					while (handler->position > handler->duration) {
+						handler->position -= handler->duration;
+					}
 				}
 			}
 			else  // if we already played the whole sound, halt channel
@@ -50,14 +66,15 @@ void Custom_Mix_PlaybackSpeedEffectFuncCallback(int mixChannel, void* stream, in
 					buffer[i] = 0;
 				}
 
-				Mix_HaltChannel(mixChannel);
+				//Mix_HaltChannel(mixChannel);
 			}
 
 			return;  // skipping pitch routine
 		}
 		// if pitch is required for the first time
-		else
+		else {
 			handler->touched = 1;  // mark as touched and proceed to the pitch routine.
+		}
 	}
 
 	// if there is still sound to be played
@@ -96,8 +113,10 @@ void Custom_Mix_PlaybackSpeedEffectFuncCallback(int mixChannel, void* stream, in
 		handler->position += bufferDuration * speedFactor; // this is not exact since a frame may play less than its duration when finished playing, but its simpler
 
 		// reset position if looping
-		if (handler->loop) while (handler->position > handler->duration) {
-			handler->position -= handler->duration;
+		if (handler->loop) {
+			while (handler->position > handler->duration) {
+				handler->position -= handler->duration;
+			}
 		}
 	}
 
@@ -108,7 +127,7 @@ void Custom_Mix_PlaybackSpeedEffectFuncCallback(int mixChannel, void* stream, in
 			buffer[i] = 0;
 		}
 
-		Mix_HaltChannel(mixChannel);
+		//Mix_HaltChannel(mixChannel);
 	}
 }
 

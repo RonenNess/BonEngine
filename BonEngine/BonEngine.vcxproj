@@ -194,6 +194,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClInclude Include="inc\Assets\Types\Sound.h" />
     <ClInclude Include="inc\Assets\Types\SoundHandle.h" />
     <ClInclude Include="inc\Engine\Defs.h" />
+    <ClInclude Include="inc\Engine\SignalHandler.h" />
     <ClInclude Include="inc\Gfx\FontsCache.h" />
     <ClInclude Include="inc\Gfx\GfxSdlEffects.h" />
     <ClInclude Include="inc\UI\Elements\Defs.h" />
@@ -276,6 +277,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClCompile Include="src\Assets\Effect.cpp" />
     <ClCompile Include="src\Diagnostics\Diagnostics.cpp" />
     <ClCompile Include="src\Engine\Scene.cpp" />
+    <ClCompile Include="src\Engine\SignalsHandler.cpp" />
     <ClCompile Include="src\Framework\Color.cpp" />
     <ClCompile Include="src\Framework\Point.cpp" />
     <ClCompile Include="src\Framework\Rectangle.cpp" />

@@ -243,6 +243,9 @@ namespace bon
 			// print spec and mark as initialized
 			BON_DLOG("Initialize sfx: frequency=%d, format=%d, channels=%d, chunks_size=%d, mix_channels: %d.", AudioSpec::frequency, AudioSpec::format, AudioSpec::channelCount, AudioSpec::chunkSize, AudioSpec::allocatedMixChannelsCount);
 			_wasInit = true;
+
+			// update specs
+			Custom_Mix_UpdateSpecs();
 		}
 
 		// play music track
@@ -309,11 +312,11 @@ namespace bon
 
 				// set pitch
 				if (pitch != 1.0f) {
-					Custom_Mix_RegisterPlaybackSpeedEffect(channel, sdlchunk, &pitch, loops, AudioSpec::format);
+					Custom_Mix_RegisterPlaybackSpeedEffect(channel, sdlchunk, pitch, loops, AudioSpec::format);
 				}
 				// disable previously set pitch
 				else {
-					Mix_RegisterEffect(channel, noEffect, NULL, NULL);
+					Mix_RegisterEffect(channel, NULL, NULL, NULL);
 				}
 			}
 

@@ -9,6 +9,7 @@
 
 // mutex for cache so we won't accidentally get a broken asset
 std::mutex g_cache_mutex;
+std::mutex g_delete_queue_mutex;
 
 // make sure file exists
 inline bool validate_file_exist(const std::string& name) {
@@ -80,6 +81,7 @@ namespace bon
 				// convert to shared ptr with corresponding deleter
 				auto assetPtr = std::shared_ptr<AssetType>(ret, [assets](IAsset* asset) {
 					if (!bon::_GetEngine().Destroyed()) {
+						std::lock_guard<std::mutex> guard(g_delete_queue_mutex);
 						_deleteQueue.push_back(asset);
 					}
 				});
@@ -107,9 +109,10 @@ namespace bon
 		void Assets::_Update(double deltaTime)
 		{
 			// clear assets on delete list
+			std::lock_guard<std::mutex> guard(g_delete_queue_mutex);
 			if (!_deleteQueue.empty())
 			{
-				BON_DLOG("Got %d assets to destroy.", _deleteQueue.size());
+				BON_DLOG("Got %d assets to destroy. Begin disposing..", _deleteQueue.size());
 				for (auto asset : _deleteQueue)
 				{
 					if (asset->IsValid())
@@ -117,10 +120,12 @@ namespace bon
 						this->Dispose(asset);
 					}
 				}
-				for (auto asset : _deleteQueue)
+				BON_DLOG("Now delete disposed assets.");
+				for (int i = 0; i < _deleteQueue.size(); ++i)
 				{
-					delete asset;
+					delete _deleteQueue[i];
 				}
+				BON_DLOG("Done deleting assets.");
 				_deleteQueue.clear();
 			}
 		}
@@ -183,6 +188,7 @@ namespace bon
 			// convert to shared ptr with corresponding deleter
 			auto assetPtr = std::shared_ptr<_Image>(ret, [this](IAsset* asset) {
 				if (!bon::_GetEngine().Destroyed()) {
+					std::lock_guard<std::mutex> guard(g_delete_queue_mutex);
 					_deleteQueue.push_back(asset);
 				}
 			});
@@ -237,6 +243,7 @@ namespace bon
 			// convert to shared ptr with corresponding deleter
 			auto assetPtr = std::shared_ptr<_Config>(ret, [this](IAsset* asset) {
 				if (!bon::_GetEngine().Destroyed()) {
+					std::lock_guard<std::mutex> guard(g_delete_queue_mutex);
 					_deleteQueue.push_back(asset);
 				}
 			});
@@ -295,7 +302,6 @@ namespace bon
 
 			// clear handle
 			asset->_SetHandle(nullptr);
-
 			// sanity - if asset is somehow in cache, remove it
 			for (auto it = _cache.begin(); it != _cache.end(); )
 			{

@@ -14,8 +14,8 @@
 #include "Engine/Engine.h"
 #include "Engine/Scene.h"
 
-#define _BON_VERSION_STR "1.3.0"
-#define _BON_VERSION 1.3
+#define _BON_VERSION_STR "1.3.1"
+#define _BON_VERSION 1.31
 
 namespace bon
 {
@@ -47,6 +47,16 @@ namespace bon
 		 * Note: if Effects are enabled it will force OpenGL regardless of this setting.
 		 */
 		bool ForceOpenGL = false;
+
+		/**
+		 * If true, will register signals handler to finish logs before exiting.
+		 */
+		bool RegisterSignalsHandler = false;
+
+		/**
+		 * Enable logging by default.
+		 */
+		bool Logging = true;
 	};
 
 	/**

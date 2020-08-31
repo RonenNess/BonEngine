@@ -64,7 +64,16 @@ namespace bon
 				throw framework::AssetLoadError("Fail to load config file!");
 			}
 
-			// start by initializing graphics
+			// start by initializing log level
+			if (config->Exists("log"))
+			{
+				static const char* LogLevels[] = { "None", "Debug", "Info", "Warn", "Error", "Critical" };
+				int logLevel = config->GetOption("log", "log_level", LogLevels, 1) - 1;
+				BON_DLOG("Set log level: %d", logLevel);
+				bon::_GetEngine().Log().SetLevel((bon::log::LogLevel)logLevel);
+			}
+
+			// initialize graphics
 			if (config->Exists("gfx"))
 			{
 				static const char* WindowModesOptions[] = { "windowed", "windowed_borderless", "fullscreen" };

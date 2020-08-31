@@ -33,6 +33,11 @@ extern "C" {
 	*/
 	BON_DLLEXPORT void BON_Log_Write(BON_LogLevel level, const char* msg);
 
+	/**
+	* Flush log.
+	*/
+	BON_DLLEXPORT void BON_Log_Flush();
+
 #ifdef __cplusplus
 }
 #endif

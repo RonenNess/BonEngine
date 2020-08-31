@@ -84,6 +84,12 @@ namespace bon
 			return true;
 		}
 
+		// flush log file
+		void Log::Flush()
+		{
+			FlushLogFile();
+		}
+
 		// write log
 		void Log::Write(LogLevel level, const char* fmt, ...)
 		{
@@ -128,7 +134,7 @@ namespace bon
 			va_end(arg);
 
 			// in debug mode, flush immediately
-			#ifdef DEBUG
+			#ifdef _DEBUG
 				FlushLogFile();
 			#endif
 		}

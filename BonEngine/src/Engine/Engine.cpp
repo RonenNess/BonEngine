@@ -10,6 +10,7 @@
 #include <UI/UI.h>
 #include <Engine/Scene.h>
 #include <BonEngine.h>
+#include <Engine/SignalHandler.h>
 
 #pragma warning(push, 0)
 #include <SDL2-2.0.12/include/SDL.h>
@@ -29,21 +30,30 @@ namespace bon
 
 			// update state to init
 			_state = EngineStates::Initialize;
+
+			// get features
+			auto features = bon::Features();
 			
 			// create default debug manager
 			if (!_logManager) {
 				_logManager = new log::Log();
 			}
+
+			// disable logs if feature is disabled
+			if (!features.Logging) {
+				_logManager->SetLevel(LogLevel::None);
+			}
+
 			// init log manager before everyone else
 			_logManager->_Initialize();
 			_logManager->Write(log::LogLevel::Info, "Engine starts.");
 
 			// list features
-			auto features = bon::Features();
 			_logManager->Write(log::LogLevel::Info, "Features:\n\
 	- EffectsEnabled: %d\n\
+	- RegisterSignalsHandler: %d\n\
 	- ForceOpenGL: %d",
-				features.EffectsEnabled, features.ForceOpenGL);
+				features.EffectsEnabled, features.RegisterSignalsHandler, features.ForceOpenGL);
 
 			// create default diagnostics manager
 			if (!_diagnosticsManager) {
@@ -141,6 +151,11 @@ namespace bon
 			_isRunning = true;
 			SetScene(startingScene);
 
+			// register signals handler
+			if (features.RegisterSignalsHandler) {
+				RegisterSignalsHandler();
+			}
+
 			// start main loop
 			_logManager->Write(log::LogLevel::Debug, "Start main loop...");
 			StartMainLoop();
@@ -199,102 +214,116 @@ namespace bon
 			// SDL event handler
 			SDL_Event e;
 
-			// main loop
-			while (_isRunning)
+#ifdef _DEBUG 
+			try
 			{
-				// if we have a scene to switch to, do the switching
-				if (_nextScene) {
-					_state = EngineStates::SwitchScene;
-					DoSceneSwitch();
-				}
+#endif
 
-				// update state to in-between
-				_state = EngineStates::MainLoopInBetweens;
-
-				// no active scene? skip frame
-				if (!_activeScene) {
-					continue;
-				}
-
-				// calculates per-frame delta time
-				LAST = NOW;
-				NOW = SDL_GetPerformanceCounter();
-				deltaTime = ((double)((NOW - LAST) * 1000 / (double)SDL_GetPerformanceFrequency())) / 1000.0;
-
-				// update all managers
-				_state = EngineStates::InternalUpdate;
-				for (size_t i = 0; i < _managers.size(); ++i) {
-					(_managers)[i]->_Update(deltaTime);
-				}
-				_state = EngineStates::MainLoopInBetweens;
-
-				// handle events on queue
-				_state = EngineStates::HandleEvents;
-				while (SDL_PollEvent(&e) != 0)
+				// main loop
+				while (_isRunning)
 				{
-					// user requests quit
-					if (e.type == SDL_QUIT)
-					{
-						_isRunning = false;
-						break;
+					// if we have a scene to switch to, do the switching
+					if (_nextScene) {
+						_state = EngineStates::SwitchScene;
+						DoSceneSwitch();
 					}
 
-					// send event to all managers
+					// update state to in-between
+					_state = EngineStates::MainLoopInBetweens;
+
+					// no active scene? skip frame
+					if (!_activeScene) {
+						continue;
+					}
+
+					// calculates per-frame delta time
+					LAST = NOW;
+					NOW = SDL_GetPerformanceCounter();
+					deltaTime = ((double)((NOW - LAST) * 1000 / (double)SDL_GetPerformanceFrequency())) / 1000.0;
+
+					// update all managers
+					_state = EngineStates::InternalUpdate;
 					for (size_t i = 0; i < _managers.size(); ++i) {
-						(_managers)[i]->_HandleEvent(e);
+						(_managers)[i]->_Update(deltaTime);
 					}
-				}
-				_state = EngineStates::MainLoopInBetweens;
+					_state = EngineStates::MainLoopInBetweens;
 
-				// update scene
-				if (deltaTime > 0) {
-
-					// do fixed updates
-					_state = EngineStates::FixedUpdate;
-					if (FixedUpdatesInterval > 0)
+					// handle events on queue
+					_state = EngineStates::HandleEvents;
+					while (SDL_PollEvent(&e) != 0)
 					{
-						timeForNextFixedUpdate += deltaTime;
-						while (timeForNextFixedUpdate > FixedUpdatesInterval) 
+						// user requests quit
+						if (e.type == SDL_QUIT)
 						{
-							// do fixed update
-							_activeScene->_FixedUpdate(FixedUpdatesInterval);
+							_isRunning = false;
+							break;
+						}
 
-							// if need to switch scene skip here
-							if (_nextScene) {
-								break;
-							}
-
-							// update time until next fixed update and increase fixed updates count
-							timeForNextFixedUpdate -= FixedUpdatesInterval;
-							_fixedUpdatesCount++;
+						// send event to all managers
+						for (size_t i = 0; i < _managers.size(); ++i) {
+							(_managers)[i]->_HandleEvent(e);
 						}
 					}
 					_state = EngineStates::MainLoopInBetweens;
 
-					// if need to switch scene skip here
-					if (_nextScene) {
-						continue;
+					// update scene
+					if (deltaTime > 0) {
+
+						// do fixed updates
+						_state = EngineStates::FixedUpdate;
+						if (FixedUpdatesInterval > 0)
+						{
+							timeForNextFixedUpdate += deltaTime;
+							while (timeForNextFixedUpdate > FixedUpdatesInterval)
+							{
+								// do fixed update
+								_activeScene->_FixedUpdate(FixedUpdatesInterval);
+
+								// if need to switch scene skip here
+								if (_nextScene) {
+									break;
+								}
+
+								// update time until next fixed update and increase fixed updates count
+								timeForNextFixedUpdate -= FixedUpdatesInterval;
+								_fixedUpdatesCount++;
+							}
+						}
+						_state = EngineStates::MainLoopInBetweens;
+
+						// if need to switch scene skip here
+						if (_nextScene) {
+							continue;
+						}
+
+						// do per-frame update, unless need to switch scene
+						_state = EngineStates::Update;
+						_activeScene->_Update(deltaTime);
+						_state = EngineStates::MainLoopInBetweens;
+
+						// increase updates count
+						_updatesCount++;
+
+						// if need to switch scene skip here
+						if (_nextScene) {
+							continue;
+						}
 					}
 
-					// do per-frame update, unless need to switch scene
-					_state = EngineStates::Update;
-					_activeScene->_Update(deltaTime);
+					// draw scene
+					_state = EngineStates::Draw;
+					_activeScene->_Draw();
 					_state = EngineStates::MainLoopInBetweens;
-
-					// increase updates count
-					_updatesCount++;
-
-					// if need to switch scene skip here
-					if (_nextScene) {
-						continue;
-					}
 				}
 
-				// draw scene
-				_state = EngineStates::Draw;
-				_activeScene->_Draw();
-				_state = EngineStates::MainLoopInBetweens;
+#ifdef _DEBUG 
 			}
+			catch (exception& e)
+			{
+				BON_ELOG("Unexpected exception in main loop! Error: %s", e.what());
+				throw e;
+			}
+#endif
 
 			// when done, call cleanup
 			_state = EngineStates::Stopping;

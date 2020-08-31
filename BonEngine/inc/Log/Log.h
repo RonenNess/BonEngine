@@ -84,7 +84,12 @@ namespace bon
 			 * \param level Log level to test.
 			 * \return True if log level is valid for current log level.
 			 */
-			virtual bool IsValid(LogLevel level) const;
+			virtual bool IsValid(LogLevel level) const override;
+
+			/**
+			 * Flush log and internal buffers.
+			 */
+			virtual void Flush() override;
 
 		private:
 

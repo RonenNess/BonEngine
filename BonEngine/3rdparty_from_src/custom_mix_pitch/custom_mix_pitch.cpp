@@ -13,54 +13,64 @@
 
 #define FORMAT_SAMPLE_SIZE(format) ((format & 0xFF) / 8)
 
+// current sound specs
+Uint16 _fmt;
+int _freq;
+int _chancnt;
+
+ // update sound specs after initializing sfx
+void Custom_Mix_UpdateSpecs()
+{
+	Mix_QuerySpec(&_freq, &_fmt, &_chancnt);
+}
+
 // Get chunk time length (in ms) given its size and current audio format
 int Custom_Mix_ComputeChunkLengthMillisec(int chunkSize)
 {
-	Uint16 fmt;
-	int freq, chancnt;
-	Mix_QuerySpec(&freq, &fmt, &chancnt);
-
 	/* bytes / samplesize == sample points */
-	const Uint32 points = chunkSize / FORMAT_SAMPLE_SIZE(fmt);
+	const Uint32 points = chunkSize / FORMAT_SAMPLE_SIZE(_fmt);
 
 	/* sample points / channels == sample frames */
-	const Uint32 frames = (points / chancnt);
+	const Uint32 frames = (points / _chancnt);
 
 	/* (sample frames * 1000) / frequency == play length, in ms */
-	return ((frames * 1000) / freq);
+	return ((frames * 1000) / _freq);
 }
 
 /* Custom handler object to control which part of the Mix_Chunk's audio data will be played, with which pitch-related modifications. */
 typedef struct Custom_Mix_PlaybackSpeedEffectHandler
 {
-	Mix_Chunk* chunk;
-	float speed;  // ptr to the desired playback speed
-	int position;  // current position of the sound, in ms
-	int touched;  // false if this playback has never been pitched.
+	Mix_Chunk* chunk;	// the chunk itself
+	float speed;		// the desired playback speed
+	int position;		// current position of the sound, in ms
+	int touched;		// false if this playback has never been pitched.
 
 	// read-only!
-	int loop;      // whether this is a looped playback
-	int duration;  // the duration of the sound, in ms
-	int chunkSize;  // the size of the sound, as a number of indexes (or sample points). thinks of this as a array size when using the proper array type (instead of just Uint8*).
+	int loop;			// whether this is a looped playback
+	int duration;		// the duration of the sound, in ms
+	int chunkSize;		// the size of the sound, as a number of indexes (or sample points). thinks of this as a array size when using the proper array type (instead of just Uint8*).
+
+	// sound format
+	Uint16 fmt;
+	int freq;
+	int chancnt;
 }
 Custom_Mix_PlaybackSpeedEffectHandler;
 
 // "Constructor" for Custom_Mix_PlaybackSpeedEffectHandler
-Custom_Mix_PlaybackSpeedEffectHandler* Custom_Mix_CreatePlaybackSpeedEffectHandler(float* speed, Mix_Chunk* chunk, int loop)
+void Custom_Mix_CreatePlaybackSpeedEffectHandler(Custom_Mix_PlaybackSpeedEffectHandler* handler, float speed, Mix_Chunk* chunk, int loop)
 {
-	Uint16 fmt;
-	Mix_QuerySpec(NULL, &fmt, NULL);
-
-	Custom_Mix_PlaybackSpeedEffectHandler* handler = new Custom_Mix_PlaybackSpeedEffectHandler();
 	int duration = Custom_Mix_ComputeChunkLengthMillisec(chunk->alen);
 	handler->chunk = chunk;
-	handler->speed = *speed;
+	handler->speed = speed;
 	handler->position = 0;
 	handler->touched = 0;
 	handler->loop = loop;
 	handler->duration = duration;
-	handler->chunkSize = chunk->alen / FORMAT_SAMPLE_SIZE(fmt);
-	return handler;
+	handler->chunkSize = chunk->alen / FORMAT_SAMPLE_SIZE(_fmt);
+	handler->fmt = _fmt;
+	handler->freq = _freq;
+	handler->chancnt = _chancnt;
 }
 
 // Playback speed altering function callbacks for different audio formats (fwd. declaring these just to prevent some IDE warnings...)
@@ -116,12 +126,20 @@ void Custom_Mix_PlaybackSpeedEffectFuncCallbackFloat (int channel, void* stream,
 // Mix_EffectDone_t callback that deletes the handler at the end of the effect usage  (handler passed via userData)
 void Custom_Mix_PlaybackSpeedEffectDoneCallback(int channel, void *userData)
 {
-	delete userData;
 }
 
+// max channels count
+const int max_channels_count = MIX_CHANNELS + 1;
+
 // Register a proper playback speed effect handler for this channel according to the current audio format. Effect valid for the current (or next) playback only.
-void Custom_Mix_RegisterPlaybackSpeedEffect(int channel, Mix_Chunk* chunk, float* speed, int loop, Uint16 fmt)
+void Custom_Mix_RegisterPlaybackSpeedEffect(int channel, Mix_Chunk* chunk, float speed, int loop, Uint16 fmt)
 {
+	// sanity
+	if (channel < 0 || channel >= max_channels_count) { return; }
+
+	// user data for callbacks - a static pool with channel id as index
+	static Custom_Mix_PlaybackSpeedEffectHandler handlersPool[max_channels_count];
+
 	Mix_EffectFunc_t effect_func_callback;
 
 	// select the register function for the current audio format and register the effect using the compatible handlers
@@ -137,5 +155,7 @@ void Custom_Mix_RegisterPlaybackSpeedEffect(int channel, Mix_Chunk* chunk, float
 		case AUDIO_F32: effect_func_callback = Custom_Mix_PlaybackSpeedEffectFuncCallbackFloat;  break;
 	}
 
-	Mix_RegisterEffect(channel, effect_func_callback, Custom_Mix_PlaybackSpeedEffectDoneCallback, Custom_Mix_CreatePlaybackSpeedEffectHandler(speed, chunk, loop));
+	Custom_Mix_PlaybackSpeedEffectHandler* handler = &handlersPool[channel];
+	Custom_Mix_CreatePlaybackSpeedEffectHandler(handler, speed, chunk, loop);
+	Mix_RegisterEffect(channel, effect_func_callback, Custom_Mix_PlaybackSpeedEffectDoneCallback, handler);
 }
