@@ -135,7 +135,7 @@ namespace bon
 			_Implementor.DrawRectangle(rect, color, filled, blendMode);
 		}
 
-		// draws a circle.
+		// draws a circle
 		void Gfx::DrawCircle(const framework::PointI& center, int radius, const framework::Color& color, bool filled, BlendModes blendMode)
 		{
 			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
@@ -145,6 +145,13 @@ namespace bon
 			else {
 				_Implementor.DrawCircleLines(center, radius, color, blendMode);
 			}
+		}
+
+		// create image asset from screen
+		assets::ImageAsset Gfx::CreateImageFromScreen() const
+		{
+			_ImageHandle* handle = _Implementor.RenderScreenToImage();
+			return _GetEngine().Assets().CreateImageFromHandle(handle);
 		}
 
 		// get window size

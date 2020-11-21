@@ -61,6 +61,15 @@ namespace bon
 			}
 
 			/**
+			 * Create image with handle.
+			 *
+			 * \param handle Image handle.
+			 */
+			_Image(_ImageHandle* handle) : IAsset(std::to_string((long)handle).c_str()) {
+				_SetHandle(handle);
+			}
+
+			/**
 			 * Return if this asset is properly loaded / valid.
 			 */
 			virtual bool IsValid() const override

@@ -862,6 +862,37 @@ namespace bon
 			SDL_SetRenderTarget(_renderer, target);
 		}
 
+		// render screen to surface
+		assets::_ImageHandle* GfxSdlWrapper::RenderScreenToImage() const
+		{
+			// get current render target and set texture as the new render target
+			SDL_Texture* target = SDL_GetRenderTarget(_renderer);
+			SDL_SetRenderTarget(_renderer, NULL);
+
+			// calc source rect / surface size
+			int w; int h;
+			SDL_GetWindowSize(_window, &w, &h);
+			SDL_Rect rect;
+			rect.x = 0;
+			rect.y = 0;
+			rect.w = w;
+			rect.h = h;
+
+			// create surface
+			SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h, 32, 0, 0, 0, 0);
+
+			// read pixels into new surface
+			SDL_RenderReadPixels(_renderer, &rect, surface->format->format, surface->pixels, surface->pitch);
+
+			// convert to texture
+			SDL_Texture* ret = SDL_CreateTextureFromSurface(_renderer, surface);
+			SDL_FreeSurface(surface);
+
+			// recover previous render target and return
+			SDL_SetRenderTarget(_renderer, target);
+			return new SDL_ImageHandle(ret, w, h, (GfxSdlWrapper*)this);
+		}
+
 		// draw texture on screen
 		void GfxSdlWrapper::DrawTexture(SDL_Texture* texture, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color, RectangleI* outDestRect, bool dryrun, int textW, int textH)
 		{

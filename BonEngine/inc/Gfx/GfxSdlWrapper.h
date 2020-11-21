@@ -152,6 +152,13 @@ namespace bon
 			SDL_Surface* TextureToSurface(SDL_Texture* texture, int width, int height, framework::RectangleI sourceRect);
 
 			/**
+			 * Create a new texture containing everything currently rendered on screen.
+			 * 
+			 * \return Newly created texture created from screen.
+			 */
+			assets::_ImageHandle* RenderScreenToImage() const;
+
+			/**
 			 * Set textures filtering mode.
 			 * 
 			 * \param mode Texture filtering mode.

@@ -234,6 +234,13 @@ namespace bon
 			 * \param effect Effect to use to null to use default rendering effect.
 			 */
 			virtual void UseEffect(assets::EffectAsset effect) override;
+
+			/**
+			 * Take a screenshot of what's currently presented on screen and return as an image asset.
+			 *
+			 * \return New image containing whats currently rendered on screen.
+			 */
+			virtual assets::ImageAsset CreateImageFromScreen() const override;
 		};
 	}
 }

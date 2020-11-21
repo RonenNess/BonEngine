@@ -145,6 +145,14 @@ namespace bon
 			 * \return Empty image.
 			 */
 			virtual ImageAsset CreateEmptyImage(const framework::PointI& size, ImageFilterMode filter = ImageFilterMode::Nearest) override;
+			
+			/**
+			 * Creates and return an image asset from image handle.
+			 *
+			 * \param handle Image handle.
+			 * \return New image asset.
+			 */
+			virtual ImageAsset CreateImageFromHandle(_ImageHandle* handle) override;
 
 			/**
 			 * Get loaded assets count by type.

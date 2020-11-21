@@ -624,6 +624,10 @@ This is an extremely useful functionality you can use for post-effects.
 
 Retrieve currently set render target, or null if not set.
 
+#### ImageAsset CreateImageFromScreen()
+
+Create a new image asset containing everything currently rendered on screen.
+
 #### PointI WindowSize()
 
 Get window size.
@@ -1365,6 +1369,12 @@ First stable release.
 - Reduced memory allocations when using sound effects with pitch + made code safer against memory leaks.
 - Added option to set log level from config file.
 - Added option to turn off logging during init.
+
+# 1.3.2
+
+**[21/11/2020]**
+
+- Add method to generate image asset from screen.
 
 ## In Memory Of Bonnie
 

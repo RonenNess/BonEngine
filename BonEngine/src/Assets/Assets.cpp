@@ -121,7 +121,7 @@ namespace bon
 					}
 				}
 				BON_DLOG("Now delete disposed assets.");
-				for (int i = 0; i < _deleteQueue.size(); ++i)
+				for (int i = 0; i < (int)_deleteQueue.size(); ++i)
 				{
 					delete _deleteQueue[i];
 				}
@@ -192,6 +192,23 @@ namespace bon
 					_deleteQueue.push_back(asset);
 				}
 			});
+			return assetPtr;
+		}
+
+		// create image from handle
+		ImageAsset Assets::CreateImageFromHandle(_ImageHandle* handle)
+		{
+			// create empty image
+			_Image* ret = new _Image(handle);
+			InitNewAsset(ret, (void*)&PointI(handle->Width(), handle->Height()));
+
+			// convert to shared ptr with corresponding deleter
+			auto assetPtr = std::shared_ptr<_Image>(ret, [this](IAsset* asset) {
+				if (!bon::_GetEngine().Destroyed()) {
+					std::lock_guard<std::mutex> guard(g_delete_queue_mutex);
+					_deleteQueue.push_back(asset);
+				}
+				});
 			return assetPtr;
 		}
 		

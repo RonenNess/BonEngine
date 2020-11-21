@@ -48,6 +48,14 @@ namespace bon
 			 * \return Empty image.
 			 */
 			virtual ImageAsset CreateEmptyImage(const framework::PointI& size, ImageFilterMode filter = ImageFilterMode::Nearest) = 0;
+			
+			/**
+			 * Creates and return an image asset from image handle.
+			 *
+			 * \param handle Image handle.
+			 * \return New image asset.
+			 */
+			virtual ImageAsset CreateImageFromHandle(_ImageHandle* handle) = 0;
 
 			/**
 			 * Load and return a music asset.
