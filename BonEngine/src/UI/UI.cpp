@@ -209,6 +209,14 @@ namespace bon
 			return ret;
 		}
 
+		// create and return a dropdown element.
+		UIDropDown UI::CreateDropDown(const char* stylesheet, UIElement parent)
+		{
+			UIDropDown ret = std::make_shared<_UIDropDown>();
+			InitNewElement(ret, stylesheet, parent);
+			return ret;
+		}
+
 		// create and return a scrollbar element.
 		UIVerticalScrollbar UI::CreateVerticalScrollbar(const char* stylesheet, UIElement parent)
 		{

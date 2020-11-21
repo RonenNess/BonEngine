@@ -55,7 +55,7 @@ namespace bon
 			 *				*	[scrollbar]
 			 *				*		- handle_style = Stylesheet to use for handle (image).
 			 */
-			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
+			virtual void LoadStyleFrom(const assets::ConfigAsset& config) override;
 
 			/**
 			 * Update the UI element and children.

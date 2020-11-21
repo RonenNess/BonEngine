@@ -907,6 +907,7 @@ The `UI` manager has the following built-in elements:
 * Image
 * Scrollbar
 * List
+* DropDown
 
 #### Concepts
 
@@ -986,6 +987,10 @@ Create a radio button element.
 #### UIList CreateList(stylesheet, parent)
 
 Create a list element.
+
+#### UIDropDown CreateDropDown(stylesheet, parent)
+
+Create a dropdown element.
 
 #### UISlider CreateSlider(stylesheet, parent)
 
@@ -1374,7 +1379,9 @@ First stable release.
 
 **[21/11/2020]**
 
-- Add method to generate image asset from screen.
+- Added method to generate image asset from screen.
+- Added DropDown UI element.
+- Fixed state bug when switching effects.
 
 ## In Memory Of Bonnie
 

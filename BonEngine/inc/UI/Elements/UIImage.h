@@ -90,7 +90,7 @@ namespace bon
 			 *				*		- texture_scale = Scale texture when in tiled / sliced mode (float value).
 			 *				*		- sliced_sides = Size in pixels of a sliced image sides (left, top, right, bottom).
 			 */
-			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
+			virtual void LoadStyleFrom(const assets::ConfigAsset& config) override;
 
 		protected:
 			/**

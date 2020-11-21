@@ -24,6 +24,7 @@
 #include "Elements/UICheckBox.h"
 #include "Elements/UIRadioButton.h"
 #include "Elements/UISlider.h"
+#include "Elements/UIDropDown.h"
 #include "Elements/UITextInput.h"
 #include "Elements/UIVerticalScrollbar.h"
 
@@ -178,7 +179,16 @@ namespace bon
 			 * \return Newly created list.
 			 */
 			virtual UIList CreateList(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
-			
+
+			/**
+			 * Create and return a dropdown element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \return Newly created dropdown.
+			 */
+			virtual UIDropDown CreateDropDown(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
+
 			/**
 			 * Create and return a slider element.
 			 *

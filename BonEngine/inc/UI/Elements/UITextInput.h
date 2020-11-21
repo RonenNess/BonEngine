@@ -114,7 +114,7 @@ namespace bon
 			 *				*		- placeholder_offset = text placeholder offset (x,y).
 			 *				*		- placeholder_anchor = if provided, will override text's placeholder anchor (x,y).
 			 */
-			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
+			virtual void LoadStyleFrom(const assets::ConfigAsset& config) override;
 
 			/**
 			 * Update the UI element and children.

@@ -76,7 +76,7 @@ namespace bon
 			 *				*		- caption_anchor = if provided, will override checkbox's text anchor (x,y).
 			 *				*		- allow_uncheck = set if user can uncheck the checkbox.
 			 */
-			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
+			virtual void LoadStyleFrom(const assets::ConfigAsset& config) override;
 
 		protected:
 

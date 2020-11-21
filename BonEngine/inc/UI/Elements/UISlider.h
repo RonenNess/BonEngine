@@ -66,7 +66,7 @@ namespace bon
 			 *				*		- handle_style = Stylesheet to use for handle (image).
 			 *				*		- active_slider_rect = Optional source rectangle for an overlay part that covers the active part of the slider (x,y,w,h).
 			 */
-			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
+			virtual void LoadStyleFrom(const assets::ConfigAsset& config) override;
 		
 		protected:
 

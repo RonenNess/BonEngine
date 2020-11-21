@@ -138,7 +138,7 @@ namespace bon
 			 * 				*		- outline_width_highlight = Text outline width, while being pointed on / highlighted.
 			 * 				*		- outline_width_pressed = Text outline width, while being pressed on / interacted with.
 			 */
-			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
+			virtual void LoadStyleFrom(const assets::ConfigAsset& config) override;
 
 			/**
 			 * Update the UI element and children.

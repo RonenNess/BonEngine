@@ -67,10 +67,10 @@ namespace bon
 		private:
 
 			// active renderer
-			SDL_Renderer* _renderer;
+			SDL_Renderer* _renderer = NULL;
 
 			// default program to restore to after using effect.
-			int _defaultProgram;
+			int _defaultProgram = 0;
 
 			// currently active effect
 			assets::EffectAsset _effect;

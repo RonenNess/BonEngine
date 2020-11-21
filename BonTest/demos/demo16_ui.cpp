@@ -88,9 +88,10 @@ namespace demo16_ui
 			}
 
 			// create main test window
-			bon::UIWindow intoWindow = UI().CreateUIWindow("../TestAssets/ui/window.ini", _uiRoot, "Button & List");
+			bon::UIWindow intoWindow = UI().CreateUIWindow("../TestAssets/ui/window.ini", _uiRoot, "Button, List, DropDown");
 			intoWindow->SetOffset(bon::PointI(100, 50));
 			intoWindow->AutoArrangeChildren = true;
+			intoWindow->SetSizeInPixels(bon::PointI(intoWindow->GetSize().Width, intoWindow->GetSize().Height + 90));
 
 			// add intro text
 			bon::UIText intro = UI().CreateText("../TestAssets/ui/small_text.ini", intoWindow, 
@@ -100,6 +101,7 @@ namespace demo16_ui
 			bon::UIButton button = UI().CreateButton("../TestAssets/ui/button.ini", intoWindow, "A Button");
 
 			// add a list
+			UI().CreateText("../TestAssets/ui/small_text.ini", intoWindow, "List Element:");
 			bon::UIList uilist = UI().CreateList("../TestAssets/ui/list.ini", intoWindow);
 			uilist->AddItem("This is a list");
 			uilist->AddItem("You can add items");
@@ -108,12 +110,13 @@ namespace demo16_ui
 				uilist->AddItem((std::string("Item #") + std::to_string(i)).c_str());
 			}
 
-			// add text to show selected item on change
-			bon::UIText listSelectedText = UI().CreateText("../TestAssets/ui/small_text.ini", intoWindow, "Selected: ");
-			uilist->OnValueChange = [uilist, listSelectedText](bon::_UIElement& self, void*)
-			{
-				listSelectedText->SetText((std::string("Selected: " + std::string(uilist->SelectedItem())).c_str()));
-			};
+			// create dropdown
+			UI().CreateText("../TestAssets/ui/small_text.ini", intoWindow, "DropDown Element:");
+			bon::UIDropDown uidropdown = UI().CreateDropDown("../TestAssets/ui/dropdown.ini", intoWindow);
+			uidropdown->AddItem("This is a dropdown");
+			for (int i = 1; i <= 15; ++i) {
+				uidropdown->AddItem((std::string("Item #") + std::to_string(i)).c_str());
+			}
 
 			// create additional window to show more stuff
 			bon::UIWindow checkAndSliderWindow = UI().CreateUIWindow("../TestAssets/ui/window.ini", _uiRoot, "Check, Radio, Slider");

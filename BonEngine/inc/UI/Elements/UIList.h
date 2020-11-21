@@ -114,7 +114,7 @@ namespace bon
 			 *				*		- line_height = Height, in pixels, of a single line in list.
 			 *				*		- vscrollbar_style = Stylesheet for list vertical scrollbar (UIVerticalScrollbar).
 			 */
-			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
+			virtual void LoadStyleFrom(const assets::ConfigAsset& config) override;
 
 			/**
 			 * Show / hide scrollbar.

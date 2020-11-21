@@ -48,7 +48,7 @@ namespace bon
 			 *				*		- title_offset = title text offset (x,y).
 			 *				*		- title_anchor = if provided, will override window's text anchor (x,y).
 			 */
-			virtual void LoadStyleFrom(const assets::ConfigAsset& config);
+			virtual void LoadStyleFrom(const assets::ConfigAsset& config) override;
 		};
 	}
 }
