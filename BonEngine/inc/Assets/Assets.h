@@ -152,7 +152,7 @@ namespace bon
 			 * \param handle Image handle.
 			 * \return New image asset.
 			 */
-			virtual ImageAsset CreateImageFromHandle(_ImageHandle* handle) override;
+			virtual ImageAsset _CreateImageFromHandle(_ImageHandle* handle) override;
 
 			/**
 			 * Get loaded assets count by type.
@@ -191,8 +191,9 @@ namespace bon
 			 * 
 			 * \param asset Asset to initialize.
 			 * \param extraData Any additional data required for the creation of the asset. For example, when creating an empty image this will be image size.
+			 * \param assetAlreadyValid If true, it means the asset is expected to be initialize. If false, asset is expected to be invalid at this point.
 			 */
-			void InitNewAsset(IAsset* asset, void* extraData = nullptr);
+			void InitNewAsset(IAsset* asset, void* extraData = nullptr, bool assetAlreadyValid = false);
 
 			/**
 			 * Dispose an asset. Called automatically when asset destructor is called.

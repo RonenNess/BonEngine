@@ -117,6 +117,14 @@ bon::assets::ImageAsset* BON_Gfx_GetRenderTarget()
 }
 
 /**
+ * Create image asset from screen.
+ */
+bon::assets::ImageAsset* BON_Gfx_CreateImageFromScreen()
+{
+	return (bon::assets::ImageAsset*)(&bon::_GetEngine().Gfx().CreateImageFromScreen());
+}
+
+/**
  * Set effect to use.
  */
 void BON_Gfx_UseEffect(const bon::assets::EffectAsset* effect)

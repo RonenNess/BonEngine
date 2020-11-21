@@ -151,7 +151,7 @@ namespace bon
 		assets::ImageAsset Gfx::CreateImageFromScreen() const
 		{
 			_ImageHandle* handle = _Implementor.RenderScreenToImage();
-			return _GetEngine().Assets().CreateImageFromHandle(handle);
+			return _GetEngine().Assets()._CreateImageFromHandle(handle);
 		}
 
 		// get window size

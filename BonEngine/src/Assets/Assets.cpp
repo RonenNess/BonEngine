@@ -196,11 +196,11 @@ namespace bon
 		}
 
 		// create image from handle
-		ImageAsset Assets::CreateImageFromHandle(_ImageHandle* handle)
+		ImageAsset Assets::_CreateImageFromHandle(_ImageHandle* handle)
 		{
 			// create empty image
 			_Image* ret = new _Image(handle);
-			InitNewAsset(ret, (void*)&PointI(handle->Width(), handle->Height()));
+			InitNewAsset(ret, (void*)&PointI(handle->Width(), handle->Height()), true);
 
 			// convert to shared ptr with corresponding deleter
 			auto assetPtr = std::shared_ptr<_Image>(ret, [this](IAsset* asset) {
@@ -268,21 +268,28 @@ namespace bon
 		}
 
 		// init new assets
-		void Assets::InitNewAsset(IAsset* asset, void* extraData)
+		void Assets::InitNewAsset(IAsset* asset, void* extraData, bool assetAlreadyValid)
 		{
 			// log
 			const char* temp = asset->Path();
 			BON_DLOG("Init new asset with path '%s' and address %x.", temp, asset);
 
-			// already initialized? error
-			if (asset->IsValid()) {
-				throw InvalidState("Asset to initialize is already in valid state!");
+			// should not be, but already initialized? error
+			if (!assetAlreadyValid && asset->IsValid()) {
+				throw InvalidState("Asset to initialize supposed to be pre-init, but is already in valid state!");
+			}
+			// should be but not initialized? error
+			if (assetAlreadyValid && !asset->IsValid()) {
+				throw InvalidState("Asset to initialize supposed to be valid, but is not in invalid state!");
 			}
 
 			// call custom initializers
-			auto initializerData = _initializers[(int)asset->AssetType()];
-			if (initializerData.InitializerFunc) {
-				initializerData.InitializerFunc(asset, initializerData.Context, extraData);
+			if (!assetAlreadyValid)
+			{
+				auto initializerData = _initializers[(int)asset->AssetType()];
+				if (initializerData.InitializerFunc) {
+					initializerData.InitializerFunc(asset, initializerData.Context, extraData);
+				}
 			}
 
 			// update counters

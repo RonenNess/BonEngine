@@ -25,6 +25,9 @@ namespace demo17_effects
 		bon::EffectAsset _grayscaleEffect;
 		bon::EffectAsset _shakeEffect;
 
+		// last screenshot taken
+		bon::ImageAsset _screenshot;
+
 	public:
 		// on scene load
 		virtual void _Load() override
@@ -52,12 +55,18 @@ namespace demo17_effects
 		// per-frame update
 		virtual void _Update(double deltaTime) override
 		{
-			if (Input().Down("exit")) { Game().Exit(); }
+			if (Input().Down("exit")) { 
+				Game().Exit(); 
+			}
+			if (Input().ReleasedNow(bon::input::KeyCodes::KeyP)) { 
+				_screenshot = Gfx().CreateImageFromScreen(); 
+			}
 		}
 
 		// drawing
 		virtual void _Draw() override
 		{	
+			// clear screen
 			Gfx().ClearScreen(bon::Color::Black);
 
 			// set lightsmap as target and paint it black
@@ -91,12 +100,19 @@ namespace demo17_effects
 			Gfx().DrawImage(_lightMap, bon::PointF::Zero, &windowSize, bon::BlendModes::Multiply);
 			Gfx().UseEffect(nullptr);
 
+			// draw screenshot
+			if (_screenshot != NULL)
+			{
+				Gfx().DrawImage(_screenshot, bon::PointF(800, 600), &(bon::PointI(800, 600) / 3), bon::BlendModes::Opaque, NULL, &bon::PointF(1, 1), 0, NULL);
+			}
+
 			// draw demo text
 			Gfx().DrawText(_font, "Demo #17: Effects", bon::PointF(60, 100), nullptr, 0, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
 			Gfx().DrawText(_font, "This demo illustrates Effects.\n\
 Its like the lights demo, but there's a CEL effect on the lightmap. \n\
-Also the cursor is with effect to makes it wavey. \n\
-In addition you can hold down space to draw in grayscale, using another effect asset. \n\
+Also the cursor is drawn with wavey effect. \n\
+Hold down Space to draw in grayscale effect. \n\
+Press 'P' to take a screenshot. \n\
 Hit escape to exit.", bon::PointF(100, 200), &bon::Color(1, 1, 0, 1), 16);
 
 			// draw cursor

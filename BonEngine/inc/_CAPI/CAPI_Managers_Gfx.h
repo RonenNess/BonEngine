@@ -82,6 +82,11 @@ extern "C" {
 	 * Get render target or null.
 	 */
 	BON_DLLEXPORT bon::assets::ImageAsset* BON_Gfx_GetRenderTarget();
+	
+	/**
+	 * Create image asset from screen.
+	 */
+	BON_DLLEXPORT bon::assets::ImageAsset* BON_Gfx_CreateImageFromScreen();
 
 	/**
 	 * Set effect to use.

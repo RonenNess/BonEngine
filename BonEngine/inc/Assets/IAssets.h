@@ -55,7 +55,7 @@ namespace bon
 			 * \param handle Image handle.
 			 * \return New image asset.
 			 */
-			virtual ImageAsset CreateImageFromHandle(_ImageHandle* handle) = 0;
+			virtual ImageAsset _CreateImageFromHandle(_ImageHandle* handle) = 0;
 
 			/**
 			 * Load and return a music asset.
