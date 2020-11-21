@@ -712,7 +712,10 @@ namespace bon
 			// apply effect
 			_effectsImpl.UseEffect(effect);
 			_currentEffect = effect;
-			if (effect == nullptr) { _needToUpdateGlBlend = true; }
+			if (effect == nullptr) 
+			{
+				_needToUpdateGlBlend = true;
+			}
 		}
 
 		// update window / draw.
@@ -742,7 +745,8 @@ namespace bon
 		void SetTextureProperties(SDL_ImageHandle* handle, SDL_Texture* texture, const Color& color, BlendModes blend)
 		{
 			// set blend mode
-			if (handle->CurrentBlendMode != blend) {
+			if (handle->CurrentBlendMode != blend) 
+			{
 				SDL_SetTextureBlendMode(texture, BonBlendToSdlBlend(blend));
 				handle->CurrentBlendMode = blend;
 			}
@@ -793,7 +797,7 @@ namespace bon
 			// draw text
 			PointI size((int)(fromCache.Width * sizeFactor), (int)(fromCache.Height * sizeFactor));
 			static RectangleI srcRect;
-			DrawTexture(fromCache.Texture, position, size, blend, srcRect, origin, rotation, color, outDestRect, dryrun, fromCache.Width, fromCache.Height);
+			DrawTextAsTexture(fromCache.Texture, position, size, blend, srcRect, origin, rotation, color, outDestRect, dryrun, fromCache.Width, fromCache.Height);
 		}
 
 		// set gamma
@@ -894,7 +898,7 @@ namespace bon
 		}
 
 		// draw texture on screen
-		void GfxSdlWrapper::DrawTexture(SDL_Texture* texture, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color, RectangleI* outDestRect, bool dryrun, int textW, int textH)
+		void GfxSdlWrapper::DrawTextAsTexture(SDL_Texture* texture, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color, RectangleI* outDestRect, bool dryrun, int textW, int textH)
 		{
 			// set blend mode and color
 			if (!dryrun && _currentEffect == nullptr)

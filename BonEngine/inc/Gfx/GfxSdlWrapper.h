@@ -295,7 +295,7 @@ namespace bon
 			/**
 			 * Draw texture directly. Used internally.
 			 */
-			void DrawTexture(SDL_Texture* texture, const framework::PointF& position, const framework::PointI& size, BlendModes blend, const framework::RectangleI& sourceRect, const framework::PointF& origin, float rotation, framework::Color color, framework::RectangleI* outDestRect = nullptr, bool dryrun = false, int textW = 0, int textH = 0);
+			void DrawTextAsTexture(SDL_Texture* texture, const framework::PointF& position, const framework::PointI& size, BlendModes blend, const framework::RectangleI& sourceRect, const framework::PointF& origin, float rotation, framework::Color color, framework::RectangleI* outDestRect = nullptr, bool dryrun = false, int textW = 0, int textH = 0);
 		};
 	}
 }
