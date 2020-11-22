@@ -134,6 +134,14 @@ bon::UIList* BON_UI_CreateList(const char* stylesheet, bon::UIElement* parent)
 }
 
 /**
+* Create and return a dropdown element.
+*/
+bon::UIDropDown* BON_UI_CreateDropDown(const char* stylesheet, bon::UIElement* parent)
+{
+	return new bon::UIDropDown(bon::_GetEngine().UI().CreateDropDown(stylesheet, ptrOrNull(parent)));
+}
+
+/**
 * Create and return a slider element.
 */
 bon::UISlider* BON_UI_CreateSlider(const char* stylesheet, bon::UIElement* parent)

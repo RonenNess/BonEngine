@@ -161,6 +161,7 @@ extern "C" {
 		BON_UIRadio = bon::UIElementType::Radio,
 		BON_UIImage = bon::UIElementType::Image,
 		BON_UIList = bon::UIElementType::List,
+		BON_UIDropDown = bon::UIElementType::DropDown,
 		BON_UIText = bon::UIElementType::Text,
 		BON_UIScrollbar = bon::UIElementType::Scrollbar,
 		BON_UISlider = bon::UIElementType::Slider,

@@ -365,6 +365,11 @@ namespace bon
 				throw InitializeError("Failed to initialize SDL video drivers.");
 			}
 
+			// to enable opengl shaders
+			if (bon::Features().EffectsEnabled) {
+				SDL_SetHint(SDL_HINT_RENDER_OPENGL_SHADERS, "1");
+			}
+
 			// init fonts
 			if (TTF_Init() < 0)
 			{
@@ -715,21 +720,30 @@ namespace bon
 			if (effect == nullptr) 
 			{
 				_needToUpdateGlBlend = true;
+				RestoreDefaultStates();
 			}
+		}
+
+		// restore default internal states
+		void GfxSdlWrapper::RestoreDefaultStates()
+		{
+			// note: work by drawing invisible pixel
+			DrawPixel(PointI(-1, -1), Color::TransparentBlack, BlendModes::Opaque);
 		}
 
 		// update window / draw.
 		void GfxSdlWrapper::UpdateWindow()
 		{
+			// render screen
+			SDL_RenderPresent(_renderer);
+
 			// update effects
 			if (bon::Features().EffectsEnabled)
 			{
 				_effectsImpl.OnFrameStart();
 				_currentEffect = nullptr;
+				RestoreDefaultStates();
 			}
-
-			// render screen
-			SDL_RenderPresent(_renderer);
 
 			// update cache
 			fontsTextureCache.Update();
@@ -1011,12 +1025,6 @@ namespace bon
 			// get texture
 			SDL_Texture* texture = (SDL_Texture*)handle->Texture;
 
-			// set blend mode and color
-			if (_currentEffect == nullptr)
-			{
-				SetTextureProperties(handle, texture, color, blend);
-			}
-
 			// source rect
 			static SDL_Rect sdlSrcRect;
 			SDL_Rect* sdlSrcRectPtr = NULL;
@@ -1073,6 +1081,9 @@ namespace bon
 				_effectsImpl.SetBlendMode(blend);
 				_needToUpdateGlBlend = false;
 			}
+
+			// set texture properties
+			SetTextureProperties(handle, texture, color, blend);
 
 			// draw texture with rotation
 			if ((rotation != 0) || (flip != SDL_RendererFlip::SDL_FLIP_NONE) || (!origin.IsZero())) {

@@ -52,7 +52,7 @@ namespace bon
 #pragma warning (pop)
 
 			// if true, it means we need to force-update webgl blend mode directly, after reseting effect
-			bool _needToUpdateGlBlend;
+			bool _needToUpdateGlBlend = false;
 
 		public:
 
@@ -297,6 +297,11 @@ namespace bon
 			inline int WindowHeight() const;
 
 		private:
+
+			/**
+			 * Restore default internal states.
+			 */
+			void RestoreDefaultStates();
 
 			/**
 			 * Draw texture directly. Used internally.

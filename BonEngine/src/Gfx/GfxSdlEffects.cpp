@@ -460,15 +460,14 @@ namespace bon
 		void GfxSdlEffects::UpdateRenderer(SDL_Renderer* renderer)
 		{
 			// store renderer and reset default program id
-			_defaultProgram = 0;
 			_renderer = renderer;
 		}
 		
 		// set active effect
 		void GfxSdlEffects::UseEffect(const assets::EffectAsset& effect)
 		{
-			// just in case - try to get default program
-			if (_defaultProgram == 0 || _effect == nullptr)
+			// if we're about to replace the default effect, get its handle first
+			if (_currentEffect == nullptr && effect != nullptr)
 			{
 				glGetIntegerv(GL_CURRENT_PROGRAM, &_defaultProgram);
 			}
@@ -482,7 +481,7 @@ namespace bon
 
 			// set effect
 			glUseProgram(((SDL_EffectHandle*)effect->Handle())->_GetProgram());
-			_effect = effect;
+			_currentEffect = effect;
 		}
 
 		// restore default SDL shaders
@@ -492,7 +491,7 @@ namespace bon
 			if (glUseProgram)
 			{
 				glUseProgram(_defaultProgram);
-				_effect = nullptr;
+				_currentEffect = nullptr;
 			}
 		}
 
@@ -541,7 +540,7 @@ namespace bon
 		void GfxSdlEffects::DrawTexture(const SDL_Rect* destRect, const SDL_Rect* sourceRect, SDL_Texture* texture, const Color& color, int textW, int textH, BlendModes blend, int flip)
 		{
 			// bind texture
-			bool useTexture = _effect->UseTextures();
+			bool useTexture = _currentEffect->UseTextures();
 			if (useTexture)
 			{
 				SDL_GL_BindTexture(texture, NULL, NULL);
@@ -551,7 +550,7 @@ namespace bon
 			SetBlendMode(blend);
 
 			// use vertex color
-			bool useVertexColor = _effect->UseVertexColor();
+			bool useVertexColor = _currentEffect->UseVertexColor();
 
 			// set coords and uvs
 			GLfloat minx, miny, maxx, maxy;
@@ -569,7 +568,7 @@ namespace bon
 			{
 				minu = (GLfloat)sourceRect->x / textW;
 				maxu = (GLfloat)(sourceRect->x + sourceRect->w) / textW;
-				if (_effect->Handle()->FlipTextureCoordsV())
+				if (_currentEffect->Handle()->FlipTextureCoordsV())
 				{
 					minv = (GLfloat)(sourceRect->y + sourceRect->h) / textH;
 					maxv = (GLfloat)sourceRect->y / textH;
@@ -584,7 +583,7 @@ namespace bon
 			{
 				minu = 0;
 				maxu = 1;
-				if (_effect->Handle()->FlipTextureCoordsV())
+				if (_currentEffect->Handle()->FlipTextureCoordsV())
 				{
 					minv = 1;
 					maxv = 0;

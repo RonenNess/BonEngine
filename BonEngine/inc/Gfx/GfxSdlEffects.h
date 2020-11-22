@@ -73,7 +73,7 @@ namespace bon
 			int _defaultProgram = 0;
 
 			// currently active effect
-			assets::EffectAsset _effect;
+			assets::EffectAsset _currentEffect;
 		};
 	}
 }

@@ -98,6 +98,11 @@ extern "C" {
 	BON_DLLEXPORT bon::UIList* BON_UI_CreateList(const char* stylesheet, bon::UIElement* parent);
 
 	/**
+	* Create and return a dropdown element.
+	*/
+	BON_DLLEXPORT bon::UIDropDown* BON_UI_CreateDropDown(const char* stylesheet, bon::UIElement* parent);
+
+	/**
 	* Create and return a slider element.
 	*/
 	BON_DLLEXPORT bon::UISlider* BON_UI_CreateSlider(const char* stylesheet, bon::UIElement* parent);

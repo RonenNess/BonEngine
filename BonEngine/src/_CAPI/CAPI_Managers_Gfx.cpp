@@ -1,6 +1,11 @@
 #include <_CAPI/CAPI_Managers_Gfx.h>
 #include <BonEngine.h>
 
+#define return_asset_ptr(_type, _val) \
+	_type* ret = new _type;	\
+	*ret = _val;	\
+	return ret
+
 /**
 * Draw an image on screen.
 */
@@ -121,7 +126,7 @@ bon::assets::ImageAsset* BON_Gfx_GetRenderTarget()
  */
 bon::assets::ImageAsset* BON_Gfx_CreateImageFromScreen()
 {
-	return (bon::assets::ImageAsset*)(&bon::_GetEngine().Gfx().CreateImageFromScreen());
+	return_asset_ptr(bon::ImageAsset, bon::_GetEngine().Gfx().CreateImageFromScreen());
 }
 
 /**

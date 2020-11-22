@@ -27,6 +27,16 @@ namespace bon
 		public:
 
 			/**
+			 * Currently selected item text.
+			 */
+			UIText SelectedText;
+			
+			/**
+			 * Selected text background image.
+			 */
+			UIImage SelectedTextBackground;
+
+			/**
 			 * Get element type.
 			 */
 			virtual UIElementType GetType() const override { return UIElementType::DropDown; }
