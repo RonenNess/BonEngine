@@ -66,21 +66,22 @@ namespace bon
 			// update handle position
 			float pos = (float)_value / (float)MaxValue;
 			auto padding = GetPadding();
-			_handle->SetOffset(bon::PointI((int)(pos * (_destRect.Width - padding.Left - padding.Right)), 0));
+			auto destRect = GetCalculatedDestRect();
+			_handle->SetOffset(bon::PointI((int)(pos * (destRect.Width - padding.Left - padding.Right)), 0));
 
 			// update active part percent
 			if (_activePartOverlay != nullptr)
 			{
 				_activePartOverlay->SetSizeInPercents(PointI((int)(pos * 100), 100));
 				_activePartOverlay->Visible = pos > 0;
-				_activePartOverlay->Update(0.1);
+				_activePartOverlay->Update(0.1, false);
 			}
 
 			// set value
-			if (bon::_GetEngine().Input().Down(bon::KeyCodes::MouseLeft) && _destRect.Contains(mousePosition))
+			if (bon::_GetEngine().Input().Down(bon::KeyCodes::MouseLeft) && destRect.Contains(mousePosition))
 			{
-				int startX = (_destRect.X + padding.Left);
-				float value = (float)(mousePosition.X - startX) / (_destRect.Width - padding.Left - padding.Right - _handle->GetCalculatedDestRect().Width / 2);
+				int startX = (destRect.X + padding.Left);
+				float value = (float)(mousePosition.X - startX) / (destRect.Width - padding.Left - padding.Right - _handle->GetCalculatedDestRect().Width / 2);
 				if (value < 0) { value = 0; }
 				if (value > 1) { value = 1; }
 				SetValue((int)std::floor(value * MaxValue));

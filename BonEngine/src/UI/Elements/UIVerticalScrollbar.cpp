@@ -27,25 +27,31 @@ namespace bon
 		}
 
 		// update element
-		void _UIVerticalScrollbar::Update(double deltaTime)
+		void _UIVerticalScrollbar::Update(double deltaTime, bool topLayer)
 		{
 			// call base update
-			_UIImage::Update(deltaTime);
+			_UIImage::Update(deltaTime, topLayer);
 
 			// no handle? skip
 			if (_handle == nullptr) { return; }
 
+			// not in correct layer? skip
+			if (DrawAsTopLayer() != topLayer) { return; }
+
+			// get dest rect
+			auto destRect = GetCalculatedDestRect();
+
 			// on mouse down, set handle
 			if (_prevState == UIElementState::PressedDown)
 			{
-				int y = bon::_GetEngine().Input().CursorPosition().Y - _destRect.Y - GetPadding().Top - _handle->GetCalculatedDestRect().Height / 2;
+				int y = bon::_GetEngine().Input().CursorPosition().Y - destRect.Y - GetPadding().Top - _handle->GetCalculatedDestRect().Height / 2;
 				_handle->SetOffset(bon::PointI(0, y));
 				_handle->ValidateOffsetInsideParent();
 			}
 
 			// calculate current value
 			const RectangleI& handlerect = _handle->GetCalculatedDestRect();
-			_value = (int)std::ceil(((float)(_handle->GetOffset().Y) / (float)(_destRect.Height - handlerect.Height)) * (float)MaxValue);
+			_value = (int)std::ceil(((float)(_handle->GetOffset().Y) / (float)(destRect.Height - handlerect.Height)) * (float)MaxValue);
 		}
 	}
 }

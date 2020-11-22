@@ -100,6 +100,14 @@ namespace demo16_ui
 			// add a button
 			bon::UIButton button = UI().CreateButton("../TestAssets/ui/button.ini", intoWindow, "A Button");
 
+			// create dropdown
+			UI().CreateText("../TestAssets/ui/small_text.ini", intoWindow, "DropDown Element:");
+			bon::UIDropDown uidropdown = UI().CreateDropDown("../TestAssets/ui/dropdown.ini", intoWindow);
+			uidropdown->AddItem("This is a dropdown");
+			for (int i = 1; i <= 15; ++i) {
+				uidropdown->AddItem((std::string("Item #") + std::to_string(i)).c_str());
+			}
+
 			// add a list
 			UI().CreateText("../TestAssets/ui/small_text.ini", intoWindow, "List Element:");
 			bon::UIList uilist = UI().CreateList("../TestAssets/ui/list.ini", intoWindow);
@@ -108,14 +116,6 @@ namespace demo16_ui
 			uilist->AddItem("And select them");
 			for (int i = 1; i <= 15; ++i) {
 				uilist->AddItem((std::string("Item #") + std::to_string(i)).c_str());
-			}
-
-			// create dropdown
-			UI().CreateText("../TestAssets/ui/small_text.ini", intoWindow, "DropDown Element:");
-			bon::UIDropDown uidropdown = UI().CreateDropDown("../TestAssets/ui/dropdown.ini", intoWindow);
-			uidropdown->AddItem("This is a dropdown");
-			for (int i = 1; i <= 15; ++i) {
-				uidropdown->AddItem((std::string("Item #") + std::to_string(i)).c_str());
 			}
 
 			// create additional window to show more stuff

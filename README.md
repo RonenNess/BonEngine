@@ -1383,6 +1383,7 @@ First stable release.
 - Added DropDown UI element.
 - Fixed state bug when switching effects.
 - Added validation that effect is active before setting uniforms.
+- Small refactor in UI system for more flexability - top and bottom layers.
 
 ## In Memory Of Bonnie
 

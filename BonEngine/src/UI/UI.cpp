@@ -52,15 +52,16 @@ namespace bon
 			PointF screenSize = _GetEngine().Gfx().RenderableSize();
 			_cursor->SetAnchor(PointF(mousePosition.X / screenSize.X, mousePosition.Y / screenSize.Y));
 			_cursor->Draggable = _cursor->CaptureInput = _cursor->Interactive = false;
-			_cursor->Update(0.1);
-			_cursor->Draw();
+			_cursor->Update(0.1, false);
+			_cursor->Draw(false);
 		}
 
 		// draw a UI system or element.
 		void UI::Draw(UIElement root, bool drawCursor)
 		{
 			// draw UI
-			root->Draw();
+			root->Draw(false);
+			root->Draw(true);
 
 			// draw cursor
 			if (drawCursor) {
@@ -72,7 +73,9 @@ namespace bon
 		void UI::UpdateUI(UIElement root, UIElement* activeElement)
 		{
 			// first call updates
-			root->Update(bon::_GetEngine().Game().DeltaTime());
+			double dt = bon::_GetEngine().Game().DeltaTime();
+			root->Update(dt, true);
+			root->Update(dt, false);
 
 			// now do input interactions
 			auto mousePosition = _GetRelativeCursorPos();

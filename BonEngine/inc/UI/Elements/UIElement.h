@@ -77,6 +77,8 @@ namespace bon
 			// element previous state
 			UIElementState _prevState = UIElementState::Idle;
 
+		private:
+
 			// element calculated dest rect (based on position and size)
 			framework::RectangleI _destRect;
 
@@ -260,6 +262,11 @@ namespace bon
 			framework::Color ColorPressed;
 
 			/**
+			 * If true, will draw this element on top layer, above other elements.
+			 */
+			virtual bool DrawAsTopLayer() const { return false; }
+
+			/**
 			 * Mark dest rect as dirty.
 			 */
 			inline void MarkAsDirty() { _isDestDirty = true; }
@@ -354,16 +361,19 @@ namespace bon
 
 			/**
 			 * Draw ui element and children.
+			 * 
+			 * \param topLayer Set to true to only draw top layer elements.
 			 */
-			virtual void Draw();
+			virtual void Draw(bool topLayer);
 
 			/**
 			 * Update the UI element and children.
 			 * 
 			 * \param deltaTime Update frame delta time.
+			 * \param topLayer Set to true to only update top layer elements.
 			 */
-			virtual void Update(double deltaTime);
-
+			virtual void Update(double deltaTime, bool topLayer);
+						
 			/**
 			 * Do input updates to interact with element.
 			 * This happens after the regular updates.
@@ -392,18 +402,23 @@ namespace bon
 			 * Note: may be outdated if actions were done without calling CalcDestRect() or Update().
 			 * Sometimes you need to Update() parent too.
 			 */
-			inline const framework::RectangleI& GetCalculatedDestRect() const { return _destRect; }
+			inline framework::RectangleI GetCalculatedDestRect() const { return _destRect.CloneWithOffset(_ExtraPixelsOffset); }
 
 			/**
 			 * Get the actual destination rect as calculated by the Update() method.
 			 * This would usually be the same as GetCalculatedDestRect(), but might be different for some UI elements.
 			 */
-			virtual const framework::RectangleI& GetActualDestRect() const { return _destRect; }
+			virtual framework::RectangleI GetActualDestRect() const { return _destRect.CloneWithOffset(_ExtraPixelsOffset); }
 
 			/**
 			 * Make sure element offset is inside is parent boundaries (takes element width and height into consideration).
 			 */
 			void ValidateOffsetInsideParent();
+
+			/**
+			 * Extra offset to add to dest rect in pixels, used internally.
+			 */
+			framework::PointI _ExtraPixelsOffset;
 
 		protected:
 

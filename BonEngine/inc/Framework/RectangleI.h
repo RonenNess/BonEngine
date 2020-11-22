@@ -202,6 +202,17 @@ namespace bon
 			// casting between rectangle types
 			operator RectangleF();
 			operator RectangleF() const;
+
+			/**
+			 * Return a clone of this rectangle with offset.
+			 * 
+			 * \param offset Offset to add to clone rectangle.
+			 * \return Clone rectangle and add offset to clone.
+			 */
+			RectangleI CloneWithOffset(const PointI& offset) const
+			{
+				return RectangleI(X + offset.X, Y + offset.Y, Width, Height);
+			}
 		};
 	}
 }

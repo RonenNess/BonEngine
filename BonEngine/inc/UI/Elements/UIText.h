@@ -111,7 +111,7 @@ namespace bon
 			 * Get the actual destination rect as calculated by the Update() method.
 			 * This would usually be the same as GetCalculatedDestRect(), but might be different for some UI elements.
 			 */
-			virtual const framework::RectangleI& GetActualDestRect() const override { return _actualDestRect; }
+			virtual framework::RectangleI GetActualDestRect() const override { return _actualDestRect.CloneWithOffset(_ExtraPixelsOffset); }
 
 			/**
 			 * Destroy the text.
@@ -145,7 +145,7 @@ namespace bon
 			 *
 			 * \param deltaTime Update frame delta time.
 			 */
-			virtual void Update(double deltaTime);
+			virtual void Update(double deltaTime, bool topLayer) override;
 
 		protected:
 

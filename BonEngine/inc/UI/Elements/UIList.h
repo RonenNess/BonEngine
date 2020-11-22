@@ -156,7 +156,7 @@ namespace bon
 			 *
 			 * \param deltaTime Update frame delta time.
 			 */
-			virtual void Update(double deltaTime) override;
+			virtual void Update(double deltaTime, bool topLayer) override;
 
 			/**
 			 * Get currently selected index.
@@ -194,7 +194,7 @@ namespace bon
 			/**
 			 * Draw ui element and children.
 			 */
-			virtual void Draw() override;
+			virtual void Draw(bool topLayer) override;
 		};
 	}
 }

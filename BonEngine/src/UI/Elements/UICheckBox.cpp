@@ -41,7 +41,8 @@ namespace bon
 			_UIImage::DoInputUpdatesSelf(mousePosition, updateState);
 
 			// check if should toggle
-			if (_destRect.Contains(mousePosition) && bon::_GetEngine().Input().ReleasedNow(bon::KeyCodes::MouseLeft))
+			auto destRect = GetCalculatedDestRect();
+			if (destRect.Contains(mousePosition) && bon::_GetEngine().Input().ReleasedNow(bon::KeyCodes::MouseLeft))
 			{
 				if (AllowUncheck) {
 					Toggle();

@@ -468,7 +468,8 @@ void BON_UIElement_RemoveSelf(bon::UIElement* element)
  */
 void BON_UIElement_Draw(bon::UIElement* element)
 {
-	(*element)->Draw();
+	(*element)->Draw(false);
+	(*element)->Draw(true);
 }
 
 /**
@@ -476,7 +477,8 @@ void BON_UIElement_Draw(bon::UIElement* element)
  */
 void BON_UIElement_Update(bon::UIElement* element, double dt)
 {
-	(*element)->Update(dt);
+	(*element)->Update(dt, true);
+	(*element)->Update(dt, false);
 }
 
 /**

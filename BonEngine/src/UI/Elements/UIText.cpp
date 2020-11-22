@@ -126,10 +126,10 @@ namespace bon
 		}
 
 		// do updates
-		void _UIText::Update(double deltaTime)
+		void _UIText::Update(double deltaTime, bool topLayer)
 		{
-			_UIElement::Update(deltaTime);
-			DrawOrCalcActualRect(false, true);
+			_UIElement::Update(deltaTime, topLayer);
+			if (!topLayer) { DrawOrCalcActualRect(false, true); }
 		}
 
 		// implement just the drawing of this element
@@ -142,29 +142,32 @@ namespace bon
 		// draw text or calc actual dest rect
 		void _UIText::DrawOrCalcActualRect(bool draw, bool calcActualRect)
 		{
+			// get dest rect
+			auto destRect = GetCalculatedDestRect();
+
 			// skip if no text, font, or empty
 			if (_text == nullptr || Font == nullptr || _text[0] == '\0')
 			{
-				if (calcActualRect) { _actualDestRect.Set(_destRect.X, _destRect.Y, 0, 0); }
+				if (calcActualRect) { _actualDestRect.Set(destRect.X, destRect.Y, 0, 0); }
 				return;
 			}
 
 			// get color, origin and position
 			const framework::Color& color = GetCurrentStateColor();
 			PointF origin;
-			PointF position((float)_destRect.X, (float)_destRect.Y);
+			PointF position((float)destRect.X, (float)destRect.Y);
 
 			// set alignment
 			switch (Alignment)
 			{
 			case UITextAlignment::Center:
 				origin.X = 0.5f;
-				position.X += _destRect.Width / 2;
+				position.X += destRect.Width / 2;
 				break;
 
 			case UITextAlignment::Right:
 				origin.X = 1.0f;
-				position.X += _destRect.Width;
+				position.X += destRect.Width;
 				break;
 			}
 
@@ -180,14 +183,14 @@ namespace bon
 					position,
 					&color,
 					FontSize,
-					WordWrap ? _destRect.Width : 0,
+					WordWrap ? destRect.Width : 0,
 					BlendModes::AlphaBlend, &origin,
 					0.0f, outlineWidth, &outlineColor);
 			}
 
 			// calculate actual dest rect
 			if (calcActualRect) {
-				_actualDestRect = bon::_GetEngine().Gfx().GetTextBoundingBox(Font, _text, position, FontSize, _destRect.Width, &origin, 0.0f);
+				_actualDestRect = bon::_GetEngine().Gfx().GetTextBoundingBox(Font, _text, position, FontSize, destRect.Width, &origin, 0.0f);
 			}
 		}
 	}

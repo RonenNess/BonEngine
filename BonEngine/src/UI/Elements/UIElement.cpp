@@ -99,41 +99,47 @@ namespace bon
 		}
 
 		// draw ui element and children.
-		void _UIElement::Draw()
+		void _UIElement::Draw(bool topLayer)
 		{
 			// skip draw if not visible
 			if (!Visible) { return; }
 
 			// draw self
-			DrawSelf();
+			if (DrawAsTopLayer() == topLayer) { 
+				DrawSelf(); 
+			}
 
 			// draw children
 			for (auto child : _children)
 			{
-				child->Draw();
+				child->Draw(topLayer);
 			}
 		}
 
 		// update the UI element and children.
-		void _UIElement::Update(double deltaTime)
+		void _UIElement::Update(double deltaTime, bool topLayer)
 		{
 			// skip update if not visible
 			if (!Visible) { return; }
-			
-			// special case - force-active (we need this here too, in case someone blocks our update loop)
-			if (ForceActiveState)
-			{
-				_state = UIElementState::PressedDown;
-			}
-			// reset states
-			else
-			{
-				_prevState = _state;
-				_state = (CopyParentState && _parent) ? _parent->_state :  UIElementState::Idle;
-			}
 
 			// update self
-			UpdateSelf(deltaTime);
+			if (DrawAsTopLayer() == topLayer) 
+			{
+				// special case - force-active (we need this here too, in case someone blocks our update loop)
+				if (ForceActiveState)
+				{
+					_state = UIElementState::PressedDown;
+				}
+				// reset states
+				else
+				{
+					_prevState = _state;
+					_state = (CopyParentState && _parent) ? _parent->_state : UIElementState::Idle;
+				}
+
+				// do self updates
+				UpdateSelf(deltaTime); 
+			}
 
 			// for auto arrange
 			int offsetY = 0;
@@ -142,10 +148,10 @@ namespace bon
 			for (auto child : _children)
 			{
 				// update child
-				child->Update(deltaTime);
+				child->Update(deltaTime, topLayer);
 
 				// auto-arrange children
-				if (AutoArrangeChildren && !child->ExemptFromAutoArrange)
+				if (!topLayer && AutoArrangeChildren && !child->ExemptFromAutoArrange)
 				{
 					offsetY += child->Marging.Top;
 					if (child->_anchor.Y != 0)

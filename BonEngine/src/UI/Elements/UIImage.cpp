@@ -83,12 +83,15 @@ namespace bon
 			if (sourceRect.Width == 0) { sourceRect.Width = Image->Width(); }
 			if (sourceRect.Height == 0) { sourceRect.Height = Image->Height(); }
 
+			// get dest rect
+			auto destRect = GetCalculatedDestRect();
+
 			// draw in plain stretched mode
 			if (ImageType == UIImageTypes::Stretch)
 			{
 				bon::_GetEngine().Gfx().DrawImage(Image,
-					PointF((float)_destRect.X, (float)_destRect.Y),
-					&PointI(_destRect.Width, _destRect.Height),
+					PointF((float)destRect.X, (float)destRect.Y),
+					&PointI(destRect.Width, destRect.Height),
 					BlendMode,
 					&sourceRect,
 					&PointF::Zero, 0.0f, &color);
@@ -97,7 +100,7 @@ namespace bon
 			else if (ImageType == UIImageTypes::Single)
 			{
 				bon::_GetEngine().Gfx().DrawImage(Image,
-					PointF((float)_destRect.X, (float)_destRect.Y),
+					PointF((float)destRect.X, (float)destRect.Y),
 					&PointI((int)(sourceRect.Width * TextureScale), (int)(sourceRect.Height * TextureScale)),
 					BlendMode,
 					&sourceRect,
@@ -106,7 +109,7 @@ namespace bon
 			// draw in tiled mode
 			else if (ImageType == UIImageTypes::Tiled)
 			{
-				DrawTiled(_destRect, color, sourceRect);
+				DrawTiled(destRect, color, sourceRect);
 			}
 			// draw in sliced mode
 			else if (ImageType == UIImageTypes::Sliced)
@@ -117,7 +120,7 @@ namespace bon
 					if (SlicedImageSides.Left != 0 && SlicedImageSides.Top != 0)
 					{
 						bon::_GetEngine().Gfx().DrawImage(Image,
-							PointF((float)_destRect.X, (float)_destRect.Y),
+							PointF((float)destRect.X, (float)destRect.Y),
 							&PointI((int)(SlicedImageSides.Left * TextureScale), (int)(SlicedImageSides.Top * TextureScale)),
 							BlendMode,
 							&framework::RectangleI(sourceRect.X, sourceRect.Y, SlicedImageSides.Left, SlicedImageSides.Top),
@@ -128,7 +131,7 @@ namespace bon
 					if (SlicedImageSides.Right != 0 && SlicedImageSides.Top != 0)
 					{
 						bon::_GetEngine().Gfx().DrawImage(Image,
-							PointF((float)_destRect.Right(), (float)_destRect.Y),
+							PointF((float)destRect.Right(), (float)destRect.Y),
 							&PointI((int)(SlicedImageSides.Right * TextureScale), (int)(SlicedImageSides.Top * TextureScale)),
 							BlendMode,
 							&framework::RectangleI(sourceRect.Right() - SlicedImageSides.Right, sourceRect.Y, SlicedImageSides.Right, SlicedImageSides.Top),
@@ -139,7 +142,7 @@ namespace bon
 					if (SlicedImageSides.Left != 0 && SlicedImageSides.Bottom != 0)
 					{
 						bon::_GetEngine().Gfx().DrawImage(Image,
-							PointF((float)_destRect.X, (float)_destRect.Bottom()),
+							PointF((float)destRect.X, (float)destRect.Bottom()),
 							&PointI((int)(SlicedImageSides.Left * TextureScale), (int)(SlicedImageSides.Bottom * TextureScale)),
 							BlendMode,
 							&framework::RectangleI(sourceRect.X, sourceRect.Bottom() - SlicedImageSides.Bottom, SlicedImageSides.Left, SlicedImageSides.Bottom),
@@ -150,7 +153,7 @@ namespace bon
 					if (SlicedImageSides.Right != 0 && SlicedImageSides.Bottom != 0)
 					{
 						bon::_GetEngine().Gfx().DrawImage(Image,
-							PointF((float)_destRect.Right(), (float)_destRect.Bottom()),
+							PointF((float)destRect.Right(), (float)destRect.Bottom()),
 							&PointI((int)(SlicedImageSides.Right * TextureScale), (int)(SlicedImageSides.Bottom * TextureScale)),
 							BlendMode,
 							&framework::RectangleI(sourceRect.Right() - SlicedImageSides.Right, sourceRect.Bottom() - SlicedImageSides.Bottom, SlicedImageSides.Right, SlicedImageSides.Bottom),
@@ -168,7 +171,7 @@ namespace bon
 					sideSource.Height = SlicedImageSides.Top;
 
 					// calc dest rect
-					RectangleI topDest = _destRect;
+					RectangleI topDest = destRect;
 					topDest.X += (int)(SlicedImageSides.Left * TextureScale);
 					topDest.Width -= (int)(SlicedImageSides.Left * TextureScale + SlicedImageSides.Right * TextureScale);
 					topDest.Height = (int)(SlicedImageSides.Top * TextureScale);
@@ -188,7 +191,7 @@ namespace bon
 					sideSource.Height = SlicedImageSides.Bottom;
 
 					// calc dest rect
-					RectangleI bottomDest = _destRect;
+					RectangleI bottomDest = destRect;
 					bottomDest.X += (int)(SlicedImageSides.Left * TextureScale);
 					bottomDest.Width -= (int)(SlicedImageSides.Left * TextureScale + SlicedImageSides.Right * TextureScale);
 					bottomDest.Y = (int)(bottomDest.Bottom() - SlicedImageSides.Bottom * TextureScale);
@@ -208,7 +211,7 @@ namespace bon
 					sideSource.Height -= SlicedImageSides.Top + SlicedImageSides.Bottom;
 
 					// calc dest rect
-					RectangleI leftDest = _destRect;
+					RectangleI leftDest = destRect;
 					leftDest.Y += (int)(SlicedImageSides.Top * TextureScale);
 					leftDest.Height -= (int)(SlicedImageSides.Bottom * TextureScale + SlicedImageSides.Top * TextureScale);
 					leftDest.Width = (int)(SlicedImageSides.Left * TextureScale);
@@ -228,7 +231,7 @@ namespace bon
 					sideSource.Height -= SlicedImageSides.Top + SlicedImageSides.Bottom;
 
 					// calc dest rect
-					RectangleI rightDest = _destRect;
+					RectangleI rightDest = destRect;
 					rightDest.Y += (int)(SlicedImageSides.Top * TextureScale);
 					rightDest.Height -= (int)(SlicedImageSides.Bottom * TextureScale + SlicedImageSides.Top * TextureScale);
 					rightDest.X = rightDest.Right() - (int)(SlicedImageSides.Right * TextureScale);
@@ -248,7 +251,7 @@ namespace bon
 					centerSource.Height -= (SlicedImageSides.Top + SlicedImageSides.Bottom);
 
 					// calc dest rect
-					RectangleI centerDest = _destRect;
+					RectangleI centerDest = destRect;
 					centerDest.X += (int)(SlicedImageSides.Left * TextureScale);
 					centerDest.Width -= (int)(SlicedImageSides.Left * TextureScale + SlicedImageSides.Right * TextureScale);
 					centerDest.Y += (int)(SlicedImageSides.Top * TextureScale);

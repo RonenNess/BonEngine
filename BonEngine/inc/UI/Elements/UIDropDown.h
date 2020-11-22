@@ -22,8 +22,6 @@ namespace bon
 		 */
 		class BON_DLLEXPORT _UIDropDown : public _UIList
 		{
-		private:
-
 		public:
 
 			/**
@@ -47,6 +45,12 @@ namespace bon
 			virtual void _Init() override;
 
 			/**
+			 * Get the actual destination rect as calculated by the Update() method.
+			 * This would usually be the same as GetCalculatedDestRect(), but might be different for some UI elements.
+			 */
+			virtual framework::RectangleI GetActualDestRect() const { return SelectedTextBackground->GetActualDestRect(); }
+
+			/**
 			 * Initialize element style from config file.
 			 *
 			 * \param config Config file to init element from.
@@ -59,6 +63,33 @@ namespace bon
 			 *				*		- vscrollbar_style = Stylesheet for list vertical scrollbar (UIVerticalScrollbar).
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config) override;
+
+			/**
+			 * Draw ui element and children.
+			 */
+			virtual void Draw(bool topLayer) override;
+
+			/**
+			 * If true, will draw this element on top layer, above other elements.
+			 */
+			virtual bool DrawAsTopLayer() const override { return _isOpened; }
+
+			/**
+			 * Get if this dropdown is currently opened.
+			 */
+			inline bool IsOpened() const { return _isOpened; }
+
+		protected:
+
+			// is the dropdown currently opened / visible
+			bool _isOpened;
+
+			/**
+			 * Implement just the updating of this element
+			 *
+			 * \param deltaTime Update frame delta time.
+			 */
+			virtual void UpdateSelf(double deltaTime) override;
 		};
 	}
 }

@@ -219,10 +219,10 @@ namespace bon
 		}
 
 		// update list
-		void _UIList::Update(double deltaTime)
+		void _UIList::Update(double deltaTime, bool topLayer)
 		{
 			// if dirty, rearrange list
-			if (_listDirty)
+			if (_listDirty && !topLayer)
 			{
 				// set items offset and height
 				int i = 0;
@@ -248,14 +248,17 @@ namespace bon
 			}
 
 			// do base updates
-			_UIElement::Update(deltaTime);
+			_UIElement::Update(deltaTime, topLayer);
 
 			// set scrollbar min-max
-			if (_scrollbar)
+			if (_scrollbar && !topLayer)
 			{
 				// calc how many items we can hold in list
 				int listRegionHeight = Background->GetCalculatedDestRect().Height - (Background->GetPadding().Top + Background->GetPadding().Bottom);
 				_maxVisibleEntitiesInList = listRegionHeight / _lineHeight;
+
+				// set extra offset
+				_scrollbar->_ExtraPixelsOffset = _ExtraPixelsOffset;
 
 				// calculate how many extra items are outside
 				int extras = (int)(_items.size() - _maxVisibleEntitiesInList);
@@ -276,34 +279,37 @@ namespace bon
 		}
 
 		// draw list
-		void _UIList::Draw()
+		void _UIList::Draw(bool topLayer)
 		{
-			// calculate bottom limit position
-			int listBottomPosition = Background->GetCalculatedDestRect().Bottom() - Background->GetPadding().Bottom;
-
-			// get scrollbar value
-			int scrollVal = (_scrollbar && _scrollbar->Visible) ? _scrollbar->Value() : 0;
-
-			// set election and visibility of items
-			int index = 0;
-			int positionIndex = 0;
-			for (auto item : _items)
+			if (DrawAsTopLayer() == topLayer)
 			{
-				// mark active and set visibility
-				item.Background->ForceActiveState = (index == _selected);
-				bool isVisible = (index >= scrollVal) && (positionIndex < _maxVisibleEntitiesInList);
-				item.Background->Visible = isVisible;
-				if (isVisible)
+				// calculate bottom limit position
+				int listBottomPosition = Background->GetCalculatedDestRect().Bottom() - Background->GetPadding().Bottom;
+
+				// get scrollbar value
+				int scrollVal = (_scrollbar && _scrollbar->Visible) ? _scrollbar->Value() : 0;
+
+				// set election and visibility of items
+				int index = 0;
+				int positionIndex = 0;
+				for (auto item : _items)
 				{
-					item.Background->SetOffset(bon::PointI(0, positionIndex * _lineHeight));
-					item.Background->Update(0.1);
+					// mark active and set visibility
+					item.Background->ForceActiveState = (index == _selected);
+					bool isVisible = (index >= scrollVal) && (positionIndex < _maxVisibleEntitiesInList);
+					item.Background->Visible = isVisible;
+					if (isVisible)
+					{
+						item.Background->SetOffset(bon::PointI(0, positionIndex * _lineHeight));
+						item.Background->Update(0.1, topLayer);
+					}
+					if (index >= scrollVal) positionIndex++;
+					index++;
 				}
-				if (index >= scrollVal) positionIndex++;
-				index++;
 			}
 
 			// call base draw
-			_UIElement::Draw();
+			_UIElement::Draw(topLayer);
 		}
 
 	}
