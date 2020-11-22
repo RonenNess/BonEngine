@@ -236,6 +236,13 @@ namespace bon
 			virtual void UseEffect(assets::EffectAsset effect) override;
 
 			/**
+			 * Get the currently active effect, or NULL if not set.
+			 *
+			 * \return Active effect or null if not set.
+			 */
+			virtual assets::EffectAsset GetActiveEffect() const override;
+
+			/**
 			 * Take a screenshot of what's currently presented on screen and return as an image asset.
 			 *
 			 * \return New image containing whats currently rendered on screen.

@@ -48,12 +48,18 @@ namespace bon
 
 			// currently active effect
 			assets::EffectAsset _currentEffect;
+
 #pragma warning (pop)
 
 			// if true, it means we need to force-update webgl blend mode directly, after reseting effect
 			bool _needToUpdateGlBlend;
 
 		public:
+
+			/**
+			 * Get currently active effect.
+			 */
+			inline assets::EffectAsset GetActiveEffect() const { return _currentEffect; }
 
 			/**
 			 * Initialize graphics.

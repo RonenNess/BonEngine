@@ -82,6 +82,7 @@ namespace bon
 			 */
 			void SetUniformFloat(const char* name, float value)
 			{
+				ValidateActive();
 				Handle()->SetUniformFloat(name, value);
 			}
 
@@ -90,6 +91,7 @@ namespace bon
 			 */
 			void SetUniformVector2(const char* name, float x, float y)
 			{
+				ValidateActive();
 				Handle()->SetUniformVector2(name, x, y);
 			}
 
@@ -98,6 +100,7 @@ namespace bon
 			 */
 			void SetUniformVector3(const char* name, float x, float y, float z)
 			{
+				ValidateActive();
 				Handle()->SetUniformVector3(name, x, y, z);
 			}
 
@@ -106,6 +109,7 @@ namespace bon
 			 */
 			void SetUniformVector4(const char* name, float x, float y, float z, float w)
 			{
+				ValidateActive();
 				Handle()->SetUniformVector4(name, x, y, z, w);
 			}
 
@@ -114,6 +118,7 @@ namespace bon
 			 */
 			void SetUniformInt(const char* name, int value)
 			{
+				ValidateActive();
 				Handle()->SetUniformInt(name, value);
 			}
 
@@ -122,6 +127,7 @@ namespace bon
 			 */
 			void SetUniformVector2(const char* name, int x, int y)
 			{
+				ValidateActive();
 				Handle()->SetUniformVector2(name, x, y);
 			}
 
@@ -130,6 +136,7 @@ namespace bon
 			 */
 			void SetUniformVector3(const char* name, int x, int y, int z)
 			{
+				ValidateActive();
 				Handle()->SetUniformVector3(name, x, y, z);
 			}
 
@@ -138,6 +145,7 @@ namespace bon
 			 */
 			void SetUniformVector4(const char* name, int x, int y, int z, int w)
 			{
+				ValidateActive();
 				Handle()->SetUniformVector4(name, x, y, z, w);
 			}
 
@@ -146,6 +154,7 @@ namespace bon
 			 */
 			void SetUniformColor(const char* name, const bon::framework::Color& color, bool includeAlpha)
 			{
+				ValidateActive();
 				if (includeAlpha)
 				{
 					SetUniformVector4(name, color.R, color.G, color.B, color.A);
@@ -161,6 +170,7 @@ namespace bon
 			 */
 			void SetUniformMatrix2(const char* name, int count, bool transpose, const float* values)
 			{
+				ValidateActive();
 				Handle()->SetUniformMatrix2(name, count, transpose, values);
 			}
 
@@ -169,6 +179,7 @@ namespace bon
 			 */
 			void SetUniformMatrix3(const char* name, int count, bool transpose, const float* values)
 			{
+				ValidateActive();
 				Handle()->SetUniformMatrix2(name, count, transpose, values);
 			}
 
@@ -177,6 +188,7 @@ namespace bon
 			 */
 			void SetUniformMatrix4(const char* name, int count, bool transpose, const float* values)
 			{
+				ValidateActive();
 				Handle()->SetUniformMatrix2(name, count, transpose, values);
 			}
 
@@ -186,6 +198,14 @@ namespace bon
 			 * \return Asset type identifier.
 			 */
 			virtual AssetTypes AssetType() const override { return AssetTypes::Effect; }
+
+		private:
+
+			/**
+			* Make sure this effect is valid before setting uniforms.
+			* If effect is not active, throw exception.
+			*/
+			void ValidateActive() const;
 		};
 	}
 }

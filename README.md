@@ -1382,6 +1382,7 @@ First stable release.
 - Added method to generate image asset from screen.
 - Added DropDown UI element.
 - Fixed state bug when switching effects.
+- Added validation that effect is active before setting uniforms.
 
 ## In Memory Of Bonnie
 

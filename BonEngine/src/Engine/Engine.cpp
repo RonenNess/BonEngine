@@ -267,8 +267,8 @@ namespace bon
 					_state = EngineStates::MainLoopInBetweens;
 
 					// update scene
-					if (deltaTime > 0) {
-
+					if (deltaTime > 0) 
+					{
 						// do fixed updates
 						_state = EngineStates::FixedUpdate;
 						if (FixedUpdatesInterval > 0)

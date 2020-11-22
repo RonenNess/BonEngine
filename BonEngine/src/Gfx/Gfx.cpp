@@ -233,5 +233,11 @@ namespace bon
 			if (!bon::Features().EffectsEnabled) { throw bon::framework::InvalidState("Can't use effects after BonEngine was initialized without 'EffectsEnabled' flag set as true!"); }
 			_Implementor.SetEffect(effect);
 		}
+
+		// get active effect
+		assets::EffectAsset Gfx::GetActiveEffect() const
+		{
+			return _Implementor.GetActiveEffect();
+		}
 	}
 }
