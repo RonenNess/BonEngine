@@ -27,16 +27,13 @@ namespace bon
 		}
 
 		// update element
-		void _UIVerticalScrollbar::Update(double deltaTime, bool topLayer)
+		void _UIVerticalScrollbar::Update(double deltaTime)
 		{
 			// call base update
-			_UIImage::Update(deltaTime, topLayer);
+			_UIImage::Update(deltaTime);
 
 			// no handle? skip
 			if (_handle == nullptr) { return; }
-
-			// not in correct layer? skip
-			if (DrawAsTopLayer() != topLayer) { return; }
 
 			// get dest rect
 			auto destRect = GetCalculatedDestRect();

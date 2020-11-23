@@ -25,7 +25,7 @@ namespace bon
 						if (sibling.get() != this && (sibling->GetType() == UIElementType::Radio))
 						{
 							((_UIRadioButton*)sibling.get())->SetValue(false);
-							sibling->Update(0.1, false);
+							sibling->Update(0.1);
 						}
 					}
 				}

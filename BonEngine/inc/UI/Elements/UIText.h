@@ -145,7 +145,7 @@ namespace bon
 			 *
 			 * \param deltaTime Update frame delta time.
 			 */
-			virtual void Update(double deltaTime, bool topLayer) override;
+			virtual void Update(double deltaTime) override;
 
 		protected:
 

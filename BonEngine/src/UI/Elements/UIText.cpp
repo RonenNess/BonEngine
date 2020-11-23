@@ -126,10 +126,10 @@ namespace bon
 		}
 
 		// do updates
-		void _UIText::Update(double deltaTime, bool topLayer)
+		void _UIText::Update(double deltaTime)
 		{
-			_UIElement::Update(deltaTime, topLayer);
-			if (!topLayer) { DrawOrCalcActualRect(false, true); }
+			_UIElement::Update(deltaTime);
+			DrawOrCalcActualRect(false, true); 
 		}
 
 		// implement just the drawing of this element

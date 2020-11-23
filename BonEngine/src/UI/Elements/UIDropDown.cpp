@@ -25,6 +25,35 @@ namespace bon
 			// create selected text element
 			SelectedText = bon::_GetEngine().UI().CreateText(nullptr, SelectedTextBackground, "");
 			SelectedText->WordWrap = false;
+
+			// register callback to handle clicking on the selected text to show / hide list
+			SelectedTextBackground->OnMousePressed = SelectedText->OnMousePressed = [this](bon::_UIElement& element, void* data)
+			{
+				this->ShowDropdownList(!this->_isOpened);
+			};
+
+			// by default hide list
+			_isOpened = false;
+		}
+
+		// show / hide dropdown list
+		void _UIDropDown::ShowDropdownList(bool show) 
+		{
+			// open
+			_isOpened = show; 
+
+			// update list position
+			int selectedHeight = SelectedTextBackground->GetActualDestRect().Height;
+			Background->_ExtraPixelsOffset.Y = selectedHeight;
+
+			// update list items
+			Background->MarkAsDirty();
+			RebuildListItems();
+			UpdateScrollbarMinMax();
+			if (_scrollbar) { _scrollbar->Update(0.1); }
+
+			// set if locked
+			Locked = !_isOpened;
 		}
 
 		// initialize element style from config file.
@@ -50,6 +79,13 @@ namespace bon
 			}
 		}
 
+		// set if to draw as top layer this element and all its children, recursively.
+		void _UIDropDown::SetDrawAsTopLayerRecursive(bool drawTopLayer)
+		{
+			_UIList::SetDrawAsTopLayerRecursive(drawTopLayer);
+			SelectedTextBackground->SetDrawAsTopLayerRecursive(drawTopLayer);
+		}
+
 		// do self updates
 		void _UIDropDown::UpdateSelf(double deltaTime)
 		{
@@ -57,8 +93,16 @@ namespace bon
 			auto newSelected = SelectedItem();
 			auto currentSelected = SelectedText->GetText();
 			if ((newSelected && !currentSelected) || (!newSelected && currentSelected) || 
-				(newSelected && (strcmp(SelectedText->GetText(), newSelected) != 0))) {
+				(newSelected && (strcmp(SelectedText->GetText(), newSelected) != 0))) 
+			{
 				SelectedText->SetText(newSelected);
+			}
+
+			// update draw layer of self, but not background
+			if (DrawAsTopLayer != _isOpened)
+			{
+				SetDrawAsTopLayerRecursive(_isOpened);
+				SelectedTextBackground->SetDrawAsTopLayerRecursive(false);
 			}
 
 			// call base updates
@@ -68,15 +112,11 @@ namespace bon
 		// draw ui element and children.
 		void _UIDropDown::Draw(bool topLayer)
 		{
-			// draw selected
-			SelectedTextBackground->Draw(topLayer);
-
-			// draw list part
-			if (DrawAsTopLayer() == topLayer)
-			{
-				int selectedHeight = SelectedTextBackground->GetActualDestRect().Height;
-				Background->_ExtraPixelsOffset.Y = selectedHeight;
+			if (_isOpened) {
 				_UIList::Draw(topLayer);
+			}
+			else {
+				SelectedTextBackground->Draw(topLayer);
 			}
 		}
 	}

@@ -477,8 +477,7 @@ void BON_UIElement_Draw(bon::UIElement* element)
  */
 void BON_UIElement_Update(bon::UIElement* element, double dt)
 {
-	(*element)->Update(dt, true);
-	(*element)->Update(dt, false);
+	(*element)->Update(dt);
 }
 
 /**
@@ -487,7 +486,8 @@ void BON_UIElement_Update(bon::UIElement* element, double dt)
 void BON_UIElement_DoInputUpdates(bon::UIElement* element, int mx, int my)
 {
 	bon::UIUpdateInputState state;
-	(*element)->DoInputUpdates(bon::PointI(mx, my), state);
+	(*element)->DoInputUpdates(bon::PointI(mx, my), state, true);
+	(*element)->DoInputUpdates(bon::PointI(mx, my), state, false);
 }
 
 /**

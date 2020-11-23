@@ -22,6 +22,17 @@ namespace bon
 			_itemsContainer->SetPadding(UISides(0, 0, 0, 0));
 			_itemsContainer->SetWidthToMax();
 			_itemsContainer->SetHeightToMax();
+
+			// by default not locked
+			Locked = false;
+		}
+
+		// set if to draw as top layer this element and all its children, recursively.
+		void _UIList::SetDrawAsTopLayerRecursive(bool drawTopLayer)
+		{
+			_UIElement::SetDrawAsTopLayerRecursive(drawTopLayer);
+			if (Background) { Background->SetDrawAsTopLayerRecursive(drawTopLayer); }
+			if (_scrollbar) { _scrollbar->SetDrawAsTopLayerRecursive(drawTopLayer); }
 		}
 
 		// initialize element style from config file.
@@ -218,59 +229,53 @@ namespace bon
 			}
 		}
 
-		// update list
-		void _UIList::Update(double deltaTime, bool topLayer)
+		// update list items
+		void _UIList::RebuildListItems()
 		{
-			// if dirty, rearrange list
-			if (_listDirty && !topLayer)
+			auto extraOffset = Background->_ExtraPixelsOffset;
+
+			// set items offset and height
+			int i = 0;
+			for (auto item : _items)
 			{
-				// set items offset and height
-				int i = 0;
-				for (auto item : _items)
+				// set item index and position
+				item.Index = i;
+				item.Background->SetOffset(bon::PointI(0, i * _lineHeight));
+				item.Background->SetSize(UISize(100, UISizeType::PercentOfParent, _lineHeight, UISizeType::Pixels));
+
+				// set callback
+				item.Background->OnMousePressed = [this, item](_UIElement& self, void* data)
 				{
-					// set item index and position
-					item.Index = i;
-					item.Background->SetOffset(bon::PointI(0, i * _lineHeight));
-					item.Background->SetSize(UISize(100, UISizeType::PercentOfParent, _lineHeight, UISizeType::Pixels));
-					
-					// set callback
-					item.Background->OnMousePressed = [this, item](_UIElement& self, void* data)
-					{
+					if (!this->Locked) {
 						this->Select(item.Index);
-					};
-					
-					// increase index
-					i++;
-				}
+					}
+				};
 
-				// no longer dirty
-				_listDirty = false;
+				// increase index
+				i++;
 			}
+		}
 
-			// do base updates
-			_UIElement::Update(deltaTime, topLayer);
-
-			// set scrollbar min-max
-			if (_scrollbar && !topLayer)
+		// update scrollbar
+		void _UIList::UpdateScrollbarMinMax()
+		{
+			if (_scrollbar)
 			{
 				// calc how many items we can hold in list
 				int listRegionHeight = Background->GetCalculatedDestRect().Height - (Background->GetPadding().Top + Background->GetPadding().Bottom);
 				_maxVisibleEntitiesInList = listRegionHeight / _lineHeight;
 
-				// set extra offset
-				_scrollbar->_ExtraPixelsOffset = _ExtraPixelsOffset;
-
 				// calculate how many extra items are outside
 				int extras = (int)(_items.size() - _maxVisibleEntitiesInList);
-				
+
 				// got items outside? set scrollbar visible and max
-				if (extras > 0) 
+				if (extras > 0)
 				{
 					_scrollbar->Visible = true;
 					_scrollbar->MaxValue = extras;
 				}
 				// no items outside range? hide scrollbar
-				else 
+				else
 				{
 					_scrollbar->Visible = false;
 					_scrollbar->MaxValue = 0;
@@ -278,10 +283,30 @@ namespace bon
 			}
 		}
 
+		// update list
+		void _UIList::Update(double deltaTime)
+		{
+			// if dirty, rearrange list
+			if (_listDirty)
+			{
+				// update list items
+				RebuildListItems();
+
+				// no longer dirty
+				_listDirty = false;
+			}
+
+			// do base updates
+			_UIElement::Update(deltaTime);
+
+			// set scrollbar min-max
+			UpdateScrollbarMinMax();
+		}
+
 		// draw list
 		void _UIList::Draw(bool topLayer)
 		{
-			if (DrawAsTopLayer() == topLayer)
+			if (DrawAsTopLayer == topLayer)
 			{
 				// calculate bottom limit position
 				int listBottomPosition = Background->GetCalculatedDestRect().Bottom() - Background->GetPadding().Bottom;
@@ -301,9 +326,9 @@ namespace bon
 					if (isVisible)
 					{
 						item.Background->SetOffset(bon::PointI(0, positionIndex * _lineHeight));
-						item.Background->Update(0.1, topLayer);
+						item.Background->Update(0.1);
 					}
-					if (index >= scrollVal) positionIndex++;
+					if (index >= scrollVal) { positionIndex++; }
 					index++;
 				}
 			}

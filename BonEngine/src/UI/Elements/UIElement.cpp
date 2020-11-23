@@ -98,6 +98,15 @@ namespace bon
 			_parent = nullptr;
 		}
 
+		// set if to draw as top layer this element and all its children, recursively.
+		void _UIElement::SetDrawAsTopLayerRecursive(bool drawTopLayer)
+		{
+			DrawAsTopLayer = drawTopLayer;
+			for (auto const& child : _children) {
+				child->SetDrawAsTopLayerRecursive(drawTopLayer);
+			}
+		}
+
 		// draw ui element and children.
 		void _UIElement::Draw(bool topLayer)
 		{
@@ -105,7 +114,7 @@ namespace bon
 			if (!Visible) { return; }
 
 			// draw self
-			if (DrawAsTopLayer() == topLayer) { 
+			if (DrawAsTopLayer == topLayer) { 
 				DrawSelf(); 
 			}
 
@@ -117,29 +126,26 @@ namespace bon
 		}
 
 		// update the UI element and children.
-		void _UIElement::Update(double deltaTime, bool topLayer)
+		void _UIElement::Update(double deltaTime)
 		{
 			// skip update if not visible
 			if (!Visible) { return; }
 
 			// update self
-			if (DrawAsTopLayer() == topLayer) 
+			// special case - force-active (we need this here too, in case someone blocks our update loop)
+			if (ForceActiveState)
 			{
-				// special case - force-active (we need this here too, in case someone blocks our update loop)
-				if (ForceActiveState)
-				{
-					_state = UIElementState::PressedDown;
-				}
-				// reset states
-				else
-				{
-					_prevState = _state;
-					_state = (CopyParentState && _parent) ? _parent->_state : UIElementState::Idle;
-				}
-
-				// do self updates
-				UpdateSelf(deltaTime); 
+				_state = UIElementState::PressedDown;
 			}
+			// reset states
+			else
+			{
+				_prevState = _state;
+				_state = (CopyParentState && _parent) ? _parent->_state : UIElementState::Idle;
+			}
+
+			// do self updates
+			UpdateSelf(deltaTime); 
 
 			// for auto arrange
 			int offsetY = 0;
@@ -148,10 +154,10 @@ namespace bon
 			for (auto child : _children)
 			{
 				// update child
-				child->Update(deltaTime, topLayer);
+				child->Update(deltaTime);
 
 				// auto-arrange children
-				if (!topLayer && AutoArrangeChildren && !child->ExemptFromAutoArrange)
+				if (AutoArrangeChildren && !child->ExemptFromAutoArrange)
 				{
 					offsetY += child->Marging.Top;
 					if (child->_anchor.Y != 0)
@@ -205,7 +211,7 @@ namespace bon
 		}
 
 		// update ui interactions with input
-		void _UIElement::DoInputUpdates(const framework::PointI& mousePosition, UIUpdateInputState& updateState)
+		void _UIElement::DoInputUpdates(const framework::PointI& mousePosition, UIUpdateInputState& updateState, bool topLayer)
 		{
 			// skip update if not visible
 			if (!Visible) { return; }
@@ -219,12 +225,12 @@ namespace bon
 			for (auto child = _children.end(); child != _children.begin();)
 			{
 				--child; // <-- must come here and not in the for line
-				(*child)->DoInputUpdates(mousePosition, updateState);
+				(*child)->DoInputUpdates(mousePosition, updateState, topLayer);
 				if (updateState.BreakUpdatesLoop) { break; }
 			}
 
 			// now update self
-			if (!updateState.BreakUpdatesLoop) {
+			if (!updateState.BreakUpdatesLoop && DrawAsTopLayer == topLayer) {
 				DoInputUpdatesSelf(mousePosition, updateState);
 			}
 

@@ -205,6 +205,11 @@ namespace bon
 			bool LimitDragToParentArea = true;
 
 			/**
+			 * Set if to draw as top layer this element and all its children, recursively.
+			 */
+			virtual void SetDrawAsTopLayerRecursive(bool drawTopLayer);
+
+			/**
 			 * Set if we want to ignore parent's padding.
 			 * 
 			 * \param ignore If true, will ignore parent padding.
@@ -264,7 +269,7 @@ namespace bon
 			/**
 			 * If true, will draw this element on top layer, above other elements.
 			 */
-			virtual bool DrawAsTopLayer() const { return false; }
+			bool DrawAsTopLayer = false;
 
 			/**
 			 * Mark dest rect as dirty.
@@ -370,9 +375,8 @@ namespace bon
 			 * Update the UI element and children.
 			 * 
 			 * \param deltaTime Update frame delta time.
-			 * \param topLayer Set to true to only update top layer elements.
 			 */
-			virtual void Update(double deltaTime, bool topLayer);
+			virtual void Update(double deltaTime);
 						
 			/**
 			 * Do input updates to interact with element.
@@ -380,8 +384,9 @@ namespace bon
 			 *
 			 * \param mousePosition Mouse position to test.
 			 * \param updateState Contains temporary state about UI input updates.
+			 * \param topLayer True when we update top layer elements.
 			 */
-			virtual void DoInputUpdates(const framework::PointI& mousePosition, UIUpdateInputState& updateState);
+			virtual void DoInputUpdates(const framework::PointI& mousePosition, UIUpdateInputState& updateState, bool topLayer);
 
 			/**
 			 * Move this element to front inside its parent.

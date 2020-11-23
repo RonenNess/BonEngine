@@ -53,46 +53,43 @@ namespace bon
 		}
 
 		// do text input updates
-		void _UITextInput::Update(double deltaTime, bool topLayer)
+		void _UITextInput::Update(double deltaTime)
 		{
-			if (topLayer)
+			// check if should finish input
+			if (IsReceivingInput)
 			{
-				// check if should finish input
-				if (IsReceivingInput)
+				// pressed enter
+				if (bon::_GetEngine().Input().ReleasedNow(bon::KeyCodes::KeyReturn))
 				{
-					// pressed enter
-					if (bon::_GetEngine().Input().ReleasedNow(bon::KeyCodes::KeyReturn))
-					{
-						IsReceivingInput = false;
-					}
-					// clicked outside
-					else if (bon::_GetEngine().Input().PressedNow(bon::KeyCodes::MouseLeft))
-					{
-						auto mousePosition = bon::_GetEngine().UI()._GetRelativeCursorPos();
-						IsReceivingInput = GetCalculatedDestRect().Contains(mousePosition);
-					}
+					IsReceivingInput = false;
 				}
-				// check if we should start recieving input
-				else
+				// clicked outside
+				else if (bon::_GetEngine().Input().PressedNow(bon::KeyCodes::MouseLeft))
 				{
-					if (_state == UIElementState::PressedDown || _state == UIElementState::AltPressedDown)
-					{
-						IsReceivingInput = true;
-					}
+					auto mousePosition = bon::_GetEngine().UI()._GetRelativeCursorPos();
+					IsReceivingInput = GetCalculatedDestRect().Contains(mousePosition);
 				}
-
-				// set active mode if recieving update
-				ForceActiveState = IsReceivingInput;
-
-				// get text input
-				if (IsReceivingInput)
+			}
+			// check if we should start recieving input
+			else
+			{
+				if (_state == UIElementState::PressedDown || _state == UIElementState::AltPressedDown)
 				{
-					GetTextInput();
+					IsReceivingInput = true;
 				}
 			}
 
+			// set active mode if recieving update
+			ForceActiveState = IsReceivingInput;
+
+			// get text input
+			if (IsReceivingInput)
+			{
+				GetTextInput();
+			}	
+
 			// call base input updates
-			_UIImage::Update(deltaTime, topLayer);
+			_UIImage::Update(deltaTime);
 		}
 
 		// get text input

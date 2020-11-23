@@ -74,7 +74,7 @@ namespace bon
 			{
 				_activePartOverlay->SetSizeInPercents(PointI((int)(pos * 100), 100));
 				_activePartOverlay->Visible = pos > 0;
-				_activePartOverlay->Update(0.1, false);
+				_activePartOverlay->Update(0.1);
 			}
 
 			// set value

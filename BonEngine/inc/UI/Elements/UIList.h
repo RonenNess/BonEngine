@@ -26,7 +26,7 @@ namespace bon
 		 */
 		class BON_DLLEXPORT _UIList : public _UIElement
 		{
-		private:
+		protected:
 
 			// the struct that holds a single item in list.
 			struct ListItem
@@ -76,6 +76,11 @@ namespace bon
 			UIWindow Background;
 
 			/**
+			 * If true, will ignore list selection from user (you can still select item via code though).
+			 */
+			bool Locked;
+
+			/**
 			 * Set the height, in pixels, of an item in list.
 			 * 
 			 * \param val Line height to set.
@@ -96,6 +101,11 @@ namespace bon
 			 * Get list items list.
 			 */
 			std::vector<std::string> Items() const;
+
+			/**
+			 * Set if to draw as top layer this element and all its children, recursively.
+			 */
+			virtual void SetDrawAsTopLayerRecursive(bool drawTopLayer) override;
 
 			/**
 			 * Get if list contains a given value.
@@ -156,7 +166,7 @@ namespace bon
 			 *
 			 * \param deltaTime Update frame delta time.
 			 */
-			virtual void Update(double deltaTime, bool topLayer) override;
+			virtual void Update(double deltaTime) override;
 
 			/**
 			 * Get currently selected index.
@@ -195,6 +205,18 @@ namespace bon
 			 * Draw ui element and children.
 			 */
 			virtual void Draw(bool topLayer) override;
+
+		protected:
+
+			/**
+			 * Update list items.
+			 */
+			void RebuildListItems();
+			
+			/**
+			 * Update scrollbar min, max and offset.
+			 */
+			void UpdateScrollbarMinMax();
 		};
 	}
 }

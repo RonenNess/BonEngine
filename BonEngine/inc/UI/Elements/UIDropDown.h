@@ -70,14 +70,21 @@ namespace bon
 			virtual void Draw(bool topLayer) override;
 
 			/**
-			 * If true, will draw this element on top layer, above other elements.
-			 */
-			virtual bool DrawAsTopLayer() const override { return _isOpened; }
-
-			/**
 			 * Get if this dropdown is currently opened.
 			 */
 			inline bool IsOpened() const { return _isOpened; }
+			
+			/**
+			 * Set if to draw as top layer this element and all its children, recursively.
+			 */
+			virtual void SetDrawAsTopLayerRecursive(bool drawTopLayer) override;
+
+			/**
+			 * Show / hide the list part of this dropdown.
+			 * 
+			 * \param show True to show dropdown list, false to hide it.
+			 */
+			void ShowDropdownList(bool show);
 
 		protected:
 
