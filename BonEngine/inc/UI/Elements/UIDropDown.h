@@ -35,6 +35,11 @@ namespace bon
 			UIImage SelectedTextBackground;
 
 			/**
+			 * Placeholder text when no item is selected.
+			 */
+			const char* PlaceholderText;
+
+			/**
 			 * Get element type.
 			 */
 			virtual UIElementType GetType() const override { return UIElementType::DropDown; }
@@ -85,6 +90,30 @@ namespace bon
 			 * \param show True to show dropdown list, false to hide it.
 			 */
 			void ShowDropdownList(bool show);
+
+			/**
+			 * Selet list item by index.
+			 *
+			 * \param index Index to select, or -1 to clear selection.
+			 */
+			virtual void Select(int index) override;
+
+			/**
+			 * Selet list item by value (if duplications exist, will select first item found.
+			 *
+			 * \param item Item value to select, or nullptr to clear selection.
+			 */
+			virtual void Select(const char* item) override;
+
+			/**
+			 * Do input updates to interact with element.
+			 * This happens after the regular updates.
+			 *
+			 * \param mousePosition Mouse position to test.
+			 * \param updateState Contains temporary state about UI input updates.
+			 * \param topLayer True when we update top layer elements.
+			 */
+			virtual void DoInputUpdates(const framework::PointI& mousePosition, UIUpdateInputState& updateState, bool topLayer) override;
 
 		protected:
 

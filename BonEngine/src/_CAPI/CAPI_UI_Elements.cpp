@@ -833,6 +833,22 @@ bool BON_UIList_Contains(bon::UIList* element, const char* item)
 }
 
 /**
+ * Set list locked
+ */
+void BON_UIList_SetLocked(bon::UIList* element, bool locked)
+{
+	(*element)->Locked = locked;
+}
+
+/**
+ * Get if list ist locked
+ */
+bool BON_UIList_GetLocked(bon::UIList* element)
+{
+	return (*element)->Locked;
+}
+
+/**
  * Set list line height.
  */
 void BON_UIList_SetLineHeight(bon::UIList* element, int height)

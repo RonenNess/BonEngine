@@ -246,7 +246,7 @@ namespace bon
 				// set callback
 				item.Background->OnMousePressed = [this, item](_UIElement& self, void* data)
 				{
-					if (!this->Locked) {
+					if (!this->Locked && Background->Visible) {
 						this->Select(item.Index);
 					}
 				};

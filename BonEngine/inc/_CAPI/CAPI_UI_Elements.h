@@ -533,6 +533,16 @@ extern "C" {
 	BON_DLLEXPORT void BON_UIList_ClearSelection(bon::UIList* element);
 
 	/**
+	 * Set list locked
+	 */
+	BON_DLLEXPORT void BON_UIList_SetLocked(bon::UIList* element, bool locked);
+
+	/**
+	 * Get if list ist locked
+	 */
+	BON_DLLEXPORT bool BON_UIList_GetLocked(bon::UIList* element);
+
+	/**
 	 * Set slider max value.
 	 */
 	BON_DLLEXPORT void BON_UISlider_SetMaxValue(bon::UISlider* element, int maxVal);

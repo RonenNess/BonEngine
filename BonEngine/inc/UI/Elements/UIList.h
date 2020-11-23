@@ -187,14 +187,14 @@ namespace bon
 			 * 
 			 * \param index Index to select, or -1 to clear selection.
 			 */
-			void Select(int index);
+			virtual void Select(int index);
 
 			/**
 			 * Selet list item by value (if duplications exist, will select first item found.
 			 *
 			 * \param item Item value to select, or nullptr to clear selection.
 			 */
-			void Select(const char* item);
+			virtual void Select(const char* item);
 
 			/**
 			 * Clear currently selected index.

@@ -104,6 +104,7 @@ namespace demo16_ui
 			UI().CreateText("../TestAssets/ui/small_text.ini", intoWindow, "DropDown Element:");
 			bon::UIDropDown uidropdown = UI().CreateDropDown("../TestAssets/ui/dropdown.ini", intoWindow);
 			uidropdown->AddItem("This is a dropdown");
+			uidropdown->PlaceholderText = "Click here to select";
 			for (int i = 1; i <= 15; ++i) {
 				uidropdown->AddItem((std::string("Item #") + std::to_string(i)).c_str());
 			}

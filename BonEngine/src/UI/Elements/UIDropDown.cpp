@@ -29,7 +29,9 @@ namespace bon
 			// register callback to handle clicking on the selected text to show / hide list
 			SelectedTextBackground->OnMousePressed = SelectedText->OnMousePressed = [this](bon::_UIElement& element, void* data)
 			{
-				this->ShowDropdownList(!this->_isOpened);
+				if (!this->Locked) {
+					this->ShowDropdownList(!this->_isOpened);
+				}
 			};
 
 			// by default hide list
@@ -53,7 +55,21 @@ namespace bon
 			if (_scrollbar) { _scrollbar->Update(0.1); }
 
 			// set if locked
-			Locked = !_isOpened;
+			Background->Visible = _isOpened;
+		}
+
+		// select item
+		void _UIDropDown::Select(int index)
+		{
+			_UIList::Select(index);
+			if (_isOpened) { ShowDropdownList(false); }
+		}
+
+		// select item
+		void _UIDropDown::Select(const char* item)
+		{
+			_UIList::Select(item);
+			if (_isOpened) { ShowDropdownList(false); }
 		}
 
 		// initialize element style from config file.
@@ -85,12 +101,31 @@ namespace bon
 			_UIList::SetDrawAsTopLayerRecursive(drawTopLayer);
 			SelectedTextBackground->SetDrawAsTopLayerRecursive(drawTopLayer);
 		}
+		
+		// do input updates
+		void _UIDropDown::DoInputUpdates(const framework::PointI& mousePosition, UIUpdateInputState& updateState, bool topLayer)
+		{
+			// check if should close
+			if (_isOpened && DrawAsTopLayer == topLayer)
+			{
+				auto rect = GetCalculatedDestRect();
+				rect.Height += Background->_ExtraPixelsOffset.Y;
+				if (!rect.Contains(mousePosition)) 
+				{
+					ShowDropdownList(false);
+				}
+			}
+
+			// call base updates
+			_UIList::DoInputUpdates(mousePosition, updateState, topLayer);
+		}
 
 		// do self updates
 		void _UIDropDown::UpdateSelf(double deltaTime)
 		{
 			// update selected text
 			auto newSelected = SelectedItem();
+			if (!newSelected) { newSelected = PlaceholderText; }
 			auto currentSelected = SelectedText->GetText();
 			if ((newSelected && !currentSelected) || (!newSelected && currentSelected) || 
 				(newSelected && (strcmp(SelectedText->GetText(), newSelected) != 0))) 
