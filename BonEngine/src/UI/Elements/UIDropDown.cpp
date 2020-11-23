@@ -26,8 +26,12 @@ namespace bon
 			SelectedText = bon::_GetEngine().UI().CreateText(nullptr, SelectedTextBackground, "");
 			SelectedText->WordWrap = false;
 
+			// create placeholder text element
+			PlaceholderText = bon::_GetEngine().UI().CreateText(nullptr, SelectedTextBackground, "");
+			PlaceholderText->WordWrap = false;
+
 			// register callback to handle clicking on the selected text to show / hide list
-			SelectedTextBackground->OnMousePressed = SelectedText->OnMousePressed = [this](bon::_UIElement& element, void* data)
+			PlaceholderText->OnMousePressed = SelectedTextBackground->OnMousePressed = SelectedText->OnMousePressed = [this](bon::_UIElement& element, void* data)
 			{
 				if (!this->Locked) {
 					this->ShowDropdownList(!this->_isOpened);
@@ -79,14 +83,28 @@ namespace bon
 			_UIList::LoadStyleFrom(config);
 
 			// load text styles
-			const char* textStylesheet = config->GetStr("selected_text", "text_style", nullptr);
-			if (textStylesheet) { 
-				SelectedText->LoadStyleFrom(bon::_GetEngine().Assets().LoadConfig(ToRelativePath(textStylesheet).c_str())); 
+			{
+				const char* textStylesheet = config->GetStr("selected_text", "text_style", nullptr);
+				if (textStylesheet) {
+					SelectedText->LoadStyleFrom(bon::_GetEngine().Assets().LoadConfig(ToRelativePath(textStylesheet).c_str()));
+				}
+				SelectedText->SetOffset(config->GetPointF("selected_text", "text_offset", framework::PointF::Zero));
+				SelectedText->ExemptFromAutoArrange = true;
+				framework::PointF anchor = config->GetPointF("selected_text", "text_anchor", framework::PointF(-1000.0f, -1000.0f));
+				if (anchor.X != -1000.0f) { SelectedText->SetAnchor(anchor); }
 			}
-			SelectedText->SetOffset(config->GetPointF("selected_text", "text_offset", framework::PointF::Zero));
-			SelectedText->ExemptFromAutoArrange = true;
-			framework::PointF anchor = config->GetPointF("selected_text", "text_anchor", framework::PointF(-1000.0f, -1000.0f));
-			if (anchor.X != -1000.0f) { SelectedText->SetAnchor(anchor); }
+
+			// load placeholder text styles
+			{
+				const char* textStylesheet = config->GetStr("selected_text", "placeholder_text_style", nullptr);
+				if (textStylesheet) {
+					PlaceholderText->LoadStyleFrom(bon::_GetEngine().Assets().LoadConfig(ToRelativePath(textStylesheet).c_str()));
+				}
+				PlaceholderText->SetOffset(config->GetPointF("selected_text", "text_offset", framework::PointF::Zero));
+				PlaceholderText->ExemptFromAutoArrange = true;
+				framework::PointF anchor = config->GetPointF("selected_text", "text_anchor", framework::PointF(-1000.0f, -1000.0f));
+				if (anchor.X != -1000.0f) { PlaceholderText->SetAnchor(anchor); }
+			}
 
 			// load selected text background style
 			const char* textBackgroundStylesheet = config->GetStr("selected_text", "background_style", nullptr);
@@ -125,12 +143,13 @@ namespace bon
 		{
 			// update selected text
 			auto newSelected = SelectedItem();
-			if (!newSelected) { newSelected = PlaceholderText; }
 			auto currentSelected = SelectedText->GetText();
 			if ((newSelected && !currentSelected) || (!newSelected && currentSelected) || 
 				(newSelected && (strcmp(SelectedText->GetText(), newSelected) != 0))) 
 			{
 				SelectedText->SetText(newSelected);
+				SelectedText->Visible = newSelected != nullptr;
+				PlaceholderText->Visible = newSelected == nullptr;
 			}
 
 			// update draw layer of self, but not background

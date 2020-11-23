@@ -28,16 +28,16 @@ namespace bon
 			 * Currently selected item text.
 			 */
 			UIText SelectedText;
-			
-			/**
-			 * Selected text background image.
-			 */
-			UIImage SelectedTextBackground;
 
 			/**
 			 * Placeholder text when no item is selected.
 			 */
-			const char* PlaceholderText;
+			UIText PlaceholderText;
+
+			/**
+			 * Selected text background image.
+			 */
+			UIImage SelectedTextBackground;
 
 			/**
 			 * Get element type.

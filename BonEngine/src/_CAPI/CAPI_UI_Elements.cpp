@@ -853,7 +853,7 @@ bool BON_UIList_GetLocked(bon::UIList* element)
  */
 void BON_UIDropDown_SetPlaceholderText(bon::UIDropDown* element, const char* text)
 {
-	(*element)->PlaceholderText = text;
+	(*element)->PlaceholderText->SetText(text);
 }
 
 /**
@@ -861,7 +861,7 @@ void BON_UIDropDown_SetPlaceholderText(bon::UIDropDown* element, const char* tex
  */
 const char* BON_UIDropDown_GetPlaceholderText(bon::UIDropDown* element)
 {
-	return (*element)->PlaceholderText;
+	return (*element)->PlaceholderText->GetText();
 }
 
 /**
