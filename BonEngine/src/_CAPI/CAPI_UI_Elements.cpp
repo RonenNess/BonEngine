@@ -849,6 +849,30 @@ bool BON_UIList_GetLocked(bon::UIList* element)
 }
 
 /**
+ * Set dropdown placeholder text.
+ */
+void BON_UIDropDown_SetPlaceholderText(bon::UIDropDown* element, const char* text)
+{
+	(*element)->PlaceholderText = text;
+}
+
+/**
+ * Get dropdown placeholder text.
+ */
+const char* BON_UIDropDown_GetPlaceholderText(bon::UIDropDown* element)
+{
+	return (*element)->PlaceholderText;
+}
+
+/**
+* Set dropdown show / hide list.
+*/
+void BON_UIDropDown_ShowList(bon::UIDropDown* element, bool show)
+{
+	(*element)->ShowDropdownList(show);
+}
+
+/**
  * Set list line height.
  */
 void BON_UIList_SetLineHeight(bon::UIList* element, int height)

@@ -543,6 +543,21 @@ extern "C" {
 	BON_DLLEXPORT bool BON_UIList_GetLocked(bon::UIList* element);
 
 	/**
+	 * Set dropdown placeholder text.
+	 */
+	BON_DLLEXPORT void BON_UIDropDown_SetPlaceholderText(bon::UIDropDown* element, const char* text);
+
+	/**
+	 * Set dropdown show / hide list.
+	 */
+	BON_DLLEXPORT void BON_UIDropDown_ShowList(bon::UIDropDown* element, bool show);
+
+	/**
+	 * Get dropdown placeholder text.
+	 */
+	BON_DLLEXPORT const char* BON_UIDropDown_GetPlaceholderText(bon::UIDropDown* element);
+
+	/**
 	 * Set slider max value.
 	 */
 	BON_DLLEXPORT void BON_UISlider_SetMaxValue(bon::UISlider* element, int maxVal);

@@ -1377,7 +1377,7 @@ First stable release.
 
 # 1.3.2
 
-**[21/11/2020]**
+**[24/11/2020]**
 
 - Added method to generate image asset from screen.
 - Added DropDown UI element.
