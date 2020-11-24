@@ -127,7 +127,10 @@ namespace bon
 			if (_isOpened && DrawAsTopLayer == topLayer)
 			{
 				auto rect = GetCalculatedDestRect();
-				rect.Height += Background->_ExtraPixelsOffset.Y;
+				rect.Width += 10;
+				rect.Height += Background->_ExtraPixelsOffset.Y + 10;
+				rect.Y -= 5;
+				rect.X -= 5;
 				if (!rect.Contains(mousePosition)) 
 				{
 					ShowDropdownList(false);

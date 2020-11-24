@@ -250,6 +250,8 @@ namespace bon
 						this->Select(item.Index);
 					}
 				};
+				item.Background->CaptureInput = true;
+				item.Text->CaptureInput = false;
 
 				// increase index
 				i++;

@@ -1385,6 +1385,7 @@ First stable release.
 - Added validation that effect is active before setting uniforms.
 - Small refactor in UI system for more flexability - top and bottom layers.
 - Added 'Locked' property to list.
+- Improved list click behavior, pressed and released UI events.
 
 ## In Memory Of Bonnie
 

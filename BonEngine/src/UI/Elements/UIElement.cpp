@@ -312,6 +312,8 @@ namespace bon
 				_state = UIElementState::PointedOn;
 				bool ldown = bon::_GetEngine().Input().Down(KeyCodes::MouseLeft);
 				bool rdown = bon::_GetEngine().Input().Down(KeyCodes::MouseRight);
+				bool lpressed = bon::_GetEngine().Input().PressedNow(KeyCodes::MouseLeft);
+				bool lreleased = bon::_GetEngine().Input().ReleasedNow(KeyCodes::MouseLeft);
 				if (ldown) { _state = UIElementState::PressedDown; }
 				else if (rdown) { _state = UIElementState::AltPressedDown; }
 				
@@ -320,10 +322,10 @@ namespace bon
 					OnMouseEnter(*this, &UIInputEvent(ldown, rdown));
 				}
 				if (_prevState != UIElementState::PressedDown && _prevState != UIElementState::AltPressedDown) {
-					if (OnMousePressed && (ldown || rdown)) { OnMousePressed(*this, &UIInputEvent(ldown, rdown)); }
+					if (OnMousePressed && (ldown || rdown) && lpressed) { OnMousePressed(*this, &UIInputEvent(ldown, rdown)); } 
 				}
 				if (_prevState == UIElementState::PressedDown || _prevState == UIElementState::AltPressedDown) {
-					if (OnMouseReleased && !ldown && !rdown) { OnMouseReleased(*this, &UIInputEvent(ldown, rdown)); }
+					if (OnMouseReleased && !ldown && !rdown && lreleased) { OnMouseReleased(*this, &UIInputEvent(ldown, rdown)); }
 				}
 
 				// start dragging element
