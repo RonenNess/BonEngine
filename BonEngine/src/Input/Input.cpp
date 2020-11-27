@@ -563,6 +563,21 @@ namespace bon
 			_scrollDelta.Reset();
 		}
 
+		// set cursor position
+		void Input::SetCursorPosition(const framework::PointI& position, bool global)
+		{
+			if (global)
+			{
+				SDL_WarpMouseGlobal(position.X, position.Y);
+			}
+			else
+			{
+				auto window = SDL_GL_GetCurrentWindow();
+				SDL_WarpMouseInWindow(window, position.X, position.Y);
+			}
+			SDL_GetMouseState(&_cursorPosition.X, &_cursorPosition.Y);
+		}
+
 		// called on main loop start
 		void Input::_Start()
 		{

@@ -856,6 +856,14 @@ Set the clipboard current value.
 
 Get the current clipboard value as string.
 
+#### void SetCursorPosition()
+
+Set cursor's current position.
+
+#### void SetKeyState()
+
+Set the state (pressed / released) of a given key.
+
 #### TextInput GetTextInput()
 
 Get the text input data for current frame.
@@ -1386,6 +1394,13 @@ First stable release.
 - Small refactor in UI system for more flexability - top and bottom layers.
 - Added 'Locked' property to list.
 - Improved list click behavior, pressed and released UI events.
+
+# 1.3.3
+
+**[27/11/2020]**
+
+- Added SetCursorPosition() to change cursor position.
+- Added SetKeyState() to set a key state externally.
 
 ## In Memory Of Bonnie
 

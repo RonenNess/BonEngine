@@ -76,6 +76,14 @@ namespace bon
 			virtual bool PressedNow(KeyCodes key) const = 0;
 
 			/**
+			 * Artificially set the state of a given key.
+			 *
+			 * \param key Key code to set.
+			 * \param state True to set this key to pressed, false to released.
+			 */
+			virtual void SetKeyState(KeyCodes key, bool state) = 0;
+
+			/**
 			 * Get scrolling delta.
 			 *
 			 * \return Scroll delta.
@@ -104,6 +112,14 @@ namespace bon
 			 * \return Current cursor position.
 			 */
 			virtual const framework::PointI& CursorPosition() const = 0;
+
+			/**
+			 * Set cursor position.
+			 * 
+			 * \param position New cursor poisition.
+			 * \param global If true, position will be relative to screen space. If false, will be relative to your window position.
+			 */
+			virtual void SetCursorPosition(const framework::PointI& position, bool global) = 0;
 
 			/**
 			 * Get cursor movement from last frame.

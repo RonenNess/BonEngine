@@ -83,6 +83,22 @@ int BON_Input_CursorPositionY()
 }
 
 /**
+ * Set cursor position.
+ */
+void BON_Input_SetCursorPosition(int x, int y, bool global)
+{
+	bon::_GetEngine().Input().SetCursorPosition(bon::framework::PointI(x, y), global);
+}
+
+/**
+* Set a key state.
+*/
+void BON_Input_SetKeyState(BON_KeyCodes keyCode, bool state)
+{
+	bon::_GetEngine().Input().SetKeyState((bon::KeyCodes)keyCode, state);
+}
+
+/**
 * Get cursor movement from last frame X.
 */
 int BON_Input_CursorDeltaX()

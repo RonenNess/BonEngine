@@ -105,6 +105,14 @@ namespace bon
 			virtual bool PressedNow(KeyCodes key) const override;
 
 			/**
+			 * Artificially set the state of a given key.
+			 *
+			 * \param key Key code to set.
+			 * \param state True to set this key to pressed, false to released.
+			 */
+			virtual void SetKeyState(KeyCodes key, bool state) override;
+
+			/**
 			 * Get scrolling delta.
 			 * 
 			 * \return Scroll delta.
@@ -117,7 +125,15 @@ namespace bon
 			 * \return Current cursor position.
 			 */
 			virtual const framework::PointI& CursorPosition() const override { return _cursorPosition; }
-			
+
+			/**
+			 * Set cursor position.
+			 *
+			 * \param position New cursor poisition.
+			 * \param global If true, position will be relative to screen space. If false, will be relative to your window position.
+			 */
+			virtual void SetCursorPosition(const framework::PointI& position, bool global) override;
+
 			/**
 			 * Get cursor movement from last frame.
 			 *
@@ -225,14 +241,6 @@ namespace bon
 			 * Used when user doesn't specify any keys.
 			 */
 			void SetDefaultKeyBinds();
-
-			/**
-			 * Set a key state.
-			 * 
-			 * \param key Key to set.
-			 * \param value New value.
-			 */
-			void SetKeyState(KeyCodes key, bool value);
 
 			// current frame's text input data
 			TextInputData _textInputData;

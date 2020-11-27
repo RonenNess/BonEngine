@@ -74,6 +74,16 @@ extern "C" {
 	BON_DLLEXPORT int BON_Input_CursorDeltaY();
 
 	/**
+	 * Set cursor position.
+	 */
+	BON_DLLEXPORT void BON_Input_SetCursorPosition(int x, int y, bool global);
+	
+	/**
+	* Set a key state.
+	*/
+	BON_DLLEXPORT void BON_Input_SetKeyState(BON_KeyCodes keyCode, bool state);
+
+	/**
 	* Bind a key to an action id.
 	*/
 	BON_DLLEXPORT void BON_Input_SetKeyBind(BON_KeyCodes keyCode, const char* actionId);
