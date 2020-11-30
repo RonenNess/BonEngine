@@ -112,6 +112,11 @@ extern "C" {
 	*/
 	BON_DLLEXPORT bon::UIVerticalScrollbar* BON_UI_CreateVerticalScrollbar(const char* stylesheet, bon::UIElement* parent);
 
+	/**
+	* Override cursor position just for the input manager.
+	*/
+	BON_DLLEXPORT void BON_UI_OverrideCursorPosition(int x, int y);
+
 #ifdef __cplusplus
 }
 #endif

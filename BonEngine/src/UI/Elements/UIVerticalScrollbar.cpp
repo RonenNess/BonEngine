@@ -41,7 +41,7 @@ namespace bon
 			// on mouse down, set handle
 			if (_prevState == UIElementState::PressedDown)
 			{
-				int y = bon::_GetEngine().Input().CursorPosition().Y - destRect.Y - GetPadding().Top - _handle->GetCalculatedDestRect().Height / 2;
+				int y = bon::_GetEngine().UI()._GetRelativeCursorPos().Y - destRect.Y - GetPadding().Top - _handle->GetCalculatedDestRect().Height / 2;
 				_handle->SetOffset(bon::PointI(0, y));
 				_handle->ValidateOffsetInsideParent();
 			}

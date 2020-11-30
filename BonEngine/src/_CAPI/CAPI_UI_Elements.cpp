@@ -416,7 +416,7 @@ void BON_UIElement_GetPadding(bon::UIElement* element, int* left, int* top, int*
  */
 void BON_UIElement_SetMargin(bon::UIElement* element, int left, int top, int right, int bottom)
 {
-	(*element)->SetPadding(bon::UISides(left, right, top, bottom));
+	(*element)->Marging = bon::UISides(left, right, top, bottom);
 }
 
 /**

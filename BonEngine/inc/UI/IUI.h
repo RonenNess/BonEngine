@@ -206,7 +206,14 @@ namespace bon
 			 * \return Newly created scrollbar.
 			 */
 			virtual UIVerticalScrollbar CreateVerticalScrollbar(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
-			
+
+			/**
+			 * Override cursor position with a given point.
+			 *
+			 * \param cp Curser position to set, relative to top-left corner if your window, or NULL to use real mouse position.
+			 */
+			virtual void OverrideCursorPosition(framework::PointI* cp) = 0;
+
 			/**
 			 * Get mouse position, relative to current screen / render target / viewport size.
 			 */

@@ -190,6 +190,13 @@ namespace bon
 			virtual UIVerticalScrollbar CreateVerticalScrollbar(const char* stylesheet = nullptr, UIElement parent = nullptr) override;
 	
 			/**
+			 * Override cursor position with a given point.
+			 * 
+			 * \param cp Curser position to set, relative to top-left corner if your window, or NULL to use real mouse position.
+			 */
+			virtual void OverrideCursorPosition(framework::PointI* cp) override;
+
+			/**
 			 * Get mouse position, relative to current screen / render target / viewport size.
 			 */
 			virtual PointI _GetRelativeCursorPos() const override;
@@ -205,7 +212,9 @@ namespace bon
 			 * Init a newly created UI element.
 			 */
 			void InitNewElement(UIElement element, const char* stylesheetPath, UIElement parent = nullptr);
-			
+
+			// if provided, will override cursor position.
+			framework::PointI _overrideCursorPosition = framework::PointI(-1, -1);
 		};
 	}
 }

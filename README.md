@@ -1402,6 +1402,13 @@ First stable release.
 - Added SetCursorPosition() to change cursor position.
 - Added SetKeyState() to set a key state externally.
 
+# 1.3.4
+
+**[30/11/2020]**
+
+- Fixed CAPI to set UI element margin.
+- Added option to override cursor position in UI manager.
+
 ## In Memory Of Bonnie
 
 `BonEngine` is named after my deceased dog, Bonnie.

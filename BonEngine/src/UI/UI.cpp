@@ -11,12 +11,25 @@ namespace bon
 		// get mouse position, relative to current screen / render target / viewport size.
 		PointI UI::_GetRelativeCursorPos() const
 		{
-			PointF cp = bon::_GetEngine().Input().CursorPosition();
+			PointF cp = _overrideCursorPosition.X >= 0 ? _overrideCursorPosition : bon::_GetEngine().Input().CursorPosition();
 			auto windowSize = bon::_GetEngine().Gfx().WindowSize();
 			auto renderSize = bon::_GetEngine().Gfx().RenderableSize();
 			float ratioX = (float)renderSize.X / (float)windowSize.X;
 			float ratioY = (float)renderSize.Y / (float)windowSize.Y;
 			return PointI((int)(cp.X * ratioX), (int)(cp.Y * ratioY));
+		}
+
+		// set override cursor position
+		void UI::OverrideCursorPosition(framework::PointI* cp)
+		{
+			if (cp)
+			{
+				_overrideCursorPosition = *cp;
+			}
+			else
+			{
+				_overrideCursorPosition.Set(-1, -1);
+			}
 		}
 
 		// set cursor to render.

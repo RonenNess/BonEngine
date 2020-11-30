@@ -156,3 +156,16 @@ bon::UIVerticalScrollbar* BON_UI_CreateVerticalScrollbar(const char* stylesheet,
 {
 	return new bon::UIVerticalScrollbar(bon::_GetEngine().UI().CreateVerticalScrollbar(stylesheet, ptrOrNull(parent)));
 }
+
+/**
+* Override cursor position just for the input manager.
+*/
+void BON_UI_OverrideCursorPosition(int x, int y)
+{
+	if (x == -1) {
+		bon::_GetEngine().UI().OverrideCursorPosition(nullptr);
+	}
+	else {
+		bon::_GetEngine().UI().OverrideCursorPosition(&bon::PointI(x, y));
+	}
+}
