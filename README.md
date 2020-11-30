@@ -1408,6 +1408,8 @@ First stable release.
 
 - Fixed CAPI to set UI element margin.
 - Added option to override cursor position in UI manager.
+- Fixed scrollbar when render target is smaller than screen size + made scrollbar smoother.
+
 
 ## In Memory Of Bonnie
 

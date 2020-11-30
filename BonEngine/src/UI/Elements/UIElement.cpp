@@ -114,7 +114,8 @@ namespace bon
 			if (!Visible) { return; }
 
 			// draw self
-			if (DrawAsTopLayer == topLayer) { 
+			if (DrawAsTopLayer == topLayer) 
+			{ 
 				DrawSelf(); 
 			}
 
@@ -348,6 +349,7 @@ namespace bon
 						_anchor = PointF::Zero;
 						SetOffset(framework::PointI(_destRect.X, _destRect.Y));
 						MoveToFront();
+						CalcDestRect();
 					}
 					// drag
 					else
@@ -362,6 +364,9 @@ namespace bon
 						{
 							ValidateOffsetInsideParent();
 						}
+
+						// calculate dest rect
+						CalcDestRect();
 					}
 				}
 				// no longer dragged

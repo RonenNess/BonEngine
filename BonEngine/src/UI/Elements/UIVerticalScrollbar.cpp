@@ -21,7 +21,9 @@ namespace bon
 			{
 				UIElement tempPtrThatDoesntDelete = std::shared_ptr<_UIElement>(this, [](_UIElement*) {});
 				_handle = bon::_GetEngine().UI().CreateImage(ToRelativePath(hadleStylesheet).c_str(), tempPtrThatDoesntDelete);
-				_handle->Draggable = true;
+				_handle->Draggable = false;
+				_handle->Interactive = false;
+				_handle->CaptureInput = false;
 				_handle->LimitDragToParentArea = true;
 			}
 		}
@@ -41,7 +43,8 @@ namespace bon
 			// on mouse down, set handle
 			if (_prevState == UIElementState::PressedDown)
 			{
-				int y = bon::_GetEngine().UI()._GetRelativeCursorPos().Y - destRect.Y - GetPadding().Top - _handle->GetCalculatedDestRect().Height / 2;
+				int handleHeight = _handle->GetCalculatedDestRect().Height;
+				int y = bon::_GetEngine().UI()._GetRelativeCursorPos().Y - destRect.Y - GetPadding().Top - handleHeight / 2;
 				_handle->SetOffset(bon::PointI(0, y));
 				_handle->ValidateOffsetInsideParent();
 			}
