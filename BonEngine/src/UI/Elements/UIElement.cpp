@@ -144,9 +144,7 @@ namespace bon
 			}
 
 			// remove columns that no longer belong to this element
-			std::remove_if(_columns.begin(), _columns.end(),
-				[child](const ColumnData& element)
-				{ return element.Column == child; });
+			_columns.remove_if([child](const ColumnData& element) { return element.Column == child; });
 
 			// remove child
 			child->_parent = nullptr;

@@ -1423,6 +1423,12 @@ First stable release.
 - Added UI Rectangle element.
 - Added built-in Orange color.
 
+# 1.3.6
+
+**[TBD]**
+
+- Fixed removing columns.
+
 ## In Memory Of Bonnie
 
 `BonEngine` is named after my deceased dog, Bonnie.
