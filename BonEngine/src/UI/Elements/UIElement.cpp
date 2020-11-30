@@ -10,6 +10,68 @@ namespace bon
 {
 	namespace ui
 	{
+		// add column to this element
+		UIElement _UIElement::CreateColumn(const char* stylesheet, int width, UISizeType widthType, UIAlignment alignment)
+		{
+			// temp pointer of self to use as parent
+			UIElement tempPtrThatDoesntDelete = std::shared_ptr<_UIElement>(this, [](_UIElement*) {});
+
+			// create column and add with params to columns list
+			auto column = bon::_GetEngine().UI().CreateContainer(stylesheet, tempPtrThatDoesntDelete);
+			column->ExemptFromAutoArrange = true;
+			switch (alignment)
+			{
+			case UIAlignment::Left:
+				column->SetAnchor(bon::PointF(0, 0));
+				column->Origin = bon::PointF(0, 0);
+				break;
+			case UIAlignment::Right:
+				column->SetAnchor(bon::PointF(1, 0));
+				column->Origin = bon::PointF(1, 0);
+				break;
+			case UIAlignment::Center:
+				column->SetAnchor(bon::PointF(0.5, 0));
+				column->Origin = bon::PointF(0.5, 0);
+				break;
+			}
+			ColumnData colData;
+			colData.Column = column;
+			colData.Alignment = alignment;
+			_columns.push_back(colData);
+
+			// set column size
+			column->SetSize(UISize(width, widthType, 100, UISizeType::PercentOfParent));
+
+			// return the newly created column
+			return column;
+		}
+
+		// update columns under this element
+		void _UIElement::UpdateColumns()
+		{
+			// keep track of offset from both sides
+			int offsetLeft = 0;
+			int offsetRight = 0;
+
+			// iterate columns
+			for (auto columnData : _columns)
+			{
+				auto column = columnData.Column;
+				if (columnData.Alignment == UIAlignment::Right)
+				{
+					if (column->_offset.X != -offsetRight) { column->SetOffset(bon::PointI(-offsetRight, 0)); }
+					column->CalcDestRect();
+					offsetRight += column->GetCalculatedDestRect().Width;
+				}
+				else if (columnData.Alignment == UIAlignment::Left)
+				{
+					if (column->_offset.X != offsetLeft) { column->SetOffset(bon::PointI(offsetLeft, 0)); }
+					column->CalcDestRect();
+					offsetLeft += column->GetCalculatedDestRect().Width;
+				}
+			}
+		}
+
 		// add child element
 		void _UIElement::AddChild(UIElement child)
 		{
@@ -80,6 +142,11 @@ namespace bon
 			{
 				throw framework::InvalidState("Cannot remove a child element that doesn't belong to the parent!");
 			}
+
+			// remove columns that no longer belong to this element
+			std::remove_if(_columns.begin(), _columns.end(),
+				[child](const ColumnData& element)
+				{ return element.Column == child; });
 
 			// remove child
 			child->_parent = nullptr;
@@ -263,6 +330,9 @@ namespace bon
 			{
 				CalcDestRect();
 			}
+
+			// update columns
+			UpdateColumns();
 		}
 		
 		// get drawing color based on element state.
@@ -352,7 +422,6 @@ namespace bon
 						_anchor = PointF::Zero;
 						SetOffset(framework::PointI(_destRect.X, _destRect.Y));
 						MoveToFront();
-						CalcDestRect();
 					}
 					// drag
 					else
@@ -367,9 +436,6 @@ namespace bon
 						{
 							ValidateOffsetInsideParent();
 						}
-
-						// calculate dest rect
-						CalcDestRect();
 					}
 				}
 				// no longer dragged

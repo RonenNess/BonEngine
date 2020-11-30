@@ -170,6 +170,11 @@ namespace bon
 			static const Color& Yellow;
 
 			/**
+			 * Orange color.
+			 */
+			static const Color& Orange;
+
+			/**
 			 * Purple color.
 			 */
 			static const Color& Purple;

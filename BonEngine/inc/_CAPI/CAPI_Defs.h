@@ -166,6 +166,7 @@ extern "C" {
 		BON_UIScrollbar = bon::UIElementType::Scrollbar,
 		BON_UISlider = bon::UIElementType::Slider,
 		BON_UIWindow = bon::UIElementType::Window,
+		BON_UIRectangle = bon::UIElementType::Rectangle,
 	};
 
 	/**
@@ -196,6 +197,16 @@ extern "C" {
 		BON_UITextAlignment_Left = bon::UITextAlignment::Left,
 		BON_UITextAlignment_Right = bon::UITextAlignment::Right,
 		BON_UITextAlignment_Center = bon::UITextAlignment::Center,
+	};
+
+	/**
+	 * CAPI export of UI alignment.
+	 */
+	BON_DLLEXPORT enum BON_UIAlignment
+	{
+		BON_UIAlignment_Left = bon::UIAlignment::Left,
+		BON_UIAlignment_Right = bon::UIAlignment::Right,
+		BON_UIAlignment_Center = bon::UIAlignment::Center,
 	};
 
 	/**

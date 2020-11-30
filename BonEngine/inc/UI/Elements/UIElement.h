@@ -65,6 +65,16 @@ namespace bon
 
 			// child elements.
 			std::list<UIElement> _children;
+
+			// store column data
+			struct ColumnData
+			{
+				UIAlignment Alignment;
+				UIElement Column;
+			};
+
+			// columns under this element
+			std::list<ColumnData> _columns;
 		
 		protected:
 
@@ -425,6 +435,21 @@ namespace bon
 			 */
 			framework::PointI _ExtraPixelsOffset;
 
+			/**
+			 * Create an internal column container inside this element, which scales and position itself automatically.
+			 * For example, if you create 3 columns aligned left with widths of 100, 200, and 300, these columns offset would be
+			 * 100px, 200px and 300px accordingly.
+			 *
+			 * Don't try to play with columns offset and size, as these are set automatically every update.
+			 *
+			 * \param stylesheet Stylesheet for column.
+			 * \param width Column width.
+			 * \param widthType Column width type.
+			 * \param alignment Which side of the element to stick the column to.
+			 * \return New element used as column. Use RemoveChild() to remove it.
+			 */
+			UIElement CreateColumn(const char* stylesheet, int width, UISizeType widthType = UISizeType::Pixels, UIAlignment alignment = UIAlignment::Left);
+
 		protected:
 
 			/**
@@ -467,6 +492,11 @@ namespace bon
 			 * \param deltaTime Update frame delta time.
 			 */
 			virtual void UpdateSelf(double deltaTime);
+
+			/**
+			 * Update columns under this element.
+			 */
+			void UpdateColumns();
 		};
 	}
 }

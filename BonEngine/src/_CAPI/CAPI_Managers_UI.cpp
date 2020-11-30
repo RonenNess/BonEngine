@@ -158,6 +158,14 @@ bon::UIVerticalScrollbar* BON_UI_CreateVerticalScrollbar(const char* stylesheet,
 }
 
 /**
+* Create and return a rectangle element.
+*/
+bon::UIRectangle* BON_UI_CreateRectangle(const char* stylesheet, bon::UIElement* parent)
+{
+	return new bon::UIRectangle(bon::_GetEngine().UI().CreateRectangle(stylesheet, ptrOrNull(parent)));
+}
+
+/**
 * Override cursor position just for the input manager.
 */
 void BON_UI_OverrideCursorPosition(int x, int y)

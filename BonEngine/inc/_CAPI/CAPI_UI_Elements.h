@@ -817,6 +817,31 @@ extern "C" {
 	 */
 	BON_DLLEXPORT const char* BON_UITextInput_GetPlaceholder(bon::UITextInput* element);
 
+	/**
+	 * Create column element.
+	 */
+	BON_DLLEXPORT bon::UIElement* BON_UIElement_CreateColumn(bon::UIElement* element, const char* stylesheet, int width, BON_UISizeType widthType, BON_UIAlignment alignment);
+
+	/**
+	 * Set ui rectangle blend mode.
+	 */
+	BON_DLLEXPORT void BON_UIRectangle_SetBlendMode(bon::UIRectangle* element, BON_BlendModes blend);
+
+	/**
+	 * Get ui rectangle blend mode.
+	 */
+	BON_DLLEXPORT BON_BlendModes BON_UIRectangle_GetBlendMode(bon::UIRectangle* element);
+
+	/**
+	 * Set ui rectangle filled mode.
+	 */
+	BON_DLLEXPORT void BON_UIRectangle_SetFilled(bon::UIRectangle* element, bool filled);
+
+	/**
+	 * Get ui rectangle filled mode.
+	 */
+	BON_DLLEXPORT bool BON_UIRectangle_GetFilled(bon::UIRectangle* element);
+
 #ifdef __cplusplus
 }
 #endif

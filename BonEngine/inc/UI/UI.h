@@ -188,7 +188,16 @@ namespace bon
 			 * \return Newly created scrollbar.
 			 */
 			virtual UIVerticalScrollbar CreateVerticalScrollbar(const char* stylesheet = nullptr, UIElement parent = nullptr) override;
-	
+
+			/**
+			 * Create and return a rectangle element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \return Newly created rectangle.
+			 */
+			virtual UIRectangle CreateRectangle(const char* stylesheet = nullptr, UIElement parent = nullptr) override;
+
 			/**
 			 * Override cursor position with a given point.
 			 * 

@@ -89,7 +89,7 @@ namespace demo16_ui
 
 			// create main test window
 			bon::UIWindow intoWindow = UI().CreateUIWindow("../TestAssets/ui/window.ini", _uiRoot, "Button, List, DropDown");
-			intoWindow->SetOffset(bon::PointI(100, 50));
+			intoWindow->SetOffset(bon::PointI(50, 10));
 			intoWindow->AutoArrangeChildren = true;
 			intoWindow->SetSizeInPixels(bon::PointI(intoWindow->GetSize().Width, intoWindow->GetSize().Height + 90));
 
@@ -121,7 +121,7 @@ namespace demo16_ui
 			// create additional window to show more stuff
 			bon::UIWindow checkAndSliderWindow = UI().CreateUIWindow("../TestAssets/ui/window.ini", _uiRoot, "Check, Radio, Slider");
 			checkAndSliderWindow->AutoArrangeChildren = true;
-			checkAndSliderWindow->SetOffset(bon::PointI(300, 100));
+			checkAndSliderWindow->SetOffset(bon::PointI(150, 30));
 
 			// create checkboxes
 			bon::UICheckBox checkbox1 = UI().CreateCheckbox("../TestAssets/ui/checkbox.ini", checkAndSliderWindow, "Checkbox 1");
@@ -142,7 +142,7 @@ namespace demo16_ui
 			// create additional window for text inputs
 			bon::UIWindow inputsWindow = UI().CreateUIWindow("../TestAssets/ui/window.ini", _uiRoot, "Text Inputs");
 			inputsWindow->AutoArrangeChildren = true;
-			inputsWindow->SetOffset(bon::PointI(400, 150));
+			inputsWindow->SetOffset(bon::PointI(250, 50));
 
 			// add text input
 			bon::UITextInput textInput = UI().CreateTextInput("../TestAssets/ui/textinput.ini", inputsWindow, "", "Free text input..");
@@ -178,7 +178,53 @@ namespace demo16_ui
 			upperAlphaInput->InputMode = bon::UITextInputMode::Uppercase | bon::UITextInputMode::AlphaOnly;
 			upperAlphaInput->MaxLength = 16;
 
+			// create additional window for columns
+			bon::UIWindow columnsWindow = UI().CreateUIWindow("../TestAssets/ui/window.ini", _uiRoot, "Columns");
+			columnsWindow->AutoArrangeChildren = true;
+			columnsWindow->SetSizeInPixels(bon::PointI(400, 450));
+			columnsWindow->SetOffset(bon::PointI(350, 70));
+
+			// create some test columns
+			{
+				bon::UIElement column = columnsWindow->CreateColumn(nullptr, 80);
+				bon::UIRectangle rect = UI().CreateRectangle(nullptr, column);
+				rect->SetSizeInPercents(bon::PointI(100, 100));
+				rect->Color = bon::Color::Red;
+				rect->Filled = false;
+			}
+			{
+				bon::UIElement column = columnsWindow->CreateColumn(nullptr, 70);
+				bon::UIRectangle rect = UI().CreateRectangle(nullptr, column);
+				rect->SetSizeInPercents(bon::PointI(100, 100));
+				rect->Color = bon::Color::Orange;
+				rect->Filled = false;
+			}
+			{
+				bon::UIElement column = columnsWindow->CreateColumn(nullptr, 80, bon::UISizeType::Pixels, bon::ui::UIAlignment::Right);
+				bon::UIRectangle rect = UI().CreateRectangle(nullptr, column);
+				rect->SetSizeInPercents(bon::PointI(100, 100));
+				rect->Color = bon::Color::Blue;
+				rect->Filled = false;
+			}
+			{
+				bon::UIElement column = columnsWindow->CreateColumn(nullptr, 70, bon::UISizeType::Pixels, bon::ui::UIAlignment::Right);
+				bon::UIRectangle rect = UI().CreateRectangle(nullptr, column);
+				rect->SetSizeInPercents(bon::PointI(100, 100));
+				rect->Color = bon::Color::Teal;
+				rect->Filled = false;
+			}
+			{
+				bon::UIElement column = columnsWindow->CreateColumn(nullptr, 50, bon::UISizeType::Pixels, bon::ui::UIAlignment::Center);
+				bon::UIRectangle rect = UI().CreateRectangle(nullptr, column);
+				rect->SetSizeInPercents(bon::PointI(100, 100));
+				rect->Color = bon::Color::Black;
+				rect->Filled = false;
+			}
+			UI().CreateText("../TestAssets/ui/small_text.ini", columnsWindow,
+				"Columns allow you to divide containers into sections. Its useful when you need to place elements side by side.");
+
 			// move main window to front
+			inputsWindow->MoveToFront();
 			checkAndSliderWindow->MoveToFront();
 			intoWindow->MoveToFront();
 		}

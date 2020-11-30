@@ -241,5 +241,12 @@ namespace bon
 			return ret;
 		}
 
+		// create and return a rectangle element.
+		UIRectangle UI::CreateRectangle(const char* stylesheet, UIElement parent)
+		{
+			UIRectangle ret = std::make_shared<_UIRectangle>();
+			InitNewElement(ret, stylesheet, parent);
+			return ret;
+		}
 	}
 }

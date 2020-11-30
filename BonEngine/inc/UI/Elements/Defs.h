@@ -30,6 +30,7 @@ namespace bon
 		class _UISlider;
 		class _UIVerticalScrollbar;
 		class _UITextInput;
+		class _UIRectangle;
 
 		// pointer to all UI element types
 		typedef BON_DLLEXPORT std::shared_ptr<_UIElement> UIElement;
@@ -44,6 +45,7 @@ namespace bon
 		typedef BON_DLLEXPORT std::shared_ptr<_UISlider> UISlider;
 		typedef BON_DLLEXPORT std::shared_ptr<_UIVerticalScrollbar> UIVerticalScrollbar;
 		typedef BON_DLLEXPORT std::shared_ptr<_UITextInput> UITextInput;
+		typedef BON_DLLEXPORT std::shared_ptr<_UIRectangle> UIRectangle;
 
 		/**
 		 * Define callback for UI element actions.
@@ -62,14 +64,17 @@ namespace bon
 		};
 
 		/**
-		 * UI text alignment
+		 * UI alignment.
 		 */
-		enum class BON_DLLEXPORT UITextAlignment
+		enum class BON_DLLEXPORT UIAlignment
 		{
 			Left = 0,
 			Right = 1,
 			Center = 2
 		};		
+
+		// for backward competability after changing Alignment enum
+		#define UITextAlignment UIAlignment
 
 		/**
 		 * UI Size unit types.
@@ -100,6 +105,7 @@ namespace bon
 			TextInput,
 			Window,
 			DropDown,
+			Rectangle,
 		};
 
 		/**

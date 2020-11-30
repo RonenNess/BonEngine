@@ -464,6 +464,46 @@ void BON_UIElement_RemoveSelf(bon::UIElement* element)
 }
 
 /**
+ * Create column element.
+ */
+bon::UIElement* BON_UIElement_CreateColumn(bon::UIElement* element, const char* stylesheet, int width, BON_UISizeType widthType, BON_UIAlignment alignment)
+{
+	return new bon::UIElement((*element)->CreateColumn(stylesheet, width, (bon::UISizeType)widthType, (bon::UIAlignment)alignment));
+}
+
+/**
+ * Set ui rectangle blend mode.
+ */
+void BON_UIRectangle_SetBlendMode(bon::UIRectangle* element, BON_BlendModes blend)
+{
+	(*element)->BlendMode = (bon::BlendModes)blend;
+}
+
+/**
+ * Set ui rectangle filled mode.
+ */
+void BON_UIRectangle_SetFilled(bon::UIRectangle* element, bool filled)
+{
+	(*element)->Filled = filled;
+}
+
+/**
+ * Get ui rectangle filled mode.
+ */
+bool BON_UIRectangle_GetFilled(bon::UIRectangle* element)
+{
+	return (*element)->Filled;
+}
+
+/**
+ * Get ui rectangle blend mode.
+ */
+BON_BlendModes BON_UIRectangle_GetBlendMode(bon::UIRectangle* element)
+{
+	return (BON_BlendModes)(*element)->BlendMode;
+}
+
+/**
  * Draw element.
  */
 void BON_UIElement_Draw(bon::UIElement* element)

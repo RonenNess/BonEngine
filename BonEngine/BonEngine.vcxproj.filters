@@ -357,6 +357,9 @@
     <ClInclude Include="inc\UI\Elements\UIDropDown.h">
       <Filter>Header Files\UI\Elements</Filter>
     </ClInclude>
+    <ClInclude Include="inc\UI\Elements\UIRectangle.h">
+      <Filter>Header Files\UI\Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Engine.cpp">
@@ -507,6 +510,9 @@
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="src\UI\Elements\UIDropDown.cpp">
+      <Filter>Source Files\UI\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Elements\UIRectangle.cpp">
       <Filter>Source Files\UI\Elements</Filter>
     </ClCompile>
   </ItemGroup>

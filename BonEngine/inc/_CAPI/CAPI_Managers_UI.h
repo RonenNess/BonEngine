@@ -108,6 +108,11 @@ extern "C" {
 	BON_DLLEXPORT bon::UISlider* BON_UI_CreateSlider(const char* stylesheet, bon::UIElement* parent);
 
 	/**
+	* Create and return a rectangle element.
+	*/
+	BON_DLLEXPORT bon::UIRectangle* BON_UI_CreateRectangle(const char* stylesheet, bon::UIElement* parent);
+
+	/**
 	* Create and return a vertical scrollbar element.
 	*/
 	BON_DLLEXPORT bon::UIVerticalScrollbar* BON_UI_CreateVerticalScrollbar(const char* stylesheet, bon::UIElement* parent);

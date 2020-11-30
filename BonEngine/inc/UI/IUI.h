@@ -26,6 +26,7 @@
 #include "Elements/UISlider.h"
 #include "Elements/UIDropDown.h"
 #include "Elements/UITextInput.h"
+#include "Elements/UIRectangle.h"
 #include "Elements/UIVerticalScrollbar.h"
 
 namespace bon
@@ -206,6 +207,16 @@ namespace bon
 			 * \return Newly created scrollbar.
 			 */
 			virtual UIVerticalScrollbar CreateVerticalScrollbar(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
+
+			/**
+			 * Create and return a rectangle element.
+			 *
+			 * \param stylesheet Optional stylesheet path to load.
+			 * \param parent Optional parent to set.
+			 * \return Newly created rectangle shape.
+			 */
+			virtual UIRectangle CreateRectangle(const char* stylesheet = nullptr, UIElement parent = nullptr) = 0;
+
 
 			/**
 			 * Override cursor position with a given point.

@@ -15,6 +15,7 @@ namespace bon
 		const Color& Color::Green = Color(0, 1, 0, 1);
 		const Color& Color::Blue = Color(0, 0, 1, 1);
 		const Color& Color::Yellow = Color(1, 1, 0, 1);
+		const Color& Color::Orange = Color(1, 0.545f, 0, 1);
 		const Color& Color::Purple = Color(1, 0, 1, 1);
 		const Color& Color::Teal = Color(0, 1, 1, 1);
 		const Color& Color::Cornflower = Color(0.2f, 0.5f, 1.0f);

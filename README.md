@@ -916,6 +916,7 @@ The `UI` manager has the following built-in elements:
 * Scrollbar
 * List
 * DropDown
+* Rectangle
 
 #### Concepts
 
@@ -1008,6 +1009,14 @@ Create a slider element.
 
 Create a vertical scrollbar element.
 
+#### UIRectangle CreateRectangle(stylesheet, parent)
+
+Create a rectangle element.
+
+#### void OverrideCursorPosition(point)
+
+Set an alternative cursor position to use for UI instead of the actual cursor.
+This is useful if you want to create a keyboard-based UI controller.
 
 ## Sprites
 
@@ -1402,7 +1411,7 @@ First stable release.
 - Added SetCursorPosition() to change cursor position.
 - Added SetKeyState() to set a key state externally.
 
-# 1.3.4
+# 1.3.5
 
 **[30/11/2020]**
 
@@ -1410,7 +1419,9 @@ First stable release.
 - Added option to override cursor position in UI manager.
 - Fixed scrollbar when render target is smaller than screen size + made scrollbar smoother.
 - Made UI elements calculate dest rect as soon as they are added to parent, so we can query them before an Update call.
-
+- Added Columns mechanism to UI elements (`CreateColumn()` method).
+- Added UI Rectangle element.
+- Added built-in Orange color.
 
 ## In Memory Of Bonnie
 
