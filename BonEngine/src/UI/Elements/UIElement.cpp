@@ -27,6 +27,9 @@ namespace bon
 			_parentLastDestCalcId = (unsigned long)-1;
 			_isDestDirty = true;
 			_destCalcId = -1;
+
+			// calculate child dest rect so we can start query its properties right away
+			child->CalcDestRect();
 		}
 
 		// get filename or path and convert it to a path relative to the folder we loaded stylesheet from.

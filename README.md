@@ -1409,6 +1409,7 @@ First stable release.
 - Fixed CAPI to set UI element margin.
 - Added option to override cursor position in UI manager.
 - Fixed scrollbar when render target is smaller than screen size + made scrollbar smoother.
+- Made UI elements calculate dest rect as soon as they are added to parent, so we can query them before an Update call.
 
 
 ## In Memory Of Bonnie
