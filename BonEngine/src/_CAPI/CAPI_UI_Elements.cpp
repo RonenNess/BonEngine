@@ -1326,7 +1326,7 @@ float BON_UITextInput_GetCaretBlinkingInterval(bon::UITextInput* element)
  */
 void BON_UITextInput_SetReceivingInput(bon::UITextInput* element, bool value)
 {
-	(*element)->IsReceivingInput = value;
+	(*element)->SetReceivingInput(value);
 }
 
 /**
@@ -1334,7 +1334,7 @@ void BON_UITextInput_SetReceivingInput(bon::UITextInput* element, bool value)
  */
 bool BON_UITextInput_GetReceivingInput(bon::UITextInput* element)
 {
-	return (*element)->IsReceivingInput;
+	return (*element)->IsReceivingInput();
 }
 
 /**

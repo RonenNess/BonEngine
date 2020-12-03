@@ -56,11 +56,6 @@ namespace bon
 			float CaretBlinkingInterval = 1.0f;
 
 			/**
-			 * Is this element currently accepting text input?
-			 */
-			bool IsReceivingInput = false;
-
-			/**
 			 * Should we allow tabs input.
 			 */
 			bool AllowTabs = true;
@@ -123,7 +118,22 @@ namespace bon
 			 */
 			virtual void Update(double deltaTime) override;
 
+			/**
+			 * Return if this Text Input currently recieving input from user.
+			 */
+			inline bool IsReceivingInput() const { return _isReceivingInput; }
+
+			/**
+			 * Set if this Text Input currently recieving input from user.
+			 */
+			inline void SetReceivingInput(bool value) { _isReceivingInput = ForceActiveState = value; _state = UIElementState::Idle; }
+
 		protected:
+
+			/**
+			 * Is this element currently accepting text input?
+			 */
+			bool _isReceivingInput = false;
 
 			/**
 			 * Implement just the drawing of this element

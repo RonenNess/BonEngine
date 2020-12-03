@@ -1428,6 +1428,7 @@ First stable release.
 **[TBD]**
 
 - Fixed removing columns.
+- Fixed setting IsRecievingInput to false in TextInput UI elements (had to change to methods for fix).
 
 ## In Memory Of Bonnie
 

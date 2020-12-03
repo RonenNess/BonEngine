@@ -56,18 +56,18 @@ namespace bon
 		void _UITextInput::Update(double deltaTime)
 		{
 			// check if should finish input
-			if (IsReceivingInput)
+			if (_isReceivingInput)
 			{
 				// pressed enter
 				if (bon::_GetEngine().Input().ReleasedNow(bon::KeyCodes::KeyReturn))
 				{
-					IsReceivingInput = false;
+					_isReceivingInput = false;
 				}
 				// clicked outside
 				else if (bon::_GetEngine().Input().PressedNow(bon::KeyCodes::MouseLeft))
 				{
 					auto mousePosition = bon::_GetEngine().UI()._GetRelativeCursorPos();
-					IsReceivingInput = GetCalculatedDestRect().Contains(mousePosition);
+					_isReceivingInput = GetCalculatedDestRect().Contains(mousePosition);
 				}
 			}
 			// check if we should start recieving input
@@ -75,15 +75,15 @@ namespace bon
 			{
 				if (_state == UIElementState::PressedDown || _state == UIElementState::AltPressedDown)
 				{
-					IsReceivingInput = true;
+					_isReceivingInput = true;
 				}
 			}
 
 			// set active mode if recieving update
-			ForceActiveState = IsReceivingInput;
+			ForceActiveState = _isReceivingInput;
 
 			// get text input
-			if (IsReceivingInput)
+			if (_isReceivingInput)
 			{
 				GetTextInput();
 			}	
@@ -209,10 +209,10 @@ namespace bon
 			_UIImage::DrawSelf();
 			
 			// set placeholder visibility
-			PlaceholderText->Visible = !IsReceivingInput && (GetValue()[0] == '\0');
+			PlaceholderText->Visible = !_isReceivingInput && (GetValue()[0] == '\0');
 
 			// draw caret mark
-			if (IsReceivingInput)
+			if (_isReceivingInput)
 			{
 				if (_showCaret)
 				{
