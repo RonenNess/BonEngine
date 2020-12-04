@@ -729,7 +729,7 @@ void BON_UIImage_SetImage(bon::UIImage* element, bon::ImageAsset* image)
 {
 	if (image == nullptr)
 	{
-		(*element)->Image = nullptr;
+		(*element)->Image.reset();
 	}
 	else
 	{
