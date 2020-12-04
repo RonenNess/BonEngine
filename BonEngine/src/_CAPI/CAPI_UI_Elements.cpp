@@ -727,7 +727,14 @@ bon::ImageAsset* BON_UIImage_GetImage(bon::UIImage* element)
  */
 void BON_UIImage_SetImage(bon::UIImage* element, bon::ImageAsset* image)
 {
-	(*element)->Image = *image;
+	if (image == nullptr)
+	{
+		(*element)->Image = nullptr;
+	}
+	else
+	{
+		(*element)->Image = *image;
+	}
 }
 
 /**
