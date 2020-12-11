@@ -1425,10 +1425,11 @@ First stable release.
 
 # 1.3.6
 
-**[TBD]**
+**[11/12/2020]**
 
 - Fixed removing columns.
 - Fixed setting IsRecievingInput to false in TextInput UI elements (had to change to methods for fix).
+- Increased max section name, max key name, and max line size in config assets.
 
 ## In Memory Of Bonnie
 
