@@ -94,9 +94,7 @@ namespace demo17_effects
 
 			// draw lightmap with cel effect
 			Gfx().UseEffect(_celEffect);
-			if (!grayscale) { 
-				windowSize.Y *= -1; 
-			}
+			windowSize.Y *= -1;	// <-- the shader make Y axis upside down
 			Gfx().DrawImage(_lightMap, bon::PointF::Zero, &windowSize, bon::BlendModes::Multiply);
 			Gfx().UseEffect(nullptr);
 

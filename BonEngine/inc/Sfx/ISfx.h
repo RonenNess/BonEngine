@@ -51,9 +51,9 @@ namespace bon
 			virtual void PauseMusic(bool pause) = 0;
 
 			/**
-			 * Set music volume, or stop it.
+			 * Set music volume.
 			 *
-			 * \param volume Volume to set, values should range from 1 to 100, or 0 to stop music.
+			 * \param volume Volume to set, values should range from 0 to 100.
 			 */
 			virtual void SetMusicVolume(int volume) = 0;
 
@@ -96,10 +96,10 @@ namespace bon
 			virtual void SetChannelDistance(SoundChannelId channel, float distance) = 0;
 
 			/**
-			 * Set the volume of a currently playing sound channel, or stop it if volume is 0.
+			 * Set the volume of a currently playing sound channel.
 			 *
 			 * \param channel Channel id to set (or AllChannels for all channels).
-			 * \param volume Volume to set, values should range from 1 to 100, or 0 to stop sound.
+			 * \param volume Volume to set, values should range from 0 to 100.
 			 */
 			virtual void SetChannelVolume(SoundChannelId channel, int volume) = 0;
 

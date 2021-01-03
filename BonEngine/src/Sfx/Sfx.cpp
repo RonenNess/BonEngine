@@ -57,7 +57,8 @@ namespace bon
 		void Sfx::SetMusicVolume(int volume)
 		{
 			_musicVolume = volume;
-			_Implementor.SetMusicVolume((int)((float)volume * _masterMusicVolume));
+			int calcVol = max((int)((float)volume * _masterMusicVolume), 1);
+			_Implementor.SetMusicVolume(calcVol);
 		}
 
 		// play a sound effect
@@ -101,8 +102,8 @@ namespace bon
 		void Sfx::SetChannelVolume(SoundChannelId channel, int volume)
 		{
 			if (channel == InvalidSoundChannel) return;
-			volume = (int)((float)volume * _masterVolume);
-			_Implementor.SetVolume(channel, volume);
+			int calcVol = max((int)((float)volume * _masterVolume), 1);
+			_Implementor.SetVolume(channel, calcVol);
 		}
 
 		// check if sound is playing

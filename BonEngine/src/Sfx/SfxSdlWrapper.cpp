@@ -284,12 +284,7 @@ namespace bon
 		// set music volume
 		void SfxSdlWrapper::SetMusicVolume(int volume)
 		{
-			if (volume <= 0) {
-				Mix_HaltMusic();
-			}
-			else {
-				Mix_VolumeMusic(volume);
-			}
+			Mix_VolumeMusic(max(volume, 0));
 		}
 
 		// make a passthru processor function that does nothing...
@@ -329,14 +324,7 @@ namespace bon
 		{
 			if (Mix_Playing(channel))
 			{
-				if (volume <= 0)
-				{
-					Mix_HaltChannel(channel);
-				}
-				else
-				{
-					Mix_Volume(channel, volume);
-				}
+				Mix_Volume(channel, max(volume, 0));
 			}
 		}
 

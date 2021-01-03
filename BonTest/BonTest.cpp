@@ -13,7 +13,7 @@ int main()
 	std::cout << " 4: Spritesheet\n";
 	std::cout << " 5: Lights\n";
 	std::cout << " 6: Image filtering modes\n";
-	std::cout << " 7: Fake lower resolution while fullscreen\n";
+	std::cout << " 7: Imitate lower resolution in fullscreen\n";
 	std::cout << " 8: Sound pitch effects\n";
 	std::cout << " 9: Blend modes\n";
 	std::cout << " 10: Drawing shapes\n";

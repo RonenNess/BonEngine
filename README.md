@@ -1431,6 +1431,13 @@ First stable release.
 - Fixed setting IsRecievingInput to false in TextInput UI elements (had to change to methods for fix).
 - Increased max section name, max key name, and max line size in config assets.
 
+# 1.4.0
+
+**[WIP]**
+
+- Setting music volume to 0 used to call StopMusic(). Changed this behavior as setting music volume to 0 is not the same as stopping it and have different use cases.
+- Setting channel volume to 0 used to call StopChannel(). Changed this behavior as setting sound volume to 0 is not the same as stopping it and have different use cases.
+
 ## In Memory Of Bonnie
 
 `BonEngine` is named after my deceased dog, Bonnie.
