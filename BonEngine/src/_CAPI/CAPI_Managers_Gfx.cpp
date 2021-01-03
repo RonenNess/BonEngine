@@ -154,6 +154,14 @@ void BON_Gfx_DrawCircle(int x, int y, int radius, float r, float g, float b, flo
 }
 
 /**
+ * Draws a polygon.
+ */
+void BON_Gfx_DrawPolygon(int x1, int y1, int x2, int y2, int x3, int y3, float r, float g, float b, float a, BON_BlendModes blend)
+{
+	bon::_GetEngine().Gfx().DrawPolygon(bon::PointI(x1, y1), bon::PointI(x2, y2), bon::PointI(x3, y3), bon::Color(r, g, b, a), (bon::BlendModes)blend);
+}
+
+/**
 * Clear part or whole screen.
 */
 void BON_Gfx_ClearScreen(float r, float g, float b, float a, int x, int y, int w, int h)
