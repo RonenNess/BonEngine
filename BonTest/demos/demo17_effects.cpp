@@ -78,8 +78,9 @@ namespace demo17_effects
 			bon::PointF origin(0.5f, 0.5f);
 			Gfx().DrawImage(_lightImage, Input().CursorPosition(), &bon::PointI(512, 512), bon::BlendModes::Additive, nullptr, &origin, 0, nullptr);
 
-			// paint extra red light on background blob
+			// paint extra red and blue lights
 			Gfx().DrawImage(_lightImage, bon::PointF(680, 265), &bon::PointI(256, 256), bon::BlendModes::Additive, nullptr, &origin, 0, &bon::Color(1, 0, 0, 1));
+			Gfx().DrawImage(_lightImage, bon::PointF(480, 165), &bon::PointI(256, 256), bon::BlendModes::Additive, nullptr, &origin, 0, &bon::Color(0, 0.1, 1, 1));
 
 			// draw scene background
 			Gfx().SetRenderTarget(nullptr);
