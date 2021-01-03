@@ -53,6 +53,11 @@ namespace bon
 			 * Draw texture using currently active effect.
 			 */
 			void DrawTexture(const SDL_Rect* destRect, const SDL_Rect* sourceRect, SDL_Texture* texture, const framework::Color& color, int textW, int textH, BlendModes blend, int flip);
+			
+			/**
+			 * Draw2 a polygon.
+			 */
+			void DrawPolygon(const framework::PointI& a, const framework::PointI& b, const framework::PointI& c, const framework::Color& color, BlendModes blend);
 
 			/**
 			 * Call this after every update frame when it starts.

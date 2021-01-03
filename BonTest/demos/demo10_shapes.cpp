@@ -59,6 +59,8 @@ namespace demo10_shapes
 			Gfx().DrawCircle(bon::PointI(675, 300), 25, bon::Color(1, 0, 1, 1), true);
 			Gfx().DrawCircle(bon::PointI(750, 300), 25, bon::Color(1, 0, 1, 0.5f), true);
 
+			// draw a polygon
+			Gfx().DrawPolygon(bon::PointI(15, 305), bon::PointI(105, 315), bon::PointI(25, 365), bon::Color(1, 1, 0, 1), bon::BlendModes::Opaque);
 
 			// draw line
 			double elapsed = Game().ElapsedTime() * 3;
@@ -72,6 +74,9 @@ namespace demo10_shapes
 	 */
 	void main()
 	{
+		bon::BonFeatures features;
+		features.EffectsEnabled = true;
+		
 		auto scene = ShapesDemoScene();
 		bon::Start(scene);
 	}

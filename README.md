@@ -596,6 +596,14 @@ Draw a single pixel.
 
 Draws a filled or outline rectangle.
 
+#### DrawCircle(center, radius, color, filled, blend)
+
+Draw a filled or outline circle.
+
+#### void DrawPolygon(a, b, c, color, blend)
+
+Draws a polygon.
+
 #### void ClearScreen(color, clearRect)
 
 Clears the screen, or if `clearRect` is provided, just a region of it.
@@ -1437,6 +1445,8 @@ First stable release.
 
 - Setting music volume to 0 used to call StopMusic(). Changed this behavior as setting music volume to 0 is not the same as stopping it and have different use cases.
 - Setting channel volume to 0 used to call StopChannel(). Changed this behavior as setting sound volume to 0 is not the same as stopping it and have different use cases.
+- Refactored GFX effects wrapper and split into OpenGL wrapper and Effects wrapper.
+- Added method to render polygons.
 
 ## In Memory Of Bonnie
 

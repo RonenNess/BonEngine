@@ -562,6 +562,12 @@ namespace bon
 			}
 		}
 
+		// draw a polygon
+		void GfxSdlWrapper::DrawPolygon(const PointI& a, const PointI& b, const PointI& c, const Color& color, BlendModes blend)
+		{
+			_effectsImpl.DrawPolygon(a, b, c, color, blend);
+		}
+
 		// clear screen or parts of it
 		void GfxSdlWrapper::ClearScreen(const Color& color, const RectangleI& clearRect)
 		{

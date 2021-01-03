@@ -164,6 +164,17 @@ namespace bon
 			virtual void DrawCircle(const framework::PointI& center, int radius, const framework::Color& color, bool filled, BlendModes blendMode = BlendModes::AlphaBlend) override;
 
 			/**
+			 * Draws a 2d polygon.
+			 *
+			 * \param a Polygon point 1.
+			 * \param b Polygon point 2.
+			 * \param c Polygon point 3.
+			 * \param color fill color.
+			 * \param blend blend mode.
+			 */
+			virtual void DrawPolygon(const framework::PointI& a, const framework::PointI& b, const framework::PointI& c, const framework::Color& color, BlendModes blend = BlendModes::AlphaBlend) override;
+
+			/**
 			 * Clear the entire or part of the screen.
 			 *
 			 * \param color Clear color (will paint whole screen with this color).

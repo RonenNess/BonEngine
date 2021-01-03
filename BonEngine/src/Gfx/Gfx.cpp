@@ -147,6 +147,12 @@ namespace bon
 			}
 		}
 
+		// draw a 2d polygon
+		void Gfx::DrawPolygon(const framework::PointI& a, const framework::PointI& b, const framework::PointI& c, const framework::Color& color, BlendModes blend)
+		{
+			_Implementor.DrawPolygon(a, b, c, color, blend);
+		}
+
 		// create image asset from screen
 		assets::ImageAsset Gfx::CreateImageFromScreen() const
 		{

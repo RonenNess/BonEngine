@@ -196,6 +196,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClInclude Include="inc\Engine\Defs.h" />
     <ClInclude Include="inc\Engine\SignalHandler.h" />
     <ClInclude Include="inc\Gfx\FontsCache.h" />
+    <ClInclude Include="inc\Gfx\GfxOpenGL.h" />
     <ClInclude Include="inc\Gfx\GfxSdlEffects.h" />
     <ClInclude Include="inc\UI\Elements\Defs.h" />
     <ClInclude Include="inc\UI\Elements\UIButton.h" />
@@ -284,6 +285,7 @@ copy "$(ProjectDir)3rdparty\SDL2_ttf-2.0.15\lib\x64\*.dll" "$(TargetDir)"</Comma
     <ClCompile Include="src\Framework\Point.cpp" />
     <ClCompile Include="src\Framework\Rectangle.cpp" />
     <ClCompile Include="src\Gfx\FontsCache.cpp" />
+    <ClCompile Include="src\Gfx\GfxOpenGL.cpp" />
     <ClCompile Include="src\Gfx\GfxSdlEffects.cpp" />
     <ClCompile Include="src\Gfx\SpriteSheet.cpp" />
     <ClCompile Include="src\Input\Defs.cpp" />
