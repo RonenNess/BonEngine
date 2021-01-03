@@ -74,9 +74,6 @@ namespace demo10_shapes
 	 */
 	void main()
 	{
-		bon::BonFeatures features;
-		features.EffectsEnabled = true;
-		
 		auto scene = ShapesDemoScene();
 		bon::Start(scene);
 	}

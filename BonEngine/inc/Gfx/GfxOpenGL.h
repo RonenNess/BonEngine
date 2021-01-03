@@ -41,6 +41,11 @@ namespace bon
 			static void InitGLExtensions(SDL_Renderer* renderer);
 
 			/**
+			 * Check if was initialized.
+			 */
+			static bool IsInit();
+
+			/**
 			 * Get current shader program.
 			 */
 			static GLint GetCurrentProgram();

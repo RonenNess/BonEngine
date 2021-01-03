@@ -165,6 +165,7 @@ namespace bon
 
 			/**
 			 * Draws a 2d polygon.
+			 * Note: only works with OpenGL renderer!
 			 *
 			 * \param a Polygon point 1.
 			 * \param b Polygon point 2.

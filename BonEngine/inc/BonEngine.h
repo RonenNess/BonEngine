@@ -46,7 +46,7 @@ namespace bon
 		 * If true, will force the Gfx manager to use OpenGL implementation.
 		 * Note: if Effects are enabled it will force OpenGL regardless of this setting.
 		 */
-		bool ForceOpenGL = false;
+		bool ForceOpenGL = true;
 
 		/**
 		 * If true, will register signals handler to finish logs before exiting.

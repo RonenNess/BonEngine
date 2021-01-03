@@ -1447,6 +1447,7 @@ First stable release.
 - Setting channel volume to 0 used to call StopChannel(). Changed this behavior as setting sound volume to 0 is not the same as stopping it and have different use cases.
 - Refactored GFX effects wrapper and split into OpenGL wrapper and Effects wrapper.
 - Added method to render polygons.
+- Changed default flags to prefer OpenGL by default.
 
 ## In Memory Of Bonnie
 

@@ -1,4 +1,5 @@
 #include <Gfx/GfxSdlWrapper.h>
+#include <Gfx/GfxOpenGL.h>
 #include <Log/ILog.h>
 #include <Framework/Exceptions.h>
 #include <Assets/Defs.h>
@@ -565,7 +566,23 @@ namespace bon
 		// draw a polygon
 		void GfxSdlWrapper::DrawPolygon(const PointI& a, const PointI& b, const PointI& c, const Color& color, BlendModes blend)
 		{
-			_effectsImpl.DrawPolygon(a, b, c, color, blend);
+			// draw using effects
+			if (_currentEffect != nullptr)
+			{
+				_effectsImpl.DrawPolygon(a, b, c, color, blend);
+			}
+			else
+			{
+				// init if needed, since this method can be called without using effects
+				if (!GfxOpenGL::IsInit())
+				{
+					GfxOpenGL::InitGLExtensions(_renderer);
+				}
+
+				// draw polygon
+				GfxOpenGL::DrawPolygon(a, b, c, color, blend);
+				_needToUpdateGlBlend = true;
+			}
 		}
 
 		// clear screen or parts of it

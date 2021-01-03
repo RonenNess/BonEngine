@@ -194,11 +194,22 @@ namespace bon
 			return programId;
 		}
 
+		// was the opengl wrapper initialized
+		bool _wasInit = false;
+		bool GfxOpenGL::IsInit()
+		{
+			return _wasInit;
+		}
+
 		/**
 		 * Init gl extensions.
 		 */
 		void GfxOpenGL::InitGLExtensions(SDL_Renderer* renderer)
 		{
+			// skip if init
+			if (_wasInit) { return; }
+			_wasInit = true;
+
 			// get renderer info
 			SDL_RendererInfo rendererInfo;
 			SDL_GetRendererInfo((SDL_Renderer*)renderer, &rendererInfo);
