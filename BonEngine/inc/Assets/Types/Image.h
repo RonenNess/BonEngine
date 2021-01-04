@@ -26,7 +26,12 @@ namespace bon
 		class BON_DLLEXPORT _Image : public IAsset
 		{
 		private:
+
+			// image filtering mode
 			ImageFilterMode _filtering = ImageFilterMode::Nearest;
+
+			// is this image loaded from file?
+			bool _fromFile;
 
 		public:
 
@@ -43,13 +48,18 @@ namespace bon
 			 * \return Image handle.
 			 */
 			inline const _ImageHandle* Handle() const { return (const _ImageHandle*)_untypedHandle; }
+
+			/**
+			 * Get if this image loaded from file.
+			 */
+			inline bool IsFromFile() const { return _fromFile; }
 			
 			/**
 			 * Create the asset.
 			 *
 			 * \param path Asset's path.
 			 */
-			_Image(const char* path, ImageFilterMode filtering = ImageFilterMode::Nearest) : IAsset(path), _filtering(filtering) {
+			_Image(const char* path, ImageFilterMode filtering = ImageFilterMode::Nearest) : IAsset(path), _filtering(filtering), _fromFile(true) {
 			}
 
 			/**
@@ -57,7 +67,7 @@ namespace bon
 			 * 
 			 * \param size Image size.
 			 */
-			_Image(const framework::PointI& size, ImageFilterMode filtering = ImageFilterMode::Nearest) : IAsset(""), _filtering(filtering) {
+			_Image(const framework::PointI& size, ImageFilterMode filtering = ImageFilterMode::Nearest) : IAsset(""), _filtering(filtering), _fromFile(false) {
 			}
 
 			/**

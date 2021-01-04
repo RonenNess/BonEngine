@@ -80,7 +80,7 @@ namespace demo17_effects
 
 			// paint extra red and blue lights
 			Gfx().DrawImage(_lightImage, bon::PointF(680, 265), &bon::PointI(256, 256), bon::BlendModes::Additive, nullptr, &origin, 0, &bon::Color(1, 0, 0, 1));
-			Gfx().DrawImage(_lightImage, bon::PointF(480, 165), &bon::PointI(256, 256), bon::BlendModes::Additive, nullptr, &origin, 0, &bon::Color(0, 0.1, 1, 1));
+			Gfx().DrawImage(_lightImage, bon::PointF(480, 165), &bon::PointI(256, 256), bon::BlendModes::Additive, nullptr, &origin, 0, &bon::Color(0, 0.1f, 1, 1));
 
 			// draw scene background
 			Gfx().SetRenderTarget(nullptr);
@@ -95,7 +95,6 @@ namespace demo17_effects
 
 			// draw lightmap with cel effect
 			Gfx().UseEffect(_celEffect);
-			windowSize.Y *= -1;	// <-- the shader make Y axis upside down
 			Gfx().DrawImage(_lightMap, bon::PointF::Zero, &windowSize, bon::BlendModes::Multiply);
 			Gfx().UseEffect(nullptr);
 
@@ -127,10 +126,8 @@ Hit escape to exit.", bon::PointF(100, 200), &bon::Color(1, 1, 0, 1), 16);
 	 */
 	void main()
 	{
-		bon::BonFeatures features;
-		features.EffectsEnabled = true;
 		auto scene = EffectsScene();
-		bon::Start(scene, features);
+		bon::Start(scene);
 	}
 
 }

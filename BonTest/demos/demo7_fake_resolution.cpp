@@ -67,6 +67,7 @@ namespace demo7_fake_resolution
 
 			// clear render target and present texture on screen
 			Gfx().SetRenderTarget(nullptr);
+			Gfx().UseEffect(nullptr);
 			Gfx().ClearScreen(bon::Color::Cornflower);
 			auto targetSize = Gfx().WindowSize();
 			float ratio = (float)_target->Height() / (float)_target->Width();

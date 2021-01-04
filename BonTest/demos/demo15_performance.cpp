@@ -41,8 +41,12 @@ namespace demo15_performance
 			_spriteImage = Assets().LoadImage("../TestAssets/gfx/perf.png");
 			_font = Assets().LoadFont("../TestAssets/gfx/OpenSans-Regular.ttf", 36);
 
-			// create start of 1000 sprites
-			for (int i = 0; i < 50000; ++i) {
+			// create start sprites
+			int startAmount = 50000;
+#if _DEBUG
+			startAmount = 10000;
+#endif
+			for (int i = 0; i < startAmount; ++i) {
 				CreateSprite();
 			}
 		}

@@ -13,6 +13,42 @@
 
 namespace fs = std::filesystem;
 
+// default vertex shader
+const char* _defaultVertexShader = "								\
+varying vec4 v_color;												\n\
+varying vec2 v_texCoord;											\n\
+																	\n\
+void main()															\n\
+{																	\n\
+	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;			\n\
+	v_color = gl_Color;												\n\
+	v_texCoord = vec2(gl_MultiTexCoord0);							\n\
+}																	\n\
+";
+
+// default fragment shader
+const char* _defaultFragmentShader = "								\
+varying vec4 v_color;												\n\
+varying vec2 v_texCoord;											\n\
+																	\n\
+uniform sampler2D tex0;												\n\
+																	\n\
+void main()															\n\
+{																	\n\
+	gl_FragColor = v_color * texture2D(tex0, v_texCoord.xy).rgba;	\n\
+}																	\n\
+";
+
+// default fragment shader for shapes
+const char* _defaultFragmentShaderShapes = "						\
+varying vec4 v_color;												\n\
+																	\n\
+void main()															\n\
+{																	\n\
+	gl_FragColor = v_color;											\n\
+}																	\n\
+";
+
 namespace bon
 {
 	namespace gfx
@@ -54,11 +90,30 @@ namespace bon
 				_vertexPath = fs::path(effectFolder).append(config->GetStr("shaders", "vertex", "shader.vertex")).u8string();
 				_fragmentPath = fs::path(effectFolder).append(config->GetStr("shaders", "fragment", "shader.fragment")).u8string();
 				BON_DLOG("Load effect '%s' shaders. Fragment: %s, Vertex: %s.", config->Path(), _fragmentPath.c_str(), _vertexPath.c_str());
-				_programId = GfxOpenGL::CompileProgram(_vertexPath.c_str(), _fragmentPath.c_str());
+				_programId = GfxOpenGL::CompileProgramFromFiles(_vertexPath.c_str(), _fragmentPath.c_str());
 				BON_DLOG("Created effect program with id: %d", _programId);
 
 				// load general params
 				_flipCoordsV = config->GetBool("general", "flip_texture_v", true);
+
+				// set as valid!
+				_isValid = true;
+			}
+
+			/**
+			 * Constructor with params.
+			 */
+			SDL_EffectHandle(bool useTexture, bool useVertexColor, bool flipTextureY, const char* vertex, const char* frag) : _isValid(false)
+			{
+				// store basic params
+				_useTextures = useTexture;
+				_useVertexColor = useVertexColor;
+				_flipCoordsV = flipTextureY;
+
+				// build program
+				BON_DLOG("Create effect program from given params.");
+				_programId = GfxOpenGL::CompileProgram(vertex, frag);
+				BON_DLOG("Created effect program with id: %d", _programId);
 
 				// set as valid!
 				_isValid = true;
@@ -226,6 +281,14 @@ namespace bon
 			virtual bool UseVertexColor() const override { return _useVertexColor; }
 		};
 
+		// default effect
+		SDL_EffectHandle* _defaultEffect = nullptr;
+
+		// default effect for drawing shapes
+		SDL_EffectHandle* _defaultEffectShapes = nullptr;
+
+		// currently active effect
+		SDL_EffectHandle* _currentEffect = nullptr;
 
 		// effects loader we set in the assets manager during initialize
 		void EffectsLoader(bon::assets::IAsset* asset, void* context, void* extraData = nullptr)
@@ -259,6 +322,11 @@ namespace bon
 
 				// init extensions
 				GfxOpenGL::InitGLExtensions(renderer);
+
+				// init default effect
+				_defaultEffect = new SDL_EffectHandle(true, true, false, _defaultVertexShader, _defaultFragmentShader);
+				_defaultEffectShapes = new SDL_EffectHandle(true, true, false, _defaultVertexShader, _defaultFragmentShaderShapes);
+				RestoreDefaultEffect();
 			}
 
 			// update renderer
@@ -275,12 +343,6 @@ namespace bon
 		// set active effect
 		void GfxSdlEffects::UseEffect(const assets::EffectAsset& effect)
 		{
-			// if we're about to replace the default effect, get its handle first
-			if (_currentEffect == nullptr && effect != nullptr)
-			{
-				_defaultProgram = GfxOpenGL::GetCurrentProgram();
-			}
-
 			// remove effect
 			if (effect == nullptr)
 			{
@@ -289,22 +351,63 @@ namespace bon
 			}
 
 			// set effect
-			GfxOpenGL::SetShaderProgram(((SDL_EffectHandle*)effect->Handle())->_GetProgram());
-			_currentEffect = effect;
+			SetCurrentEffectFromHandle(effect->Handle());
+		}
+		
+		// use default shapes effect
+		void GfxSdlEffects::UseDefaultShapesEffect(bool onlyIfDefault)
+		{
+			if (onlyIfDefault)
+			{
+				if (_currentEffect == _defaultEffect) { SetCurrentEffectFromHandle(_defaultEffectShapes); }
+			}
+			else
+			{
+				SetCurrentEffectFromHandle(_defaultEffectShapes);
+			}
+		}
+
+		// use default textures effect
+		void GfxSdlEffects::UseDefaultTexturesEffect(bool onlyIfDefault)
+		{
+			if (onlyIfDefault)
+			{
+				if (_currentEffect == _defaultEffectShapes) { SetCurrentEffectFromHandle(_defaultEffect); }
+			}
+			else
+			{
+				SetCurrentEffectFromHandle(_defaultEffect);
+			}
 		}
 
 		// restore default SDL shaders
 		void GfxSdlEffects::RestoreDefaultEffect()
 		{
 			// set default program
-			GfxOpenGL::SetShaderProgram(_defaultProgram);
 			_currentEffect = nullptr;
+			SetCurrentEffectFromHandle(_defaultEffect);
+		}
+
+		// get current effect handle.
+		void* GfxSdlEffects::GetCurrentEffectHandle()
+		{
+			return (_EffectHandle*)_currentEffect;
+		}
+
+		// set current effect from handle.
+		void GfxSdlEffects::SetCurrentEffectFromHandle(void* handle)
+		{
+			SDL_EffectHandle* effect = (SDL_EffectHandle*)handle;
+			if (effect != _currentEffect)
+			{
+				GfxOpenGL::SetShaderProgram(effect->_GetProgram());
+				_currentEffect = effect;
+			}
 		}
 
 		// called on drawing frame end
 		void GfxSdlEffects::OnFrameStart()
 		{
-			_defaultProgram = GfxOpenGL::GetCurrentProgram();
 			RestoreDefaultEffect();
 		}
 
@@ -323,7 +426,7 @@ namespace bon
 		// draw texture with effect on screen
 		void GfxSdlEffects::DrawTexture(const SDL_Rect* destRect, const SDL_Rect* sourceRect, SDL_Texture* texture, const Color& color, int textW, int textH, BlendModes blend, int flip)
 		{
-			GfxOpenGL::DrawTexture(destRect, sourceRect, texture, color, textW, textH, blend, flip, _currentEffect->UseTextures(), _currentEffect->UseVertexColor(), _currentEffect->Handle()->FlipTextureCoordsV());
+			GfxOpenGL::DrawTexture(destRect, sourceRect, texture, color, textW, textH, blend, flip, _currentEffect->UseTexture(), _currentEffect->UseVertexColor(), _currentEffect->FlipTextureCoordsV());
 		}
 	}
 }

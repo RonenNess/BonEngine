@@ -48,13 +48,6 @@ namespace bon
 			_logManager->_Initialize();
 			_logManager->Write(log::LogLevel::Info, "Engine starts.");
 
-			// list features
-			_logManager->Write(log::LogLevel::Info, "Features:\n\
-	- EffectsEnabled: %d\n\
-	- RegisterSignalsHandler: %d\n\
-	- ForceOpenGL: %d",
-				features.EffectsEnabled, features.RegisterSignalsHandler, features.ForceOpenGL);
-
 			// create default diagnostics manager
 			if (!_diagnosticsManager) {
 				_diagnosticsManager = new diagnostics::Diagnostics();

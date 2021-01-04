@@ -33,7 +33,12 @@ namespace bon
 			/**
 			* Compile and return a GLSL program.
 			*/
-			static GLuint CompileProgram(const char* vtxFile, const char* fragFile);
+			static GLuint CompileProgramFromFiles(const char* vtxFile, const char* fragFile);
+
+			/**
+			* Compile and return a GLSL program.
+			*/
+			static GLuint CompileProgram(const char* vtxShader, const char* fragShader);
 
 			/**
 			 * Init gl extensions.

@@ -1448,6 +1448,7 @@ First stable release.
 - Refactored GFX effects wrapper and split into OpenGL wrapper and Effects wrapper.
 - Added method to render polygons.
 - Changed default flags to prefer OpenGL by default.
+- Changed default flags to enable effects by default.
 
 ## In Memory Of Bonnie
 

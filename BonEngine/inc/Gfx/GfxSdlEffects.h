@@ -34,10 +34,30 @@ namespace bon
 			void Initialize(SDL_Renderer* renderer);
 
 			/**
+			 * Get current effect handle.
+			 */
+			void* GetCurrentEffectHandle();
+
+			/**
+			 * Set current effect from handle.
+			 */
+			void SetCurrentEffectFromHandle(void* handle);
+
+			/**
 			 * Called when a renderer changes.
 			 * You don't need to call this after 'Initialize()', only if you change renderer since init.
 			 */
 			void UpdateRenderer(SDL_Renderer* renderer);
+
+			/**
+			 * Start using the built-in shapes effect.
+			 */
+			void UseDefaultShapesEffect(bool onlyIfDefault);
+
+			/**
+			 * Start using the built-in textures effect.
+			 */
+			void UseDefaultTexturesEffect(bool onlyIfDefault);
 
 			/**
 			 * Start using an effect.
@@ -76,9 +96,6 @@ namespace bon
 
 			// default program to restore to after using effect.
 			int _defaultProgram = 0;
-
-			// currently active effect
-			assets::EffectAsset _currentEffect;
 		};
 	}
 }

@@ -25,6 +25,9 @@ namespace bon
 		{
 			// on update start, display previous frame
 			_Implementor.UpdateWindow();
+
+			// reset effect
+			UseEffect(nullptr);
 		}
 
 		// called on main loop start
@@ -236,7 +239,6 @@ namespace bon
 		// set active effect
 		void Gfx::UseEffect(assets::EffectAsset effect)
 		{
-			if (!bon::Features().EffectsEnabled) { throw bon::framework::InvalidState("Can't use effects after BonEngine was initialized without 'EffectsEnabled' flag set as true!"); }
 			_Implementor.SetEffect(effect);
 		}
 

@@ -146,24 +146,29 @@ namespace bon
 		}
 
 		/**
+		 * Compile and return a GLSL program from file.
+		 */
+		GLuint GfxOpenGL::CompileProgramFromFiles(const char* vtxFile, const char* fragFile)
+		{
+			std::ifstream fvtx(vtxFile);
+			std::string sourceVtx((std::istreambuf_iterator<char>(fvtx)), std::istreambuf_iterator<char>());
+			std::ifstream ffrag(fragFile);
+			std::string sourceFrag((std::istreambuf_iterator<char>(ffrag)), std::istreambuf_iterator<char>());
+			return CompileProgram(sourceVtx.c_str(), sourceFrag.c_str());
+		}
+
+		/**
 		 * Compile and return a GLSL program.
 		 */
-		GLuint GfxOpenGL::CompileProgram(const char* vtxFile, const char* fragFile)
+		GLuint GfxOpenGL::CompileProgram(const char* vtxShader, const char* fragShader)
 		{
 			GLuint programId = 0;
 			GLuint vtxShaderId, fragShaderId;
 
 			programId = glCreateProgram();
 
-			std::ifstream f(vtxFile);
-			std::string source((std::istreambuf_iterator<char>(f)),
-				std::istreambuf_iterator<char>());
-			vtxShaderId = compileShader(source.c_str(), GL_VERTEX_SHADER);
-
-			f = std::ifstream(fragFile);
-			source = std::string((std::istreambuf_iterator<char>(f)),
-				std::istreambuf_iterator<char>());
-			fragShaderId = compileShader(source.c_str(), GL_FRAGMENT_SHADER);
+			vtxShaderId = compileShader(vtxShader, GL_VERTEX_SHADER);
+			fragShaderId = compileShader(fragShader, GL_FRAGMENT_SHADER);
 
 			if (vtxShaderId && fragShaderId)
 			{
