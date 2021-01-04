@@ -51,9 +51,6 @@ namespace bon
 
 #pragma warning (pop)
 
-			// if true, it means we need to force-update webgl blend mode directly, after reseting effect
-			bool _needToUpdateGlBlend = false;
-
 		public:
 
 			/**

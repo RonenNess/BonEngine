@@ -274,6 +274,22 @@ namespace bon
 		}
 
 		/**
+		 * Draw a polygon.
+		 */
+		void GfxOpenGL::DrawPolygon(const PointI& a, const PointI& b, const PointI& c)
+		{
+			// start drawing quad
+			glBegin(GL_TRIANGLE_STRIP);
+
+			glVertex2f((GLfloat)a.X, (GLfloat)a.Y);
+			glVertex2f((GLfloat)b.X, (GLfloat)b.Y);
+			glVertex2f((GLfloat)c.X, (GLfloat)c.Y);
+
+			// finish drawing quad
+			glEnd();
+		}
+
+		/**
 		 * Get current shader program.
 		 */
 		GLint GfxOpenGL::GetCurrentProgram()

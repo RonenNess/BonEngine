@@ -61,6 +61,11 @@ namespace bon
 			static void DrawPolygon(const framework::PointI& a, const framework::PointI& b, const framework::PointI& c, const framework::Color& color, BlendModes blend);
 
 			/**
+			 * Draw a polygon - just vertices, no params.
+			 */
+			static void DrawPolygon(const framework::PointI& a, const framework::PointI& b, const framework::PointI& c);
+
+			/**
 			 * Draw a textured quad.
 			 */
 			static void DrawTexture(const SDL_Rect* destRect, const SDL_Rect* sourceRect, SDL_Texture* texture, const framework::Color& color, int textW, int textH, BlendModes blend, int flip, bool useTexture, bool useVertexColor, bool flipTextureCoordsV);

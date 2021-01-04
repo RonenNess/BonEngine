@@ -65,6 +65,11 @@ namespace bon
 			void UseEffect(const assets::EffectAsset& effect);
 
 			/**
+			 * Set shapes drawing color.
+			 */
+			void SetShapesColor(const framework::Color& color);
+
+			/**
 			 * Stop using effects and restore the default SDL effect.
 			 */
 			void RestoreDefaultEffect();

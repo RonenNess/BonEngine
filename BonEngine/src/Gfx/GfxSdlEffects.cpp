@@ -11,6 +11,12 @@
 #include <fstream>
 #include <streambuf>
 
+#pragma warning(push, 0)
+#include <SDL2-2.0.12/include/SDL.h>
+#include <SDL2_image-2.0.5/include/SDL_image.h>
+#include <SDL2_ttf-2.0.15/include/SDL_ttf.h>
+#pragma warning(pop)
+
 namespace fs = std::filesystem;
 
 // default vertex shader
@@ -39,13 +45,22 @@ void main()															\n\
 }																	\n\
 ";
 
-// default fragment shader for shapes
-const char* _defaultFragmentShaderShapes = "						\
-varying vec4 v_color;												\n\
+// default vertex shader for shapes
+const char* _defaultVertexShaderShapes = "							\
 																	\n\
 void main()															\n\
 {																	\n\
-	gl_FragColor = v_color;											\n\
+	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;			\n\
+}																	\n\
+";
+
+// default fragment shader for shapes
+const char* _defaultFragmentShaderShapes = "						\
+uniform vec4 shape_color;											\n\
+																	\n\
+void main()															\n\
+{																	\n\
+	gl_FragColor = shape_color.rgba;								\n\
 }																	\n\
 ";
 
@@ -322,12 +337,18 @@ namespace bon
 
 				// init extensions
 				GfxOpenGL::InitGLExtensions(renderer);
-
-				// init default effect
-				_defaultEffect = new SDL_EffectHandle(true, true, false, _defaultVertexShader, _defaultFragmentShader);
-				_defaultEffectShapes = new SDL_EffectHandle(true, true, false, _defaultVertexShader, _defaultFragmentShaderShapes);
-				RestoreDefaultEffect();
 			}
+
+			// init default effect
+			if (_defaultEffect) { delete _defaultEffect; }
+			_defaultEffect = new SDL_EffectHandle(true, true, false, _defaultVertexShader, _defaultFragmentShader);
+
+			// init default shapes effect
+			if (_defaultEffectShapes) { delete _defaultEffectShapes; }
+			_defaultEffectShapes = new SDL_EffectHandle(false, false, false, _defaultVertexShaderShapes, _defaultFragmentShaderShapes);
+
+			// use default effect
+			RestoreDefaultEffect();
 
 			// update renderer
 			UpdateRenderer(renderer);
@@ -365,6 +386,13 @@ namespace bon
 			{
 				SetCurrentEffectFromHandle(_defaultEffectShapes);
 			}
+		}
+
+		// set shapes drawing color.
+		void GfxSdlEffects::SetShapesColor(const framework::Color& color)
+		{
+			//SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
+			_defaultEffectShapes->SetUniformVector4("shape_color", color.R, color.G, color.B, color.A);
 		}
 
 		// use default textures effect

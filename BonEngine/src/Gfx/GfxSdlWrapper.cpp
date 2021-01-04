@@ -193,16 +193,6 @@ namespace bon
 				SDL_GetRGBA(data, _asSurface->format, &rgb.r, &rgb.g, &rgb.b, &rgb.a);
 				return framework::Color::FromBytes(rgb.r, rgb.g, rgb.b, rgb.a);
 			}		
-
-			/**
-			 * Store this texture's last set blending mode.
-			 */
-			BlendModes CurrentBlendMode = BlendModes::AlphaBlend;
-
-			/**
-			 * Store this texture last set color.
-			 */
-			Color CurrentColor = Color::White;
 		};
 
 		// images loader we set in the assets manager during initialize
@@ -356,9 +346,6 @@ namespace bon
 		// initialize graphics
 		void GfxSdlWrapper::Initialize()
 		{
-			// do we need to update gl blend mode?
-			_needToUpdateGlBlend = false;
-
 			// initialize SDL and make sure succeed
 			int flags = (SDL_INIT_VIDEO | SDL_VIDEO_OPENGL);
 			if (SDL_Init(flags) < 0)
@@ -410,50 +397,13 @@ namespace bon
 			return _renderer;
 		}
 
-		// convert bon blend mode to sdl blend
-		SDL_BlendMode BonBlendToSdlBlend(BlendModes blend)
-		{
-			switch (blend)
-			{
-			case BlendModes::Opaque:
-				return SDL_BLENDMODE_NONE;
-			case BlendModes::AlphaBlend:
-				return SDL_BLENDMODE_BLEND;
-			case BlendModes::Additive:
-				return SDL_BLENDMODE_ADD;
-			case BlendModes::Mod:
-				return SDL_BLENDMODE_MOD;
-			case BlendModes::Multiply:
-				return SDL_BLENDMODE_MUL;
-			default:
-				return SDL_BLENDMODE_INVALID;
-			}
-		}
-
-		// change drawing color but only if needs to
-		void SetShapesRenderColorAndBlend(SDL_Renderer* renderer, const Color& color, BlendModes blendMode)
-		{
-			// set blend, if changed
-			static BlendModes lastBlend = BlendModes::_Count;
-			if (blendMode != lastBlend) {
-				SDL_SetRenderDrawBlendMode(renderer, BonBlendToSdlBlend(blendMode));
-				lastBlend = blendMode;
-			}
-
-			// set color, if changed
-			static Color lastColor = Color(-1, -1, -1, -1);
-			if (color != lastColor) {
-				SDL_SetRenderDrawColor(renderer, color.RB(), color.GB(), color.BB(), color.AB());
-				lastColor = color;
-			}
-		}
-
 		// draw a line
 		void GfxSdlWrapper::DrawLine(const PointI& from, const PointI& to, const Color& color, BlendModes blendMode)
 		{
 			// set effect and drawing color
 			_effectsImpl.UseDefaultShapesEffect(true);
-			SetShapesRenderColorAndBlend(_renderer, color, blendMode);
+			_effectsImpl.SetBlendMode(blendMode);
+			_effectsImpl.SetShapesColor(color);
 
 			SDL_RenderDrawLine(_renderer, from.X, from.Y, to.X, to.Y);
 		}
@@ -463,7 +413,8 @@ namespace bon
 		{
 			// set effect and drawing color
 			_effectsImpl.UseDefaultShapesEffect(true);
-			SetShapesRenderColorAndBlend(_renderer, color, blendMode);
+			_effectsImpl.SetBlendMode(blendMode);
+			_effectsImpl.SetShapesColor(color);
 
 			SDL_RenderDrawPoint(_renderer, position.X, position.Y);
 		}
@@ -473,7 +424,8 @@ namespace bon
 		{
 			// set effect and drawing color
 			_effectsImpl.UseDefaultShapesEffect(true);
-			SetShapesRenderColorAndBlend(_renderer, color, blendMode);
+			_effectsImpl.SetBlendMode(blendMode);
+			_effectsImpl.SetShapesColor(color);
 
 			SDL_Rect sdlrect;
 			sdlrect.x = rect.X;
@@ -493,7 +445,8 @@ namespace bon
 		{
 			// set effect and drawing color
 			_effectsImpl.UseDefaultShapesEffect(true);
-			SetShapesRenderColorAndBlend(_renderer, color, blend);
+			_effectsImpl.SetBlendMode(blend);
+			_effectsImpl.SetShapesColor(color);
 
 			// if the first pixel in the screen is represented by (0,0) (which is in sdl)
 			// remember that the beginning of the circle is not in the middle of the pixel
@@ -546,7 +499,8 @@ namespace bon
 		{
 			// set effect and drawing color
 			_effectsImpl.UseDefaultShapesEffect(true);
-			SetShapesRenderColorAndBlend(_renderer, color, blend);
+			_effectsImpl.SetBlendMode(blend);
+			_effectsImpl.SetShapesColor(color);
 
 			// Note that there is more to altering the bitrate of this 
 			// method than just changing this value.  See how pixels are
@@ -576,6 +530,9 @@ namespace bon
 		// draw a polygon
 		void GfxSdlWrapper::DrawPolygon(const PointI& a, const PointI& b, const PointI& c, const Color& color, BlendModes blend)
 		{
+			_effectsImpl.UseDefaultShapesEffect(true);
+			_effectsImpl.SetBlendMode(blend);
+			_effectsImpl.SetShapesColor(color);
 			_effectsImpl.DrawPolygon(a, b, c, color, blend);
 		}
 
@@ -584,7 +541,9 @@ namespace bon
 		{
 			// set effect and drawing color
 			_effectsImpl.UseDefaultShapesEffect(true);
-			SetShapesRenderColorAndBlend(_renderer, color, BlendModes::Opaque);
+			_effectsImpl.SetBlendMode(BlendModes::Opaque);
+			_effectsImpl.SetShapesColor(color);
+			SDL_SetRenderDrawColor(_renderer, color.RB(), color.GB(), color.BB(), color.AB());
 
 			// clear whole screen using render clear
 			if (clearRect.Empty())
@@ -611,7 +570,9 @@ namespace bon
 
 			// set drawing color
 			_effectsImpl.UseDefaultShapesEffect(true);
-			SetShapesRenderColorAndBlend(_renderer, bon::framework::Color(0, 0, 0, 0), BlendModes::Opaque);
+			_effectsImpl.SetBlendMode(BlendModes::Opaque);
+			_effectsImpl.SetShapesColor(bon::framework::Color::Black);
+			SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 
 			// make render draw to tex
 			SDL_SetRenderTarget(_renderer, texture);
@@ -663,8 +624,7 @@ namespace bon
 		{
 			// sanity - make sure there are no loaded images
 			if (bon::_GetEngine().Assets()._GetLoadedAssetsCount(bon::assets::AssetTypes::Image) > 0) {
-				BON_ELOG("Cannot change window properties while there are still loaded texture assets!");
-				throw new InvalidState("Cannot change window properties while there are still loaded texture assets!");
+				BON_ELOG("Warning! Changed window properties while there are still loaded texture assets!");
 			}
 
 			// set default sizes
@@ -732,7 +692,6 @@ namespace bon
 			_currentEffect = effect;
 			if (effect == nullptr) 
 			{
-				_needToUpdateGlBlend = true;
 				RestoreDefaultStates();
 			}
 		}
