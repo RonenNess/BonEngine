@@ -81,6 +81,11 @@ namespace bon
 			static void SetBlendMode(BlendModes blend);
 
 			/**
+			 * Set current texture.
+			 */
+			static void SetTexture(SDL_Texture* texture);
+
+			/**
 			 * Get uniform location from program.
 			 */
 			static GLint GetUniformLocation(GLint programId, const char* name);

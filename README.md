@@ -561,7 +561,7 @@ Gfx().DrawText(font, "Hello World!", bon::PointF(100, 200));
 Draw an image on screen.
 
 * `size` - Destination size, or null to use image's full size.
-* `blend` - Drawing blend mode (opaque, alpha, additive, mod, or multiply).
+* `blend` - Drawing blend mode (opaque, alpha, additive, additive no alpha, mod, or multiply).
 
 #### void DrawImage(image, position, size, blend, sourceRect, origin, rotation, color)
 
@@ -1241,9 +1241,6 @@ Once an effect is set, future renderings will use it until the end of frame, or 
 Gfx().UseEffect(nullptr);
 ```
 
-Note: Effects are disabled by default, as they force `BonEngine` to use OpenGL and not other drivers like DirectX.
-To use effects, initialize `BonEngine` with Features struct setting effects to true.
-
 ### Uniforms
 
 Uniforms are global variables you can set in your effects from your code.
@@ -1264,11 +1261,6 @@ Note that you first need to set effect as active. If you try to set uniforms whi
 ## Features
 
 When initializing `BonEngine` you can provide a struct with Feature flags, to determine which features to enable and which to disable while setting up the engine. These extra flags allow you to customize `BonEngine` at runtime, during initialization.
-
-Possible features:
-
-- *EffectsEnabled*: allow loading and using Effect assets, but force the engine to use OpenGL.
-- *ForceOpenGL*: if true, will force the Gfx manager to use OpenGL renderer.
 
 Once init, you can retrieve the Features() struct with `bon::Features()`, however note that they are readonly at this point.
 
@@ -1439,10 +1431,12 @@ First stable release.
 - Fixed setting IsRecievingInput to false in TextInput UI elements (had to change to methods for fix).
 - Increased max section name, max key name, and max line size in config assets.
 
-# 1.4.0
+# 1.5.0
 
 **[WIP]**
 
+- Huge refactor that now the engine works only on OpenGL with custom default effect without using SDL default. This solves a lot of issues when trying to mix custom shaders with SDL default rendering pipeline.
+- Added new blend modes.
 - Setting music volume to 0 used to call StopMusic(). Changed this behavior as setting music volume to 0 is not the same as stopping it and have different use cases.
 - Setting channel volume to 0 used to call StopChannel(). Changed this behavior as setting sound volume to 0 is not the same as stopping it and have different use cases.
 - Refactored GFX effects wrapper and split into OpenGL wrapper and Effects wrapper.

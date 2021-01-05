@@ -33,17 +33,32 @@ namespace bon
 			// render with alpha channels.
 			AlphaBlend = 1,
 
-			// render with additive (lighten) effect.
+			// render with additive effect.
 			Additive = 2,
 
-			// render with mod effect.
-			Mod = 3,
+			// render with Darken effect.
+			Darken = 3,
 
-			// render with multiply (darken) effect.
+			// render with multiply effect.
 			Multiply = 4,
 
+			// render with screen effect.
+			Screen = 5,
+
+			// invert dest pixels.
+			Invert = 6,
+
+			// render with difference blending.
+			Difference = 7,
+
+			// render with lighten effect.
+			Lighten = 8,
+
+			// additive with alpha channels
+			AdditiveAlpha = 9,
+
 			// blend modes count
-			_Count = 5,
+			_Count = 10,
 		};
 	}
 }

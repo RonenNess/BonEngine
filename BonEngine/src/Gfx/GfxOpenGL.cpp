@@ -62,6 +62,7 @@ PFNGLUNIFORMMATRIX3FVPROC glUniformMatrix3fv;
 PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fv;
 PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparate;
 PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparate;
+PFNGLBLENDEQUATIONEXTPROC glBlendEquationEXT;
 
 // load GL extension methods
 bool initGLExtensions()
@@ -93,11 +94,12 @@ bool initGLExtensions()
 	glUniformMatrix3fv = (PFNGLUNIFORMMATRIX3FVPROC)SDL_GL_GetProcAddress("glUniformMatrix3fv");
 	glUniformMatrix4fv = (PFNGLUNIFORMMATRIX4FVPROC)SDL_GL_GetProcAddress("glUniformMatrix4fv");
 	glBlendEquationSeparate = (PFNGLBLENDEQUATIONSEPARATEPROC)SDL_GL_GetProcAddress("glBlendEquationSeparate");
+	glBlendEquationEXT = (PFNGLBLENDEQUATIONEXTPROC)SDL_GL_GetProcAddress("glBlendEquationEXT");
 
 	return glCreateShader && glShaderSource && glCompileShader && glGetShaderiv &&
 		glGetShaderInfoLog && glDeleteShader && glAttachShader && glCreateProgram &&
 		glLinkProgram && glValidateProgram && glGetProgramiv && glGetProgramInfoLog &&
-		glUseProgram;
+		glUseProgram && glBlendEquationEXT;
 }
 
 #endif
@@ -249,7 +251,7 @@ namespace bon
 		void GfxOpenGL::DrawPolygon(const PointI& a, const PointI& b, const PointI& c, const Color& color, BlendModes blend)
 		{
 			// remove texture
-			SDL_GL_BindTexture(NULL, NULL, NULL);
+			SetTexture(nullptr);
 
 			// set blend mode
 			SetBlendMode(blend);
@@ -304,6 +306,13 @@ namespace bon
 		 */
 		void GfxOpenGL::SetBlendMode(BlendModes blend)
 		{
+			static BlendModes _lastBlend = BlendModes::_Count;
+			if (_lastBlend == blend) { return; }
+			_lastBlend = blend;
+
+			// reset equation function
+			glBlendEquationEXT(GL_FUNC_ADD);
+
 			// set blend mode
 			switch (blend)
 			{
@@ -312,14 +321,19 @@ namespace bon
 				glDisable(GL_BLEND);
 				break;
 
-			case BlendModes::Mod:
-				glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_COLOR);
+			case BlendModes::Darken:
+				glBlendFunc(GL_ONE, GL_ONE);
+				glBlendEquationEXT(GL_MIN);
 				glEnable(GL_BLEND);
 				break;
 
 			case BlendModes::Additive:
-				glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-				glBlendFuncSeparate(GL_ONE, GL_ONE, GL_ZERO, GL_ONE);
+				glBlendFunc(GL_ONE, GL_ONE);
+				glEnable(GL_BLEND);
+				break;
+
+			case BlendModes::AdditiveAlpha:
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 				glEnable(GL_BLEND);
 				break;
 
@@ -329,10 +343,43 @@ namespace bon
 				break;
 
 			case BlendModes::Multiply:
-				glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
+				glBlendFunc(GL_DST_COLOR, GL_ZERO);
+				glEnable(GL_BLEND);
+				break;
+
+			case BlendModes::Invert:
+				glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ZERO);
+				glEnable(GL_BLEND);
+				break;
+
+			case BlendModes::Difference:
+				glBlendFunc(GL_ONE, GL_ONE);
+				glBlendEquationEXT(GL_FUNC_SUBTRACT);
+				glEnable(GL_BLEND);
+				break;
+
+			case BlendModes::Lighten:
+				glBlendFunc(GL_ONE, GL_ONE);
+				glBlendEquationEXT(GL_MAX);
+				glEnable(GL_BLEND);
+				break;
+
+			case BlendModes::Screen:
+				glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
 				glEnable(GL_BLEND);
 				break;
 			}
+		}
+
+		/**
+		* Set current texture.
+		*/
+		void GfxOpenGL::SetTexture(SDL_Texture* texture)
+		{
+			SDL_Texture* _lastTexture = nullptr;
+			if (_lastTexture == texture) { return; }
+			_lastTexture = texture;
+			SDL_GL_BindTexture(texture, NULL, NULL);
 		}
 
 		/**
@@ -343,7 +390,7 @@ namespace bon
 			// bind texture
 			if (useTexture)
 			{
-				SDL_GL_BindTexture(texture, NULL, NULL);
+				SetTexture(texture);
 			}
 
 			// set blend mode

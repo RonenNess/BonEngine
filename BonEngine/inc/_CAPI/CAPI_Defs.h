@@ -108,9 +108,14 @@ extern "C" {
 	{
 		BON_BlendModes_Additive = bon::BlendModes::Additive,
 		BON_BlendModes_AlphaBlend = bon::BlendModes::AlphaBlend,
-		BON_BlendModes_Mod = bon::BlendModes::Mod,
+		BON_BlendModes_Darken = bon::BlendModes::Darken,
 		BON_BlendModes_Multiply = bon::BlendModes::Multiply,
 		BON_BlendModes_Opaque = bon::BlendModes::Opaque,
+		BON_BlendModes_Screen = bon::BlendModes::Screen,
+		BON_BlendModes_Invert = bon::BlendModes::Invert,
+		BON_BlendModes_Difference = bon::BlendModes::Difference,
+		BON_BlendModes_Lighten = bon::BlendModes::Lighten,
+		BON_BlendModes_AdditiveAlpha = bon::BlendModes::AdditiveAlpha,
 		BON_BlendModes__Count = bon::BlendModes::_Count,
 	};
 
