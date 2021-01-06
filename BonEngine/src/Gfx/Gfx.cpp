@@ -226,7 +226,15 @@ namespace bon
 		void Gfx::ClearScreen(const Color& color, const RectangleI& clearRect)
 		{
 			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
-			_Implementor.ClearScreen(color, clearRect);
+			if (clearRect.Empty())
+			{
+				auto rs = RenderableSize();
+				_Implementor.ClearScreen(color, RectangleI(0, 0, rs.X, rs.Y));
+			}
+			else
+			{
+				_Implementor.ClearScreen(color, clearRect);
+			}
 		}
 
 		// set window properties

@@ -86,6 +86,11 @@ namespace bon
 			static void SetTexture(SDL_Texture* texture);
 
 			/**
+			 * Clears a texture completely to transparent black.
+			 */
+			static void ClearTexture(SDL_Texture* texture, int width, int height);
+
+			/**
 			 * Get uniform location from program.
 			 */
 			static GLint GetUniformLocation(GLint programId, const char* name);

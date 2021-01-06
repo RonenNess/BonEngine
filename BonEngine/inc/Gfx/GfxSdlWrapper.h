@@ -267,7 +267,7 @@ namespace bon
 			 *
 			 * \param texture Texture to clear.
 			 */
-			void ClearTexture(SDL_Texture* texture);
+			void ClearTexture(SDL_Texture* texture, int width, int height);
 
 			/**
 			 * Set the target we render to.

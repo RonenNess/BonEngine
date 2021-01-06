@@ -131,7 +131,7 @@ namespace bon
 			 */
 			virtual void Clear() override
 			{
-				_wrapper->ClearTexture((SDL_Texture*)Texture);
+				_wrapper->ClearTexture((SDL_Texture*)Texture, Width(), Height());
 			}
 
 			/**
@@ -539,34 +539,20 @@ namespace bon
 		// clear screen or parts of it
 		void GfxSdlWrapper::ClearScreen(const Color& color, const RectangleI& clearRect)
 		{
-			// set effect and drawing color
-			_effectsImpl.UseDefaultShapesEffect(true);
-			_effectsImpl.SetBlendMode(BlendModes::Opaque);
-			_effectsImpl.SetShapesColor(color);
-			SDL_SetRenderDrawColor(_renderer, color.RB(), color.GB(), color.BB(), color.AB());
-
-			// clear whole screen using render clear
-			if (clearRect.Empty())
-			{
-				SDL_RenderClear(_renderer);
-			}
-			// clear region using fill rect
-			else
-			{
-				static SDL_Rect rect;
-				rect.x = clearRect.X;
-				rect.y = clearRect.Y;
-				rect.w = clearRect.Width;
-				rect.h = clearRect.Height;
-				SDL_RenderFillRect(_renderer, &rect);
-			}
+			auto col = color;
+			col.A = 1;
+			DrawRectangle(clearRect, col, true, BlendModes::Opaque);
 		}
 
 		// clear an image to transparent
-		void GfxSdlWrapper::ClearTexture(SDL_Texture* texture)
+		void GfxSdlWrapper::ClearTexture(SDL_Texture* texture, int width, int height)
 		{
-			// get previous render target
+			// TODO DECIDE IF TO USE THIS, OR THE IMPL INSIDE  GfxOpenGL::ClearTexture(texture, width, height);
+
+			// get previous render target and blend
 			SDL_Texture* prevTarget = SDL_GetRenderTarget(_renderer);
+			SDL_BlendMode prevBlend;
+			SDL_GetTextureBlendMode(texture, &prevBlend);
 
 			// set drawing color
 			_effectsImpl.UseDefaultShapesEffect(true);
@@ -587,8 +573,11 @@ namespace bon
 			// fill texture with transparent pixels
 			SDL_RenderClear(_renderer);
 
-			// make render draw to window
+			// restore previous state
 			SDL_SetRenderTarget(_renderer, prevTarget);
+			SDL_SetTextureBlendMode(texture, prevBlend);
+
+			//GfxOpenGL::ClearTexture(texture, width, height);
 		}
 
 		// destructor - cleanup window and quit.

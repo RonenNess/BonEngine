@@ -63,6 +63,7 @@ PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fv;
 PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparate;
 PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparate;
 PFNGLBLENDEQUATIONEXTPROC glBlendEquationEXT;
+PFNGLCLEARTEXIMAGEPROC glClearTexImage;
 
 // load GL extension methods
 bool initGLExtensions()
@@ -95,6 +96,7 @@ bool initGLExtensions()
 	glUniformMatrix4fv = (PFNGLUNIFORMMATRIX4FVPROC)SDL_GL_GetProcAddress("glUniformMatrix4fv");
 	glBlendEquationSeparate = (PFNGLBLENDEQUATIONSEPARATEPROC)SDL_GL_GetProcAddress("glBlendEquationSeparate");
 	glBlendEquationEXT = (PFNGLBLENDEQUATIONEXTPROC)SDL_GL_GetProcAddress("glBlendEquationEXT");
+	//glClearTexImage = (PFNGLCLEARTEXIMAGEPROC)SDL_GL_GetProcAddress("glClearTexImage");
 
 	return glCreateShader && glShaderSource && glCompileShader && glGetShaderiv &&
 		glGetShaderInfoLog && glDeleteShader && glAttachShader && glCreateProgram &&
@@ -246,6 +248,18 @@ namespace bon
 		}
 
 		/**
+		* Clears a texture completely to transparent black.
+		*/
+		void GfxOpenGL::ClearTexture(SDL_Texture* texture, int width, int height)
+		{
+			float w;
+			float h;
+			SDL_GL_BindTexture(texture, &w, &h);
+			std::vector<GLubyte> emptyData((size_t)width * (size_t)height * 4, 0);
+			SDL_UpdateTexture(texture, NULL, &emptyData[0], width * 4);
+		}
+
+		/**
 		 * Draw a polygon.
 		 */
 		void GfxOpenGL::DrawPolygon(const PointI& a, const PointI& b, const PointI& c, const Color& color, BlendModes blend)
@@ -312,6 +326,9 @@ namespace bon
 
 			// reset equation function
 			glBlendEquationEXT(GL_FUNC_ADD);
+			glDisable(GL_CULL_FACE);
+			glDisable(GL_DEPTH_TEST);
+			glDisable(GL_ALPHA_TEST);
 
 			// set blend mode
 			switch (blend)
@@ -338,7 +355,8 @@ namespace bon
 				break;
 
 			case BlendModes::AlphaBlend:
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA, GL_ONE);
 				glEnable(GL_BLEND);
 				break;
 
