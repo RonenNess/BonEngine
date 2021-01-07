@@ -894,14 +894,14 @@ namespace bon
 			if (size.X == 0 || size.Y == 0) 
 			{
 				sizeToUse = &altSize;
-				if (size.X == 0) altSize.X = sourceRect ? sourceRect->Width : sourceImage->Width();
+				if (size.X == 0) altSize.X = (sourceRect && sourceRect->Width != 0) ? sourceRect->Width : sourceImage->Width();
 				else altSize.X = size.X;
-				if (size.Y == 0) altSize.Y = sourceRect ? sourceRect->Height : sourceImage->Height();
+				if (size.Y == 0) altSize.Y = (sourceRect && sourceRect->Height != 0) ? sourceRect->Height : sourceImage->Height();
 				else altSize.Y = size.Y;
 			}
 			
 			// draw texture
-			_effectsImpl.DrawTexture(position, size, sourceRect, texture, color, handle->Width(), handle->Height(), blend, origin, rotation);
+			_effectsImpl.DrawTexture(position, *sizeToUse, sourceRect, texture, color, handle->Width(), handle->Height(), blend, origin, rotation);
 		}
 
 		// draw image on screen

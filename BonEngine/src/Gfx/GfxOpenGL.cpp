@@ -433,17 +433,22 @@ namespace bon
 			// uvs
 			if (sourceRect != nullptr)
 			{
-				minu = (GLfloat)sourceRect->X / textW;
-				maxu = (GLfloat)(sourceRect->X + sourceRect->Width) / textW;
+				int srcx = sourceRect->X;
+				int srcy = sourceRect->Y;
+				int srcw = sourceRect->Width != 0 ? sourceRect->Width : textW;
+				int srch = sourceRect->Height != 0 ? sourceRect->Height : textH;
+
+				minu = (GLfloat)srcx / textW;
+				maxu = (GLfloat)(srcx + srcw) / textW;
 				if (flipTextureCoordsV)
 				{
-					minv = (GLfloat)(sourceRect->Y + sourceRect->Height) / textH;
-					maxv = (GLfloat)sourceRect->Y / textH;
+					minv = (GLfloat)(srcy + srch) / textH;
+					maxv = (GLfloat)srcy / textH;
 				}
 				else
 				{
-					minv = (GLfloat)sourceRect->Y / textH;
-					maxv = (GLfloat)(sourceRect->Y + sourceRect->Height) / textH;
+					minv = (GLfloat)srcy / textH;
+					maxv = (GLfloat)(srcy + srch) / textH;
 				}
 			}
 			else
