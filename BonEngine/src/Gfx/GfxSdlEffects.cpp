@@ -360,6 +360,10 @@ namespace bon
 			// store renderer and reset default program id
 			_renderer = renderer;
 		}
+
+		// last used rotation
+		float lastRotation = (float)-9999999999999;
+		PointF lastAnchor = PointF((float)-9999999999, (float)-9999999999);
 		
 		// set active effect
 		void GfxSdlEffects::UseEffect(const assets::EffectAsset& effect)
@@ -428,6 +432,8 @@ namespace bon
 			SDL_EffectHandle* effect = (SDL_EffectHandle*)handle;
 			if (effect != _currentEffect)
 			{
+				lastRotation = (float)-9999999999999;
+				lastAnchor.Set((float)-9999999999, (float)-9999999999);
 				GfxOpenGL::SetShaderProgram(effect->_GetProgram());
 				_currentEffect = effect;
 			}
@@ -452,9 +458,10 @@ namespace bon
 		}
 
 		// draw texture with effect on screen
-		void GfxSdlEffects::DrawTexture(const SDL_Rect* destRect, const SDL_Rect* sourceRect, SDL_Texture* texture, const Color& color, int textW, int textH, BlendModes blend, int flip)
+		void GfxSdlEffects::DrawTexture(const PointF& position, const PointI& size, const framework::RectangleI* sourceRect, SDL_Texture* texture, const Color& color, int textW, int textH, BlendModes blend, const framework::PointF& anchor, float rotate)
 		{
-			GfxOpenGL::DrawTexture(destRect, sourceRect, texture, color, textW, textH, blend, flip, _currentEffect->UseTexture(), _currentEffect->UseVertexColor(), _currentEffect->FlipTextureCoordsV());
+			// draw texture
+			GfxOpenGL::DrawTexture(position, size, sourceRect, texture, color, textW, textH, blend, _currentEffect->UseTexture(), _currentEffect->UseVertexColor(), _currentEffect->FlipTextureCoordsV(), anchor, rotate);
 		}
 	}
 }

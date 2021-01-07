@@ -24,6 +24,7 @@ int main()
 	std::cout << " 15: Performance test\n";
 	std::cout << " 16: UI demo\n";
 	std::cout << " 17: Effects demo (light scene)\n";
+	std::cout << " 18: Rotation & Origin\n";
 	std::cout << "Your choice: ";
 
 	int demoNumber = -1;
@@ -102,6 +103,10 @@ int main()
 
 		case 17:
 			demo17_effects::main();
+			break;
+
+		case 18:
+			demo18_rotation::main();
 			break;
 
 		default:

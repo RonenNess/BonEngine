@@ -420,24 +420,13 @@ namespace bon
 		}
 
 		// draw a rectangle
-		void GfxSdlWrapper::DrawRectangle(const RectangleI& rect, const Color& color, bool filled, BlendModes blendMode)
+		void GfxSdlWrapper::DrawRectangle(const RectangleI& rect, const Color& color, bool filled, BlendModes blendMode, const PointF& origin, float rotation)
 		{
-			// set effect and drawing color
 			_effectsImpl.UseDefaultShapesEffect(true);
 			_effectsImpl.SetBlendMode(blendMode);
 			_effectsImpl.SetShapesColor(color);
 
-			SDL_Rect sdlrect;
-			sdlrect.x = rect.X;
-			sdlrect.y = rect.Y;
-			sdlrect.w = rect.Width;
-			sdlrect.h = rect.Height;
-			if (filled) {
-				SDL_RenderFillRect(_renderer, &sdlrect);
-			}
-			else {
-				SDL_RenderDrawRect(_renderer, &sdlrect);
-			}
+			GfxOpenGL::DrawQuad(PointF((float)rect.X, (float)rect.Y), PointI(rect.Width, rect.Height), color, origin, rotation, filled);
 		}
 
 		// draw circle outlines
@@ -541,7 +530,7 @@ namespace bon
 		{
 			auto col = color;
 			col.A = 1;
-			DrawRectangle(clearRect, col, true, BlendModes::Opaque);
+			DrawRectangle(clearRect, col, true, BlendModes::Opaque, PointF::Zero, 0);
 		}
 
 		// clear an image to transparent
@@ -743,8 +732,7 @@ namespace bon
 
 			// draw text
 			PointI size((int)(fromCache.Width * sizeFactor), (int)(fromCache.Height * sizeFactor));
-			static RectangleI srcRect;
-			DrawTextAsTexture(fromCache.Texture, position, size, blend, srcRect, origin, rotation, color, outDestRect, dryrun, fromCache.Width, fromCache.Height);
+			DrawTextAsTexture(fromCache.Texture, position, size, blend, nullptr, origin, rotation, color, outDestRect, dryrun, fromCache.Width, fromCache.Height);
 		}
 
 		// set gamma
@@ -845,62 +833,24 @@ namespace bon
 		}
 
 		// draw texture on screen
-		void GfxSdlWrapper::DrawTextAsTexture(SDL_Texture* texture, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color, RectangleI* outDestRect, bool dryrun, int textW, int textH)
+		void GfxSdlWrapper::DrawTextAsTexture(SDL_Texture* texture, const PointF& position, const PointI& size, BlendModes blend, const RectangleI* sourceRect, const PointF& origin, float rotation, Color color, RectangleI* outDestRect, bool dryrun, int textW, int textH)
 		{
 			_effectsImpl.UseDefaultTexturesEffect(true);
-
-			// source rect
-			static SDL_Rect sdlSrcRect;
-			SDL_Rect* sdlSrcRectPtr = NULL;
-			if (!sourceRect.Empty())
-			{
-				sdlSrcRect.x = sourceRect.X;
-				sdlSrcRect.y = sourceRect.Y;
-				sdlSrcRect.w = sourceRect.Width;
-				sdlSrcRect.h = sourceRect.Height;
-				sdlSrcRectPtr = &sdlSrcRect;
-			}
-
-			// calculate destination rect
-			static SDL_Rect dest;
-			dest.x = (int)floor(position.X);
-			dest.y = (int)floor(position.Y);
-			dest.w = (int)floor(size.X);
-			dest.h = (int)floor(size.Y);
-
-			// do flipping
-			int flip = SDL_RendererFlip::SDL_FLIP_NONE;
-			if (dest.w < 0) {
-				flip |= SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
-				dest.w = -dest.w;
-			}
-			if (dest.h < 0) {
-				flip |= SDL_RendererFlip::SDL_FLIP_VERTICAL;
-				dest.h = -dest.h;
-			}
-
-			// set anchor
-			if (origin.X != 0 || origin.Y != 0)
-			{
-				SDL_Point sdlOrigin;
-				sdlOrigin.x = (int)(origin.X * dest.w);
-				sdlOrigin.y = (int)(origin.Y * dest.h);
-				dest.x -= sdlOrigin.x;
-				dest.y -= sdlOrigin.y;
-			}
 			
 			// set out dest rect
 			if (outDestRect) 
 			{
-				outDestRect->X = dest.x;
-				outDestRect->Y = dest.y;
-				outDestRect->Width = dest.w;
-				outDestRect->Height = dest.h;
+				outDestRect->X = (int)floor(position.X);
+				outDestRect->Y = (int)floor(position.Y);
+				outDestRect->Width = (int)abs(floor(size.X));
+				outDestRect->Height = (int)abs(floor(size.Y));
+				outDestRect->X -= (int)(origin.X * outDestRect->Width);
+				outDestRect->Y -= (int)(origin.Y * outDestRect->Height);
 			}
 
 			// draw texture
 			if (!dryrun) {
-				_effectsImpl.DrawTexture(&dest, sdlSrcRectPtr, texture, color, textW, textH, blend, flip);
+				_effectsImpl.DrawTexture(position, size, sourceRect, texture, color, textW, textH, blend, origin, rotation);
 			}
 		}
 
@@ -923,7 +873,7 @@ namespace bon
 		}
 
 		// draw image on screen
-		void GfxSdlWrapper::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI& size, BlendModes blend, const RectangleI& sourceRect, const PointF& origin, float rotation, Color color)
+		void GfxSdlWrapper::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI& size, BlendModes blend, const RectangleI* sourceRect, const PointF& origin, float rotation, Color color)
 		{
 			_effectsImpl.UseDefaultTexturesEffect(true);
 
@@ -933,62 +883,25 @@ namespace bon
 			// get texture
 			SDL_Texture* texture = (SDL_Texture*)handle->Texture;
 
-			// source rect
-			static SDL_Rect sdlSrcRect;
-			SDL_Rect* sdlSrcRectPtr = NULL;
-			if (!sourceRect.Empty())
-			{
-				sdlSrcRect.x = sourceRect.X;
-				sdlSrcRect.y = sourceRect.Y;
-				sdlSrcRect.w = sourceRect.Width;
-				sdlSrcRect.h = sourceRect.Height;
-				sdlSrcRectPtr = &sdlSrcRect;
-			}
-
 			// calculate destination rect. first position
 			static SDL_Rect dest;
 			dest.x = (int)floor(position.X);
 			dest.y = (int)floor(position.Y);
 
-			// calc dest rect width
-			if (size.X == 0) {
-				dest.w = sdlSrcRectPtr ? sdlSrcRectPtr->w : sourceImage->Width();
-			}
-			else{
-				dest.w = (int)floor(size.X);
-			}
-
-			// calc dest rect height
-			if (size.Y == 0) {
-				dest.h = sdlSrcRectPtr ? sdlSrcRectPtr->h : sourceImage->Height();
-			}
-			else {
-				dest.h = (int)floor(size.Y);
-			}
-
-			// do flipping
-			int flip = SDL_RendererFlip::SDL_FLIP_NONE;
-			if (dest.w < 0) {
-				flip |= SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
-				dest.w = -dest.w;
-			}
-			if (dest.h < 0) {
-				flip |= SDL_RendererFlip::SDL_FLIP_VERTICAL;
-				dest.h = -dest.h;
-			}
-
-			// do anchor
-			if (origin.X != 0 || origin.Y != 0)
+			// calc size with defaults
+			static PointI altSize;
+			const PointI* sizeToUse = &size;
+			if (size.X == 0 || size.Y == 0) 
 			{
-				static SDL_Point sdlOrigin;
-				sdlOrigin.x = (int)(origin.X * dest.w);
-				sdlOrigin.y = (int)(origin.Y * dest.h);
-				dest.x -= sdlOrigin.x;
-				dest.y -= sdlOrigin.y;
+				sizeToUse = &altSize;
+				if (size.X == 0) altSize.X = sourceRect ? sourceRect->Width : sourceImage->Width();
+				else altSize.X = size.X;
+				if (size.Y == 0) altSize.Y = sourceRect ? sourceRect->Height : sourceImage->Height();
+				else altSize.Y = size.Y;
 			}
-
+			
 			// draw texture
-			_effectsImpl.DrawTexture(&dest, sdlSrcRectPtr, texture, color, handle->Width(), handle->Height(), blend, flip);			
+			_effectsImpl.DrawTexture(position, size, sourceRect, texture, color, handle->Width(), handle->Height(), blend, origin, rotation);
 		}
 
 		// draw image on screen
@@ -1009,20 +922,9 @@ namespace bon
 			// get texture
 			SDL_Texture* texture = (SDL_Texture*)handle->Texture;
 
-			// do flipping
-			int flip = SDL_RendererFlip::SDL_FLIP_NONE;
-			if (dest.w < 0) {
-				flip |= SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
-				dest.w = -dest.w;
-			}
-			if (dest.h < 0) {
-				flip |= SDL_RendererFlip::SDL_FLIP_VERTICAL;
-				dest.h = -dest.h;
-			}
-
 			// draw with effect
 			static Color color(1, 1, 1, 1);
-			_effectsImpl.DrawTexture(&dest, nullptr, texture, color, handle->Width(), handle->Height(), blend, flip);
+			_effectsImpl.DrawTexture(position, size, nullptr, texture, color, handle->Width(), handle->Height(), blend, PointF::Zero, 0);
 		}
 	}
 }

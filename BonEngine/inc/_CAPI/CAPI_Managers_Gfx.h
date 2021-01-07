@@ -96,7 +96,7 @@ extern "C" {
 	/**
 	* Draws a rectangle.
 	*/
-	BON_DLLEXPORT void BON_Gfx_DrawRectangle(int x, int y, int w, int h, float r, float g, float b, float a, bool filled, BON_BlendModes blend);
+	BON_DLLEXPORT void BON_Gfx_DrawRectangle(int x, int y, int w, int h, float r, float g, float b, float a, bool filled, BON_BlendModes blend, float originX, float originY, float rotation);
 
 	/**
 	* Draws a circle.

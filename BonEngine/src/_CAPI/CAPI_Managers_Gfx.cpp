@@ -140,9 +140,9 @@ void BON_Gfx_UseEffect(const bon::assets::EffectAsset* effect)
 /**
 * Draws a rectangle.
 */
-void BON_Gfx_DrawRectangle(int x, int y, int w, int h, float r, float g, float b, float a, bool filled, BON_BlendModes blend)
+void BON_Gfx_DrawRectangle(int x, int y, int w, int h, float r, float g, float b, float a, bool filled, BON_BlendModes blend, float originX, float originY, float rotation)
 {
-	bon::_GetEngine().Gfx().DrawRectangle(bon::RectangleI(x, y, w, h), bon::Color(r, g, b, a), filled, (bon::BlendModes)blend);
+	bon::_GetEngine().Gfx().DrawRectangle(bon::RectangleI(x, y, w, h), bon::Color(r, g, b, a), filled, (bon::BlendModes)blend, &bon::PointF(originX, originY), rotation);
 }
 
 /**

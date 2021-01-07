@@ -67,7 +67,7 @@ namespace demo9_blend_modes
 			Gfx().DrawText(_font, "You can draw sprites with different blend modes.\n\
 Left to right: Alpha Blend, Additive, Mod, Multiply, Opaque.\n\
 Press space to toggle background.\
-\nHit escape to exit.", bon::PointF(100, 200), &bon::Color(1, 1, 0, 1), 16);
+\nHit escape to exit.", bon::PointF(100, 170), &bon::Color(1, 1, 0, 1), 16);
 
 			// set labels
 			const char* labels[(int)bon::BlendModes::_Count];
@@ -81,6 +81,7 @@ Press space to toggle background.\
 			labels[(int)bon::BlendModes::Difference] = "Difference";
 			labels[(int)bon::BlendModes::Lighten] = "Lighten";
 			labels[(int)bon::BlendModes::AdditiveAlpha] = "AdditiveAlpha";
+			labels[(int)bon::BlendModes::Subtract] = "Subtract";
 
 			// draw test sprites in different blends
 			bon::PointF origin(0.0f, 0.0f);
@@ -89,7 +90,11 @@ Press space to toggle background.\
 			int posY = windowSize.Y - size;
 			for (int i = 0; i < (int)bon::BlendModes::_Count; ++i) 
 			{
-				Gfx().DrawImage(_spriteImage, bon::PointI(posX, posY), &bon::PointI(size, size), (bon::BlendModes)i, nullptr, &origin, 0, nullptr);
+				// skip invert from demo so we can squeeze more
+				if ((int)bon::BlendModes::Invert == i) { continue; }
+
+				// draw example
+				Gfx().DrawImage(_spriteImage, bon::PointI(posX, posY), &bon::PointI(size, size), (bon::BlendModes)i);
 				Gfx().DrawText(_font, labels[i], bon::PointI(posX, posY), nullptr, 16, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
 				posX += size;
 				if (posX + size >= windowSize.X)
@@ -100,7 +105,7 @@ Press space to toggle background.\
 			}
 
 			// draw cursor
-			Gfx().DrawImage(_cursorImage, Input().CursorPosition(), &bon::PointI(64, 64));
+			Gfx().DrawImage(_cursorImage, Input().CursorPosition(), &bon::PointI(64, 64), bon::BlendModes::AlphaBlend);
 		}
 	};
 

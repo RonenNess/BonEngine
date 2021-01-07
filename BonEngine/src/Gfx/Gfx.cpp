@@ -52,11 +52,10 @@ namespace bon
 		void Gfx::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI* size, BlendModes blend, const framework::RectangleI* sourceRect, const PointF* origin, float rotation, const Color* color)
 		{
 			static PointI defaultSize(0, 0);
-			static RectangleI defaultRect(0, 0, 0, 0);
 			static PointF defaultOrigin(0, 0);
 			static Color defaultColor(1, 1, 1, 1);
 			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
-			_Implementor.DrawImage(sourceImage, position, size ? *size : defaultSize, blend, sourceRect ? *sourceRect : defaultRect, origin ? *origin : defaultOrigin, rotation, color ? *color : defaultColor);
+			_Implementor.DrawImage(sourceImage, position, size ? *size : defaultSize, blend, sourceRect, origin ? *origin : defaultOrigin, rotation, color ? *color : defaultColor);
 		}
 
 		// draw sprite
@@ -132,10 +131,10 @@ namespace bon
 		}
 		
 		// draw rectangle
-		void Gfx::DrawRectangle(const framework::RectangleI& rect, const framework::Color& color, bool filled, BlendModes blendMode)
+		void Gfx::DrawRectangle(const framework::RectangleI& rect, const framework::Color& color, bool filled, BlendModes blendMode, const PointF* origin, float rotation)
 		{
 			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::DrawCalls);
-			_Implementor.DrawRectangle(rect, color, filled, blendMode);
+			_Implementor.DrawRectangle(rect, color, filled, blendMode, origin ? *origin : PointF::Zero, rotation);
 		}
 
 		// draws a circle

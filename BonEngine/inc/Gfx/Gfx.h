@@ -149,8 +149,10 @@ namespace bon
 			 * \param color Rectangle color.
 			 * \param filled If true, will draw filled rectangle. If false, will draw only outline.
 			 * \param blendMode Drawing shape blending mode.
+			 * \param origin Rectangle origin.
+			 * \param rotation Rectangle rotation.
 			 */
-			virtual void DrawRectangle(const framework::RectangleI& rect, const framework::Color& color, bool filled, BlendModes blendMode = BlendModes::AlphaBlend) override;
+			virtual void DrawRectangle(const framework::RectangleI& rect, const framework::Color& color, bool filled, BlendModes blendMode = BlendModes::AlphaBlend, const PointF* origin = nullptr, float rotation = 0.0f) override;
 
 			/**
 			 * Draws a circle.

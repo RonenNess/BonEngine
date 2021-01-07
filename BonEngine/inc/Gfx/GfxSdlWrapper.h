@@ -115,7 +115,7 @@ namespace bon
 			 * \param color Optional tint color.
 			 * \param color Color tint to apply on image.
 			 */
-			void DrawImage(const assets::ImageAsset& sourceImage, const framework::PointF& position, const framework::PointI& size, BlendModes blend, const framework::RectangleI& sourceRect, const framework::PointF& origin, float rotation, framework::Color color);
+			void DrawImage(const assets::ImageAsset& sourceImage, const framework::PointF& position, const framework::PointI& size, BlendModes blend, const framework::RectangleI* sourceRect, const framework::PointF& origin, float rotation, framework::Color color);
 
 			/**
 			 * Draw text on screen.
@@ -214,7 +214,7 @@ namespace bon
 			 * \param filled If true, will draw filled rectangle. If false, will draw only outline.
 			 * \param blendMode Blending mode.
 			 */
-			void DrawRectangle(const framework::RectangleI& rect, const framework::Color& color, bool filled, BlendModes blendMode);
+			void DrawRectangle(const framework::RectangleI& rect, const framework::Color& color, bool filled, BlendModes blendMode, const framework::PointF& origin, float rotation);
 			
 			/**
 			 * Draws a circle line.
@@ -314,7 +314,7 @@ namespace bon
 			/**
 			 * Draw texture directly. Used internally.
 			 */
-			void DrawTextAsTexture(SDL_Texture* texture, const framework::PointF& position, const framework::PointI& size, BlendModes blend, const framework::RectangleI& sourceRect, const framework::PointF& origin, float rotation, framework::Color color, framework::RectangleI* outDestRect = nullptr, bool dryrun = false, int textW = 0, int textH = 0);
+			void DrawTextAsTexture(SDL_Texture* texture, const framework::PointF& position, const framework::PointI& size, BlendModes blend, const framework::RectangleI* sourceRect, const framework::PointF& origin, float rotation, framework::Color color, framework::RectangleI* outDestRect = nullptr, bool dryrun = false, int textW = 0, int textH = 0);
 		};
 	}
 }

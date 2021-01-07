@@ -63,7 +63,8 @@ PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fv;
 PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparate;
 PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparate;
 PFNGLBLENDEQUATIONEXTPROC glBlendEquationEXT;
-PFNGLCLEARTEXIMAGEPROC glClearTexImage;
+PFNGLBLENDEQUATIONSEPARATEEXTPROC glBlendEquationSeparateEXT;
+//PFNGLCLEARTEXIMAGEPROC glClearTexImage;
 
 // load GL extension methods
 bool initGLExtensions()
@@ -96,12 +97,12 @@ bool initGLExtensions()
 	glUniformMatrix4fv = (PFNGLUNIFORMMATRIX4FVPROC)SDL_GL_GetProcAddress("glUniformMatrix4fv");
 	glBlendEquationSeparate = (PFNGLBLENDEQUATIONSEPARATEPROC)SDL_GL_GetProcAddress("glBlendEquationSeparate");
 	glBlendEquationEXT = (PFNGLBLENDEQUATIONEXTPROC)SDL_GL_GetProcAddress("glBlendEquationEXT");
-	//glClearTexImage = (PFNGLCLEARTEXIMAGEPROC)SDL_GL_GetProcAddress("glClearTexImage");
+	glBlendEquationSeparateEXT = (PFNGLBLENDEQUATIONSEPARATEEXTPROC)SDL_GL_GetProcAddress("glBlendEquationSeparateEXT");
 
 	return glCreateShader && glShaderSource && glCompileShader && glGetShaderiv &&
 		glGetShaderInfoLog && glDeleteShader && glAttachShader && glCreateProgram &&
 		glLinkProgram && glValidateProgram && glGetProgramiv && glGetProgramInfoLog &&
-		glUseProgram && glBlendEquationEXT;
+		glUseProgram;
 }
 
 #endif
@@ -325,7 +326,7 @@ namespace bon
 			_lastBlend = blend;
 
 			// reset equation function
-			glBlendEquationEXT(GL_FUNC_ADD);
+			if (glBlendEquationEXT) glBlendEquationEXT(GL_FUNC_ADD);
 			glDisable(GL_CULL_FACE);
 			glDisable(GL_DEPTH_TEST);
 			glDisable(GL_ALPHA_TEST);
@@ -340,7 +341,7 @@ namespace bon
 
 			case BlendModes::Darken:
 				glBlendFunc(GL_ONE, GL_ONE);
-				glBlendEquationEXT(GL_MIN);
+				if (glBlendEquationEXT) glBlendEquationEXT(GL_MIN);
 				glEnable(GL_BLEND);
 				break;
 
@@ -355,8 +356,13 @@ namespace bon
 				break;
 
 			case BlendModes::AlphaBlend:
-				//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA, GL_ONE);
+				glEnable(GL_BLEND);
+				break;
+
+			case BlendModes::Subtract:
+				glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE, GL_ONE, GL_ONE);
+				glBlendEquationSeparate(GL_FUNC_REVERSE_SUBTRACT, GL_FUNC_ADD);
 				glEnable(GL_BLEND);
 				break;
 
@@ -372,13 +378,13 @@ namespace bon
 
 			case BlendModes::Difference:
 				glBlendFunc(GL_ONE, GL_ONE);
-				glBlendEquationEXT(GL_FUNC_SUBTRACT);
+				if (glBlendEquationEXT) { glBlendEquationEXT(GL_FUNC_SUBTRACT); }
 				glEnable(GL_BLEND);
 				break;
 
 			case BlendModes::Lighten:
 				glBlendFunc(GL_ONE, GL_ONE);
-				glBlendEquationEXT(GL_MAX);
+				if (glBlendEquationEXT) { glBlendEquationEXT(GL_MAX); }
 				glEnable(GL_BLEND);
 				break;
 
@@ -403,7 +409,7 @@ namespace bon
 		/**
 		 * Draw a textured quad.
 		 */
-		void GfxOpenGL::DrawTexture(const SDL_Rect* destRect, const SDL_Rect* sourceRect, SDL_Texture* texture, const Color& color, int textW, int textH, BlendModes blend, int flip, bool useTexture, bool useVertexColor, bool flipTextureCoordsV)
+		void GfxOpenGL::DrawTexture(const PointF& position, const PointI& size, const framework::RectangleI* sourceRect, SDL_Texture* texture, const Color& color, int textW, int textH, BlendModes blend, bool useTexture, bool useVertexColor, bool flipTextureCoordsV, const framework::PointF& anchor, float rotate)
 		{
 			// bind texture
 			if (useTexture)
@@ -418,27 +424,26 @@ namespace bon
 			GLfloat minx, miny, maxx, maxy;
 			GLfloat minu, maxu, minv, maxv;
 
-			// coords
-			const framework::PointI& rnderableSize = bon::_GetEngine().Gfx().RenderableSize();
-			minx = (GLfloat)destRect->x;
-			miny = (GLfloat)destRect->y;
-			maxx = (GLfloat)(destRect->x + destRect->w);
-			maxy = (GLfloat)(destRect->y + destRect->h);
+			// calc coords
+			minx = (GLfloat)position.X;
+			miny = (GLfloat)position.Y;
+			maxx = (GLfloat)(position.X + abs(size.X));
+			maxy = (GLfloat)(position.Y + abs(size.Y));
 
 			// uvs
 			if (sourceRect != nullptr)
 			{
-				minu = (GLfloat)sourceRect->x / textW;
-				maxu = (GLfloat)(sourceRect->x + sourceRect->w) / textW;
+				minu = (GLfloat)sourceRect->X / textW;
+				maxu = (GLfloat)(sourceRect->X + sourceRect->Width) / textW;
 				if (flipTextureCoordsV)
 				{
-					minv = (GLfloat)(sourceRect->y + sourceRect->h) / textH;
-					maxv = (GLfloat)sourceRect->y / textH;
+					minv = (GLfloat)(sourceRect->Y + sourceRect->Height) / textH;
+					maxv = (GLfloat)sourceRect->Y / textH;
 				}
 				else
 				{
-					minv = (GLfloat)sourceRect->y / textH;
-					maxv = (GLfloat)(sourceRect->y + sourceRect->h) / textH;
+					minv = (GLfloat)sourceRect->Y / textH;
+					maxv = (GLfloat)(sourceRect->Y + sourceRect->Height) / textH;
 				}
 			}
 			else
@@ -458,31 +463,46 @@ namespace bon
 			}
 
 			// do flips
-			if ((flip & SDL_FLIP_VERTICAL) != 0)
+			if (size.X < 0)
 			{
 				float temp = minv;
 				minv = maxv;
 				maxv = temp;
 			}
-			if ((flip & SDL_FLIP_HORIZONTAL) != 0)
+			if (size.Y < 0)
 			{
 				float temp = minu;
 				minu = maxu;
 				maxu = temp;
 			}
 
+			// do rotation
+			if (rotate != 0)
+			{
+				glPushMatrix();
+				glTranslatef(minx , miny , 0);
+				glRotatef(rotate, 0, 0, 1);
+				glTranslatef(-minx , -miny , 0);
+			}
+
+			// apply anchor
+			if (anchor.X != 0 || anchor.Y != 0)
+			{
+				float anchorX = anchor.X * abs(size.X);
+				float anchorY = anchor.Y * abs(size.Y);
+				minx -= anchorX;
+				miny -= anchorY;
+				maxx -= anchorX;
+				maxy -= anchorY;
+			}
+
 			// start drawing quad
-			glBegin(GL_TRIANGLE_STRIP);
+			glBegin(GL_QUADS);
 
 			// top-left
 			if (useTexture) glTexCoord2f(minu, minv);
 			if (useVertexColor) glColor4f(color.R, color.G, color.B, color.A);
 			glVertex2f(minx, miny);
-
-			// top-right
-			if (useTexture) glTexCoord2f(maxu, minv);
-			if (useVertexColor) glColor4f(color.R, color.G, color.B, color.A);
-			glVertex2f(maxx, miny);
 
 			// bottom-left
 			if (useTexture) glTexCoord2f(minu, maxv);
@@ -493,9 +513,90 @@ namespace bon
 			if (useTexture) glTexCoord2f(maxu, maxv);
 			if (useVertexColor) glColor4f(color.R, color.G, color.B, color.A);
 			glVertex2f(maxx, maxy);
+			
+			// top-right
+			if (useTexture) glTexCoord2f(maxu, minv);
+			if (useVertexColor) glColor4f(color.R, color.G, color.B, color.A);
+			glVertex2f(maxx, miny);
 
 			// finish drawing quad
 			glEnd();
+
+			// pop rotation
+			if (rotate != 0)
+			{
+				glPopMatrix();
+			}
+		}
+
+		/**
+		* Draw the vertices of a quad with rotation and anchor.
+		*/
+		void GfxOpenGL::DrawQuad(const framework::PointF& position, const framework::PointI& size, const framework::Color& color, const framework::PointF& anchor, float rotate, bool filled)
+		{
+			// set coords and uvs
+			GLfloat minx, miny, maxx, maxy;
+
+			// calc coords
+			minx = (GLfloat)position.X;
+			miny = (GLfloat)position.Y;
+			maxx = (GLfloat)(position.X + abs(size.X));
+			maxy = (GLfloat)(position.Y + abs(size.Y));
+
+			// do rotation
+			if (rotate != 0)
+			{
+				glPushMatrix();
+				glTranslatef(minx, miny, 0);
+				glRotatef(rotate, 0, 0, 1);
+				glTranslatef(-minx, -miny, 0);
+			}
+
+			// apply anchor
+			if (anchor.X != 0 || anchor.Y != 0)
+			{
+				float anchorX = anchor.X * abs(size.X);
+				float anchorY = anchor.Y * abs(size.Y);
+				minx -= anchorX;
+				miny -= anchorY;
+				maxx -= anchorX;
+				maxy -= anchorY;
+			}
+
+			// start drawing quad
+			glBegin(filled ? GL_QUADS : GL_LINE_STRIP);
+
+			// top-left
+			glColor4f(color.R, color.G, color.B, color.A);
+			glVertex2f(minx, miny);
+
+			// bottom-left
+			glColor4f(color.R, color.G, color.B, color.A);
+			glVertex2f(minx, maxy);
+
+			// bottom-right
+			glColor4f(color.R, color.G, color.B, color.A);
+			glVertex2f(maxx, maxy);
+
+			// top-right
+			glColor4f(color.R, color.G, color.B, color.A);
+			glVertex2f(maxx, miny);
+			
+			// push closing vertex for last line
+			if (!filled)
+			{
+				glColor4f(color.R, color.G, color.B, color.A);
+				glVertex2f(minx, miny);
+			}
+
+			// finish drawing quad
+			glEnd();
+
+			// pop rotation
+			if (rotate != 0)
+			{
+				glPopMatrix();
+			}
 		}
 
 		/**

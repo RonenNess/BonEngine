@@ -1443,6 +1443,7 @@ First stable release.
 - Added method to render polygons.
 - Changed default flags to prefer OpenGL by default.
 - Changed default flags to enable effects by default.
+- Added rotation and origin to rectangles.
 
 ## In Memory Of Bonnie
 

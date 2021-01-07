@@ -136,3 +136,11 @@ namespace demo17_effects
 {
 	void main();
 }
+
+/**
+ * Demo 18 - rotation.
+ */
+namespace demo18_rotation
+{
+	void main();
+}
