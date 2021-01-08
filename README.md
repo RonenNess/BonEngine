@@ -1443,6 +1443,14 @@ First stable release.
 - Added method to render polygons.
 - Added rotation and origin to rectangles.
 
+# 1.5.1
+
+**[09/01/2021]**
+
+- Fixed text rotation.
+- Fixed default size when no source rect or size provided.
+- Added texts demo to examples.
+
 ## In Memory Of Bonnie
 
 `BonEngine` is named after my deceased dog, Bonnie.

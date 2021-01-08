@@ -144,3 +144,11 @@ namespace demo18_rotation
 {
 	void main();
 }
+
+/**
+ * Demo 19 - texts.
+ */
+namespace demo19_texts
+{
+	void main();
+}

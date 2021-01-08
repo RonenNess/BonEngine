@@ -79,7 +79,10 @@
       <Filter>Source Files\Demos</Filter>
     </ClCompile>
     <ClCompile Include="demos\demo18_rotation.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Demos</Filter>
+    </ClCompile>
+    <ClCompile Include="demos\demo19_texts.cpp">
+      <Filter>Source Files\Demos</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

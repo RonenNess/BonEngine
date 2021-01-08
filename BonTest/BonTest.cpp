@@ -19,12 +19,13 @@ int main()
 	std::cout << " 10: Drawing shapes\n";
 	std::cout << " 11: Custom managers / collision\n";
 	std::cout << " 12: Layered scenes\n";
-	std::cout << " 13: Small game demo - a walk in the forest\n";
+	std::cout << " 13: A walk in the forest\n";
 	std::cout << " 14: Switching scenes demo\n";
 	std::cout << " 15: Performance test\n";
 	std::cout << " 16: UI demo\n";
 	std::cout << " 17: Effects demo (light scene)\n";
 	std::cout << " 18: Rotation & Origin\n";
+	std::cout << " 19: Texts\n";
 	std::cout << "Your choice: ";
 
 	int demoNumber = -1;
@@ -107,6 +108,10 @@ int main()
 
 		case 18:
 			demo18_rotation::main();
+			break;
+
+		case 19:
+			demo19_texts::main();
 			break;
 
 		default:

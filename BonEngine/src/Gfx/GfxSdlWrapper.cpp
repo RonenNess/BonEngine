@@ -956,6 +956,23 @@ namespace bon
 			}
 		}
 
+		// get default size or default if 0,0
+		const PointI& SizeOrDefault(const PointI& size, const RectangleI* sourceRect, const ImageAsset& sourceImage)
+		{
+			// calc size with defaults
+			static PointI altSize;
+			const PointI* sizeToUse = &size;
+			if (size.X == 0 || size.Y == 0)
+			{
+				sizeToUse = &altSize;
+				if (size.X == 0) altSize.X = (sourceRect && sourceRect->Width != 0) ? sourceRect->Width : sourceImage->Width();
+				else altSize.X = size.X;
+				if (size.Y == 0) altSize.Y = (sourceRect && sourceRect->Height != 0) ? sourceRect->Height : sourceImage->Height();
+				else altSize.Y = size.Y;
+			}
+			return *sizeToUse;
+		}
+
 		// draw image on screen
 		void GfxSdlWrapper::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI& size, BlendModes blend, const RectangleI* sourceRect, const PointF& origin, float rotation, Color color)
 		{
@@ -966,34 +983,16 @@ namespace bon
 
 			// get texture
 			SDL_Texture* texture = (SDL_Texture*)handle->Texture;
-
-			// calc size with defaults
-			static PointI altSize;
-			const PointI* sizeToUse = &size;
-			if (size.X == 0 || size.Y == 0) 
-			{
-				sizeToUse = &altSize;
-				if (size.X == 0) altSize.X = (sourceRect && sourceRect->Width != 0) ? sourceRect->Width : sourceImage->Width();
-				else altSize.X = size.X;
-				if (size.Y == 0) altSize.Y = (sourceRect && sourceRect->Height != 0) ? sourceRect->Height : sourceImage->Height();
-				else altSize.Y = size.Y;
-			}
 			
 			// draw texture
-			GfxOpenGL::DrawTexture(position, *sizeToUse, sourceRect, texture, color, handle->Width(), handle->Height(), blend, _currentEffect->UseTexture(), _currentEffect->UseVertexColor(), _currentEffect->FlipTextureCoordsV(), origin, rotation);
+			const PointI& sizeOrDefault = SizeOrDefault(size, sourceRect, sourceImage);
+			GfxOpenGL::DrawTexture(position, sizeOrDefault, sourceRect, texture, color, handle->Width(), handle->Height(), blend, _currentEffect->UseTexture(), _currentEffect->UseVertexColor(), _currentEffect->FlipTextureCoordsV(), origin, rotation);
 		}
 
 		// draw image on screen
 		void GfxSdlWrapper::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI& size, BlendModes blend)
 		{
 			UseDefaultTexturesEffect(true);
-
-			// calculate destination rect
-			static SDL_Rect dest;
-			dest.x = (int)floor(position.X);
-			dest.y = (int)floor(position.Y);
-			dest.w = (int)floor(size.X ? size.X : sourceImage->Width());
-			dest.h = (int)floor(size.Y ? size.Y : sourceImage->Height());
 
 			// get image handle
 			SDL_ImageHandle* handle = (SDL_ImageHandle*)sourceImage->Handle();
@@ -1003,7 +1002,8 @@ namespace bon
 
 			// draw with effect
 			static Color color(1, 1, 1, 1);
-			GfxOpenGL::DrawTexture(position, size, nullptr, texture, color, handle->Width(), handle->Height(), blend, _currentEffect->UseTexture(), _currentEffect->UseVertexColor(), _currentEffect->FlipTextureCoordsV(), PointF::Zero, 0);
+			const PointI& sizeOrDefault = SizeOrDefault(size, nullptr, sourceImage);
+			GfxOpenGL::DrawTexture(position, sizeOrDefault, nullptr, texture, color, handle->Width(), handle->Height(), blend, _currentEffect->UseTexture(), _currentEffect->UseVertexColor(), _currentEffect->FlipTextureCoordsV(), PointF::Zero, 0);
 		}
 	}
 }

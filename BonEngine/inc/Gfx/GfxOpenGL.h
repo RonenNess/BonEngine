@@ -68,12 +68,12 @@ namespace bon
 			/**
 			 * Draw a textured quad.
 			 */
-			static void DrawTexture(const framework::PointF& position, const framework::PointI& size, const framework::RectangleI* sourceRect, SDL_Texture* texture, const framework::Color& color, int textW, int textH, BlendModes blend, bool useTexture, bool useVertexColor, bool flipTextureCoordsV, const framework::PointF& anchor, float rotate);
+			static void DrawTexture(const framework::PointF& position, const framework::PointI& size, const framework::RectangleI* sourceRect, SDL_Texture* texture, const framework::Color& color, int textW, int textH, BlendModes blend, bool useTexture, bool useVertexColor, bool flipTextureCoordsV, const framework::PointF& origin, float rotate);
 			
 			/**
 			 * Draw the vertices of a quad with rotation and anchor.
 			 */
-			static void DrawQuad(const framework::PointF& position, const framework::PointI& size, const framework::Color& color, const framework::PointF& anchor, float rotate, bool filled);
+			static void DrawQuad(const framework::PointF& position, const framework::PointI& size, const framework::Color& color, const framework::PointF& origin, float rotate, bool filled);
 
 			/**
 			 * Set current shader program.

@@ -409,7 +409,7 @@ namespace bon
 		/**
 		 * Draw a textured quad.
 		 */
-		void GfxOpenGL::DrawTexture(const PointF& position, const PointI& size, const framework::RectangleI* sourceRect, SDL_Texture* texture, const Color& color, int textW, int textH, BlendModes blend, bool useTexture, bool useVertexColor, bool flipTextureCoordsV, const framework::PointF& anchor, float rotate)
+		void GfxOpenGL::DrawTexture(const PointF& position, const PointI& size, const framework::RectangleI* sourceRect, SDL_Texture* texture, const Color& color, int textW, int textH, BlendModes blend, bool useTexture, bool useVertexColor, bool flipTextureCoordsV, const framework::PointF& origin, float rotate)
 		{
 			// bind texture
 			if (useTexture)
@@ -491,10 +491,10 @@ namespace bon
 			}
 
 			// apply anchor
-			if (anchor.X != 0 || anchor.Y != 0)
+			if (origin.X != 0 || origin.Y != 0)
 			{
-				float anchorX = anchor.X * abs(size.X);
-				float anchorY = anchor.Y * abs(size.Y);
+				float anchorX = origin.X * abs(size.X);
+				float anchorY = origin.Y * abs(size.Y);
 				minx -= anchorX;
 				miny -= anchorY;
 				maxx -= anchorX;
@@ -537,7 +537,7 @@ namespace bon
 		/**
 		* Draw the vertices of a quad with rotation and anchor.
 		*/
-		void GfxOpenGL::DrawQuad(const framework::PointF& position, const framework::PointI& size, const framework::Color& color, const framework::PointF& anchor, float rotate, bool filled)
+		void GfxOpenGL::DrawQuad(const framework::PointF& position, const framework::PointI& size, const framework::Color& color, const framework::PointF& origin, float rotate, bool filled)
 		{
 			// set coords and uvs
 			GLfloat minx, miny, maxx, maxy;
@@ -558,10 +558,10 @@ namespace bon
 			}
 
 			// apply anchor
-			if (anchor.X != 0 || anchor.Y != 0)
+			if (origin.X != 0 || origin.Y != 0)
 			{
-				float anchorX = anchor.X * abs(size.X);
-				float anchorY = anchor.Y * abs(size.Y);
+				float anchorX = origin.X * abs(size.X);
+				float anchorY = origin.Y * abs(size.Y);
 				minx -= anchorX;
 				miny -= anchorY;
 				maxx -= anchorX;

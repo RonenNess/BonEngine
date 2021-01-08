@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="demos\demo19_texts.cpp" />
     <ClCompile Include="demos\demo10_shapes.cpp" />
     <ClCompile Include="demos\demo11_custom_manager.cpp" />
     <ClCompile Include="demos\demo12_layered_scenes.cpp" />
