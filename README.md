@@ -1433,7 +1433,7 @@ First stable release.
 
 # 1.5.0
 
-**[WIP]**
+**[08/01/2021]**
 
 - Huge refactor that now the engine works only on OpenGL with custom default effect without using SDL default. This solves a lot of issues when trying to mix custom shaders with SDL default rendering pipeline.
 - Added new blend modes.
@@ -1441,8 +1441,6 @@ First stable release.
 - Setting channel volume to 0 used to call StopChannel(). Changed this behavior as setting sound volume to 0 is not the same as stopping it and have different use cases.
 - Refactored GFX effects wrapper and split into OpenGL wrapper and Effects wrapper.
 - Added method to render polygons.
-- Changed default flags to prefer OpenGL by default.
-- Changed default flags to enable effects by default.
 - Added rotation and origin to rectangles.
 
 ## In Memory Of Bonnie
