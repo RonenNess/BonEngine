@@ -118,7 +118,7 @@ namespace bon
 		protected:
 
 			// is the dropdown currently opened / visible
-			bool _isOpened;
+			bool _isOpened = false;
 
 			/**
 			 * Implement just the updating of this element

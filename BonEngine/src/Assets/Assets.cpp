@@ -178,6 +178,12 @@ namespace bon
 			return AssetsLoaderCode::LoadAssetT<_Effect>(this, filename, filename, useCache);
 		}
 
+		// create an effect asset from handle instance
+		EffectAsset Assets::CreateEffectFromHandle(_EffectHandle* handle)
+		{
+			return EffectAsset(new _Effect(handle));
+		}
+
 		// create empty image asset
 		ImageAsset Assets::CreateEmptyImage(const framework::PointI& size, ImageFilterMode filter)
 		{

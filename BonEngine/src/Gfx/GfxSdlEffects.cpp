@@ -17,8 +17,6 @@
 #include <SDL2_ttf-2.0.15/include/SDL_ttf.h>
 #pragma warning(pop)
 
-namespace fs = std::filesystem;
-
 // default vertex shader
 const char* _defaultVertexShader = "								\
 varying vec4 v_color;												\n\
@@ -79,7 +77,7 @@ namespace bon
 			// fragment / vertex shaders full path
 			std::string _fragmentPath;
 			std::string _vertexPath;
-			
+
 			// effect params
 			bool _isValid;
 			bool _useTextures;
@@ -87,23 +85,28 @@ namespace bon
 			bool _flipCoordsV;
 
 			// cache uniforms
-			unordered_map<std::string, GLint> _uniformAddress;
+			std::unordered_map<std::string, GLint> _uniformAddress;
 
 		public:
-			
+
+			/**
+			 * Get this effect's program handle.
+			 */
+			virtual void* GetProgramHandle() const override { return (void*)&_programId; }
+
 			/**
 			 * Constructor.
 			 */
-			SDL_EffectHandle(const ConfigAsset& config) : _isValid(false)
+			SDL_EffectHandle(const bon::assets::ConfigAsset& config) : _isValid(false)
 			{
 				// read basic properties
 				_useTextures = config->GetBool("general", "texture", true);
 				_useVertexColor = config->GetBool("general", "vertex_color", true);
 
 				// get shader paths
-				auto effectFolder = fs::path(config->Path()).parent_path().u8string();
-				_vertexPath = fs::path(effectFolder).append(config->GetStr("shaders", "vertex", "shader.vertex")).u8string();
-				_fragmentPath = fs::path(effectFolder).append(config->GetStr("shaders", "fragment", "shader.fragment")).u8string();
+				auto effectFolder = std::filesystem::path(config->Path()).parent_path().u8string();
+				_vertexPath = std::filesystem::path(effectFolder).append(config->GetStr("shaders", "vertex", "shader.vertex")).u8string();
+				_fragmentPath = std::filesystem::path(effectFolder).append(config->GetStr("shaders", "fragment", "shader.fragment")).u8string();
 				BON_DLOG("Load effect '%s' shaders. Fragment: %s, Vertex: %s.", config->Path(), _fragmentPath.c_str(), _vertexPath.c_str());
 				_programId = GfxOpenGL::CompileProgramFromFiles(_vertexPath.c_str(), _fragmentPath.c_str());
 				BON_DLOG("Created effect program with id: %d", _programId);
@@ -255,7 +258,7 @@ namespace bon
 
 			/**
 			 * Get the path of the fragment shader file.
-			 * 
+			 *
 			 * \return Fragment shader file path.
 			 */
 			virtual const char* FragmentShaderPath() const override { return _fragmentPath.c_str(); }
@@ -296,15 +299,6 @@ namespace bon
 			virtual bool UseVertexColor() const override { return _useVertexColor; }
 		};
 
-		// default effect
-		SDL_EffectHandle* _defaultEffect = nullptr;
-
-		// default effect for drawing shapes
-		SDL_EffectHandle* _defaultEffectShapes = nullptr;
-
-		// currently active effect
-		SDL_EffectHandle* _currentEffect = nullptr;
-
 		// effects loader we set in the assets manager during initialize
 		void EffectsLoader(bon::assets::IAsset* asset, void* context, void* extraData = nullptr)
 		{
@@ -338,130 +332,18 @@ namespace bon
 				// init extensions
 				GfxOpenGL::InitGLExtensions(renderer);
 			}
-
-			// init default effect
-			if (_defaultEffect) { delete _defaultEffect; }
-			_defaultEffect = new SDL_EffectHandle(true, true, false, _defaultVertexShader, _defaultFragmentShader);
-
-			// init default shapes effect
-			if (_defaultEffectShapes) { delete _defaultEffectShapes; }
-			_defaultEffectShapes = new SDL_EffectHandle(false, false, false, _defaultVertexShaderShapes, _defaultFragmentShaderShapes);
-
-			// use default effect
-			RestoreDefaultEffect();
-
-			// update renderer
-			UpdateRenderer(renderer);
 		}
 
-		// update after renderer change
-		void GfxSdlEffects::UpdateRenderer(SDL_Renderer* renderer)
+		// Load and return default shader.
+		EffectAsset GfxSdlEffects::LoadDefaultProgram()
 		{
-			// store renderer and reset default program id
-			_renderer = renderer;
+			return bon::_GetEngine().Assets().CreateEffectFromHandle(new SDL_EffectHandle(true, true, false, _defaultVertexShader, _defaultFragmentShader));
 		}
 
-		// last used rotation
-		float lastRotation = (float)-9999999999999;
-		PointF lastAnchor = PointF((float)-9999999999, (float)-9999999999);
-		
-		// set active effect
-		void GfxSdlEffects::UseEffect(const assets::EffectAsset& effect)
+		// Load and return default shader for drawing shapes.
+		EffectAsset GfxSdlEffects::LoadDefaultShapesProgram()
 		{
-			// remove effect
-			if (effect == nullptr)
-			{
-				RestoreDefaultEffect();
-				return;
-			}
-
-			// set effect
-			SetCurrentEffectFromHandle(effect->Handle());
-		}
-		
-		// use default shapes effect
-		void GfxSdlEffects::UseDefaultShapesEffect(bool onlyIfDefault)
-		{
-			if (onlyIfDefault)
-			{
-				if (_currentEffect == _defaultEffect) { SetCurrentEffectFromHandle(_defaultEffectShapes); }
-			}
-			else
-			{
-				SetCurrentEffectFromHandle(_defaultEffectShapes);
-			}
-		}
-
-		// set shapes drawing color.
-		void GfxSdlEffects::SetShapesColor(const framework::Color& color)
-		{
-			//SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
-			_defaultEffectShapes->SetUniformVector4("shape_color", color.R, color.G, color.B, color.A);
-		}
-
-		// use default textures effect
-		void GfxSdlEffects::UseDefaultTexturesEffect(bool onlyIfDefault)
-		{
-			if (onlyIfDefault)
-			{
-				if (_currentEffect == _defaultEffectShapes) { SetCurrentEffectFromHandle(_defaultEffect); }
-			}
-			else
-			{
-				SetCurrentEffectFromHandle(_defaultEffect);
-			}
-		}
-
-		// restore default SDL shaders
-		void GfxSdlEffects::RestoreDefaultEffect()
-		{
-			// set default program
-			_currentEffect = nullptr;
-			SetCurrentEffectFromHandle(_defaultEffect);
-		}
-
-		// get current effect handle.
-		void* GfxSdlEffects::GetCurrentEffectHandle()
-		{
-			return (_EffectHandle*)_currentEffect;
-		}
-
-		// set current effect from handle.
-		void GfxSdlEffects::SetCurrentEffectFromHandle(void* handle)
-		{
-			SDL_EffectHandle* effect = (SDL_EffectHandle*)handle;
-			if (effect != _currentEffect)
-			{
-				lastRotation = (float)-9999999999999;
-				lastAnchor.Set((float)-9999999999, (float)-9999999999);
-				GfxOpenGL::SetShaderProgram(effect->_GetProgram());
-				_currentEffect = effect;
-			}
-		}
-
-		// called on drawing frame end
-		void GfxSdlEffects::OnFrameStart()
-		{
-			RestoreDefaultEffect();
-		}
-
-		// set opengl blend mode
-		void GfxSdlEffects::SetBlendMode(BlendModes blend)
-		{
-			GfxOpenGL::SetBlendMode(blend);
-		}
-
-		// draw a polygon
-		void GfxSdlEffects::DrawPolygon(const PointI& a, const PointI& b, const PointI& c, const Color& color, BlendModes blend)
-		{
-			GfxOpenGL::DrawPolygon(a, b, c, color, blend);
-		}
-
-		// draw texture with effect on screen
-		void GfxSdlEffects::DrawTexture(const PointF& position, const PointI& size, const framework::RectangleI* sourceRect, SDL_Texture* texture, const Color& color, int textW, int textH, BlendModes blend, const framework::PointF& anchor, float rotate)
-		{
-			// draw texture
-			GfxOpenGL::DrawTexture(position, size, sourceRect, texture, color, textW, textH, blend, _currentEffect->UseTexture(), _currentEffect->UseVertexColor(), _currentEffect->FlipTextureCoordsV(), anchor, rotate);
+			return bon::_GetEngine().Assets().CreateEffectFromHandle(new SDL_EffectHandle(false, false, false, _defaultVertexShaderShapes, _defaultFragmentShaderShapes));
 		}
 	}
 }

@@ -342,6 +342,12 @@ namespace bon
 
 		// cache for drawing texts
 		FontsTextureCache fontsTextureCache;
+		
+		// default effect
+		EffectAsset _defaultEffect = nullptr;
+
+		// default effect for drawing shapes
+		EffectAsset _defaultEffectShapes = nullptr;
 
 		// initialize graphics
 		void GfxSdlWrapper::Initialize()
@@ -401,10 +407,9 @@ namespace bon
 		void GfxSdlWrapper::DrawLine(const PointI& from, const PointI& to, const Color& color, BlendModes blendMode)
 		{
 			// set effect and drawing color
-			_effectsImpl.UseDefaultShapesEffect(true);
-			_effectsImpl.SetBlendMode(blendMode);
-			_effectsImpl.SetShapesColor(color);
-
+			UseDefaultShapesEffect(true);
+			GfxOpenGL::SetBlendMode(blendMode);
+			SetShapesColor(color);
 			SDL_RenderDrawLine(_renderer, from.X, from.Y, to.X, to.Y);
 		}
 
@@ -412,20 +417,18 @@ namespace bon
 		void GfxSdlWrapper::DrawPixel(const PointI& position, const Color& color, BlendModes blendMode)
 		{
 			// set effect and drawing color
-			_effectsImpl.UseDefaultShapesEffect(true);
-			_effectsImpl.SetBlendMode(blendMode);
-			_effectsImpl.SetShapesColor(color);
-
+			UseDefaultShapesEffect(true);
+			GfxOpenGL::SetBlendMode(blendMode);
+			SetShapesColor(color);
 			SDL_RenderDrawPoint(_renderer, position.X, position.Y);
 		}
 
 		// draw a rectangle
 		void GfxSdlWrapper::DrawRectangle(const RectangleI& rect, const Color& color, bool filled, BlendModes blendMode, const PointF& origin, float rotation)
 		{
-			_effectsImpl.UseDefaultShapesEffect(true);
-			_effectsImpl.SetBlendMode(blendMode);
-			_effectsImpl.SetShapesColor(color);
-
+			UseDefaultShapesEffect(true);
+			GfxOpenGL::SetBlendMode(blendMode);
+			SetShapesColor(color);
 			GfxOpenGL::DrawQuad(PointF((float)rect.X, (float)rect.Y), PointI(rect.Width, rect.Height), color, origin, rotation, filled);
 		}
 
@@ -433,9 +436,9 @@ namespace bon
 		void GfxSdlWrapper::DrawCircleLines(const PointI& center, int radius, const Color& color, BlendModes blend)
 		{
 			// set effect and drawing color
-			_effectsImpl.UseDefaultShapesEffect(true);
-			_effectsImpl.SetBlendMode(blend);
-			_effectsImpl.SetShapesColor(color);
+			UseDefaultShapesEffect(true);
+			GfxOpenGL::SetBlendMode(blend);
+			SetShapesColor(color);
 
 			// if the first pixel in the screen is represented by (0,0) (which is in sdl)
 			// remember that the beginning of the circle is not in the middle of the pixel
@@ -487,9 +490,9 @@ namespace bon
 		void GfxSdlWrapper::DrawCircleFill(const PointI& center, int radius, const Color& color, BlendModes blend)
 		{
 			// set effect and drawing color
-			_effectsImpl.UseDefaultShapesEffect(true);
-			_effectsImpl.SetBlendMode(blend);
-			_effectsImpl.SetShapesColor(color);
+			UseDefaultShapesEffect(true);
+			GfxOpenGL::SetBlendMode(blend);
+			SetShapesColor(color);
 
 			// Note that there is more to altering the bitrate of this 
 			// method than just changing this value.  See how pixels are
@@ -519,10 +522,10 @@ namespace bon
 		// draw a polygon
 		void GfxSdlWrapper::DrawPolygon(const PointI& a, const PointI& b, const PointI& c, const Color& color, BlendModes blend)
 		{
-			_effectsImpl.UseDefaultShapesEffect(true);
-			_effectsImpl.SetBlendMode(blend);
-			_effectsImpl.SetShapesColor(color);
-			_effectsImpl.DrawPolygon(a, b, c, color, blend);
+			UseDefaultShapesEffect(true);
+			GfxOpenGL::SetBlendMode(blend);
+			SetShapesColor(color);
+			GfxOpenGL::DrawPolygon(a, b, c, color, blend);
 		}
 
 		// clear screen or parts of it
@@ -544,9 +547,9 @@ namespace bon
 			SDL_GetTextureBlendMode(texture, &prevBlend);
 
 			// set drawing color
-			_effectsImpl.UseDefaultShapesEffect(true);
-			_effectsImpl.SetBlendMode(BlendModes::Opaque);
-			_effectsImpl.SetShapesColor(bon::framework::Color::Black);
+			UseDefaultShapesEffect(true);
+			GfxOpenGL::SetBlendMode(BlendModes::Opaque);
+			SetShapesColor(bon::framework::Color::Black);
 			SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 
 			// make render draw to tex
@@ -660,16 +663,97 @@ namespace bon
 
 			// init effects manager
 			_effectsImpl.Initialize(_renderer);
+
+			// init default effect
+			_defaultEffect = _effectsImpl.LoadDefaultProgram();
+
+			// init default shapes effect
+			_defaultEffectShapes = _effectsImpl.LoadDefaultShapesProgram();
+
+			// use default effect
+			RestoreDefaultEffect();
 		}
 
 		// set currently active effect, or null to remove effects.
 		void GfxSdlWrapper::SetEffect(const assets::EffectAsset& effect)
 		{
-			// apply effect
-			_effectsImpl.UseEffect(effect);
-			_currentEffect = effect;
+			if (effect == nullptr)
+			{
+				SetCurrentEffectFromAsset(_defaultEffect);
+			}
+			else
+			{
+				SetCurrentEffectFromAsset(effect);
+			}
+		}
+
+		// last used rotation
+		float lastRotation = (float)-9999999999999;
+		PointF lastAnchor = PointF((float)-9999999999, (float)-9999999999);
+
+		// use default shapes effect
+		void GfxSdlWrapper::UseDefaultShapesEffect(bool onlyIfDefault)
+		{
+			if (onlyIfDefault)
+			{
+				if (_currentEffect == _defaultEffect) { SetCurrentEffectFromAsset(_defaultEffectShapes); }
+			}
+			else
+			{
+				SetCurrentEffectFromAsset(_defaultEffectShapes);
+			}
+		}
+
+		// set shapes drawing color.
+		void GfxSdlWrapper::SetShapesColor(const framework::Color& color)
+		{
+			//SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
+			_defaultEffectShapes->SetUniformVector4("shape_color", color.R, color.G, color.B, color.A);
+		}
+
+		// use default textures effect
+		void GfxSdlWrapper::UseDefaultTexturesEffect(bool onlyIfDefault)
+		{
+			if (onlyIfDefault)
+			{
+				if (_currentEffect == _defaultEffectShapes) { SetCurrentEffectFromAsset(_defaultEffect); }
+			}
+			else
+			{
+				SetCurrentEffectFromAsset(_defaultEffect);
+			}
+		}
+
+		// restore default SDL shaders
+		void GfxSdlWrapper::RestoreDefaultEffect()
+		{
+			// set default program
+			SetCurrentEffectFromAsset(_defaultEffect);
+		}
+
+		// get current effect handle.
+		void* GfxSdlWrapper::GetCurrentEffectHandle()
+		{
+			return _currentEffect->Handle();
+		}
+
+		// set current effect from handle.
+		void GfxSdlWrapper::SetCurrentEffectFromAsset(const EffectAsset& effect)
+		{
+			// if effect is null, set default
 			if (effect == nullptr) 
 			{
+				throw bon::InvalidValue("Can't send nullptr effect asset!");
+			}
+
+			// change effect
+			if (effect != _currentEffect)
+			{
+				lastRotation = (float)-9999999999999;
+				lastAnchor.Set((float)-9999999999, (float)-9999999999);
+				GLuint program = *((GLuint*)effect->Handle()->GetProgramHandle());
+				GfxOpenGL::SetShaderProgram(program);
+				_currentEffect = effect;
 				RestoreDefaultStates();
 			}
 		}
@@ -677,8 +761,8 @@ namespace bon
 		// restore default internal states
 		void GfxSdlWrapper::RestoreDefaultStates()
 		{
-			// note: work by drawing invisible pixel
-			DrawPixel(PointI(-1, -1), Color::TransparentBlack, BlendModes::Opaque);
+			GfxOpenGL::SetBlendMode(BlendModes::Opaque);
+			SDL_RenderDrawPoint(_renderer, -1, -1);
 		}
 
 		// update window / draw.
@@ -688,7 +772,7 @@ namespace bon
 			SDL_RenderPresent(_renderer);
 
 			// update effects
-			_effectsImpl.OnFrameStart();
+			RestoreDefaultEffect();
 
 			// update cache
 			fontsTextureCache.Update();
@@ -703,7 +787,7 @@ namespace bon
 		// draw text on screen
 		void GfxSdlWrapper::DrawText(const FontAsset& fontAsset, const char* text, const PointF& position, const Color& color, int fontSize, BlendModes blend, const PointF& origin, float rotation, int maxWidth, RectangleI* outDestRect, bool dryrun)
 		{
-			_effectsImpl.UseDefaultTexturesEffect(true);
+			UseDefaultTexturesEffect(true);
 
 			// wrap text as string
 			std::string asString(text);
@@ -835,7 +919,7 @@ namespace bon
 		// draw texture on screen
 		void GfxSdlWrapper::DrawTextAsTexture(SDL_Texture* texture, const PointF& position, const PointI& size, BlendModes blend, const RectangleI* sourceRect, const PointF& origin, float rotation, Color color, RectangleI* outDestRect, bool dryrun, int textW, int textH)
 		{
-			_effectsImpl.UseDefaultTexturesEffect(true);
+			UseDefaultTexturesEffect(true);
 			
 			// set out dest rect
 			if (outDestRect) 
@@ -850,7 +934,7 @@ namespace bon
 
 			// draw texture
 			if (!dryrun) {
-				_effectsImpl.DrawTexture(position, size, sourceRect, texture, color, textW, textH, blend, origin, rotation);
+				GfxOpenGL::DrawTexture(position, size, sourceRect, texture, color, textW, textH, blend, _currentEffect->UseTexture(), _currentEffect->UseVertexColor(), _currentEffect->FlipTextureCoordsV(), origin, rotation);
 			}
 		}
 
@@ -875,18 +959,13 @@ namespace bon
 		// draw image on screen
 		void GfxSdlWrapper::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI& size, BlendModes blend, const RectangleI* sourceRect, const PointF& origin, float rotation, Color color)
 		{
-			_effectsImpl.UseDefaultTexturesEffect(true);
+			UseDefaultTexturesEffect(true);
 
 			// get image handle
 			SDL_ImageHandle* handle = (SDL_ImageHandle*)sourceImage->Handle();
 
 			// get texture
 			SDL_Texture* texture = (SDL_Texture*)handle->Texture;
-
-			// calculate destination rect. first position
-			static SDL_Rect dest;
-			dest.x = (int)floor(position.X);
-			dest.y = (int)floor(position.Y);
 
 			// calc size with defaults
 			static PointI altSize;
@@ -901,13 +980,13 @@ namespace bon
 			}
 			
 			// draw texture
-			_effectsImpl.DrawTexture(position, *sizeToUse, sourceRect, texture, color, handle->Width(), handle->Height(), blend, origin, rotation);
+			GfxOpenGL::DrawTexture(position, *sizeToUse, sourceRect, texture, color, handle->Width(), handle->Height(), blend, _currentEffect->UseTexture(), _currentEffect->UseVertexColor(), _currentEffect->FlipTextureCoordsV(), origin, rotation);
 		}
 
 		// draw image on screen
 		void GfxSdlWrapper::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI& size, BlendModes blend)
 		{
-			_effectsImpl.UseDefaultTexturesEffect(true);
+			UseDefaultTexturesEffect(true);
 
 			// calculate destination rect
 			static SDL_Rect dest;
@@ -924,7 +1003,7 @@ namespace bon
 
 			// draw with effect
 			static Color color(1, 1, 1, 1);
-			_effectsImpl.DrawTexture(position, size, nullptr, texture, color, handle->Width(), handle->Height(), blend, PointF::Zero, 0);
+			GfxOpenGL::DrawTexture(position, size, nullptr, texture, color, handle->Width(), handle->Height(), blend, _currentEffect->UseTexture(), _currentEffect->UseVertexColor(), _currentEffect->FlipTextureCoordsV(), PointF::Zero, 0);
 		}
 	}
 }

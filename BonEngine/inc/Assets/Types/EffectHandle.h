@@ -117,6 +117,11 @@ namespace bon
 			 * Set a matrix uniform.
 			 */
 			virtual void SetUniformMatrix4(const char* name, int count, bool transpose, const float* values) = 0;
+
+			/**
+			 * Get this effect's program handle.
+			 */
+			virtual void* GetProgramHandle() const = 0;
 		};
 	}
 }

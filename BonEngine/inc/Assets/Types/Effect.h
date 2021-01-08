@@ -50,6 +50,13 @@ namespace bon
 			_Effect(const char* path);
 
 			/**
+			 * Create the effect from handle.
+			 * 
+			 * \param handle Effect handle.
+			 */
+			_Effect(_EffectHandle* handle) { _SetHandle(handle); }
+
+			/**
 			 * Return if this asset is properly loaded / valid.
 			 */
 			virtual bool IsValid() const override
@@ -75,6 +82,26 @@ namespace bon
 			bool UseVertexColor() const
 			{
 				return Handle()->UseVertexColor();
+			}
+
+			/**
+			 * Return if this effect flips texture coords on Y axis.
+			 *
+			 * \return True if effect flips texture.
+			 */
+			bool FlipTextureCoordsV() const
+			{
+				return Handle()->FlipTextureCoordsV();
+			}
+
+			/**
+			 * Return if this effect uses a texture.
+			 *
+			 * \return True if effect uses a texture.
+			 */
+			bool UseTexture() const
+			{
+				return Handle()->UseTexture();
 			}
 
 			/**

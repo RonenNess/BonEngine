@@ -9,13 +9,10 @@
 #pragma once
 #include <string>
 #include <Assets/Defs.h>
-#include <Framework/RectangleF.h>
-#include <Framework/Color.h>
-#include <Gfx/Defs.h>
+#include <Assets/Types/Config.h>
+#include <Assets/Types/Effect.h>
 
 struct SDL_Renderer;
-struct SDL_Texture;
-struct SDL_Rect;
 
 namespace bon
 {
@@ -34,73 +31,14 @@ namespace bon
 			void Initialize(SDL_Renderer* renderer);
 
 			/**
-			 * Get current effect handle.
+			 * Load and return default shader.
 			 */
-			void* GetCurrentEffectHandle();
+			bon::assets::EffectAsset LoadDefaultProgram();
 
 			/**
-			 * Set current effect from handle.
+			 * Load and return default shader for drawing shapes.
 			 */
-			void SetCurrentEffectFromHandle(void* handle);
-
-			/**
-			 * Called when a renderer changes.
-			 * You don't need to call this after 'Initialize()', only if you change renderer since init.
-			 */
-			void UpdateRenderer(SDL_Renderer* renderer);
-
-			/**
-			 * Start using the built-in shapes effect.
-			 */
-			void UseDefaultShapesEffect(bool onlyIfDefault);
-
-			/**
-			 * Start using the built-in textures effect.
-			 */
-			void UseDefaultTexturesEffect(bool onlyIfDefault);
-
-			/**
-			 * Start using an effect.
-			 */
-			void UseEffect(const assets::EffectAsset& effect);
-
-			/**
-			 * Set shapes drawing color.
-			 */
-			void SetShapesColor(const framework::Color& color);
-
-			/**
-			 * Stop using effects and restore the default SDL effect.
-			 */
-			void RestoreDefaultEffect();
-			
-			/**
-			 * Draw texture using currently active effect.
-			 */
-			void DrawTexture(const framework::PointF& position, const framework::PointI& size, const framework::RectangleI* sourceRect, SDL_Texture* texture, const framework::Color& color, int textW, int textH, BlendModes blend, const framework::PointF& anchor, float rotate);
-			
-			/**
-			 * Draw2 a polygon.
-			 */
-			void DrawPolygon(const framework::PointI& a, const framework::PointI& b, const framework::PointI& c, const framework::Color& color, BlendModes blend);
-
-			/**
-			 * Call this after every update frame when it starts.
-			 */
-			void OnFrameStart();
-			
-			/**
-			 * Update blend mode directly in openGL.
-			 */
-			void SetBlendMode(BlendModes blend);
-
-		private:
-
-			// active renderer
-			SDL_Renderer* _renderer = NULL;
-
-			// default program to restore to after using effect.
-			int _defaultProgram = 0;
+			bon::assets::EffectAsset LoadDefaultShapesProgram();
 		};
 	}
 }

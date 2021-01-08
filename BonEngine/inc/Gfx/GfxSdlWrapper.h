@@ -304,6 +304,36 @@ namespace bon
 			 */
 			inline int WindowHeight() const;
 
+			/**
+			 * Start using the built-in shapes effect.
+			 */
+			void UseDefaultShapesEffect(bool onlyIfDefault);
+
+			/**
+			 * Start using the built-in textures effect.
+			 */
+			void UseDefaultTexturesEffect(bool onlyIfDefault);
+
+			/**
+			 * Set shapes drawing color.
+			 */
+			void SetShapesColor(const framework::Color& color);
+
+			/**
+			 * Stop using effects and restore the default SDL effect.
+			 */
+			void RestoreDefaultEffect();
+
+			/**
+			 * Get current effect handle.
+			 */
+			void* GetCurrentEffectHandle();
+
+			/**
+			 * Set current effect from handle.
+			 */
+			void SetCurrentEffectFromAsset(const bon::assets::EffectAsset& effect);
+
 		private:
 
 			/**

@@ -31,7 +31,7 @@ namespace bon
 			ImageFilterMode _filtering = ImageFilterMode::Nearest;
 
 			// is this image loaded from file?
-			bool _fromFile;
+			bool _fromFile = false;
 
 		public:
 

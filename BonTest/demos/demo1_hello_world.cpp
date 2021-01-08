@@ -44,6 +44,8 @@ namespace demo1_hello_world
 		// drawing
 		virtual void _Draw() override
 		{
+			Gfx().UseEffect(nullptr);
+
 			// clear screen
 			Gfx().ClearScreen(bon::Color::Cornflower);
 

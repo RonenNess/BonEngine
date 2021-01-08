@@ -104,6 +104,14 @@ namespace bon
 			virtual EffectAsset LoadEffect(const char* filename, bool useCache = true) = 0;
 
 			/**
+			 * Create an effect asset from handle instance.
+			 * 
+			 * \param handle Handle instance.
+			 * \return New effect asset.
+			 */
+			virtual EffectAsset CreateEffectFromHandle(_EffectHandle* handle) = 0;
+
+			/**
 			 * Create and return an empty configuration file.
 			 *
 			 * \return Empty config asset.

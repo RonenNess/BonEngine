@@ -69,7 +69,7 @@ In this demo the origin is marked by the red dot.\n\
 \nHit escape to exit.", bon::PointF(100, 170), &bon::Color(1, 1, 0, 1), 16);
 			
 			static float rotation;
-			rotation += 0.1;
+			rotation += 0.1f;
 			int size = 120;
 
 			// draw top left rotation

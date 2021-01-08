@@ -468,13 +468,13 @@ namespace bon
 			}
 
 			// do flips
-			if (size.X < 0)
+			if (size.Y < 0)
 			{
 				float temp = minv;
 				minv = maxv;
 				maxv = temp;
 			}
-			if (size.Y < 0)
+			if (size.X < 0)
 			{
 				float temp = minu;
 				minu = maxu;
