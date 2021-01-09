@@ -133,7 +133,8 @@ namespace bon
 			 */
 			virtual ~SDLChunkHandle()
 			{
-				if (Track) {
+				if (Track) 
+				{
 					Mix_FreeChunk((Mix_Chunk*)(Track));
 				}
 			}
@@ -153,8 +154,10 @@ namespace bon
 			*/
 			virtual bool IsPlaying() const override
 			{
-				for (int i = 0; i < AudioSpec::allocatedMixChannelsCount; ++i) {
-					if (Mix_Playing(i) && Mix_GetChunk(i) == Track) {
+				for (int i = 0; i < AudioSpec::allocatedMixChannelsCount; ++i) 
+				{
+					if (Mix_Playing(i) && Mix_GetChunk(i) == Track) 
+					{
 						return true;
 					}
 				}
@@ -226,10 +229,6 @@ namespace bon
 		// actually init audio device
 		void SfxSdlWrapper::InitAudio()
 		{
-			// if was init, reset it
-			if (_wasInit) {
-			}
-
 			// initialize SDL_mixer
 			if (Mix_OpenAudio(AudioSpec::frequency, AudioSpec::format, AudioSpec::channelCount, AudioSpec::chunkSize) < 0)
 			{
@@ -249,11 +248,18 @@ namespace bon
 		}
 
 		// play music track
-		void SfxSdlWrapper::PlayMusic(MusicAsset music, int loops)
+		void SfxSdlWrapper::PlayMusic(MusicAsset music, int loops, float fadeInTime)
 		{
 			// get track and play it
 			Mix_Music* sdlmusic = (Mix_Music*)(music->Handle()->Track);
-			Mix_PlayMusic(sdlmusic, loops);
+			if (fadeInTime > 0)
+			{
+				Mix_FadeInMusic(sdlmusic, loops, (int)(fadeInTime * 1000.0f));
+			}
+			else
+			{
+				Mix_PlayMusic(sdlmusic, loops);
+			}
 		}
 
 		// set channel panning
@@ -291,13 +297,48 @@ namespace bon
 		void noEffect(int chan, void* stream, int len, void* udata)
 		{
 		}
+		
+		// stop playing a channel
+		void SfxSdlWrapper::StopChannel(SoundChannelId channel)
+		{
+			Mix_HaltChannel(channel);
+		}
+
+		// stop playing music
+		void SfxSdlWrapper::StopMusic()
+		{
+			Mix_HaltMusic();
+		}
+
+		// fade out sound channel
+		void SfxSdlWrapper::FadeOut(SoundChannelId channel, float fadeOutTime)
+		{
+			Mix_FadeOutChannel(channel, (int)(fadeOutTime * 1000.0f));
+		}
+
+		// fade out music.
+		void SfxSdlWrapper::FadeOutMusic(float fadeOutTime)
+		{
+			Mix_FadeOutMusic((int)(fadeOutTime * 1000.0f));
+		}
 
 		// start playing sound
-		SoundChannelId SfxSdlWrapper::PlaySound(assets::SoundAsset sound, int volume, int loops, float pitch)
+		SoundChannelId SfxSdlWrapper::PlaySound(assets::SoundAsset sound, int volume, int loops, float pitch, float fadeInTime)
 		{
 			// get chunk and start playing
 			Mix_Chunk* sdlchunk = (Mix_Chunk*)(sound->Handle()->Track);
-			SoundChannelId channel = Mix_PlayChannel(-1, sdlchunk, loops);
+			SoundChannelId channel;
+
+			// play sound with fade in
+			if (fadeInTime > 0)
+			{
+				channel = Mix_FadeInChannel(-1, sdlchunk, loops, (int)(fadeInTime * 1000.0f));
+			}
+			// play sound immediately
+			else
+			{
+				channel = Mix_PlayChannel(-1, sdlchunk, loops);
+			}
 			
 			// if got a valid channel to play on (we might not get a channel if all are in use), set volume and pitch
 			if (channel >= 0) {
@@ -306,11 +347,13 @@ namespace bon
 				Mix_Volume(channel, volume);
 
 				// set pitch
-				if (pitch != 1.0f) {
+				if (pitch != 1.0f) 
+				{
 					Custom_Mix_RegisterPlaybackSpeedEffect(channel, sdlchunk, pitch, loops, AudioSpec::format);
 				}
 				// disable previously set pitch
-				else {
+				else 
+				{
 					Mix_RegisterEffect(channel, NULL, NULL, NULL);
 				}
 			}
@@ -342,7 +385,8 @@ namespace bon
 			// check all channels
 			else 
 			{
-				for (int i = 0; i < AudioSpec::allocatedMixChannelsCount; ++i) {
+				for (int i = 0; i < AudioSpec::allocatedMixChannelsCount; ++i) 
+				{
 					if (IsPlaying(sound, i)) { return true; }
 				}
 			}

@@ -21,7 +21,7 @@ extern "C" {
 	/**
 	* Play a music track.
 	*/
-	BON_DLLEXPORT void BON_Sfx_PlayMusic(bon::assets::MusicAsset* music, int volume, int loops);
+	BON_DLLEXPORT void BON_Sfx_PlayMusic(bon::assets::MusicAsset* music, int volume, int loops, float fadeInTime);
 
 	/**
 	* Pause / resume currently played track.
@@ -41,17 +41,27 @@ extern "C" {
 	/**
 	* Play a sound effect.
 	*/
-	BON_DLLEXPORT int BON_Sfx_PlaySound(bon::assets::SoundAsset* sound, int volume, int loops, float pitch);
+	BON_DLLEXPORT int BON_Sfx_PlaySound(bon::assets::SoundAsset* sound, int volume, int loops, float pitch, float fadeInTime);
 
 	/**
 	* Play a sound effect.
 	*/
-	BON_DLLEXPORT int BON_Sfx_PlaySoundEx(bon::assets::SoundAsset* sound, int volume, int loops, float pitch, float panLeft, float panRight, float distance);
+	BON_DLLEXPORT int BON_Sfx_PlaySoundEx(bon::assets::SoundAsset* sound, int volume, int loops, float pitch, float panLeft, float panRight, float distance, float fadeInTime);
 
 	/**
 	* Set channel distance from listener (affect volume).
 	*/
 	BON_DLLEXPORT void BON_Sfx_SetChannelDistance(int channel, float distance);
+
+	/**
+	* Fade out channel.
+	*/
+	BON_DLLEXPORT void BON_Sfx_FadeOutChannel(int channel, float fadeOutTime);
+
+	/**
+	* Fade out music.
+	*/
+	BON_DLLEXPORT void BON_Sfx_FadeOutMusic(float fadeOutTime);
 
 	/**
 	* Set the volume of a currently playing sound channel, or stop it if volume is 0.

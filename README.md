@@ -692,15 +692,19 @@ Set music volume.
 
 Stop current music track.
 
-#### SoundChannelId PlaySound(sound, volume, loops, pitch)
+#### SoundChannelId PlaySound(sound, volume, loops, pitch, fadeIn)
 
 Plays a sound effect.
 
 Returns a `channel id`, which is an identifier you can use later to control this sound effect. If failed to play sound (usually because we ran out of mix channels), will return `InvalidSoundChannel`.
 
-#### SoundChannelId PlaySound(sound, volume, loops, pitch, panLeft, panRight, distance)
+#### SoundChannelId PlaySound(sound, volume, loops, pitch, panLeft, panRight, distance, fadeIn)
 
 Plays a sound effect with extra panning and distance params.
+
+#### void FadeOutChannel(channel, time)
+
+Fade out a channel.
 
 #### void SetChannelDistance(channel, distance) 
 
@@ -1450,6 +1454,14 @@ First stable release.
 - Fixed text rotation.
 - Fixed default size when no source rect or size provided.
 - Added texts demo to examples.
+
+# 1.5.2
+
+**[09/01/2021]**
+
+- Fixed stopping music / channels.
+- Added channels fade in and out.
+- Added music fade in and out.
 
 ## In Memory Of Bonnie
 

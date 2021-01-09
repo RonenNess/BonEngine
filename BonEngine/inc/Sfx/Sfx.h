@@ -54,8 +54,9 @@ namespace bon
 			 * \param music Music track to play.
 			 * \param volume Playing music volume (1-100 is recommanded range).
 			 * \param loops How many times to repeat the music track (-1 = endless loop).
+			 * \param fadeInTime If not 0, will fade music in over this time period (in seconds).
 			 */
-			virtual void PlayMusic(assets::MusicAsset music, int volume = 75, int loops = -1) override;
+			virtual void PlayMusic(assets::MusicAsset music, int volume = 75, int loops = -1, float fadeInTime = 0) override;
 
 			/**
 			 * Pause / resume currently played track.
@@ -67,7 +68,22 @@ namespace bon
 			/**
 			 * Stop playing music.
 			 */
-			virtual void StopMusic() override { SetMusicVolume(0); }
+			virtual void StopMusic() override;
+
+			/**
+			 * Fade out channel.
+			 *
+			 * \param channel Channel to fade out.
+			 * \param fadeOutTime Fade out time, in seconds.
+			 */
+			virtual void FadeOutChannel(SoundChannelId channel, float fadeOutTime) override;
+
+			/**
+			 * Fade out music.
+			 *
+			 * \param fadeOutTime Fade out time in seconds.
+			 */
+			virtual void FadeOutMusic(float fadeOutTime) override;
 
 			/**
 			 * Set music volume.
@@ -83,9 +99,10 @@ namespace bon
 			 * \param volume Playing sound volume (1-100 is recommanded range).
 			 * \param loops How many times to repeat the sound track (-1 = endless loop).
 			 * \param pitch Apply pitch effect on sound effect (1 = no pitch).
+			 * \param fadeInTime If not 0, will fade sound in over this time period (in seconds).
 			 * \return channel id to allow control over this sound while it plays. If fail to play sound, will return InvalidSoundChannel.
 			 */
-			virtual SoundChannelId PlaySound(assets::SoundAsset sound, int volume = 100, int loops = 0, float pitch = 1.0f) override;
+			virtual SoundChannelId PlaySound(assets::SoundAsset sound, int volume = 100, int loops = 0, float pitch = 1.0f, float fadeInTime = 0) override;
 
 			/**
 			 * Play a sound effect.
@@ -97,9 +114,10 @@ namespace bon
 			 * \param panLeft Sound pan left value (0.0 - 1.0).
 			 * \param panRight Sound pan right value (0.0 - 1.0).
 			 * \param distance Sound distance from listener - affects volume (0.0 - 1.0).
+			 * \param fadeInTime If not 0, will fade sound in over this time period (in seconds).
 			 * \return channel id to allow control over this sound while it plays.
 			 */
-			virtual SoundChannelId PlaySound(assets::SoundAsset sound, int volume, int loops, float pitch, float panLeft, float panRight, float distance) override;
+			virtual SoundChannelId PlaySound(assets::SoundAsset sound, int volume, int loops, float pitch, float panLeft, float panRight, float distance, float fadeInTime) override;
 
 			/**
 			 * Set the volume of a currently playing sound channel.
@@ -131,7 +149,7 @@ namespace bon
 			 *
 			 * \param channel Channel id to stop (or affect AllChannels for all channels).
 			 */
-			virtual void StopChannel(SoundChannelId channel) override { SetChannelVolume(channel, 0); }
+			virtual void StopChannel(SoundChannelId channel) override;
 
 			/**
 			* Test if a given sound is currently playing on a channel.

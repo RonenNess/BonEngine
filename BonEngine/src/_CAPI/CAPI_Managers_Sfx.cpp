@@ -12,9 +12,9 @@ void BON_Sfx_SetAudioProperties(int frequency, BON_AudioFormats format, bool ste
 /**
 * Play a music track.
 */
-void BON_Sfx_PlayMusic(bon::assets::MusicAsset* music, int volume, int loops)
+void BON_Sfx_PlayMusic(bon::assets::MusicAsset* music, int volume, int loops, float fadeInTime)
 {
-	return bon::_GetEngine().Sfx().PlayMusic(*music, volume, loops);
+	return bon::_GetEngine().Sfx().PlayMusic(*music, volume, loops, fadeInTime);
 }
 
 /**
@@ -44,17 +44,17 @@ void BON_Sfx_StopMusic()
 /**
 * Play a sound effect.
 */
-int BON_Sfx_PlaySound(bon::assets::SoundAsset* sound, int volume, int loops, float pitch)
+int BON_Sfx_PlaySound(bon::assets::SoundAsset* sound, int volume, int loops, float pitch, float fadeInTime)
 {
-	return bon::_GetEngine().Sfx().PlaySound(*sound, volume, loops, pitch);
+	return bon::_GetEngine().Sfx().PlaySound(*sound, volume, loops, pitch, fadeInTime);
 }
 
 /**
 * Play a sound effect.
 */
-int BON_Sfx_PlaySoundEx(bon::assets::SoundAsset* sound, int volume, int loops, float pitch, float panLeft, float panRight, float distance)
+int BON_Sfx_PlaySoundEx(bon::assets::SoundAsset* sound, int volume, int loops, float pitch, float panLeft, float panRight, float distance, float fadeInTime)
 {
-	return bon::_GetEngine().Sfx().PlaySound(*sound, volume, loops, pitch, panLeft, panRight, distance);
+	return bon::_GetEngine().Sfx().PlaySound(*sound, volume, loops, pitch, panLeft, panRight, distance, fadeInTime);
 }
 
 /**
@@ -63,6 +63,22 @@ int BON_Sfx_PlaySoundEx(bon::assets::SoundAsset* sound, int volume, int loops, f
 void BON_Sfx_SetChannelDistance(int channel, float distance)
 {
 	return bon::_GetEngine().Sfx().SetChannelDistance(channel, distance);
+}
+
+/**
+* Fade out channel.
+*/
+void BON_Sfx_FadeOutChannel(int channel, float fadeOutTime)
+{
+	bon::_GetEngine().Sfx().FadeOutChannel(channel, fadeOutTime);
+}
+
+/**
+* Fade out music.
+*/
+void BON_Sfx_FadeOutMusic(float fadeOutTime)
+{
+	bon::_GetEngine().Sfx().FadeOutMusic(fadeOutTime);
 }
 
 /**

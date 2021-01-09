@@ -41,9 +41,9 @@ namespace bon
 		}
 
 		// start playing a music track
-		void Sfx::PlayMusic(assets::MusicAsset music, int volume, int loops)
+		void Sfx::PlayMusic(assets::MusicAsset music, int volume, int loops, float fadeInTime)
 		{
-			_Implementor.PlayMusic(music, loops);
+			_Implementor.PlayMusic(music, loops, fadeInTime);
 			SetMusicVolume(volume);
 		}
 
@@ -51,6 +51,18 @@ namespace bon
 		void Sfx::PauseMusic(bool pause)
 		{
 			_Implementor.PauseMusic(pause);
+		}
+
+		// fade out channel
+		void Sfx::FadeOutChannel(SoundChannelId channel, float fadeOutTime)
+		{
+			_Implementor.FadeOut(channel, fadeOutTime);
+		}
+
+		// fade out music
+		void Sfx::FadeOutMusic(float fadeOutTime)
+		{
+			_Implementor.FadeOutMusic(fadeOutTime);
 		}
 
 		// set music volume
@@ -62,20 +74,20 @@ namespace bon
 		}
 
 		// play a sound effect
-		SoundChannelId Sfx::PlaySound(assets::SoundAsset sound, int volume, int loops, float pitch)
+		SoundChannelId Sfx::PlaySound(assets::SoundAsset sound, int volume, int loops, float pitch, float fadeInTime)
 		{
 			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::PlaySoundCalls);
 			volume = (int)((float)volume * _masterVolume);
-			SoundChannelId ret = _Implementor.PlaySound(sound, volume, loops, pitch);
+			SoundChannelId ret = _Implementor.PlaySound(sound, volume, loops, pitch, fadeInTime);
 			return ret != AllChannels ? ret : InvalidSoundChannel;
 		}
 
 		// play a sound effect
-		SoundChannelId Sfx::PlaySound(assets::SoundAsset sound, int volume, int loops, float pitch, float panLeft, float panRight, float distance)
+		SoundChannelId Sfx::PlaySound(assets::SoundAsset sound, int volume, int loops, float pitch, float panLeft, float panRight, float distance, float fadeInTime)
 		{
 			_GetEngine().Diagnostics().IncreaseCounter(DiagnosticsCounters::PlaySoundCalls);
 			volume = (int)((float)volume * _masterVolume);
-			SoundChannelId ret = _Implementor.PlaySound(sound, volume, loops, pitch);
+			SoundChannelId ret = _Implementor.PlaySound(sound, volume, loops, pitch, fadeInTime);
 			if (ret >= 0)
 			{
 				SetChannelPanning(ret, panLeft, panRight);
@@ -96,6 +108,18 @@ namespace bon
 		{
 			if (channel == InvalidSoundChannel) return;
 			_Implementor.SetChannelDistance(channel, distance);
+		}
+
+		// stop a channel
+		void Sfx::StopChannel(SoundChannelId channel)
+		{
+			_Implementor.StopChannel(channel);
+		}
+
+		// stop music
+		void Sfx::StopMusic()
+		{
+			_Implementor.StopMusic();
 		}
 
 		// set channel's volume

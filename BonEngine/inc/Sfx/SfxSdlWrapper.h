@@ -56,8 +56,9 @@ namespace bon
 			 * 
 			 * \param music Music track to play.
 			 * \param loops How many times to repeat the music track (-1 = endless loop).
+			 * \param fadeInTime Fade in time in seconds.
 			 */
-			void PlayMusic(assets::MusicAsset music, int loops = -1);
+			void PlayMusic(assets::MusicAsset music, int loops = -1, float fadeInTime = 0);
 
 			/**
 			 * Pause / resume currently played track.
@@ -80,9 +81,10 @@ namespace bon
 			 * \param volume Playing sound volume (1-100 is recommanded range).
 			 * \param loops How many times to repeat the sound track (-1 = endless loop).
 			 * \param pitch Apply pitch effect on sound effect (1 = no pitch).
+			 * \param fadeInTime If not 0, will fade sound in over this time period (in seconds).
 			 * \return channel id to enable control over this sound play.
 			 */
-			SoundChannelId PlaySound(assets::SoundAsset sound, int volume = 100, int loops = 0, float pitch = 1.0f);
+			SoundChannelId PlaySound(assets::SoundAsset sound, int volume = 100, int loops = 0, float pitch = 1.0f, float fadeInTime = 0);
 
 			/**
 			* Test if a given sound is currently playing on a channel.
@@ -100,7 +102,29 @@ namespace bon
 			 * \param volume Volume to set, values should range from 1 to 100, or 0 to stop sound.
 			 */
 			void SetVolume(SoundChannelId channel, int volume);
-			
+
+			/**
+			 * Stop playing a channel.
+			 * 
+			 * \param channel Channel id to stop.
+			 */
+			void StopChannel(SoundChannelId channel);
+
+			/**
+			 * Stop playing music.
+			 */
+			void StopMusic();
+
+			/**
+			 * Fade out channel.
+			 */
+			void FadeOut(SoundChannelId channel, float fadeOutTime);
+
+			/**
+			 * Fade out music.
+			 */
+			void FadeOutMusic(float fadeOutTime);
+
 			/**
 			 * Set audio properties.
 			 * If init was already called, need to call 'InitAudio()' again for it to take effect.
