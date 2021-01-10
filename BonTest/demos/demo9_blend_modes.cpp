@@ -80,7 +80,7 @@ Press space to toggle background.\
 			labels[(int)bon::BlendModes::Invert] = "Invert";
 			labels[(int)bon::BlendModes::Difference] = "Difference";
 			labels[(int)bon::BlendModes::Lighten] = "Lighten";
-			labels[(int)bon::BlendModes::AdditiveAlpha] = "AdditiveAlpha";
+			labels[(int)bon::BlendModes::Mod] = "Mod";
 			labels[(int)bon::BlendModes::Subtract] = "Subtract";
 
 			// draw test sprites in different blends

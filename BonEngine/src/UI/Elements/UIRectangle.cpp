@@ -25,7 +25,7 @@ namespace bon
 			ColorPressed = config->GetColor("rectangle", "color_pressed", Color);
 
 			// load blend modes
-			static const char* blendOptions[] = { "opaque", "alpha", "additive", "mod", "multiply" };
+			static const char* blendOptions[] = { "opaque", "alpha", "mod", "darken", "multiply", "screen", "invert", "difference", "lighten", "additive", "subtract" };
 			BlendMode = (BlendModes)config->GetOption("rectangle", "blend", blendOptions, (int)BlendModes::AlphaBlend);
 
 			// load if rect is filled

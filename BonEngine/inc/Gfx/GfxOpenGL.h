@@ -61,6 +61,11 @@ namespace bon
 			static void DrawPolygon(const framework::PointI& a, const framework::PointI& b, const framework::PointI& c, const framework::Color& color, BlendModes blend);
 
 			/**
+			 * Draw a quad.
+			 */
+			static void DrawQuad(const framework::PointI& a, const framework::PointI& b, const framework::PointI& c, const framework::PointI& d, const framework::Color& color, BlendModes blend);
+
+			/**
 			 * Draw a polygon - just vertices, no params.
 			 */
 			static void DrawPolygon(const framework::PointI& a, const framework::PointI& b, const framework::PointI& c);

@@ -274,7 +274,7 @@ namespace bon
 			// remove face culling
 			glDisable(GL_CULL_FACE);
 
-			// start drawing quad
+			// start drawing polygon
 			glBegin(GL_TRIANGLE_STRIP);
 
 			glColor4f(color.R, color.G, color.B, color.A);
@@ -285,6 +285,39 @@ namespace bon
 
 			glColor4f(color.R, color.G, color.B, color.A);
 			glVertex2f((GLfloat)c.X, (GLfloat)c.Y);
+
+			// finish drawing quad
+			glEnd();
+		}
+
+		/**
+		 * Draw a quad.
+		 */
+		void GfxOpenGL::DrawQuad(const PointI& a, const PointI& b, const PointI& c, const PointI& d, const Color& color, BlendModes blend)
+		{
+			// remove texture
+			SetTexture(nullptr);
+
+			// set blend mode
+			SetBlendMode(blend);
+
+			// remove face culling
+			glDisable(GL_CULL_FACE);
+
+			// start drawing quad
+			glBegin(GL_QUADS);
+
+			glColor4f(color.R, color.G, color.B, color.A);
+			glVertex2f((GLfloat)a.X, (GLfloat)a.Y);
+
+			glColor4f(color.R, color.G, color.B, color.A);
+			glVertex2f((GLfloat)b.X, (GLfloat)b.Y);
+
+			glColor4f(color.R, color.G, color.B, color.A);
+			glVertex2f((GLfloat)c.X, (GLfloat)c.Y);
+
+			glColor4f(color.R, color.G, color.B, color.A);
+			glVertex2f((GLfloat)d.X, (GLfloat)d.Y);
 
 			// finish drawing quad
 			glEnd();
@@ -346,13 +379,14 @@ namespace bon
 				break;
 
 			case BlendModes::Additive:
-				glBlendFunc(GL_ONE, GL_ONE);
+				glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE, GL_ZERO, GL_ONE);
 				glEnable(GL_BLEND);
 				break;
 
-			case BlendModes::AdditiveAlpha:
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+			case BlendModes::Mod:
+				glBlendFuncSeparate(GL_ZERO, GL_SRC_COLOR, GL_ZERO, GL_ONE);
 				glEnable(GL_BLEND);
+				
 				break;
 
 			case BlendModes::AlphaBlend:

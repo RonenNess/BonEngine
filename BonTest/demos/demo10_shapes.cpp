@@ -45,22 +45,23 @@ namespace demo10_shapes
 			// draw pixels
 			for (int i = 0; i < 500; ++i) {
 				bon::Color color = bon::Color(0, 1, 0, 1);
-				Gfx().DrawPixel(bon::PointI(100 + rand() % 100, 400 + rand() % 100), color);
+				Gfx().DrawPixel(bon::PointI(200 + rand() % 100, 400 + rand() % 100), color);
 			}
 
 			// draw rect outline
-			Gfx().DrawRectangle(bon::RectangleI(250, 400, 100, 100), bon::Color(0, 1, 0, 1), false);
+			Gfx().DrawRectangle(bon::RectangleI(350, 400, 100, 100), bon::Color(0, 1, 0, 1), false);
 
 			// draw rect fill
-			Gfx().DrawRectangle(bon::RectangleI(400, 400, 100, 100), bon::Color(0, 1, 0, 1), true);
+			Gfx().DrawRectangle(bon::RectangleI(500, 400, 100, 100), bon::Color(0, 1, 0, 1), true);
 
 			// draw circle outline
 			Gfx().DrawCircle(bon::PointI(600, 300), 25, bon::Color(1, 1, 0, 1), false);
 			Gfx().DrawCircle(bon::PointI(675, 300), 25, bon::Color(1, 0, 1, 1), true);
 			Gfx().DrawCircle(bon::PointI(750, 300), 25, bon::Color(1, 0, 1, 0.5f), true);
 
-			// draw a polygon
+			// draw a polygon and a quad
 			Gfx().DrawPolygon(bon::PointI(15, 305), bon::PointI(105, 315), bon::PointI(25, 365), bon::Color(1, 1, 0, 1), bon::BlendModes::Opaque);
+			Gfx().DrawQuad(bon::PointI(15, 405), bon::PointI(105, 415), bon::PointI(125, 505), bon::PointI(20, 500), bon::Color(0, 1, 1, 1), bon::BlendModes::Opaque);
 
 			// draw line
 			double elapsed = Game().ElapsedTime() * 3;

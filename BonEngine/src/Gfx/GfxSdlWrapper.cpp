@@ -528,6 +528,15 @@ namespace bon
 			GfxOpenGL::DrawPolygon(a, b, c, color, blend);
 		}
 
+		// draw a quad
+		void GfxSdlWrapper::DrawQuad(const PointI& a, const PointI& b, const PointI& c, const PointI& d, const Color& color, BlendModes blend)
+		{
+			UseDefaultShapesEffect(true);
+			GfxOpenGL::SetBlendMode(blend);
+			SetShapesColor(color);
+			GfxOpenGL::DrawQuad(a, b, c, d, color, blend);
+		}
+
 		// clear screen or parts of it
 		void GfxSdlWrapper::ClearScreen(const Color& color, const RectangleI& clearRect)
 		{

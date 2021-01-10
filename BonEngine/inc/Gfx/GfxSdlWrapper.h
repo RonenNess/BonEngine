@@ -239,13 +239,25 @@ namespace bon
 			/**
 			 * Draws a 2d polygon.
 			 *
-			 * \param a Polygon point 1.
-			 * \param b Polygon point 2.
-			 * \param c Polygon point 3.
+			 * \param a Polygon vertex #1.
+			 * \param b Polygon vertex #2.
+			 * \param c Polygon vertex #3.
 			 * \param color fill color.
 			 * \param blend blend mode.
 			 */
 			void DrawPolygon(const framework::PointI& a, const framework::PointI& b, const framework::PointI& c, const framework::Color& color, BlendModes blend);
+			
+			/**
+			 * Draws a 2d quad.
+			 *
+			 * \param a Quad vertex #1.
+			 * \param b Quad vertex #2.
+			 * \param c Quad vertex #3.
+			 * \param d Quad vertex #4.
+			 * \param color fill color.
+			 * \param blend blend mode.
+			 */
+			void DrawQuad(const framework::PointI& a, const framework::PointI& b, const framework::PointI& c, const framework::PointI& d, const framework::Color& color, BlendModes blend);
 
 			/**
 			 * Show / hide cursor.

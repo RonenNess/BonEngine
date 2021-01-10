@@ -56,7 +56,7 @@ namespace bon
 			SourceRectPressed = config->GetRectangleF("image", "source_rect_pressed", SourceRect);
 
 			// load blend modes
-			static const char* blendOptions[] = { "opaque", "alpha", "additive", "mod", "multiply" };
+			static const char* blendOptions[] = { "opaque", "alpha", "mod", "darken", "multiply", "screen", "invert", "difference", "lighten", "additive", "subtract" };
 			BlendMode = (BlendModes)config->GetOption("image", "blend", blendOptions, (int)BlendModes::AlphaBlend);
 			
 			// load drawing modes

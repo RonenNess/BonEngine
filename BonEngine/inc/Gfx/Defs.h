@@ -33,8 +33,8 @@ namespace bon
 			// render with alpha channels.
 			AlphaBlend = 1,
 
-			// additive with alpha channels.
-			AdditiveAlpha = 2,
+			// mod blend.
+			Mod = 2,
 
 			// render with Darken effect.
 			Darken = 3,

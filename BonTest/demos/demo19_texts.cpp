@@ -81,8 +81,8 @@ Press 'space' to toggle background. \n\
 			Gfx().DrawText(_font, "Anchored right", bon::PointF(400, 400), &bon::Color::Yellow, 0, 0, bon::BlendModes::AlphaBlend, &bon::PointF(1.0f, 0.5f), anchoredRotation);
 
 			// additive
-			Gfx().DrawText(_font, "Additive Blend", bon::PointF(550, 500), &bon::Color::Green, 0, 0, bon::BlendModes::AdditiveAlpha, &bon::PointF(1.0f, 0.5f), 0);
-			Gfx().DrawText(_font, "Additive Blend", bon::PointF(550 - 10, 500 - 10), &bon::Color::Red, 0, 0, bon::BlendModes::AdditiveAlpha, &bon::PointF(1.0f, 0.5f), 0);
+			Gfx().DrawText(_font, "Additive Blend", bon::PointF(550, 500), &bon::Color::Green, 0, 0, bon::BlendModes::Additive, &bon::PointF(1.0f, 0.5f), 0);
+			Gfx().DrawText(_font, "Additive Blend", bon::PointF(550 - 10, 500 - 10), &bon::Color::Red, 0, 0, bon::BlendModes::Additive, &bon::PointF(1.0f, 0.5f), 0);
 
 			// text max width
 			Gfx().DrawText(_font, "This text have limited line width. It will wrap automatically.", bon::PointF(600, 400), &bon::Color::White, 16, 220);

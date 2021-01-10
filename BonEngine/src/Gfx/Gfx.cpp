@@ -155,6 +155,13 @@ namespace bon
 			_Implementor.DrawPolygon(a, b, c, color, blend);
 		}
 
+		// draw a 2d quad
+		void Gfx::DrawQuad(const framework::PointI& a, const framework::PointI& b, const framework::PointI& c, const framework::PointI& d, const framework::Color& color, BlendModes blend)
+		{
+			_Implementor.DrawQuad(a, b, c, d, color, blend);
+		}
+
+
 		// create image asset from screen
 		assets::ImageAsset Gfx::CreateImageFromScreen() const
 		{

@@ -50,7 +50,7 @@ namespace bon
 			 *				*		- color = Rectangle color, with values ranging from 0 to 255 (r,g,b,a).
 			 *				*		- color_highlight = Rectangle color, while being pointed on / highlighted, with values ranging from 0 to 255 (r,g,b,a).
 			 *				*		- color_pressed = Rectangle color, while being pressed down, with values ranging from 0 to 255 (r,g,b,a).
-			 *				*		- blend = Rectangle blend mode (opaque / alpha / additive / mod / multiply).
+			 *				*		- blend = Rectangle blend mode (opaque / alpha / mod / darken / multiply / screen / invert / difference / lighten / additive / subtract).
 			 *				*		- filled = If true, will draw filled rectangle. If false, will only draw outline.
 			 */
 			virtual void LoadStyleFrom(const assets::ConfigAsset& config) override;

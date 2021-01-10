@@ -602,7 +602,11 @@ Draw a filled or outline circle.
 
 #### void DrawPolygon(a, b, c, color, blend)
 
-Draws a polygon.
+Draws a polygon from vertices.
+
+#### void DrawQuad(a, b, c, d, color, blend)
+
+Draws a quad from vertices.
 
 #### void ClearScreen(color, clearRect)
 
@@ -1462,6 +1466,15 @@ First stable release.
 - Fixed stopping music / channels.
 - Added channels fade in and out.
 - Added music fade in and out.
+
+# 1.5.3
+
+**[11/01/2021]**
+
+- Fixed blend modes read from ini in UI system.
+- Added Mod blending instead of AdditiveAlpha (which was redundant).
+- Fixed additive when rendering on textures.
+- Added method to draw quads from vertices.
 
 ## In Memory Of Bonnie
 

@@ -115,7 +115,7 @@ extern "C" {
 		BON_BlendModes_Invert = bon::BlendModes::Invert,
 		BON_BlendModes_Difference = bon::BlendModes::Difference,
 		BON_BlendModes_Lighten = bon::BlendModes::Lighten,
-		BON_BlendModes_AdditiveAlpha = bon::BlendModes::AdditiveAlpha,
+		BON_BlendModes_Mod = bon::BlendModes::Mod,
 		BON_BlendModes_Subtract = bon::BlendModes::Subtract,
 		BON_BlendModes__Count = bon::BlendModes::_Count,
 	};
