@@ -390,7 +390,7 @@ namespace bon
 				break;
 
 			case BlendModes::AlphaBlend:
-				glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA, GL_ONE);
+				glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 				glEnable(GL_BLEND);
 				break;
 
@@ -469,20 +469,20 @@ namespace bon
 			{
 				int srcx = sourceRect->X;
 				int srcy = sourceRect->Y;
-				int srcw = sourceRect->Width != 0 ? sourceRect->Width : textW;
-				int srch = sourceRect->Height != 0 ? sourceRect->Height : textH;
+				int srcw = (sourceRect->Width != 0) ? sourceRect->Width : textW;
+				int srch = (sourceRect->Height != 0) ? sourceRect->Height : textH;
 
-				minu = (GLfloat)srcx / textW;
-				maxu = (GLfloat)(srcx + srcw) / textW;
+				minu = (GLfloat)srcx / (GLfloat)textW;
+				maxu = (GLfloat)(srcx + srcw) / (GLfloat)textW;
 				if (flipTextureCoordsV)
 				{
-					minv = (GLfloat)(srcy + srch) / textH;
-					maxv = (GLfloat)srcy / textH;
+					minv = (GLfloat)(srcy + srch) / (GLfloat)textH;
+					maxv = (GLfloat)srcy / (GLfloat)textH;
 				}
 				else
 				{
-					minv = (GLfloat)srcy / textH;
-					maxv = (GLfloat)(srcy + srch) / textH;
+					minv = (GLfloat)srcy / (GLfloat)textH;
+					maxv = (GLfloat)(srcy + srch) / (GLfloat)textH;
 				}
 			}
 			else
