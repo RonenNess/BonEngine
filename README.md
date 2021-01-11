@@ -1469,7 +1469,7 @@ First stable release.
 
 # 1.5.3
 
-**[11/01/2021]**
+**[12/01/2021]**
 
 - Fixed blend modes read from ini in UI system.
 - Added Mod blending instead of AdditiveAlpha (which was redundant).
