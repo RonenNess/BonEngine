@@ -608,6 +608,10 @@ Draws a polygon from vertices.
 
 Draws a quad from vertices.
 
+#### void FocusWindow()
+
+Focus and bring forward the currently active window.
+
 #### void ClearScreen(color, clearRect)
 
 Clears the screen, or if `clearRect` is provided, just a region of it.
