@@ -61,6 +61,11 @@ namespace bon
 		public:
 
 			/**
+			 * Bring the main window forward and focus input on it.
+			 */
+			virtual void FocusWindow() override;
+
+			/**
 			 * Draw an image on screen.
 			 *
 			 * \param sourceImage Source image to draw.

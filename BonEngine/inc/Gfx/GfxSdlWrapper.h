@@ -188,6 +188,11 @@ namespace bon
 			void SetTitle(const char* title);
 
 			/**
+			 * Set focus on window.
+			 */
+			void FocusWindow();
+
+			/**
 			 * Draws a line.
 			 * 
 			 * \param from Line start.

@@ -982,6 +982,12 @@ namespace bon
 			return *sizeToUse;
 		}
 
+		// set focus on window
+		void GfxSdlWrapper::FocusWindow()
+		{
+			SDL_RaiseWindow(_window);
+		}
+
 		// draw image on screen
 		void GfxSdlWrapper::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI& size, BlendModes blend, const RectangleI* sourceRect, const PointF& origin, float rotation, Color color)
 		{

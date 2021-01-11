@@ -94,6 +94,11 @@ extern "C" {
 	BON_DLLEXPORT void BON_Gfx_UseEffect(const bon::assets::EffectAsset* effect);
 
 	/**
+	 * Focus on window.
+	 */
+	BON_DLLEXPORT void BON_Gfx_FocusWindow();
+
+	/**
 	* Draws a rectangle.
 	*/
 	BON_DLLEXPORT void BON_Gfx_DrawRectangle(int x, int y, int w, int h, float r, float g, float b, float a, bool filled, BON_BlendModes blend, float originX, float originY, float rotation);

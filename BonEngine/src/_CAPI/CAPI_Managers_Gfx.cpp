@@ -122,6 +122,14 @@ bon::assets::ImageAsset* BON_Gfx_GetRenderTarget()
 }
 
 /**
+ * Focus on window.
+ */
+void BON_Gfx_FocusWindow()
+{
+	bon::_GetEngine().Gfx().FocusWindow();
+}
+
+/**
  * Create image asset from screen.
  */
 bon::assets::ImageAsset* BON_Gfx_CreateImageFromScreen()

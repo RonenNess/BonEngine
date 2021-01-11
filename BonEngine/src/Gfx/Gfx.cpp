@@ -48,6 +48,14 @@ namespace bon
 			_Implementor.DrawImage(sourceImage, position, size ? *size : defaultSize, blend);
 		}
 
+		/**
+		 * Bring the main window forward and focus input on it.
+		 */
+		void Gfx::FocusWindow()
+		{
+			_Implementor.FocusWindow();
+		}
+
 		// draw image
 		void Gfx::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI* size, BlendModes blend, const framework::RectangleI* sourceRect, const PointF* origin, float rotation, const Color* color)
 		{

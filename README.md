@@ -1475,6 +1475,7 @@ First stable release.
 - Added Mod blending instead of AdditiveAlpha (which was redundant).
 - Fixed additive when rendering on textures.
 - Added method to draw quads from vertices.
+- Added method to focus on main window + bring window forward by default.
 
 ## In Memory Of Bonnie
 

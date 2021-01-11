@@ -211,6 +211,8 @@ namespace bon
 			try
 			{
 #endif
+				// focus on window
+				Gfx().FocusWindow();
 
 				// main loop
 				while (_isRunning)
