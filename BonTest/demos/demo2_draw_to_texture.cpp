@@ -79,9 +79,7 @@ namespace demo2_draw_to_texture
 			drawingSize.X += (int)(sin(Game().ElapsedTime() * 2.0) * 60.0);
 			Gfx().SetRenderTarget(nullptr);
 			Gfx().ClearScreen(bon::Color::Cornflower);
-			//Gfx().DrawImage(_target, bon::PointF(windowSize.X / 2.0f, windowSize.Y / 2.0f), &drawingSize, bon::BlendModes::Opaque, nullptr, &originHalf, sin(_rotation) * 5.0f, nullptr);
-
-			Gfx().DrawImage(_target, bon::PointF(0, 0), nullptr, bon::BlendModes::Opaque);
+			Gfx().DrawImage(_target, bon::PointF(windowSize.X / 2.0f, windowSize.Y / 2.0f), &drawingSize, bon::BlendModes::Opaque, nullptr, &originHalf, sin(_rotation) * 5.0f, nullptr);
 
 			// draw cursor
 			Gfx().DrawImage(_cursorImage, Input().CursorPosition(), &bon::PointI(64, 64));
