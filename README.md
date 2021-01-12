@@ -1481,6 +1481,14 @@ First stable release.
 - Added method to draw quads from vertices.
 - Added method to focus on main window + bring window forward by default.
 
+# 1.5.4
+
+**[WIP]**
+
+- Added `HaveAlphaChannel()` method to `ImageAsset`.
+- Fixed rendering images without alpha channel but with blend (set fake alpha as 1).
+- Updated some demos.
+
 ## In Memory Of Bonnie
 
 `BonEngine` is named after my deceased dog, Bonnie.

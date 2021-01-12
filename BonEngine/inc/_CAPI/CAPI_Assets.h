@@ -39,6 +39,11 @@ extern "C" {
 	BON_DLLEXPORT int BON_Image_Height(bon::ImageAsset* image);
 
 	/**
+	 * Get if image have alpha channels.
+	 */
+	BON_DLLEXPORT bool BON_Image_HaveAlphaChannel(bon::ImageAsset* image);
+
+	/**
 	 * Save image to file.
 	 */
 	BON_DLLEXPORT void BON_Image_SaveToFile(bon::ImageAsset* image, const char* filename);

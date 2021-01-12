@@ -51,13 +51,16 @@ namespace demo1_hello_world
 
 			// draw example text and fps
 			Gfx().DrawText(_font, "Demo #1: Hello World!", bon::PointF(100, 100), nullptr, 0, 0, bon::BlendModes::AlphaBlend, nullptr, 0.0f, 1, &bon::Color::Black);
-			Gfx().DrawText(_font, "This is just a basic bon demo.\nHit escape to exit.", bon::PointF(100, 200), &bon::Color(1, 1, 0, 1), 18);
+			Gfx().DrawText(_font, "This is just a basic demo where we render 3 sprites with color tint.\nNote: colors can go above 1.0 to emphasize colors.\nHit escape to exit.", bon::PointF(100, 200), &bon::Color(1, 1, 0, 1), 18);
 			Gfx().DrawText(_font, (std::string("FPS: ") + std::to_string(Diagnostics().FpsCount())).c_str(), bon::PointF(0, 0), &bon::Color(1, 1, 1, 1), 18);
 
 			// draw test sprite
 			bon::PointF origin(1.0f, 1.0f);
-			Gfx().DrawImage(_spriteImage, Gfx().WindowSize(), &bon::PointI(256, 256), bon::BlendModes::AlphaBlend, nullptr, &origin, 0, nullptr);
-			
+			auto winSize = Gfx().WindowSize();
+			Gfx().DrawImage(_spriteImage, winSize, &bon::PointI(256, 256), bon::BlendModes::AlphaBlend, nullptr, &origin, 0, nullptr);
+			Gfx().DrawImage(_spriteImage, bon::PointI(winSize.X - 256, winSize.Y), &bon::PointI(256, 256), bon::BlendModes::AlphaBlend, nullptr, &origin, 0, &bon::Color::Red);
+			Gfx().DrawImage(_spriteImage, bon::PointI(winSize.X - 512, winSize.Y), &bon::PointI(256, 256), bon::BlendModes::AlphaBlend, nullptr, &origin, 0, &bon::Color(1,1,5,1));
+
 			// draw cursor
 			Gfx().DrawImage(_cursorImage, Input().CursorPosition(), &bon::PointI(64, 64));
 		}

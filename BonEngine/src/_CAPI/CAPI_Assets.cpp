@@ -32,6 +32,12 @@ int BON_Image_Height(bon::ImageAsset* image)
 	return (*image)->Height();
 }
 
+// get if image have alpha channels.
+bool BON_Image_HaveAlphaChannel(bon::ImageAsset* image)
+{
+	return (*image)->HaveAlphaChannel();
+}
+
 // Save image to file.
 void BON_Image_SaveToFile(bon::ImageAsset* image, const char* filename)
 {

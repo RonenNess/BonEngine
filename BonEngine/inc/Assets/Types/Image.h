@@ -138,6 +138,16 @@ namespace bon
 			}
 
 			/**
+			 * Return if this image have alpha channel.
+			 * 
+			 * \return True if have alpha channel, false otherwise.
+			 */
+			inline bool HaveAlphaChannel() const
+			{
+				return IsValid() ? Handle()->HaveAlphaChannel() : false;
+			}
+
+			/**
 			* Read pixels into internal buffer to allow querying pixels using `GetPixel()`.
 			* You must call this before using GetPixel.
 			* \param sourceRect Source rectangle to read from image, or empty to read everything.

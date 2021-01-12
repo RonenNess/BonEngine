@@ -29,9 +29,13 @@ namespace bon
 		class SDL_ImageHandle : public _ImageHandle
 		{
 		private:
+
 			// width and height
 			int _w;
 			int _h;
+
+			// do we have alpha?
+			bool _alpha;
 
 			// sdl wrapper
 			GfxSdlWrapper* _wrapper;
@@ -42,12 +46,13 @@ namespace bon
 		public:
 
 			/**
-			 * Create SDL image surface.
+			 * Creates an SDL image handle.
 			 */
-			SDL_ImageHandle(SDL_Texture* texture, int w, int h, GfxSdlWrapper* wrapper)
+			SDL_ImageHandle(SDL_Texture* texture, int w, int h, bool haveAlpha, GfxSdlWrapper* wrapper)
 			{
 				_w = w;
 				_h = h;
+				_alpha = haveAlpha;
 				Texture = texture;
 				_wrapper = wrapper;
 			}
@@ -86,7 +91,17 @@ namespace bon
 			{
 				return _h;
 			}
-			
+
+			/**
+			 * Return if image have alpha channels.
+			 *
+			 * \return True if image have alpha channels, false otherwise.
+			 */
+			virtual bool HaveAlphaChannel() const override
+			{
+				return _alpha;
+			}
+
 			/**
 			 * Save image asset to file.
 			 *
@@ -202,6 +217,7 @@ namespace bon
 			SDL_Texture* texture = nullptr;
 			int width = 0;
 			int height = 0;
+			bool haveAlpha = false;
 
 			// set filtering mode
 			((GfxSdlWrapper*)context)->SetTextureFiltering(((bon::assets::_Image*)asset)->FilteringMode());
@@ -225,6 +241,7 @@ namespace bon
 				// convert to texture
 				width = surface->w;
 				height = surface->h;
+				if (surface->format->Amask) { haveAlpha = true; }
 				texture = SDL_CreateTextureFromSurface(((GfxSdlWrapper*)context)->GetRenderer(), surface);
 				SDL_FreeSurface(surface);
 			}
@@ -250,7 +267,7 @@ namespace bon
 			}
 
 			// set handle
-			SDL_ImageHandle* handle = new SDL_ImageHandle(texture, width, height, ((GfxSdlWrapper*)context));
+			SDL_ImageHandle* handle = new SDL_ImageHandle(texture, width, height, haveAlpha, ((GfxSdlWrapper*)context));
 			asset->_SetHandle(handle);
 		}
 
@@ -922,13 +939,17 @@ namespace bon
 
 			// recover previous render target and return
 			SDL_SetRenderTarget(_renderer, target);
-			return new SDL_ImageHandle(ret, w, h, (GfxSdlWrapper*)this);
+			return new SDL_ImageHandle(ret, w, h, true, (GfxSdlWrapper*)this);
 		}
 
 		// draw texture on screen
 		void GfxSdlWrapper::DrawTextAsTexture(SDL_Texture* texture, const PointF& position, const PointI& size, BlendModes blend, const RectangleI* sourceRect, const PointF& origin, float rotation, Color color, RectangleI* outDestRect, bool dryrun, int textW, int textH)
 		{
+			// use default textures effect
 			UseDefaultTexturesEffect(true);
+
+			// fix alpha for images without alpha channel
+			HandleImagesWithoutAlpha(nullptr);
 			
 			// set out dest rect
 			if (outDestRect) 
@@ -988,10 +1009,36 @@ namespace bon
 			SDL_RaiseWindow(_window);
 		}
 
+		// handle images without alpha channels by adding alpha of 1
+		void GfxSdlWrapper::HandleImagesWithoutAlpha(assets::ImageAsset image)
+		{
+			if (_currentEffect == _defaultEffect)
+			{
+				static bool _lastExtraA = false;
+				if (image != nullptr && !image->HaveAlphaChannel())
+				{
+					if (!_lastExtraA) 
+					{
+						_currentEffect->SetUniformFloat("extra_a", 1);
+						_lastExtraA = true;
+					}
+				}
+				else if (_lastExtraA)
+				{
+					_currentEffect->SetUniformFloat("extra_a", 0);
+					_lastExtraA = false;
+				}
+			}
+		}
+
 		// draw image on screen
 		void GfxSdlWrapper::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI& size, BlendModes blend, const RectangleI* sourceRect, const PointF& origin, float rotation, Color color)
 		{
+			// make sure we use the default effect for textures
 			UseDefaultTexturesEffect(true);
+
+			// fix alpha for images without alpha channel
+			HandleImagesWithoutAlpha(sourceImage);
 
 			// get image handle
 			SDL_ImageHandle* handle = (SDL_ImageHandle*)sourceImage->Handle();
@@ -1007,7 +1054,11 @@ namespace bon
 		// draw image on screen
 		void GfxSdlWrapper::DrawImage(const ImageAsset& sourceImage, const PointF& position, const PointI& size, BlendModes blend)
 		{
+			// make sure we use the default effect for textures
 			UseDefaultTexturesEffect(true);
+
+			// fix alpha for images without alpha channel
+			HandleImagesWithoutAlpha(sourceImage);
 
 			// get image handle
 			SDL_ImageHandle* handle = (SDL_ImageHandle*)sourceImage->Handle();

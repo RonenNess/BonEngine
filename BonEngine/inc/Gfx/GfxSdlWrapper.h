@@ -354,6 +354,11 @@ namespace bon
 		private:
 
 			/**
+			 * Handle images without alpha channels by adding alpha of 1.
+			 */
+			void HandleImagesWithoutAlpha(assets::ImageAsset image);
+
+			/**
 			 * Restore default internal states.
 			 */
 			void RestoreDefaultStates();

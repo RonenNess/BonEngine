@@ -36,10 +36,12 @@ varying vec4 v_color;												\n\
 varying vec2 v_texCoord;											\n\
 																	\n\
 uniform sampler2D tex0;												\n\
+uniform float extra_a;												\n\
 																	\n\
 void main()															\n\
 {																	\n\
 	gl_FragColor = v_color * texture2D(tex0, v_texCoord.xy).rgba;	\n\
+	gl_FragColor.a += extra_a;										\n\
 }																	\n\
 ";
 

@@ -52,6 +52,13 @@ namespace bon
 			virtual int Height() const = 0;
 
 			/**
+			 * Return if image have alpha channels.
+			 * 
+			 * \return True if image have alpha channels, false otherwise.
+			 */
+			virtual bool HaveAlphaChannel() const = 0;
+
+			/**
 			 * Save image asset to file.
 			 *
 			 * \param filename Filename to save image to.
