@@ -59,7 +59,8 @@ namespace bon
 			 *
 			 * \param path Asset's path.
 			 */
-			_Image(const char* path, ImageFilterMode filtering = ImageFilterMode::Nearest) : IAsset(path), _filtering(filtering), _fromFile(true) {
+			_Image(const char* path, ImageFilterMode filtering = ImageFilterMode::Nearest) : IAsset(path), _filtering(filtering), _fromFile(true) 
+			{
 			}
 
 			/**
@@ -67,7 +68,8 @@ namespace bon
 			 * 
 			 * \param size Image size.
 			 */
-			_Image(const framework::PointI& size, ImageFilterMode filtering = ImageFilterMode::Nearest) : IAsset(""), _filtering(filtering), _fromFile(false) {
+			_Image(const framework::PointI& size, ImageFilterMode filtering = ImageFilterMode::Nearest) : IAsset(""), _filtering(filtering), _fromFile(false) 
+			{
 			}
 
 			/**
@@ -75,7 +77,8 @@ namespace bon
 			 *
 			 * \param handle Image handle.
 			 */
-			_Image(_ImageHandle* handle) : IAsset(std::to_string((long long)handle).c_str()) {
+			_Image(_ImageHandle* handle) : IAsset(std::to_string((long long)handle).c_str()) 
+			{
 				_SetHandle(handle);
 			}
 

@@ -226,8 +226,8 @@ namespace bon
 			const char* path = asset->Path();
 			
 			// load texture from file
-			if (path != nullptr && path[0] != '\0') {
-
+			if (path != nullptr && path[0] != '\0') 
+			{
 				// load image and make sure succeed
 				BON_DLOG("Load image from file: %s.", path);
 				SDL_Surface* surface = nullptr;
@@ -246,15 +246,18 @@ namespace bon
 				SDL_FreeSurface(surface);
 			}
 			// create empty texture
-			else {
+			else 
+			{
 				path = "<New Texture>";
-				if (!extraData) {
+				if (!extraData) 
+				{
 					BON_ELOG("Tried to create an empty texture, but the extra data, which supposed to hold the desired size, was null! This might happen if you try to load a texture with empty path.");
 					throw AssetLoadError(path);
 				}
 				framework::PointI* size = (framework::PointI*)extraData;
 				width = size->X;
 				height = size->Y;
+				haveAlpha = true;
 				BON_DLOG("Create new empty image with size %dx%d.", width, height);
 				texture = SDL_CreateTexture(((GfxSdlWrapper*)context)->GetRenderer(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width, height);
 			}
