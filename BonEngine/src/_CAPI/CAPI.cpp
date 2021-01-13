@@ -9,11 +9,12 @@ void BON_Start(bon::engine::Scene* scene)
 }
 
 // start engine with special scene to accept callback + params
-void BON_StartEx(bon::engine::Scene* scene, bool enableLogs, bool registerToSignals)
+void BON_StartEx(bon::engine::Scene* scene, bool enableLogs, bool registerToSignals, bool roundPixels)
 {
 	bon::BonFeatures features;
 	features.Logging = enableLogs;
 	features.RegisterSignalsHandler = registerToSignals;
+	features.RoundPixels = roundPixels;
 	bon::Start(*scene, features);
 }
 

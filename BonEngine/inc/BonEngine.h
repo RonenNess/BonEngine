@@ -46,6 +46,11 @@ namespace bon
 		 * Enable logging by default.
 		 */
 		bool Logging = true;
+
+		/**
+		 * If true, will floor drawing positions, and ceiling drawing size.
+		 */
+		bool RoundPixels = true;
 	};
 
 	/**

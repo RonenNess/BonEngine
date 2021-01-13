@@ -459,10 +459,20 @@ namespace bon
 			GLfloat minu, maxu, minv, maxv;
 
 			// calc coords
-			minx = (GLfloat)position.X;
-			miny = (GLfloat)position.Y;
-			maxx = (GLfloat)(position.X + abs(size.X));
-			maxy = (GLfloat)(position.Y + abs(size.Y));
+			if (bon::Features().RoundPixels)
+			{
+				minx = (GLfloat)floor(position.X);
+				miny = (GLfloat)floor(position.Y);
+				maxx = (GLfloat)(minx + ceil(abs(size.X)));
+				maxy = (GLfloat)(miny + ceil(abs(size.Y)));
+			}
+			else
+			{
+				minx = (GLfloat)position.X;
+				miny = (GLfloat)position.Y;
+				maxx = (GLfloat)(position.X + abs(size.X));
+				maxy = (GLfloat)(position.Y + abs(size.Y));
+			}
 
 			// uvs
 			if (sourceRect != nullptr)
@@ -577,10 +587,20 @@ namespace bon
 			GLfloat minx, miny, maxx, maxy;
 
 			// calc coords
-			minx = (GLfloat)position.X;
-			miny = (GLfloat)position.Y;
-			maxx = (GLfloat)(position.X + abs(size.X));
-			maxy = (GLfloat)(position.Y + abs(size.Y));
+			if (bon::Features().RoundPixels)
+			{
+				minx = (GLfloat)floor(position.X);
+				miny = (GLfloat)floor(position.Y);
+				maxx = (GLfloat)(minx + ceil(abs(size.X)));
+				maxy = (GLfloat)(miny + ceil(abs(size.Y)));
+			}
+			else
+			{
+				minx = (GLfloat)position.X;
+				miny = (GLfloat)position.Y;
+				maxx = (GLfloat)(position.X + abs(size.X));
+				maxy = (GLfloat)(position.Y + abs(size.Y));
+			}
 
 			// do rotation
 			if (rotate != 0)

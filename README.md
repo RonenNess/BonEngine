@@ -1483,11 +1483,12 @@ First stable release.
 
 # 1.5.4
 
-**[WIP]**
+**[14/01/2021]**
 
 - Added `HaveAlphaChannel()` method to `ImageAsset`.
 - Fixed rendering images without alpha channel but with blend (set fake alpha as 1).
 - Updated some demos.
+- Added feature flag to round pixels.
 
 ## In Memory Of Bonnie
 
