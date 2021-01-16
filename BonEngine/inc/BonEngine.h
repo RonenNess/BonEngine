@@ -14,8 +14,8 @@
 #include "Engine/Engine.h"
 #include "Engine/Scene.h"
 
-#define _BON_VERSION_STR "1.5.4"
-#define _BON_VERSION 1.54
+#define _BON_VERSION_STR "1.5.5"
+#define _BON_VERSION 1.55
 
 namespace bon
 {

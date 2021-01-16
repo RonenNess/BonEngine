@@ -1490,6 +1490,12 @@ First stable release.
 - Updated some demos.
 - Added feature flag to round pixels.
 
+# 1.5.5
+
+**[WIP]**
+
+- Fixed dropdown to not accept accidental value change while folded.
+
 ## In Memory Of Bonnie
 
 `BonEngine` is named after my deceased dog, Bonnie.

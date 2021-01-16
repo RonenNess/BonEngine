@@ -138,7 +138,16 @@ namespace bon
 			}
 
 			// call base updates
-			_UIList::DoInputUpdates(mousePosition, updateState, topLayer);
+			if (_isOpened) 
+			{
+				_UIList::DoInputUpdates(mousePosition, updateState, topLayer);
+			}
+			else
+			{
+				PlaceholderText->DoInputUpdates(mousePosition, updateState, topLayer);
+				SelectedTextBackground->DoInputUpdates(mousePosition, updateState, topLayer);
+				SelectedText->DoInputUpdates(mousePosition, updateState, topLayer);
+			}
 		}
 
 		// do self updates
@@ -169,10 +178,12 @@ namespace bon
 		// draw ui element and children.
 		void _UIDropDown::Draw(bool topLayer)
 		{
-			if (_isOpened) {
+			if (_isOpened) 
+			{
 				_UIList::Draw(topLayer);
 			}
-			else {
+			else 
+			{
 				SelectedTextBackground->Draw(topLayer);
 			}
 		}
